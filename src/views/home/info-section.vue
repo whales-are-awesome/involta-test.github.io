@@ -2,7 +2,7 @@
     <div class="relative">
         <div class="container mb-40 pt-40">
             <div class="max-w-[668px]">
-                <h4 class="title-h4 mb-9 md:text-md-h-2 md:mb-[40px] sm:text-sm-h-1 sm:mb-[36px]">
+                <h4 class="title-h4 mb-9 md:text-md-h-2 md:mb-[40px] md:max-w-[504px] sm:text-sm-h-1 sm:mb-[36px]">
                     OuterCircle is extendable DAO-tooling ecosystem
                 </h4>
                 <p class="text-primary-400 md:text-base md:max-w-[352px]">
@@ -18,7 +18,7 @@
                 </p>
             </div>
             <div class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none -z-1">
-                <div class="translate-x-[148px] translate-y-[100px] md:-translate-x-[50px] sm:w-[459px] sm:h-[459px]">
+                <div class="translate-x-[148px] -translate-y-[20px] md:-translate-x-[50px] md:translate-y-[98px] sm:w-[459px] sm:h-[459px]">
                     <kinesis-container event="scroll">
                         <kinesis-element :strength="30">
                             <img

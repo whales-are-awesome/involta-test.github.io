@@ -1,9 +1,9 @@
 <template>
     <div class="container">
-        <h3 class="text-center mb-[36px] md:text-md-h-2 md:mb-[25px] sm:text-md-h-4">
-            Develop custom mechanics <br>to operate your DAO.
+        <h3 class="text-center mb-[36px] md:text-md-h-2 md:mb-[25px] sm:text-md-h-4 sm:-mx-4">
+            Develop custom <br class="hidden md:block"> mechanics <br class="md:hidden">to<br class="hidden sm:block"> operate <br class="hidden md:block sm:hidden"> your DAO.
         </h3>
-        <div class="flex justify-center mb-11">
+        <div class="flex justify-center mb-11 sm:mb-16">
             <TagsList
                 v-model="currentItem"
                 :items="tagListItems"

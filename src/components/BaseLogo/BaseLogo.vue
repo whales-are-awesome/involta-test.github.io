@@ -4,7 +4,7 @@
     >
         <img
             :class="classes.icon"
-            :src="require('@/assets/images/common/logo.jpeg')"
+            :src="require('@/assets/images/common/logo.png')"
             alt="logo"
         />
         <div :class="classes.text">

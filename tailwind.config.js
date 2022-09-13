@@ -380,11 +380,13 @@ module.exports = {
             'md-h-2': ['2.25rem', {lineHeight: '2.75rem'}],
             'md-h-3': ['2rem', {lineHeight: '2.25rem'}],
             'md-h-4': ['1.75rem', {lineHeight: '2.25rem'}],
+            'md-h-5': ['1.64rem', {lineHeight: '2.11rem'}],
 
             'sm-h-1': ['2.5rem', {lineHeight: '3.25rem'}],
             'sm-h-2': ['2rem', {lineHeight: '2.5rem'}],
 
-            'sm-sm': ['0.5rem', {lineHeight: '0.75rem'}],
+            'sm-sm': ['0.75rem', {lineHeight: '1rem'}],
+            'sm-tiny': ['0.5rem', {lineHeight: '0.75rem'}],
         },
         fontWeight: {
             thin: '100',

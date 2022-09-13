@@ -1,10 +1,10 @@
 <template>
-    <HeroSection class="mb-[100px] md:mb-[50px]"/>
-    <MechanicsSection class="mb-[287px] md:mb-[40px]"/>
-    <InfoSection class="mb-[315px] md:mb-[40px]"/>
-    <PlatformSection class="pb-[335px] md:pb-[290px]"/>
-    <ExploreSection class="mb-[315px] md:mb-[200px]"/>
-    <PulseSection class="mb-[369px] md:mb-[150px]"/>
+    <HeroSection class="mb-[100px] md:mb-[50px] sm:mb-[62px]"/>
+    <MechanicsSection class="mb-[147px] md:mb-[40px]"/>
+    <InfoSection class="mb-[270px] md:mb-[40px]"/>
+    <PlatformSection class="pb-[350px] md:pb-[308px] sm:pb-[228px]"/>
+    <ExploreSection class="mb-[315px] md:mb-[220px] sm:mb-[130px]"/>
+    <PulseSection class="mb-[369px] md:mb-[150px] sm:mb-[195px]"/>
     <LaunchSection class="mb-[250px] md:mb-[100px]"/>
 </template>
 

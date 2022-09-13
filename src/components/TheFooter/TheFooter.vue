@@ -42,15 +42,14 @@
 
 import { computed } from 'vue';
 import { IThemeProps } from './types';
-import BaseLogo from '@/components/BaseLogo/BaseLogo.vue';
 import makeClasses from '@/helpers/makeClasses';
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: 'relative z-1 pt-[64px] pb-[128px] pl-[64px] md:pt-[50px] md:pb-[106px] md:pl-0',
     container: 'container',
     inner: '',
-    title: 'text-xl text-primary-500 font-bold mb-4 md:text-lg',
-    linkList: 'space-y-3',
+    title: 'text-xl text-primary-500 font-bold mb-4 md:text-lg sm:mb-3',
+    linkList: 'space-y-3 sm:space-y-2',
     link: 'text-primary-400 md:text-base',
     bgWrapper: 'absolute inset-0 -z-1 max-w-none overflow-hidden',
     bg: 'absolute w-full min-h-full',

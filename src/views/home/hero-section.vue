@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="w-[1412px] h-[1004px] absolute top-[-268px] left-1/2 -translate-x-1/2">
-            <div class="absolute inset-0 background -translate-x-[188px]"></div>
+            <div class="absolute inset-0 background -translate-x-[148px]"></div>
         </div>
         <div class="container w-full">
             <kinesis-container event="scroll">

@@ -6,10 +6,10 @@
         <div class="flex justify-between items-start mb-[72px] md:mb-[40px] sm:flex-col sm:mb-[200px]">
             <div class="max-w-[256px] md:max-w-[159px] sm:text-center sm:max-w-none sm:mb-16">
                 <div class="mb-6 text-primary-300 text-xl md:text-sm md:mb-4">
-                    OuterCircle currently is under development. Reach us to get an early access.
+                    OuterCircle currently is under development. <br class="hidden sm:block">Reach us to get an early access.
                 </div>
                 <BaseButton
-                    class="sm: mx-auto"
+                    class="sm:mx-auto"
                     size="sm"
                 >
                     Get early access
@@ -19,12 +19,12 @@
                 <div
                     v-for="(item, index) in topItems"
                     :key="index"
-                    class="text-right sm:text-center"
+                    class="text-right sm:text-center sm:w-1/3"
                 >
                     <div class="text-h-5 font-semibold text-primary-500 md:text-md-h-3 sm:text-xl">
                         {{ item.title }}
                     </div>
-                    <div class="text-primary-400 text-base md:text-md-sm sm:text-sm-sm">
+                    <div class="text-primary-400 text-base md:text-md-sm sm:text-sm-tiny">
                         {{ item.text }}
                     </div>
                 </div>
@@ -34,7 +34,7 @@
             <div class="absolute inset-0 rounded-[100px] overflow-hidden flex -z-1 md:rounded-[20px]">
                 <canvas class="pulse-bg-gradient w-full"></canvas>
             </div>
-            <div class="pt-[86px] pb-[130px] px-16 md:pt-[36px] md:px-8 md:pb-[34px]">
+            <div class="pt-[86px] pb-[130px] px-16 md:pt-[36px] md:px-8 md:pb-[34px] sm:px-6">
                 <div class="absolute left-1/2 bottom-full translate-y-1/3 -translate-x-1/2">
                     <div
                         class="
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="text-white mb-[105px] md:mb-[32px]">
-                    <div class="flex justify-between text-[32px] font-semibold pb-[23px] md:text-lg md:pb-[4px] md:text-sm">
+                    <div class="flex justify-between text-[32px] font-semibold pb-[23px] md:text-lg md:pb-[2px] sm:text-sm-sm sm:pb-[10px]">
                         <p>
                             All facets of
                         </p>
@@ -72,7 +72,7 @@
                             OuterCircle
                         </p>
                     </div>
-                    <div class="border-dashed mb-[23px] md:mb-[18px]"></div>
+                    <div class="border-dashed mb-[23px] md:mb-[18px] sm:mb-[22px]"></div>
                     <div class="text-xl font-medium flex justify-between md:text-tiny md:uppercase sm:text-md-sm">
                         <div class="flex items-center space-x-11 md:space-x-4">
                             <p>Build</p>
@@ -86,15 +86,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-[20px]">
-                    <div class="pt-8 px-24 pb-6 flex justify-between border-b border-[rgba(27,27,32,.2)] md:px-8 md:pb-4 md:pt-4">
+                <div class="bg-white rounded-[20px] md:rounded-[10px]">
+                    <div class="pt-8 px-24 pb-6 flex justify-between border-b border-[rgba(27,27,32,.2)] md:px-8 md:pb-3 md:pt-3 sm:px-4">
                         <div
                             v-for="(item, index) in graphHeader"
                             :key="index"
                             class="flex flex-col items-center"
                         >
                             <BaseIcon
-                                class="mb-3 md:scale-[0.5] md:mb-1"
+                                class="mb-3 md:scale-[0.5] md:mb-0"
                                 :name="item.icon"
                                 width="24"
                             />
@@ -187,6 +187,11 @@ onMounted(() => {
     .border-dashed {
         height: 1px;
         background-image: url("data:image/svg+xml;utf8,<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill: none; stroke: white; stroke-width: 2; stroke-dasharray: 5 8'/></svg>");
+    }
+}
+@screen sm {
+    .border-dashed {
+        background-image: url("data:image/svg+xml;utf8,<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill: none; stroke: white; stroke-width: 2; stroke-dasharray: 5 10'/></svg>");
     }
 }
 @keyframes heartbeat {
