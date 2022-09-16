@@ -4,13 +4,14 @@
             The pulse of ecosystem.
         </h4>
         <div class="flex justify-between items-start mb-[72px] md:mb-[40px] sm:flex-col sm:mb-[200px]">
-            <div class="max-w-[256px] md:max-w-[159px] sm:text-center sm:max-w-none sm:mb-16">
+            <div class="max-w-[256px] md:max-w-[159px] sm:text-center sm:max-w-none sm:mb-16 sm:w-full">
                 <div class="mb-6 text-primary-300 text-xl md:text-sm md:mb-4">
                     OuterCircle currently is under development. <br class="hidden sm:block">Reach us to get an early access.
                 </div>
                 <BaseButton
                     class="sm:mx-auto"
                     size="sm"
+                    @click="scrollIntoViewElement('.launch-section')"
                 >
                     Get early access
                 </BaseButton>
@@ -117,9 +118,10 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted, nextTick } from 'vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseIcon from '@/components/BaseIcon.vue';
-import { onMounted } from 'vue';
+import scrollIntoViewElement from '@/helpers/scrollIntoView';
 
 const topItems = [
     {
@@ -162,16 +164,22 @@ const graphHeader = [
 onMounted(() => {
     // @ts-ignore
     /* eslint-disable */
-    new Gradient({
-        canvas: '.pulse-bg-gradient',
-        colors: ['#B565FE', '#6577F5', '#3BD7F5', '#6577F5'],
-        wireframe: false,
-        density: [.01, 0.5],
-        angle: 0,
-        amplitude: 0,
-        static: false,
-        loadedClass: 'is-loaded',
-    });
+    nextTick(() => {
+        try {
+            new Gradient({
+                canvas: '.pulse-bg-gradient',
+                colors: ['#B565FE', '#6577F5', '#3BD7F5', '#6577F5'],
+                wireframe: false,
+                density: [.01, 0.5],
+                angle: 0,
+                amplitude: 0,
+                static: false,
+                loadedClass: 'is-loaded',
+            });
+        } catch (e) {
+
+        }
+    })
 });
 </script>
 

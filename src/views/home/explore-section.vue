@@ -24,7 +24,7 @@
                         <div :class="[
                             {
                                 'p-9 flex items-center -mx-[46px] md:px-6 md:py-8 md:-mx-[18px] sm:flex-col': !index,
-                                'pt-[40px] pb-[66px] px-9 md:px-4 md:pt-[32px] md:pb-[64px]': index
+                                'min-h-full flex': index
                             }
                         ]">
                             <div
@@ -44,9 +44,10 @@
                             </div>
                             <div
                                 :class="[
-                                'flex-shrink-0',
+                                'flex-shrink-0 w-full',
                                     {
-                                        'px-[46px] w-1/2 md:px-[18px] sm:w-full': !index
+                                        'px-[46px] w-1/2 md:px-[18px] sm:w-full': !index,
+                                        'pt-[40px] pb-[66px] px-9 md:px-4 md:pt-[32px] md:pb-[64px] w-full flex flex-col': index
                                     }
                                 ]"
                             >
@@ -60,16 +61,19 @@
                                 >
                                     {{ item.text }}
                                 </p>
-                                <BaseButton
-                                    view="icon"
-                                    size="icon"
-                                    rounded="lg"
-                                    :disabled="item.button.disabled"
-                                    :icon="{ name: 'angle-right' }"
-                                    theme="thirdly"
-                                >
-                                    {{ item.button.title }}
-                                </BaseButton>
+                                <div class="mt-auto">
+                                    <BaseButton
+                                        view="icon"
+                                        size="icon"
+                                        rounded="lg"
+                                        :disabled="item.button.disabled"
+                                        :icon="{ name: 'angle-right' }"
+                                        theme="thirdly"
+                                        :href="item.button.link"
+                                    >
+                                        {{ item.button.title }}
+                                    </BaseButton>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -95,19 +99,21 @@ const items = [
                 class: 'w-full'
             },
             button: {
-                title: 'Read Docs'
+                title: 'Read Docs',
+                link: '//docs.outercircle.io/'
             }
         },
         {
             class: 'w-1/2',
-            title: 'Join dev community',
+            title: 'Join community',
             text: 'Reach other builders, discuss ideas and get answers to your questions.',
             image: {
                 name: 'image-2.png',
                 class: 'w-[300px] md:w-[130px]'
             },
             button: {
-                title: 'Join Discord'
+                title: 'Join Discord',
+                link: '//discord.gg/8dU5CaQaEb'
             }
         },
         {
@@ -119,7 +125,8 @@ const items = [
                 class: 'w-[300px] md:w-[130px]'
             },
             button: {
-                title: 'Follow on Twitter'
+                title: 'Follow on Twitter',
+                link: '//twitter.com/0xOuterCircle'
             }
         }
     ],
@@ -139,14 +146,15 @@ const items = [
         },
         {
             class: 'w-1/2',
-            title: 'Join dev community',
+            title: 'Join community',
             text: 'Reach other DAO founders, find partnerships and get answers to your questions.',
             image: {
                 name: 'image-2.png',
                 class: 'w-[300px] md:w-[130px]'
             },
             button: {
-                title: 'Join Discord'
+                title: 'Join Discord',
+                link: '//discord.gg/8dU5CaQaEb'
             }
         },
         {
@@ -158,7 +166,8 @@ const items = [
                 class: 'w-[300px] md:w-[130px]'
             },
             button: {
-                title: 'Follow on Twitter'
+                title: 'Follow on Twitter',
+                link: '//twitter.com/0xOuterCircle'
             }
         }
     ]

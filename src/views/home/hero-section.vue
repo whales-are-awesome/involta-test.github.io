@@ -36,6 +36,7 @@
                             class="mr-6"
                             rounded="lg"
                             size="lg"
+                            @click="scrollIntoViewElement('.launch-section')"
                         >
                             Get early access
                         </BaseButton>
@@ -55,6 +56,7 @@
 
 <script lang="ts" setup>
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import scrollIntoViewElement from '@/helpers/scrollIntoView';
 </script>
 
 <style scoped>

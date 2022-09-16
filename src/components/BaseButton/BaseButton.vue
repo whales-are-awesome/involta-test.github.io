@@ -102,7 +102,7 @@ const emit = defineEmits<IEmit>();
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({size, width, themeSettings, view, theme, disabled}) => {
         return makeThemeSettings(themeSettings?.root, [
-            'group inline-block relative z-1 [background-position-y:0]',
+            'group inline-flex items-center relative z-1 [background-position-y:0]',
             {
                 'px-6 h-[44px] text-base font-medium md:!h-[30px] md:!text-[10px] md:!px-4': size === Sizes.Sm,
                 'px-8 h-[52px] text-lg font-semibold md:!h-[30px] md:!text-[10px] md:!px-4': size === Sizes.Md,
@@ -133,7 +133,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         const normal = [{
             'bg-primary-500 group-hover:bg-primary-0': view === Views.Filled && theme === Themes.Primary,
             'bg-primary-white group-hover:bg-primary-100 group-active:bg-primary-white': view === Views.Filled && theme === Themes.Secondary,
-            'bg-transparent shadow-none group-active:shadow-[0_4px_10px_rgba(48,47,121,.08)] group-active:bg-white': view === Views.Ghost && theme === Themes.Primary,
+            'bg-transparent shadow-none': view === Views.Ghost && theme === Themes.Primary,
             'border-2 border-primary-300 group-hover:border-[#7E7E86] group-active:border-primary-500 group-active:bg-transparent md:border': view === Views.Icon && theme === Themes.Thirdly,
             '!border-[#DCDCDC]': view === Views.Icon && disabled,
 
@@ -182,9 +182,9 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 /* COMPUTED */
 
 const componentName = computed((): IBaseButtonData['componentName'] => {
-    if (typeof props.href === 'object' || (typeof props.href === 'string' && /^\//.test(props.href))) {
+    if (typeof props.href === 'object') {
         return 'RouterLink';
-    } else if (typeof props.href === 'string' && !/^\//.test(props.href)) {
+    } else if (typeof props.href === 'string') {
         return 'a';
     } else if (props.type === 'label') {
         return 'label';

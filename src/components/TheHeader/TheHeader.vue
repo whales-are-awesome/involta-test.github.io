@@ -6,6 +6,7 @@
                     :class="classes.linkWrapper"
                     size="sm"
                     view="ghost"
+                    href="https://docs.outercircle.io/"
                 >
                     Documentation
                 </BaseButton>
@@ -14,6 +15,7 @@
                     :class="classes.linkWrapper"
                     size="sm"
                     view="ghost"
+                    href="https://t.me/OuterCircleCommunity"
                 >
                     Contacts
                 </BaseButton>

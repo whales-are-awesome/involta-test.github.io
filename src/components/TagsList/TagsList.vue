@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed, defineProps, defineEmits, ref, onMounted, watch } from 'vue';
+import { computed, defineProps, defineEmits, ref, onMounted, watch, nextTick } from 'vue';
 import { IItem } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
@@ -100,7 +100,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 onMounted(() => {
-    setBg();
+    nextTick(setBg)
 });
 
 watch(value, setBg);

@@ -9,13 +9,15 @@
                     <div
                         :class="classes.linkList"
                     >
-                        <div
+                        <a
                             v-for="(item, index) in items"
                             :key="index"
                             :class="classes.link"
+                            :href="item.link"
+                            target="_blank"
                         >
                             {{ item.title }}
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <div>
@@ -50,17 +52,16 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     inner: '',
     title: 'text-xl text-primary-500 font-bold mb-4 md:text-lg sm:mb-3',
     linkList: 'space-y-3 sm:space-y-2',
-    link: 'text-primary-400 md:text-base',
+    link: 'block text-primary-400 md:text-base',
     bgWrapper: 'absolute inset-0 -z-1 max-w-none overflow-hidden',
     bg: 'absolute w-full min-h-full',
     image: 'absolute right-0 bottom-0 max-h-[400px]'
 }));
 
 const items = [
-    { title: 'Beta-List', link: '' },
-    { title: 'Discord', link: '' },
-    { title: 'Twitter', link: '' },
-    { title: 'Gitbook', link: '' }
+    { title: 'Discord', link: '//discord.gg/8dU5CaQaEb' },
+    { title: 'Twitter', link: '//twitter.com/0xOuterCircle\n' },
+    { title: 'Docs', link: '//docs.outercircle.io/' }
 ];
 
 const classes = computed((): ReturnType<typeof useClasses> => {
@@ -71,5 +72,10 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 </script>
 
 <style scoped>
-
+a {
+    @apply transition-fast;
+}
+a:hover {
+    @apply text-primary-500;
+}
 </style>

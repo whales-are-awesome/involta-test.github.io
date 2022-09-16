@@ -33,7 +33,10 @@
                     <p class="text-xl mb-9 md:text-sm md:mb-6">
                         {{ item.text }}
                     </p>
-                    <BaseButton size="md">
+                    <BaseButton
+                        size="md"
+                        @click="scrollIntoViewElement('.launch-section')"
+                    >
                         Get early access
                     </BaseButton>
                 </kinesis-element>
@@ -44,6 +47,7 @@
 
 <script lang="ts" setup>
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import scrollIntoViewElement from '@/helpers/scrollIntoView';
 
 const items = [
     {
