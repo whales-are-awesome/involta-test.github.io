@@ -44,6 +44,7 @@
                             view="ghost"
                             rounded="lg"
                             size="lg"
+                            href="//t.me/OuterCircleCommunity"
                         >
                             Contact Us
                         </BaseButton>
