@@ -6,7 +6,7 @@
                     When will <br class="hidden md:block">OuterCircle launch?
                 </h1>
                 <p class="text-xl text-primary-300 max-w-[602px] mx-auto md:text-[18px] md:leading-[24px] md:max-w-[410px] sm:text-sm">
-                    We're targeting late 2022 for our testnet launch. Left your email if you'd like to join our Beta-List.
+                    We're targeting late 2022 for our testnet launch.
                 </p>
             </div>
             <div class="flex justify-center">
@@ -14,7 +14,7 @@
                     size="lg"
                     href="//t.me/+Q7O_G4FME1xmN2Yy"
                 >
-                    Join Telegram
+                    join Private Beta waitlist
                 </BaseButton>
             </div>
 <!--            <form>-->
