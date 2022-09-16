@@ -11,10 +11,11 @@
             </div>
             <div class="flex justify-center">
                 <BaseButton
+                    rounded="lg"
                     size="lg"
                     href="//t.me/+Q7O_G4FME1xmN2Yy"
                 >
-                    join Private Beta waitlist
+                    Follow us in Telegram to know about updates
                 </BaseButton>
             </div>
 <!--            <form>-->
