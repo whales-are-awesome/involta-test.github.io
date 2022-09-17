@@ -11,11 +11,21 @@
             </div>
             <div class="flex justify-center">
                 <BaseButton
-                    rounded="lg"
-                    size="lg"
+                    rounded="md"
+                    size="xl"
+                    theme="purple"
                     href="//t.me/+Q7O_G4FME1xmN2Yy"
                 >
-                    Follow us in Telegram to know about updates
+                    <span class="flex items-center whitespace-nowrap">
+                        <span class="flex items-center justify-center w-[40px] h-[40px] mr-4 rounded-[5px] bg-white bg-opacity-20 sm:w-[32px] sm:h-[32px]">
+                            <BaseIcon
+                                class="sm:scale(0.95)"
+                                name="telegram"
+                                width="20"
+                            />
+                        </span>
+                        Join Beta Waitlist in Telegram
+                    </span>
                 </BaseButton>
             </div>
 <!--            <form>-->

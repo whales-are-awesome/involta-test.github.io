@@ -3,13 +3,15 @@ import { Icons } from '@/models/icons';
 const enum Themes {
     Primary = 'primary',
     Secondary = 'secondary',
-    Thirdly = 'thirdly'
+    Thirdly = 'thirdly',
+    Purple = 'purple'
 }
 
 const enum Sizes {
     Sm = 'sm',
     Md = 'md',
     Lg = 'lg',
+    Xl = 'xl',
     Icon = 'icon'
 }
 
@@ -19,6 +21,7 @@ const enum Width {
 
 const enum Rounded {
     Base = 'base',
+    Md = 'md',
     Lg = 'lg'
 }
 

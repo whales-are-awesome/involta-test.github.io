@@ -107,11 +107,12 @@ const useClasses = makeClasses<IThemeProps>(() => ({
                 'px-6 h-[44px] text-base font-medium md:!h-[30px] md:!text-[10px] md:!px-4': size === Sizes.Sm,
                 'px-8 h-[52px] text-lg font-semibold md:!h-[30px] md:!text-[10px] md:!px-4': size === Sizes.Md,
                 'px-8 h-[56px] text-lg font-semibold md:!h-[30px] md:!text-[10px] md:!px-4': size === Sizes.Lg,
+                'px-6 h-[72px] text-lg font-semibold  md:text-sm md:px-[13px] md:h-[56px]': size === Sizes.Xl,
                 'pl-8 pr-6 h-[52px] text-sm fomt-medium md:h-[30px] md:text-[10px] md:pl-4 md:pr-3': size === Sizes.Icon,
 
                 'w-full': width === Width.Full,
 
-                'text-white': view === Views.Filled && theme === Themes.Primary,
+                'text-white': view === Views.Filled && [Themes.Primary, Themes.Purple].includes(theme),
                 'text-[#24243D]': view === Views.Filled && theme === Themes.Secondary,
                 'text-primary-300 hover:text-[#24243D]': view === Views.Ghost && theme === Themes.Primary,
                 'text-primary-300 active:text-primary-500 hover:text-[#7E7E86]': view === Views.Icon && Themes.Thirdly,
@@ -129,15 +130,17 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return result;
     },
     bg: ({view, theme, rounded, themeSettings, disabled}) => {
-        const result = ['absolute inset-0 -z-1 shadow-[0_4px_10px_rgba(48,47,121,.08)] transition-fast'];
+        const result = ['absolute inset-0 -z-1 transition-fast'];
         const normal = [{
-            'bg-primary-500 group-hover:bg-primary-0': view === Views.Filled && theme === Themes.Primary,
-            'bg-primary-white group-hover:bg-primary-100 group-active:bg-primary-white': view === Views.Filled && theme === Themes.Secondary,
+            'bg-primary-500 group-hover:bg-primary-0 shadow-[0_4px_10px_rgba(48,47,121,.08)]': view === Views.Filled && theme === Themes.Primary,
+            'bg-primary-white group-hover:bg-primary-100 group-active:bg-primary-white shadow-[0_4px_10px_rgba(48,47,121,.08)]': view === Views.Filled && theme === Themes.Secondary,
+            'bg-[#7A4BFF] shadow-[0_20_40px_rgba(122,75,255,.4)] group-hover:bg-[#623CCC] group-hover:shadow-[0_20px_40px_rgba(122,75,255,0.4)]': view === Views.Filled && theme === Themes.Purple,
             'bg-transparent shadow-none': view === Views.Ghost && theme === Themes.Primary,
-            'border-2 border-primary-300 group-hover:border-[#7E7E86] group-active:border-primary-500 group-active:bg-transparent md:border': view === Views.Icon && theme === Themes.Thirdly,
-            '!border-[#DCDCDC]': view === Views.Icon && disabled,
+            'border-2 border-primary-300 group-hover:border-[#7E7E86] group-active:border-primary-500 group-active:bg-transparent md:border shadow-[0_4px_10px_rgba(48,47,121,.08)]': view === Views.Icon && theme === Themes.Thirdly,
+            '!border-[#DCDCDC] shadow-[0_4px_10px_rgba(48,47,121,.08)]': view === Views.Icon && disabled,
 
             'rounded-[5px]': rounded === Rounded.Base,
+            'rounded-[12px]': rounded === Rounded.Md,
             'rounded-[30px]': rounded === Rounded.Lg
         }];
 

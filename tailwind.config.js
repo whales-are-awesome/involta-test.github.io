@@ -369,6 +369,7 @@ module.exports = {
             base: ['1rem', {lineHeight: '1.75rem'}],
             lg: ['1.25rem', {lineHeight: '2rem'}],
             xl: ['1.5rem', {lineHeight: '2.25rem'}],
+            xll: ['6rem', {lineHeight: '4.25rem'}],
             'h-1': ['4rem', {lineHeight: '4.75rem'}],
             'h-2': ['3.625rem', {lineHeight: '4.5rem'}],
             'h-3': ['3.5rem', {lineHeight: '4rem'}],
