@@ -134,7 +134,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         const normal = [{
             'bg-primary-500 group-hover:bg-primary-0 shadow-[0_4px_10px_rgba(48,47,121,.08)]': view === Views.Filled && theme === Themes.Primary,
             'bg-primary-white group-hover:bg-primary-100 group-active:bg-primary-white shadow-[0_4px_10px_rgba(48,47,121,.08)]': view === Views.Filled && theme === Themes.Secondary,
-            'bg-[#7A4BFF] shadow-[0_20_40px_rgba(122,75,255,.4)] group-hover:bg-[#623CCC] group-hover:shadow-[0_20px_40px_rgba(122,75,255,0.4)]': view === Views.Filled && theme === Themes.Purple,
+            'bg-[#7A4BFF] shadow-[0_20px_40px_rgba(122,75,255,.4)] group-hover:bg-[#623CCC] group-hover:shadow-[0_20px_40px_rgba(122,75,255,0.8)]': view === Views.Filled && theme === Themes.Purple,
             'bg-transparent shadow-none': view === Views.Ghost && theme === Themes.Primary,
             'border-2 border-primary-300 group-hover:border-[#7E7E86] group-active:border-primary-500 group-active:bg-transparent md:border shadow-[0_4px_10px_rgba(48,47,121,.08)]': view === Views.Icon && theme === Themes.Thirdly,
             '!border-[#DCDCDC] shadow-[0_4px_10px_rgba(48,47,121,.08)]': view === Views.Icon && disabled,
