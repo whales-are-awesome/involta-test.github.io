@@ -37,6 +37,6 @@ const items = [
     { name: 'Ian Sosunov', job: 'CEO', image: require('@/assets/images/home/team/ian.png') },
     { name: 'Di-Pi', job: 'CTO', image: require('@/assets/images/common/no-avatar.png') },
     { name: 'Olga Abramova', job: 'Product Designer', image: require('@/assets/images/home/team/olya.png') },
-    { name: 'Nikita Suponov', job: 'Frontend Developer', image: require('@/assets/images/common/no-avatar.png') }
+    { name: 'Nikita Suponov', job: 'Frontend Developer', image: require('@/assets/images/home/team/nick.jpeg') }
 ];
 </script>
