@@ -3,9 +3,9 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "serve": "vue-cli-service serve & ./src/bin/generate-svg.js",
+        "serve": "./src/bin/generate-svg.js & vue-cli-service serve",
         "svg": "./src/bin/generate-svg.js",
-        "build": "vue-cli-service build & ./src/bin/generate-svg.js",
+        "build": "./src/bin/generate-svg.js & vue-cli-service build",
         "lint": "vue-cli-service lint"
     },
     "dependencies": {
