@@ -29,7 +29,7 @@
                         Decentralized <span class="text-[#2F3AB1]">DAO-tooling</span> ecosystem
                     </h5>
                     <p class="text-base max-w-[540px] mx-auto text-center text-primary-400 font-medium mb-10 md:text-left md:text-sm md:mx-0 md:max-w-[357px] sm:mb-9">
-                        OuterCircle is an ecosystem that unifies millions of DAO-centric apps to bring new opportunities for developers and infinite flexibility for decentralized communities.
+                        OuterCircle is a decentralized ecosystem that unifies millions of DAO-centric apps to bring new opportunities for developers and infinite flexibility for communities.
                     </p>
                     <div class="flex justify-center md:justify-start">
                         <BaseButton

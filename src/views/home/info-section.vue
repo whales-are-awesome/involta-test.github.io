@@ -11,7 +11,7 @@
                     <br><br>
                     OuterCircle doesn’t force DAOs to exist in isolated spaces of DAO-constructors, doesn’t limit them to a
                     predetermined set of toolings, and allows them not to rely on B2B solutions to grow. Take the full control,
-                    stay decentralized!
+                    and stay decentralized!
                     <br><br>
                     For the developers, OuterCircle creates a new market of applications, created especially for decentralized
                     communities, and provides a standard and an SDK to build them.

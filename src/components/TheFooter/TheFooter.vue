@@ -30,6 +30,7 @@
                     </div>
                     <img
                         :class="classes.image"
+                        style="z-index: -1"
                         :src="require('@/assets/images/components/the-footer/image.png')"
                         alt="image"
                     />
@@ -60,7 +61,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
 const items = [
     { title: 'Discord', link: '//discord.gg/8dU5CaQaEb' },
-    { title: 'Twitter', link: '//twitter.com/0xOuterCircle\n' },
+    { title: 'Twitter', link: '//twitter.com/0xOuterCircle' },
     { title: 'Docs', link: '//docs.outercircle.io/' }
 ];
 

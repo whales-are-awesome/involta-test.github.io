@@ -5,7 +5,7 @@
                 Our Team
             </p>
             <p class="text-xl text-primary-300 mb-[84px] md:text-base md:max-w-[352px] sm:text-sm">
-                We are team of Web3.0 enthusiast. Developers do for other developers
+                We are a team of Web3.0 enthusiasts. Developers do for other developers!
             </p>
         </div>
         <div class="flex flex-wrap -mt-8 -mx-[10px] md:-mx-4 sm:-mx-[6px] sm:-mt-[12px]">
@@ -34,9 +34,9 @@
 
 <script lang="ts" setup>
 const items = [
-    { name: 'Ian Sosunov', job: 'CEO', image: require('@/assets/images/home/team/ian.png') },
-    { name: 'Di-Pi', job: 'CTO', image: require('@/assets/images/common/no-avatar.png') },
+    { name: 'Ian Sosunov', job: 'Founder', image: require('@/assets/images/home/team/ian.png') },
     { name: 'Olga Abramova', job: 'Product Designer', image: require('@/assets/images/home/team/olya.png') },
-    { name: 'Nikita Suponov', job: 'Frontend Developer', image: require('@/assets/images/home/team/nick.jpeg') }
+    { name: 'Nikita Suponov', job: 'Frontend Developer', image: require('@/assets/images/home/team/nick.jpeg') },
+    { name: 'dristpunk.eth', job: 'Blockchain Developer', image: require('@/assets/images/common/no-avatar.png') }
 ];
 </script>

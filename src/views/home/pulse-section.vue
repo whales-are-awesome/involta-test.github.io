@@ -6,7 +6,7 @@
         <div class="flex justify-between items-start mb-[72px] md:mb-[40px] sm:flex-col sm:mb-[200px]">
             <div class="max-w-[256px] md:max-w-[159px] sm:text-center sm:max-w-none sm:mb-16 sm:w-full">
                 <div class="mb-6 text-primary-300 text-xl md:text-sm md:mb-4">
-                    OuterCircle currently is under development. <br class="hidden sm:block">Reach us to get an early access.
+                    OuterCircle is currently under development. <br class="hidden sm:block">Reach us to get early access.
                 </div>
                 <BaseButton
                     class="sm:mx-auto"
