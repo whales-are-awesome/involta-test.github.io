@@ -9,12 +9,14 @@
             </p>
         </div>
         <div class="flex flex-wrap -mt-8 -mx-[10px] md:-mx-4 sm:-mx-[6px] sm:-mt-[12px]">
-            <div
+            <a
                 v-for="(item, index) in items"
                 :key="index"
                 class="mt-8 px-[10px] w-1/4 md:w-1/2 md:px-4 sm:px-[6px] sm:mt-[12px]"
+                target="_blank"
+                href="//docs.outercircle.io/general/team"
             >
-               <div class="pb-[18px] border border-[#E6E6E6] bg-white shadow-[0px_12px_19px_-5px_rgba(112,58,202,.08)] rounded-[12px] text-center">
+                <div class="pb-[18px] border border-[#E6E6E6] bg-white shadow-[0px_12px_19px_-5px_rgba(112,58,202,.08)] hover:shadow-[0px_12px_19px_5px_rgba(112,58,202,.09)] rounded-[12px] text-center transition-fast">
                    <div
                        class="pb-[100%] w-full mb-5 bg-cover rounded-[12px]"
                        :style="`background-image: url(${ item.image })`"
@@ -27,7 +29,7 @@
                        {{ item.job }}
                    </p>
                </div>
-            </div>
+            </a>
         </div>
     </div>
 </template>
