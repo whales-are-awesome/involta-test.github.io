@@ -49,6 +49,7 @@ module.exports = {
             },
             disabled: {
                 text: '#B2B2C2',
+                dark: '#E2E2E8',
                 light: '#EEEEF2'
             },
             status: {

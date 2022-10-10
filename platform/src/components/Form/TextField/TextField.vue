@@ -60,6 +60,7 @@
                 {{ placeholder }}
             </p>
             <input
+                v-if="!textarea"
                 v-model="value"
                 :class="classes.field"
                 type="text"
@@ -67,6 +68,15 @@
                 @focus="onFocus"
                 @blur="onBlur"
             >
+            <textarea
+                v-else
+                v-model="value"
+                :class="classes.field"
+                type="text"
+                :maxlength="maxlength"
+                @focus="onFocus"
+                @blur="onBlur"
+            />
             <BaseIcon
                 v-if="icon && !icon.prepend"
                 :class="[classes.icon, icon.class]"
@@ -86,6 +96,18 @@
                     :class="classes.hint"
                 >
                     {{ hint }}
+                </div>
+            </template>
+            <template  v-if="error">
+                <BaseIcon
+                    :class="classes.errorIcon"
+                    name="warning-circle"
+                    width="12"
+                />
+                <div
+                    :class="classes.error"
+                >
+                    {{ error }}
                 </div>
             </template>
             <div
@@ -116,6 +138,7 @@ import makeClasses from '@/helpers/makeClasses';
 
 interface IProps {
     modelValue: string
+    textarea?: boolean
     tooltip?: string
     placeholder?: string
     hint?: string
@@ -125,6 +148,7 @@ interface IProps {
     tipTop?: string | number
     tipBottom?: string | number
     isBold?: boolean
+    isWrapped?: boolean
     icon?: {
         name: keyof typeof Icons
         width?: string
@@ -156,10 +180,17 @@ const emit = defineEmits<IEmits>();
 
 const useClasses = makeClasses(() => {
     return {
-        fieldWrapper: ({ isFilled, isFocus, hasError, disabled, size, isBig }) => {
+        root: ({ isFilled, isFocus, hasError, disabled, size, isBig, isTextarea, isWrapped }) => [
+            'relative',
+            {
+                'bg-white px-2 py-3 rounded-[4px]': isWrapped
+            }
+        ],
+        fieldWrapper: ({ isFilled, isFocus, hasError, disabled, size, isBig, isTextarea }) => {
             const states = {
                 default: !hasError && !isFocus && !disabled,
                 defaultFocus: !hasError && isFocus && !disabled,
+                filled: !hasError && !isFocus && !disabled && isFilled,
                 error: hasError && !isFocus && !disabled,
                 errorFocus: hasError && isFocus && !disabled,
                 disabled
@@ -168,54 +199,59 @@ const useClasses = makeClasses(() => {
             return [
                 'px-3 py-2.5 border rounded-[4px] relative transition-fast group',
                 {
-                    'border-surface-300 hover:border-surface-500 hover:shadow-[0_0_0_2px_rgba(103,71,232,.24)]': states.default,
-                    'border-surface-500 shadow-[0_0_0_2px_rgba(103,71,232,.38)]': states.defaultFocus,
-                    'border-[#BB4840] hover:shadow-[0_0_0_2px_rgba(187,72,64,0.24)]': states.error,
-                    'border-[#BB4840] shadow-[0_0_0_2px_rgba(187,72,64,0.38)]': states.errorFocus,
-                    'pointer-events-none border-[#E3E4E6]': states.disabled,
+                    'border-surface-300 hover:bg-primary-100': states.default,
+                    'border-surface-500 border-primary-400 shadow-[0_0_0_3px_#D4D4FC,0_2px_2px_-1px_rgba(0,0,0,0.12)]': states.defaultFocus,
+                    'border-gray-300e': states.filled,
+                    'border-[#CB101D]': states.error,
+                    'border-[#CB101D] ': states.errorFocus,
+                    'pointer-events-none border-disabled-dark bg-disabled-light': states.disabled,
 
-                    'h-12': !isBig,
-                    'h-[56px]': isBig
+                    'h-12': !isBig && !isTextarea,
+                    'h-[56px]': isBig && !isTextarea,
+                    'h-[96px]': isTextarea,
                 }
             ];
         },
-        field: ({ isFilled, size, hasLeftIcon, isBold, isBig }) => {
+        field: ({ isFilled, size, hasLeftIcon, isBold, isBig, isTextarea, disabled }) => {
             return [
-                'absolute inset-0 rounded-[4x] transition-fast',
+                'absolute inset-0 rounded-[4px] transition-fast resize-none bg-transparent',
                 {
                     'font-bold': isBold,
                     'pl-[13px]': !hasLeftIcon,
                     'pl-8': hasLeftIcon,
-                    'text-200 group-hover:text-400': !isFilled,
+                    'text-200': !isFilled,
                     'text-400': isFilled,
                     'pt-[14px]': isFilled && isBig,
+                    'p-3': isTextarea,
+                    '!text-disabled-text': disabled,
 
                     'text-xs': size === Sizes.Sm
                 }
             ]
         },
-        placeholder: ({ isFilled, isBig, hasLeftIcon }) => {
+        placeholder: ({ isFilled, isBig, hasLeftIcon, disabled }) => {
             return [
                 'text-300 absolute z-10 transition-fast pointer-events-none',
                 {
                     'left-8': hasLeftIcon,
-                    'text-200 group-hover:text-400': !isFilled,
+                    'text-200': !isFilled,
                     'top-[12px]': !isFilled && !isBig,
                     'top-[16px]': !isFilled && isBig,
                     'hidden': !isBig && isFilled,
                     'text-400 text-xss top-[8px] left-[13px] font-semibold': isFilled,
+                    '!text-disabled-text': disabled,
                 }
             ]
         },
-        error: () => [
-            'absolute left-0 top-full leading-none pt-2 text-sm text-[#BB4840]'
-        ],
-        icon: ({ isFilled, hasLeftIcon, isBig }) => [
-            'absolute -translate-y-1/2 top-1/2 text-gray-300 z-10 pointer-events-none transition-fast',
+        icon: ({ isFilled, hasLeftIcon, isBig, isBold, disabled }) => [
+            'absolute -translate-y-1/2 top-1/2 z-10 pointer-events-none transition-fast',
             {
+                'text-gray-300': !isBold || !isFilled,
+                'text-gray-500': isBold && isFilled,
                 'left-[13px]': hasLeftIcon,
                 'right-[13px]': !hasLeftIcon,
-                'mt-[8px]': isFilled && isBig
+                'mt-[8px]': isFilled && isBig,
+                '!text-disabled-text': disabled,
             }
         ],
         top: ({ isFilled, hasLeftIcon }) => [
@@ -225,36 +261,65 @@ const useClasses = makeClasses(() => {
                 'right-[13px]': !hasLeftIcon
             }
         ],
-        label: ({ isFilled, hasLeftIcon }) => [
-            'text-gray-500 text-sm font-bold'
-        ],
-        requiredIcon: ({ isFilled, hasLeftIcon }) => [
-            'text-status-error self-start ml-1 translate-y-1'
-        ],
-        tooltipIcon: ({ isFilled, hasLeftIcon }) => [
-            'text-300 ml-[5px]'
-        ],
-        tip: ({ isFilled, hasLeftIcon }) => [
-            'ml-auto text-gray-500 text-xs'
-        ],
-        insetLabel: ({ isFilled, hasLeftIcon }) => [
-            'absolute font-bold top-1 right-3 z-10 text-gray-500'
-        ],
-        bottom: ({ isFilled, hasLeftIcon }) => [
-            'flex items-center mt-1',
+        label: ({ isFilled, hasLeftIcon, disabled }) => [
+            'text-gray-500 text-sm font-bold',
             {
-                'left-[13px]': hasLeftIcon,
-                'right-[13px]': !hasLeftIcon
+                '!text-disabled-text': disabled,
             }
         ],
-        warningIcon: ({ isFilled, hasLeftIcon }) => [
-            'text-gray-500 mr-2'
+        requiredIcon: ({ isFilled, hasLeftIcon, disabled }) => [
+            'text-status-error self-start ml-1 translate-y-1',
+            {
+                '!text-disabled-text': disabled,
+            }
         ],
-        hint: ({ isFilled, hasLeftIcon }) => [
-            'text-gray-500 text-xs font-bold'
+        tooltipIcon: ({ isFilled, hasLeftIcon, disabled }) => [
+            'text-300 ml-[5px]',
+            {
+                '!text-disabled-text': disabled,
+            }
         ],
-        button: ({ isFilled, hasLeftIcon }) => [
-            'absolute top-2.5 right-3 z-10 cursor-pointer'
+        tip: ({ isFilled, hasLeftIcon, disabled }) => [
+            'ml-auto text-gray-500 text-xs',
+            {
+                '!text-disabled-text': disabled,
+            }
+        ],
+        insetLabel: ({ isFilled, hasLeftIcon, disabled }) => [
+            'absolute font-bold top-1 right-3 z-10 text-gray-500',
+            {
+                '!text-disabled-text': disabled,
+            }
+        ],
+        bottom: ({ isFilled, hasLeftIcon, error }) => [
+            'mt-1 flex items-center',
+            {
+                'absolute w-full top-full left-0 z-10': error
+            }
+        ],
+        warningIcon: ({ isFilled, hasLeftIcon, disabled }) => [
+            'text-gray-500 mr-2',
+            {
+                '!text-disabled-text': disabled,
+            }
+        ],
+        hint: ({ isFilled, hasLeftIcon, disabled }) => [
+            'text-gray-500 text-xs font-bold',
+            {
+                '!text-disabled-text': disabled,
+            }
+        ],
+        errorIcon: ({ isFilled, hasLeftIcon }) => [
+            'text-[#CB101D] mr-2'
+        ],
+        error: () => [
+            'text-[#CB101D] text-xs font-bold'
+        ],
+        button: ({ isFilled, hasLeftIcon, disabled }) => [
+            'absolute top-2.5 right-3 z-10 cursor-pointer',
+            {
+                '!text-disabled-text !border-disabled-dark !bg-disabled-light': disabled,
+            }
         ],
     };
 });
@@ -287,6 +352,8 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         hasLeftIcon: !!props.icon?.prepend,
         hasRightIcon: !props.icon?.prepend,
         isBold: props.isBold,
+        isTextarea: props.textarea,
+        isWrapped: props.isWrapped,
         isBig: !!props.insetLabel || props.buttonTitle
     });
 });

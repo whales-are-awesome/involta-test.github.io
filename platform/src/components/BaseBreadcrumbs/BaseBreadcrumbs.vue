@@ -4,7 +4,7 @@
             :class="classes.angle"
             width="5"
             height="9"
-            name="angle-right"
+            name="chevron-right"
         />
         <div :class="classes.items">
             <div
@@ -33,7 +33,7 @@
                     :class="classes.itemAngle"
                     width="5"
                     height="9"
-                    name="angle-right"
+                    name="chevron-right"
                 />
             </div>
         </div>

@@ -1,5 +1,6 @@
 const enum Icons {
-    AngleRight = 'angle-right',
+    ChevronRight = 'chevron-right',
+    ChevronDown = 'chevron-down',
     ArrowDown = 'arrow-down',
     ArrowRight = 'arrow-right',
     Home = 'home',

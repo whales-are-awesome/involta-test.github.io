@@ -261,51 +261,142 @@
         </div>
         <div class="mb-10 pb-10 border-b border-gray-300">
             <h3 class="mb-6">Text Field</h3>
-            <TextField
-                v-model="textField"
+            <div class="space-y-10">
+                <div>
+                    <TextField
+                        v-model="textField3"
+                        class="max-w-[400px]"
+                        placeholder="Placeholder text"
+                        :is-bold="true"
+                        label="Default field"
+                    />
+                </div>
+                <div>
+                    <TextField
+                        v-model="textField"
+                        class="max-w-[400px]"
+                        placeholder="Placeholder text"
+                        :required="true"
+                        tip-top="tip 10/13"
+                        tip-bottom="tip 12/13"
+                        :icon="{
+                            name: 'warning',
+                            width: 12,
+                            prepend: true
+                        }"
+                        label="Field with inset label"
+                        tooltip="Some text"
+                        inset-label="$9.32"
+                        hint="Hint message."
+                    />
+                </div>
+                <div>
+                    <TextField
+                        v-model="textField2"
+                        class="max-w-[400px]"
+                        placeholder="Placeholder text"
+                        :required="true"
+                        tip-top="tip 10/13"
+                        tip-bottom="tip 12/13"
+                        :icon="{
+                            name: 'warning',
+                            width: 12,
+                            prepend: true
+                        }"
+                        label="Field with inset button"
+                        tooltip="Some text"
+                        hint="Hint message."
+                        :is-bold="true"
+                        button-title="Use average amount"
+                        @button-click="textField2 = 'Ян киса'"
+                    />
+                </div>
+                <div>
+                    <TextField
+                        v-model="textarea"
+                        :textarea="true"
+                        class="max-w-[400px]"
+                        placeholder="Placeholder text"
+                        :is-bold="true"
+                        label="Textarea field"
+                        :maxlength="500"
+                        :tip-bottom="`${500 - textarea.length} left`"
+                    />
+                </div>
+                <div>
+                    <TextField
+                        v-model="textField4"
+                        class="max-w-[400px]"
+                        placeholder="Placeholder text"
+                        :required="true"
+                        tip-top="tip 10/13"
+                        tip-bottom="tip 12/13"
+                        :icon="{
+                            name: 'warning',
+                            width: 12,
+                            prepend: true
+                        }"
+                        label="Field with inset button"
+                        tooltip="Some text"
+                        error="Error text."
+                        :is-bold="true"
+                        button-title="Use average amount"
+                        @button-click="textField2 = 'Ян киса'"
+                    />
+                </div>
+                <div>
+                    <TextField
+                        v-model="textField4"
+                        class="max-w-[400px]"
+                        placeholder="Placeholder text"
+                        :required="true"
+                        tip-top="tip 10/13"
+                        :disabled="true"
+                        tip-bottom="tip 12/13"
+                        :icon="{
+                            name: 'warning',
+                            width: 12,
+                            prepend: true
+                        }"
+                        label="Disabled field"
+                        tooltip="Some text"
+                        :is-bold="true"
+                        button-title="Use average amount"
+                        @button-click="textField2 = 'Ян киса'"
+                    />
+                </div>
+            </div>
+        </div>
+        <div class="mb-10 pb-10 border-b border-gray-300">
+            <h3 class="mb-6">Accordion</h3>
+            <BaseAccordion
                 class="max-w-[400px]"
-                placeholder="Placeholder text"
-                :required="true"
-                tip-top="tip 10/13"
-                tip-bottom="tip 12/13"
-                :icon="{
-                    name: 'warning',
-                    width: 12,
-                    prepend: true
-                }"
-                label="Label"
-                tooltip="Some text"
-                inset-label="$9.32"
-                hint="Hint message."
-            />
-            <br>
-            <TextField
-                v-model="textField2"
-                class="max-w-[400px]"
-                placeholder="Placeholder text"
-                :required="true"
-                tip-top="tip 10/13"
-                tip-bottom="tip 12/13"
-                :icon="{
-                    name: 'warning',
-                    width: 12,
-                    prepend: true
-                }"
-                label="Label"
-                tooltip="Some text"
-                hint="Hint message."
-                :is-bold="true"
-                button-title="Use average amount"
-                @button-click="textField2 = 'Ян киса'"
-            />
-            <br>
-            <TextField
-                v-model="textField3"
-                class="max-w-[400px]"
-                placeholder="Placeholder text"
-                :is-bold="true"
-                label="Label"
-            />
+                title="Advanced DAO information"
+            >
+                <div class="space-y-2">
+                    <TextField
+                        v-for="item in 4"
+                        :key="item"
+                        v-model="textField2"
+                        placeholder="Placeholder text"
+                        :required="true"
+                        tip-top="tip 10/13"
+                        tip-bottom="tip 12/13"
+                        :is-wrapped="true"
+                        :icon="{
+                        name: 'warning',
+                        width: 12,
+                        prepend: true
+                    }"
+                        label="Field with inset button"
+                        tooltip="Some text"
+                        hint="Hint message."
+                        :is-bold="true"
+                        button-title="Use average amount"
+                        @button-click="textField2 = 'Ян киса'"
+                    />
+                </div>
+            </BaseAccordion>
         </div>
     </div>
 </template>
@@ -323,6 +414,7 @@ import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import DappCard from '@/components/DappCard/DappCard.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
+import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
 import * as Form from '@/components/Form';
 
 const tagList = [
@@ -348,4 +440,6 @@ const searchValue = ref('');
 const textField = ref('');
 const textField2 = ref('');
 const textField3 = ref('');
+const textField4 = ref('1234');
+const textarea = ref('');
 </script>
