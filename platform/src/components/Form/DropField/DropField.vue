@@ -6,7 +6,10 @@
         @dragenter.prevent
     >
         <input ref="fileRef" class="hidden" type="file" @change="uploadFile">
-        <Transition name="fade">
+        <Transition
+            name="fade"
+            mode="out-in"
+        >
             <div v-if="!files.length">
                 <BaseIcon
                     :class="classes.icon"
