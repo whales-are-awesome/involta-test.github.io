@@ -39,14 +39,22 @@ function useLayer() {
     const isBlackoutShown = computed(() => items.value.some((item: any) => item.isOpened && !item.hideBlackout));
 
     watch(() => isBlackoutShown.value, (newValue) => {
+        const coords = appElement.getBoundingClientRect();
+
         if (newValue) {
-            const coords = appElement.getBoundingClientRect();
             appElement.style.position = 'fixed';
             appElement.style.top = coords.top + 'px';
             appElement.style.left = coords.left + 'px';
         } else if (appElement) {
-            appElement.style.overflow = 'auto';
-            appElement.style.paddingRight = '0';
+            const scrollTo = Math.abs(+appElement.style.top.slice(0, -2));
+
+            appElement.style.removeProperty('position');
+            appElement.style.removeProperty('top');
+            appElement.style.removeProperty('left');
+
+            if (scrollTo !== 0) {
+                appElement.scrollTop = scrollTo;
+            }
         }
     }, { deep: true, immediate: true });
 
