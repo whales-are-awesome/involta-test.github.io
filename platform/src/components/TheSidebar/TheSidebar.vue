@@ -30,7 +30,7 @@
                 </TheSidebarButton>
                 <TheSidebarButton
                     :image="require('@/assets/images/common/logo.png')"
-                    :active="route.name === 'dao'"
+                    :active="route.name === 'dao-id'"
                     @click="router.push({ name: 'dao-id', params: { id: 2 } })"
                 />
             </div>
