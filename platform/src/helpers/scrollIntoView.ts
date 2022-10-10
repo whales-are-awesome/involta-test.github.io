@@ -6,7 +6,7 @@
  * @param {'smooth' | 'auto'} [options.behavior] сдвиг по вертикали
  * @param {Window | HTMLElement} [overflowElement] контейнер для скрола
  */
-export default function scrollIntoViewElement(element: Element, options: any, overflowElement: Window | Element = window): Element {
+export default function scrollIntoViewElement(element: Element, options?: any, overflowElement: Window | Element = window): Element {
     const { y = 0, behavior = 'smooth' } = options || {};
     const top = overflowElement instanceof Window ? element.getBoundingClientRect().top : element.getBoundingClientRect().top - overflowElement.getBoundingClientRect().top;
 
