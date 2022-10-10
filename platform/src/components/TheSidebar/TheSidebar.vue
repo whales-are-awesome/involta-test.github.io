@@ -19,9 +19,15 @@
                 <TheSidebarButton
                     icon="plus"
                     icon-width="17"
+                    :active="isCreateDaoOpened"
+                    @click="layer.open('CreateDaoLayer')"
+                />
+                <TheSidebarButton
                     :active="route.name === 'ui'"
                     @click="router.push({ name: 'ui' })"
-                />
+                >
+                    <div class="-translate-x-2">UI</div>
+                </TheSidebarButton>
                 <TheSidebarButton
                     :image="require('@/assets/images/common/logo.png')"
                     :active="route.name === 'dao'"
@@ -41,6 +47,7 @@ import { useRoute, useRouter } from 'vue-router';
 import TheSidebarButton from './TheSidebarButton.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import useLayer from '@/helpers/hooks/useLayer';
 
 /* META */
 
@@ -50,6 +57,7 @@ const router = useRouter();
 /* CONSTANTS AND CUSTOM HOOKS */
 
 const activeItem = ref('');
+const layer = useLayer();
 
 const useClasses = makeClasses(() => ({
     root: ({ themeSettings }) => {
@@ -90,6 +98,10 @@ const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
 
     });
+});
+
+const isCreateDaoOpened = computed<boolean>(() => {
+    return !!layer.openedItems.value.find(item => item.id === 'CreateDaoLayer');
 });
 
 /* WATCH */

@@ -1,6 +1,8 @@
 <template>
     <BaseLayer
-        container-styles="max-w-[664px] p-11 rounded-[20px]"
+        :theme-settings="{
+            container: 'max-w-[664px] p-11 rounded-[20px]'
+        }"
     >
         <h4 :class="classes.title" v-html="title"></h4>
         <div :class="classes.message" v-html="message"></div>
@@ -34,7 +36,7 @@
 import {computed} from 'vue';
 import useLayer from '@/helpers/hooks/useLayer';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
-import BaseLayer from './BaseLayer';
+import BaseLayer from './BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
 
 interface IProps {

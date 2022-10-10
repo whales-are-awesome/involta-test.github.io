@@ -19,6 +19,7 @@
                 :src="image"
                 alt="OuterCircle"
             >
+            <slot></slot>
         </div>
     </div>
 </template>

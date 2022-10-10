@@ -14,14 +14,6 @@
             v-bind="item.props"
         />
     </TransitionGroup>
-    <TransitionGroup name="notification">
-        <Component
-            v-for="item in openedItems"
-            :key="item.id"
-            :is="item.component"
-            v-bind="item.props"
-        />
-    </TransitionGroup>
 </template>
 
 <script lang="ts" setup>

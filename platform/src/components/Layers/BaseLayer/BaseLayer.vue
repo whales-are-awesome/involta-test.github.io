@@ -1,0 +1,100 @@
+<template>
+    <div :class="classes.root">
+        <div
+            :class="classes.wrapper"
+            @click.self="closeLast"
+        >
+            <div
+                :class="[containerStyles, classes.container]"
+            >
+                <slot></slot>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script lang="ts">
+    import { Position } from './types';
+</script>
+
+<script lang="ts" setup>
+/* IMPORTS */
+import { computed } from 'vue';
+import useLayer from '@/helpers/hooks/useLayer';
+import makeClasses from '@/helpers/makeClasses';
+
+/* INTERFACES */
+
+interface IProps {
+    id?: number
+    containerStyles?: string
+    position: keyof typeof Position
+    themeSettings?: any
+}
+
+interface IThemeProps extends Pick<IProps, 'position'> {
+    themeSettings?: any
+}
+
+/* META */
+
+const props = withDefaults(defineProps<IProps>(), {
+    position: Position.Center
+});
+
+/* CONSTANTS AND HOOKS */
+
+const { closeLast } = useLayer();
+
+const useClasses = makeClasses<IThemeProps>(() => ({
+    root: () => [
+        'fixed z-[9998] inset-0'
+    ],
+    wrapper: ({ position }) => [
+        'h-full',
+        {
+            'flex items-center justify-center': position === Position.Center,
+            'flex justify-end': position === Position.Right
+        }
+    ],
+    container: ({ themeSettings }) => [
+        [themeSettings?.container, 'bg-white relative']
+    ]
+
+}));
+
+const classes = computed((): ReturnType<typeof useClasses> => {
+    return useClasses({
+        position: props.position,
+        themeSettings: props.themeSettings,
+    });
+});
+</script>
+
+<style>
+.layer-blackout {
+    @apply fixed top-0 left-0 right-0 bottom-0 transition-opacity duration-300 ease-out;
+    transform-style: preserve-3d;
+    background-color: rgba(24, 51, 79, 0.3);
+    backdrop-filter: blur(8px);
+    z-index: 9990;
+}
+
+.is-layer-locked {
+    @apply fixed top-0 bottom-0 w-full pointer-events-none;
+}
+
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+    .modal-container {
+        transition: opacity .5s;
+    }
+}
+.fade-enter-from, .fade-leave-to  {
+    opacity: 0;
+    .modal-container {
+        opacity: 0;
+    }
+}
+</style>

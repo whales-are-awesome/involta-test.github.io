@@ -94,7 +94,7 @@ const props = withDefaults(defineProps<IProps>(), {
     disabled: false,
     type: 'button',
     theme: Themes.Gray,
-    rounded: Rounded.Base,
+    rounded: Rounded.Sm,
     size: Sizes.Md,
     view: Views.Filled,
     wrapContent: true

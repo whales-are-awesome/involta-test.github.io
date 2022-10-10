@@ -12,6 +12,7 @@ const enum Icons {
     Warning = 'warning',
     WarningCircle = 'warning-circle',
     Upload = 'upload',
+    Cross = 'cross',
 }
 
 export {

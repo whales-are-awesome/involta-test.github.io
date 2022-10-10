@@ -60,12 +60,12 @@ const emit = defineEmits<IEmits>();
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => {
         return [themeSettings?.root, [
-            'px-3 py-4 bg-primary-100 rounded-[4px]'
+            'px-3 py-4 bg-primary-100 rounded-[4px] cursor-pointer'
         ]];
     },
     top: 'flex items-center justify-between',
     title: 'text-gray-500 text-sm font-semibold',
-    collapseInner: 'pt-6',
+    collapseInner: 'pt-6 cursor-default',
     iconWrapper: 'flex items-center justify-center w-9 h-9 border border-gray-200 rounded-[10px]',
     icon: ({ themeSettings, isVisible }) => [
         'text-gray-400',

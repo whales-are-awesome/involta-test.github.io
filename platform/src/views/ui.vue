@@ -398,6 +398,14 @@
                 </div>
             </BaseAccordion>
         </div>
+        <div class="mb-10 pb-10 border-b border-gray-300">
+            <h3 class="mb-6">Layers</h3>
+            <div class="space-x-5">
+                <BaseButton @click="open('CreateDaoLayer')">
+                    Create Dao
+                </BaseButton>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -416,6 +424,7 @@ import DropField from '@/components/Form/DropField/DropField.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
 import * as Form from '@/components/Form';
+import useLayer from '@/helpers/hooks/useLayer';
 
 const tagList = [
     { title: 'Proposals', id: 0 },
@@ -442,4 +451,6 @@ const textField2 = ref('');
 const textField3 = ref('');
 const textField4 = ref('1234');
 const textarea = ref('');
+
+const { open } = useLayer();
 </script>

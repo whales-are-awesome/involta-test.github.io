@@ -1,7 +1,7 @@
 let id = 0;
 
-function createId() {
-    return ++id;
+function createId(name = '') {
+    return name + ++id;
 }
 
 export {
