@@ -1,0 +1,26 @@
+h1, .title-h1 {
+    @apply text-h1 font-bold text-500;
+}
+h2, .title-h2 {
+    @apply text-h2 font-bold text-500;
+}
+h3, .title-h3 {
+    @apply text-h3 font-bold text-500;
+}
+
+h4, .title-h4 {
+    @apply text-h4 font-bold text-500;
+}
+
+h5, .title-h5 {
+    @apply text-h5 font-bold text-500;
+}
+
+h6, .title-h6 {
+    @apply text-h6 font-bold text-500;
+}
+
+h7, .title-h7 {
+    @apply text-h7 font-bold text-500;
+}
+

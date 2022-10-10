@@ -1,0 +1,6 @@
+query getUsers {
+    posts {
+        title,
+        dasda
+    }
+}

@@ -1,0 +1,424 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "inoProtocol",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "campaign",
+                "type": "uint256"
+            }
+        ],
+        "name": "CampaignApproved",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "campaign",
+                "type": "uint256"
+            }
+        ],
+        "name": "CampaignCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "campaign",
+                "type": "uint256"
+            }
+        ],
+        "name": "CampaignUpdated",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "INO_PROTOCOL",
+        "outputs": [
+            {
+                "internalType": "contract IIno",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "actualStageManager",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "approvedCampaignsTotal",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "bool",
+                        "name": "started",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "approved",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "description",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "externalLink",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "utilityProvider",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "tokenLockVault",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "tokenEmission",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "protocol",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "signer",
+                        "type": "address"
+                    }
+                ],
+                "internalType": "struct Campaign",
+                "name": "campaign",
+                "type": "tuple"
+            }
+        ],
+        "name": "createCampaign",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "campaignId",
+                "type": "uint256"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "bool",
+                        "name": "started",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "approved",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "description",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "externalLink",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "utilityProvider",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "tokenLockVault",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "tokenEmission",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "protocol",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "signer",
+                        "type": "address"
+                    }
+                ],
+                "internalType": "struct Campaign",
+                "name": "campaign",
+                "type": "tuple"
+            }
+        ],
+        "name": "editCampaign",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "index",
+                "type": "uint256"
+            }
+        ],
+        "name": "getApprovedCampaignId",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "campaignId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getCampaign",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "bool",
+                        "name": "started",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "approved",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "description",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "externalLink",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "utilityProvider",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "tokenLockVault",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "tokenEmission",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "protocol",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "signer",
+                        "type": "address"
+                    }
+                ],
+                "internalType": "struct Campaign",
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "requester",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "campaignId",
+                "type": "uint256"
+            }
+        ],
+        "name": "isCampaignOwner",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "stageManager",
+                "type": "address"
+            }
+        ],
+        "name": "setCampaignStageManager",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "campaignId",
+                "type": "uint256"
+            }
+        ],
+        "name": "startCampaign",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "totalCampaigns",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "campaignId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]
