@@ -1,7 +1,7 @@
 import { computed, watch }  from 'vue';
 import { store }  from '@/store';
 
-const appElement = document.querySelector<HTMLElement>('body')!;
+const appElement = document.querySelector<HTMLElement>('html')!;
 
 async function open(name: string, props?: object) {
     const layer = await store.dispatch('layer/add', name);
@@ -11,8 +11,6 @@ async function open(name: string, props?: object) {
         isOpened: true,
         props
     });
-
-
 }
 
 async function confirm(params: object) {
@@ -42,8 +40,10 @@ function useLayer() {
 
     watch(() => isBlackoutShown.value, (newValue) => {
         if (newValue) {
-            appElement.style.overflow = 'hidden';
-            appElement.style.paddingRight = '14px';
+            const coords = appElement.getBoundingClientRect();
+            appElement.style.position = 'fixed';
+            appElement.style.top = coords.top + 'px';
+            appElement.style.left = coords.left + 'px';
         } else if (appElement) {
             appElement.style.overflow = 'auto';
             appElement.style.paddingRight = '0';

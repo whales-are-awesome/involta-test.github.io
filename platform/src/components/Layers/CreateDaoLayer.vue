@@ -2,7 +2,7 @@
     <BaseLayer
         position="right"
         :theme-settings="{
-            container: 'p-10 w-[455px] flex flex-col overflow-auto create-dao-layer'
+            container: 'p-10 w-[455px] flex flex-col create-dao-layer'
         }"
     >
         <div :class="classes.top">

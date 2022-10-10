@@ -48,10 +48,10 @@ const { closeLast } = useLayer();
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: () => [
-        'fixed z-[9998] inset-0'
+        'fixed inset-0 min-h-screen z-[9998] overflow-x-hidden overflow-y-auto'
     ],
     wrapper: ({ position }) => [
-        'h-full',
+        'min-h-screen',
         {
             'flex items-center justify-center': position === Position.Center,
             'flex justify-end': position === Position.Right
