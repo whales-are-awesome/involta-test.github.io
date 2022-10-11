@@ -9,16 +9,7 @@
             <p :class="classes.title">
                 Create new DAO
             </p>
-            <div
-                :class="classes.closeWrapper"
-                @click="close('CreateDaoLayer')"
-            >
-                <BaseIcon
-                    :class="classes.cross"
-                    name="cross"
-                    width="16"
-                />
-            </div>
+            <BaseCross @click="close('CreateDaoLayer')" />
         </div>
         <div :class="classes.fields">
             <TextField
@@ -92,6 +83,7 @@
 
 import { computed, ref } from 'vue';
 import useLayer from '@/helpers/hooks/useLayer';
+import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseIcon from '@/components/BaseIcon.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';

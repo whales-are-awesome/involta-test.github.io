@@ -46,13 +46,8 @@
                 >
                     <div
                         :class="classes.fileCrossWrapper"
-                        @click="removeFile(file.id)"
                     >
-                        <BaseIcon
-                            :class="classes.fileCross"
-                            name="cross"
-                            width="16"
-                        />
+                        <BaseCross @click="removeFile(file.id)" />
                     </div>
                     <img
                         :class="classes.fileImage"
@@ -73,6 +68,7 @@
 /* IMPORTS */
 
 import { computed, ref } from 'vue';
+import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseIcon from '@/components/BaseIcon.vue';
 import {  } from './types';
@@ -116,10 +112,9 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     delimiter: 'w-[180px] h-px bg-gray-300 mx-auto mb-5',
     text: 'text-gray-600 font-bold mb-2',
     max: 'text-gray-500 text-xs mb-5',
-    file: 'w-[96px] h-[96px] relative z-1',
+    file: 'w-[96px] h-[96px] relative z-1 overflow-hidden',
     fileImage: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 -z-1',
-    fileCrossWrapper: 'w-[24px] h-[24px] absolute right-0 top-0 bg-white cursor-pointer flex items-center justify-center',
-    fileCross: 'text-[#B6B6BE]',
+    fileCrossWrapper: 'absolute right-0 top-0 bg-white cursor-pointer flex items-center justify-center',
     fileText: 'p-1 text-white bg-[rgba(36,36,36,.6)] text-xss absolute bottom-0 left-0 w-full text-left overflow-hidden overflow-ellipsis whitespace-nowrap',
 }));
 

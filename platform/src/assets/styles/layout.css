@@ -15,7 +15,7 @@ html {
     font-weight: 400;
 }
 body {
-    @apply text-lg text-black md:text-sm;
+    @apply text-black;
     background: white;
     min-width: 320px;
 }

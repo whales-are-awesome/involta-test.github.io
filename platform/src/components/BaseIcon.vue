@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Icons } from '../models/icons';
+import { Icons } from '@/models/icons';
 </script>
 
 <script setup lang="ts">

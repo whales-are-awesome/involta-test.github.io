@@ -13,6 +13,10 @@ const enum Icons {
     WarningCircle = 'warning-circle',
     Upload = 'upload',
     Cross = 'cross',
+    Metamask = 'metamask',
+    Ledger = 'ledger',
+    ConnectWallet = 'connect-wallet',
+    TrustWallet = 'trust-wallet',
 }
 
 export {

@@ -1,7 +1,13 @@
 <template>
     <div
         :class="classes.root"
+        @click="emit('click')"
     >
+        <BaseIcon
+            :class="classes.cross"
+            name="cross"
+            :width="width"
+        />
     </div>
 </template>
 
@@ -11,18 +17,18 @@
 
 import { computed } from 'vue';
 //import  from '@/components/';
-import {  } from './types';
+import BaseIcon from '@/components/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
 
 interface IProps {
-    modelValue: string
-    themeSettings?: any
+    width: number | string
+    themeSettings: any
 }
 
 interface IEmits {
-    (e: 'update:modelValue', value: IProps['modelValue']): void
+    (e: 'click'): void
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
@@ -31,7 +37,9 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 
 /* META */
 
-const props = withDefaults(defineProps<IProps>(), {});
+const props = withDefaults(defineProps<IProps>(), {
+    width: 16
+});
 const emit = defineEmits<IEmits>();
 
 /* CONSTANTS AND CUSTOM HOOKS */
@@ -39,7 +47,7 @@ const emit = defineEmits<IEmits>();
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => {
         return [themeSettings?.root,  [
-
+            'text-[#B6B6BE] hover:text-[#777781] active:shadow-[0_0_0_4px_rgba(169,169,250,.25)] transition-fast cursor-pointer rounded-[4px] bg-white p-1'
         ]];
     },
 }));
@@ -49,15 +57,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
 
 /* COMPUTED */
-
-const value = computed({
-    get() {
-        return props.modelValue;
-    },
-    set(value: string) {
-        emit('update:modelValue', value)
-    }
-});
 
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({

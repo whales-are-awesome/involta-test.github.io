@@ -8,10 +8,10 @@
                     '!w-0': route.name !== 'dao-id'
                 }"
             />
-            <div class="flex-grow">
+            <div class="flex-grow flex flex-col">
                 <TheHeader />
                 <TheMarquee />
-                <div class="px-8 pb-9">
+                <div class="px-8 pb-9 flex-grow">
                     <slot></slot>
                 </div>
             </div>

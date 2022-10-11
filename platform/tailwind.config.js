@@ -8,11 +8,10 @@ module.exports = {
     darkMode: 'media', // or 'class'
     theme: {
         screens: {
-            sm: '640px',
-            md: '768px',
-            lg: '1024px',
-            xl: '1280px',
-            '2xl': '1536px',
+            xl: { max: "1279px" },
+            lg: { max: "1023px" },
+            md: { max: "767px" },
+            sm: { max: "576px" }
         },
         colors: ({colors}) => ({
             200: '#BDBDBF',

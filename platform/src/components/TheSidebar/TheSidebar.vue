@@ -76,9 +76,11 @@ const useClasses = makeClasses(() => ({
             after:border-b-2 after:border-gray-200 after:top-full after:left-1/2 after:-translate-x-1/2 after:w-[28px] after:h-[2px] after:bg-gray-300 after:block after:absolute`,
         ]];
     },
-    logo: ({ themeSettings }) => {
+    logo: ({ themeSettings, isHome }) => {
         return [themeSettings?.root, [
-            'cursor-pointer',
+            {
+                'cursor-pointer': !isHome
+            }
         ]];
     },
     menuItems: ({ themeSettings }) => {
@@ -96,7 +98,7 @@ const useClasses = makeClasses(() => ({
 
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
-
+        isHome: route.name === 'home'
     });
 });
 

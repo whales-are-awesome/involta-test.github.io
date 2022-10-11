@@ -31,6 +31,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id.vue'),
     },
     {
+        path: '/auth',
+        name: 'auth',
+        meta: {
+            title: 'Connect wallet'
+        },
+        component: () => import(/* webpackChunkName: "ui" */ '../views/auth.vue'),
+    },
+    {
         path: "/:catchAll(.*)",
         name: "NotFound",
         component: () => import(/* webpackChunkName: "404" */ '../views/404.vue'),

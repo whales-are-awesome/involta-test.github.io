@@ -406,11 +406,23 @@
                 </BaseButton>
             </div>
         </div>
+        <div class="mb-10 pb-10 border-b border-gray-300">
+            <h3 class="mb-6">Wallet Cards</h3>
+            <div class="space-x-5 flex">
+                <WalletNameCard
+                    v-for="item in wallets"
+                    :key="item.icon"
+                    class="w-[200px]"
+                    v-bind="item"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import WalletNameCard from '@/components/WalletNameCard/WalletNameCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
@@ -453,4 +465,11 @@ const textField4 = ref('1234');
 const textarea = ref('');
 
 const { open } = useLayer();
+
+const wallets = [
+    { name: 'MetaMask', icon: 'metamask', isSelected: false, isDisabled: false },
+    { name: 'ConnectWallet', icon: 'connect-wallet', isSelected: false, isDisabled: false },
+    { name: 'Ledger', icon: 'ledger', isSelected: true, isDisabled: false },
+    { name: 'TrustWallet', icon: 'trust-wallet', isSelected: false, isDisabled: true },
+];
 </script>
