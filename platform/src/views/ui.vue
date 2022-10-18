@@ -192,7 +192,10 @@
         </div>
         <div class="mb-10 pb-10 border-b border-gray-300">
             <h3 class="mb-6">Breadcrumbs</h3>
-            <BaseBreadcrumbs :items="breadcrumbs" />
+            <div class="space-y-2">
+                <BaseBreadcrumbs :items="breadcrumbs" />
+                <BaseBreadcrumbs :items="breadcrumbs" :hash="false" :first-angle="false" view="primary" />
+            </div>
         </div>
         <div class="mb-10 pb-10 border-b border-gray-300">
             <h3 class="mb-6">Select Field</h3>

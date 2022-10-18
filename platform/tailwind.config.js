@@ -36,6 +36,10 @@ module.exports = {
                 800: '#141497',
                 900: '#0D0D7A',
             },
+            secondary: {
+                200: '#DBDBE0',
+                300: '#C3C3C8'
+            },
             gray: {
                 100: '#E9E9EF',
                 200: '#DEDEE6',

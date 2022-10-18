@@ -34,7 +34,7 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {});
 
-/* CONSTANTS AND CUSTOM HOOKS */
+/* VARS AND CUSTOM HOOKS */
 
 const timer = useTimer(props.endDate);
 const useClasses = makeClasses(() => ({

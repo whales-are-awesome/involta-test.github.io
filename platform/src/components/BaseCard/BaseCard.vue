@@ -98,7 +98,7 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 
 const props = withDefaults(defineProps<IProps>(), {});
 
-/* CONSTANTS AND CUSTOM HOOKS */
+/* VARS AND CUSTOM HOOKS */
 
 const breadcrumbs = [
     { title: 'link 1', link: { name: 'home' } },

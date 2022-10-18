@@ -3,6 +3,12 @@ interface IItem {
     id: any
 }
 
+enum Sizes {
+    Md = 'md',
+    Sm = 'sm',
+}
+
 export {
-    IItem
+    IItem,
+    Sizes
 }

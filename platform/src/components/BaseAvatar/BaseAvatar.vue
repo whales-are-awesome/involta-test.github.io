@@ -40,7 +40,7 @@ const props = withDefaults(defineProps<IProps>(), {
     rounded: Rounded.Sm,
 });
 
-/* CONSTANTS AND CUSTOM HOOKS */
+/* VARS AND CUSTOM HOOKS */
 
 const slots = useSlots();
 const useClasses = makeClasses<IThemeProps>(() => ({

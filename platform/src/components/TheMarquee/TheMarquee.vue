@@ -27,7 +27,7 @@ import MarqueeText from 'vue-marquee-text-component'
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
-/* CONSTANTS AND CUSTOM HOOKS */
+/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses(() => ({
     root: ({ themeSettings }) => {

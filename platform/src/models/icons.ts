@@ -17,6 +17,10 @@ const enum Icons {
     Ledger = 'ledger',
     ConnectWallet = 'connect-wallet',
     TrustWallet = 'trust-wallet',
+    TriangleRight = 'triangle-right',
+    Users = 'users',
+    Settings = 'settings',
+    LineWave = 'line-wave'
 }
 
 export {

@@ -3,9 +3,10 @@
         <div class="flex">
             <TheSidebar class="flex-shrink-0" />
             <TheDaoSidebar
-                class="flex-shrink-0 transition-main min-h-screen"
+                ref="daoSidebar"
+                class="z-[1000] flex-shrink-0 transition-[width] duration-[0.25s] ease-[cubic-bezier(0.645, 0.045, 0.355, 1)] min-h-screen [clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]"
                 :class="{
-                    '!w-0': route.name !== 'dao-id'
+                    '!w-0 ': !showDaoSidebar
                 }"
             />
             <div class="flex-grow flex flex-col">
@@ -21,16 +22,42 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, onMounted, onUnmounted, nextTick, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Layers from '@/components/Layers/Layers.vue';
 import TheHeader from '@/components/TheHeader/TheHeader.vue';
 import TheMarquee from '@/components/TheMarquee/TheMarquee.vue';
 import TheSidebar from '@/components/TheSidebar/TheSidebar.vue';
 import TheDaoSidebar from '@/components/TheDaoSidebar/TheDaoSidebar.vue';
-import { useStore } from '@/store';
-import { computed } from 'vue';
 
-const store = useStore();
 const route = useRoute();
-const breadcrumbs = computed(() => store.state.breadcrumbs.items);
+const showDaoSidebar = computed(() => ['dao-id', 'dao-id-subdao'].includes(route.name))
+const daoSidebar = ref(null);
+let el = null;
+
+onMounted(async () => {
+    await nextTick();
+
+    el = daoSidebar.value.root;
+
+    el.addEventListener('transitionstart', addCrop);
+    el.addEventListener('transitionend', removeCrop);
+});
+
+onUnmounted(() => {
+    el.removeEventListener('transitionstart', addCrop);
+    el.removeEventListener('transitionend', removeCrop);
+});
+
+function addCrop() {
+    if (route.name === 'dao-id') {
+        el.classList.add('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
+    }
+}
+
+function removeCrop() {
+    if (route.name === 'dao-id') {
+        el.classList.remove('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
+    }
+}
 </script>

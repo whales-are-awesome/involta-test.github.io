@@ -28,7 +28,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             title: 'DAO'
         },
-        component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id.vue'),
+        component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/index.vue'),
+    },
+    {
+        path: '/dao/:id/:subdao',
+        name: 'dao-id-subdao',
+        meta: {
+            title: 'SubDAO'
+        },
+        component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/_subdao.vue'),
     },
     {
         path: '/auth',

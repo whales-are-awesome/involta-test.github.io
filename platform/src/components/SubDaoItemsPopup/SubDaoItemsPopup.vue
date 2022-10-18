@@ -1,13 +1,20 @@
 <template>
     <div
         :class="classes.root"
-        @click="emit('click')"
     >
-        <BaseIcon
-            :class="classes.cross"
-            name="cross"
-            :width="width"
-        />
+        <div
+            v-for="(item, index) in items"
+            :key="index"
+            :class="classes.items"
+        >
+            <div
+                :class="classes.item"
+            >
+                <div :class="classes.itemInner">
+                    {{ item.name }}
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -17,18 +24,19 @@
 
 import { computed } from 'vue';
 //import  from '@/components/';
-import BaseIcon from '@/components/BaseIcon.vue';
+import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
 
-interface IProps {
-    width: number | string
-    themeSettings: any
+interface IItem {
+    name: string
+    id: number | string
 }
 
-interface IEmits {
-    (e: 'click'): void
+interface IProps {
+    items: IItem[]
+    themeSettings?: any
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
@@ -37,19 +45,18 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 
 /* META */
 
-const props = withDefaults(defineProps<IProps>(), {
-    width: 16
-});
-const emit = defineEmits<IEmits>();
+const props = withDefaults(defineProps<IProps>(), {});
 
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => {
         return [themeSettings?.root,  [
-            'text-[#B6B6BE] hover:text-[#777781] active:shadow-[0_0_0_4px_rgba(169,169,250,.25)] transition-fast cursor-pointer rounded-[4px] bg-white p-1'
+            'bg-secondary-200 w-[224px] absolute left-full top-0'
         ]];
     },
+    item: 'px-6 text-gray-500 text-sm',
+    itemInner: 'py-2 text-gray-500 text-sm border-b border-secondary-300'
 }));
 
 /* DATA */

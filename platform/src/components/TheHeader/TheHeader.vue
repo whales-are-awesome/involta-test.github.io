@@ -82,12 +82,11 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 async function onClick() {
-    console.log(1);
     address.value = (await api.eth.requestAccounts())[0];
 }
 
 onMounted(async() => {
-    address.value = (await api.eth.requestAccounts())[0];
+    address.value = (await api.eth.getAccounts())[0];
 });
 </script>
 

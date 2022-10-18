@@ -74,7 +74,7 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 
 const props = withDefaults(defineProps<IProps>(), {});
 
-/* CONSTANTS AND CUSTOM HOOKS */
+/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => {

@@ -46,7 +46,7 @@ interface IThemeProps extends Pick<IProps, 'themeSettings' | 'isSelected' | 'isD
 const props = withDefaults(defineProps<IProps>(), {});
 const emit = defineEmits<IEmits>();
 
-/* CONSTANTS AND CUSTOM HOOKS */
+/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isSelected, isDisabled }) => {

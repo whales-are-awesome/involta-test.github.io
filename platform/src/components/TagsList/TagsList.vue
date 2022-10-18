@@ -29,7 +29,7 @@
 /* IMPORTS */
 
 import { computed, defineProps, defineEmits, ref, onMounted, watch, nextTick } from 'vue';
-import { IItem } from './types';
+import { IItem, Sizes } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
 
@@ -38,18 +38,21 @@ import makeClasses from '@/helpers/makeClasses';
 interface IProps {
     modelValue: IItem['id']
     items: IItem[]
+    size: keyof typeof Sizes
 }
 
 interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
-interface ThemeProps {
+interface ThemeProps extends Pick<IProps, 'size'>{
 }
 
 /* META */
 
-const props = defineProps<IProps>();
+const props = withDefaults(defineProps<IProps>(), {
+    size: Sizes.Md
+});
 const emit = defineEmits<IEmits>();
 
 
@@ -73,14 +76,26 @@ const useClasses = makeClasses<ThemeProps>(() => ({
     root: () => [
         'relative z-1'
     ],
-    items: () => [
-        'flex space-x-[22px]'
+    items: ({ size }) => [
+        'flex',
+        {
+            'space-x-[22px]': size === Sizes.Md,
+            'space-x-[24px]': size === Sizes.Sm
+        }
     ],
-    item: () => [
-        'cursor-pointer font-bold transition-fast hover:text-[#7A78F3] pb-[25px]'
+    item: ({ size }) => [
+        'cursor-pointer font-bold transition-fast hover:text-[#7A78F3]',
+        {
+            'pb-[25px]': size === Sizes.Md,
+            'pb-[6px] text-sm': size === Sizes.Sm
+        }
     ],
-    line: () => [
-        'bg-[#7A78F3] h-px absolute top-full -translate-y-1/2 left-0 z-10 transition-fast'
+    line: ({ size }) => [
+        'bg-[#7A78F3] absolute top-full left-0 -translate-y-1/2 z-10 transition-fast',
+        {
+            'h-px': size === Sizes.Md,
+            'h-[2px]': size === Sizes.Sm
+        }
     ]
 }));
 
@@ -96,6 +111,7 @@ function setLine() {
 
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
+        size: props.size
     });
 });
 

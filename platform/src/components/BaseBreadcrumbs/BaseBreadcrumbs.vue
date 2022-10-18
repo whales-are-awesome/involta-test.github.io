@@ -1,6 +1,7 @@
 <template>
     <div :class="classes.root">
         <BaseIcon
+            v-if="firstAngle"
             :class="classes.angle"
             width="5"
             height="9"
@@ -10,23 +11,32 @@
             <div
                 v-for="(item, index) in resultItems"
                 :key="index"
-                :class="[item.link ? 'text-gray-400' : 'text-gray-500 font-semibold', classes.item]"
+                :class="classes.item"
             >
-                <RouterLink
+                <ActionLink
                     v-if="item.link"
                     :class="classes.itemLink"
                     :to="item.link"
+                    :theme="view"
                 >
-                <span :class="classes.itemHash">
+                <span
+                    v-if="hash"
+                    :class="classes.itemHash"
+                >
                     #
                 </span>
                     {{ item.title }}
-                </RouterLink>
+                </ActionLink>
                 <template v-else>
-                <span :class="classes.itemHash">
-                    #
-                </span>
-                    {{ item.title }}
+                    <span
+                        v-if="hash"
+                        :class="classes.itemHash"
+                    >
+                        #
+                    </span>
+                    <span :class="classes.itemTitle">
+                        {{ item.title }}
+                    </span>
                 </template>
                 <BaseIcon
                     v-if="+index !== resultItems.length - 1"
@@ -41,28 +51,62 @@
 </template>
 
 <script setup lang="ts">
+/* IMPORTS */
+
 import {computed, defineProps} from 'vue';
-import BaseIcon from '@/components/BaseIcon';
+import BaseIcon from '@/components/BaseIcon.vue';
+import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import {useStore} from '@/store';
-import { IBreadcrumb } from './types';
+import { IBreadcrumb, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
+
+/* INTERFACES */
 
 interface IProps {
     items?: IBreadcrumb[]
+    hash: boolean
+    firstAngle: boolean
+    view: keyof typeof Views
 }
 
-const props = defineProps<IProps>();
+interface IThemeProps extends Pick<IProps, 'view'> {
+
+}
+
+/* META */
+
+const props = withDefaults(defineProps<IProps>(), {
+    hash: true,
+    firstAngle: true,
+    view : Views.Secondary
+});
 const store = useStore();
 
-const useClasses = makeClasses(() => ({
+/* VARS AND CUSTOM HOOKS */
+
+const useClasses = makeClasses<IThemeProps>(() => ({
     root: 'flex items-center',
     angle: 'mr-3 text-gray-400',
     items: 'space-x-2 flex',
-    item: 'flex items-center hover:text-gray-500',
-    itemLink: 'border-b border-transparent transition-fast',
-    itemAngle: 'pointer-events-none ml-2 flex-shrink-0',
-    itemHash: 'mr-2 inline-block text-gray-400 font-normal'
+    item: ({ view }) => [
+        'flex items-center',
+        {
+            '!font-normal': view === Views.Secondary,
+            'text-xs': view === Views.Primary
+        }
+    ],
+    itemLink: 'transition-fast',
+    itemAngle: 'pointer-events-none text-gray-400 ml-2 flex-shrink-0',
+    itemHash: 'mr-2 inline-block text-gray-400 font-normal',
+    itemTitle: ({ view }) => [
+        {
+            'text-gray-400 font-medium': view === Views.Primary,
+            'text-gray-500 font-semibold': view === Views.Secondary
+        }
+    ]
 }));
+
+/* COMPUTED */
 
 const items = computed(() => store.state.breadcrumbs.items);
 
@@ -70,7 +114,7 @@ const resultItems = computed(() => props.items || items.value);
 
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
-
+        view: props.view
     });
 });
 </script>

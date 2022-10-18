@@ -39,7 +39,7 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 const emit = defineEmits<IEmits>();
 
-/* CONSTANTS AND CUSTOM HOOKS */
+/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, theme, view, rounded }) => {

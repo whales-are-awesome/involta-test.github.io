@@ -54,7 +54,7 @@ import useLayer from '@/helpers/hooks/useLayer';
 const route = useRoute();
 const router = useRouter();
 
-/* CONSTANTS AND CUSTOM HOOKS */
+/* VARS AND CUSTOM HOOKS */
 
 const activeItem = ref('');
 const layer = useLayer();
@@ -87,7 +87,7 @@ const useClasses = makeClasses(() => ({
         return [themeSettings?.root, [
             'space-y-5',
         ]];
-    },
+    }
 }));
 
 /* DATA */
