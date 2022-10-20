@@ -1,7 +1,4 @@
-enum Themes {
-    Primary = 'primary',
-    Secondary = 'secondary'
-}
+type Themes = 'primary' | 'secondary';
 
 export {
     Themes

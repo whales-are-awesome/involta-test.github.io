@@ -15,7 +15,7 @@
                 />
             </div>
         </div>
-        <BaseCollapse v-show="isVisible">
+        <BaseCollapse v-show="isVisibleLocal">
             <div
                 :class="classes.collapseInner"
                 @click.stop
@@ -32,7 +32,7 @@
 
 import { computed, ref } from 'vue';
 import BaseCollapse  from '@/components/BaseCollapse/BaseCollapse.vue';
-import BaseIcon  from '@/components/BaseIcon.vue';
+import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
@@ -41,19 +41,18 @@ import makeClasses from '@/helpers/makeClasses';
 interface IProps {
     title?: string
     themeSettings?: any
-}
-
-interface IEmits {
+    isVisible: boolean
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
-    isVisible: boolean
+    isVisibleLocal: boolean
 }
 
 /* META */
 
-const props = withDefaults(defineProps<IProps>(), {});
-const emit = defineEmits<IEmits>();
+const props = withDefaults(defineProps<IProps>(), {
+    isVisible: false
+});
 
 /* VARS AND CUSTOM HOOKS */
 
@@ -67,44 +66,32 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     title: 'text-gray-500 text-sm font-semibold',
     collapseInner: 'pt-6 cursor-default',
     iconWrapper: 'flex items-center justify-center w-9 h-9 border border-gray-200 rounded-[10px]',
-    icon: ({ themeSettings, isVisible }) => [
+    icon: ({ isVisibleLocal }) => [
         'text-gray-400',
         {
-            'rotate-180': isVisible
+            'rotate-180': isVisibleLocal
         }
     ]
 }));
 
 /* DATA */
 
-const isVisible = ref(false);
+const isVisibleLocal = ref(props.isVisible);
 
 /* COMPUTED */
-
-// const value = computed({
-//     get() {
-//         return props.modelValue;
-//     },
-//     set(value: string) {
-//         emit('update:modelValue', value)
-//     }
-// });
 
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
         themeSettings: props.themeSettings,
-        isVisible: isVisible.value
+        isVisibleLocal: isVisibleLocal.value
     });
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
 
 function toggleVisibility() {
-    isVisible.value = !isVisible.value;
+    isVisibleLocal.value = !isVisibleLocal.value;
 }
 
 </script>

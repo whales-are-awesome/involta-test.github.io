@@ -57,7 +57,7 @@
 /* IMPORTS */
 
 import { computed } from 'vue';
-import BaseIcon from '@/components/BaseIcon.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
 import { IBreadcrumb  } from './types';
 import makeClasses from '@/helpers/makeClasses';
@@ -99,9 +99,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 }));
 
 /* DATA */
-
-
-
 /* COMPUTED */
 
 const classes = computed((): ReturnType<typeof useClasses> => {
@@ -111,12 +108,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
-
-
 
 </script>
 

@@ -56,7 +56,6 @@ const router = useRouter();
 
 /* VARS AND CUSTOM HOOKS */
 
-const activeItem = ref('');
 const layer = useLayer();
 
 const useClasses = makeClasses(() => ({
@@ -91,9 +90,6 @@ const useClasses = makeClasses(() => ({
 }));
 
 /* DATA */
-
-
-
 /* COMPUTED */
 
 const classes = computed((): ReturnType<typeof useClasses> => {
@@ -107,8 +103,5 @@ const isCreateDaoOpened = computed<boolean>(() => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
 </script>

@@ -7,16 +7,15 @@
     />
 </template>
 
-<script lang="ts">
-import { Icons } from '@/models/icons';
-</script>
-
 <script setup lang="ts">
+/* IMPORTS */
+
 import {computed} from 'vue';
 import { SvgSprite } from 'vue-svg-sprite';
+import { Icons } from './types';
 
 interface Props {
-    name: keyof typeof Icons
+    name: Icons
     width: number | string
     height?: number | string
 }

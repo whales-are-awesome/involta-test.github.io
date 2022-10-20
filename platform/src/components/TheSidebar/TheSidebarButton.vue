@@ -30,7 +30,7 @@
 
 import { computed, ref } from 'vue';
 import {  } from './types';
-import BaseIcon from '@/components/BaseIcon.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
@@ -108,11 +108,5 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
-
-
-
 </script>

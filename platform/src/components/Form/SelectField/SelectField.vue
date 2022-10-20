@@ -1,10 +1,8 @@
 <template>
-    <div
-        class="max-h-[46px]"
-    >
+    <div :class="classes.root">
         <VueSelect
             v-model="value"
-            class="border border-surface-100 hover:border-surface-200 rounded-lg shadow-[0_4px_8px_rgba(221,224,231,.4)] overflow-hidden cursor-pointer relative z-10"
+            :class="classes.select"
             ref="select"
             :options="options"
             label="title"
@@ -18,28 +16,27 @@
                 {{ notFound }}
             </template>
             <template #open-indicator>
-                <span class="hidden"></span>
+                <span :class="classes.openIndicator"></span>
             </template>
             <template #selected-option="{ id, title }">
                 <slot name="selected-option" v-bind="{ id, title }">
-                    <div class="px-6 py-3 bg-white hover:bg-surface-100 transition-fast flex items-center text-sm">
+                    <div :class="classes.selectedOption">
                         <span
                             v-if="title"
                             v-html="title"
                         >
                         </span>
-                        <span
-                            v-else-if="placeholder"
-                            class="text-200"
-                        >
+                            <span
+                                v-else-if="placeholder"
+                                class="text-200"
+                            >
                             {{ placeholder }}
                         </span>
                         <BaseIcon
-                            class="ml-2.5 text-200"
-                            :class="{
+                            :class="[classes.arrowIcon, {
                                'rotate-180' :select?.open
-                            }"
-                            name="arrow-down"
+                            }]"
+                            name="select-angle"
                             width="8"
                             height="5"
                         />
@@ -48,14 +45,14 @@
             </template>
             <template #option="{ title, id }">
                 <slot name="option" v-bind="{ title, id }">
-                    <div class="px-6 py-2 bg-white hover:bg-surface-100 transition-fast">
+                    <div :class="classes.option">
                         <span v-html="title" />
                     </div>
                 </slot>
             </template>
             <template #search="{ attributes, events }">
                 <input
-                    class="!hidden"
+                    :class="classes.search"
                     v-bind="attributes"
                     v-on="events"
                 >
@@ -65,32 +62,97 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, computed } from 'vue';
+/* IMPORTS */
+
+import { computed, ref } from 'vue';
 import VueSelect from 'vue-select';
-import BaseIcon from '@/components/BaseIcon';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import { SelectOption, Sizes } from './types';
+import makeClasses from '@/helpers/makeClasses';
 
-const select = ref(null);
-
-export interface SelectOption {
-    title: string,
-    id: string|number
-}
+/* INTERFACES */
 
 interface IProps {
     modelValue: string
     placeholder?: string
     notFound?: string
     options: SelectOption[]
+    themeSettings: any
+    size: Sizes
 }
 
 interface IEmits {
     (e: 'update:modelValue', value: SelectOption): void
 }
 
+interface IThemeProps extends Pick<IProps, 'themeSettings' | 'size'>{
+
+}
+
+/* META */
+
 const props = withDefaults(defineProps<IProps>(), {
-    notFound: 'No data'
+    notFound: 'No data',
+    size: 'md'
 });
 const emit = defineEmits<IEmits>();
+
+/* VARS AND CUSTOM HOOKS */
+
+const select = ref(null);
+const useClasses = makeClasses<IThemeProps>(() => ({
+    root: ({ themeSettings, size }) => {
+        return [themeSettings?.root,  [
+            {
+                'h-[40px]': size === 'md',
+                'h-[32px] text-sm': size === 'sm'
+            }
+        ]];
+    },
+    select: ({ themeSettings }) => {
+        return [themeSettings?.root,  [
+            'border border-gray-100 rounded-[5px] shadow-[0px_4px_24px_rgba(108,108,125,.08)] overflow-hidden cursor-pointer relative z-10'
+        ]];
+    },
+    openIndicator: ({ themeSettings }) => {
+        return [themeSettings?.openIndicator,  [
+            'hidden'
+        ]];
+    },
+    selectedOption: ({ themeSettings, size }) => {
+        return [themeSettings?.selectedOption,  [
+            'bg-white hover:bg-surface-100 transition-fast flex items-center',
+            {
+                'px-5 h-[40px]': size === 'md',
+                'px-3 h-[32px]': size === 'sm'
+            }
+        ]];
+    },
+    arrowIcon: ({ themeSettings }) => {
+        return [themeSettings?.arrowIcon,  [
+            'ml-2.5 text-200'
+        ]];
+    },
+    option: ({ themeSettings, size }) => {
+        return [themeSettings?.option,  [
+            'py-2 bg-white hover:bg-surface-100 transition-fast',
+            {
+                'px-5': size === 'md',
+                'px-3': size === 'sm'
+            }
+        ]];
+    },
+    search: ({ themeSettings }) => {
+        return [themeSettings?.search,  [
+            '!hidden'
+        ]];
+    },
+
+}));
+
+
+/* DATA */
+/* COMPUTED */
 
 const value = computed({
     get() {
@@ -99,7 +161,17 @@ const value = computed({
     set(value: SelectOption) {
         emit('update:modelValue', value)
     }
-})
+});
+
+const classes = computed((): ReturnType<typeof useClasses> => {
+    return useClasses({
+        themeSettings: props.themeSettings,
+        size: props.size
+    });
+});
+
+/* WATCH */
+/* METHODS */
 
 function open() {
     select.value.open = false;

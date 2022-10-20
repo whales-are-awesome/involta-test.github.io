@@ -1,7 +1,4 @@
-enum Position {
-    Right = 'right',
-    Center = 'center',
-}
+type Position = 'right' | 'center';
 
 export {
     Position

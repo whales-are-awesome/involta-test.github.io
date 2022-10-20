@@ -16,10 +16,12 @@
                 <SelectField
                     v-model="formData.statusId"
                     :options="formInfo.statusesOptions"
+                    size="sm"
                 />
                 <SelectField
                     v-model="formData.voteId"
                     :options="formInfo.voteOptions"
+                    size="sm"
                 />
             </div>
             <div
@@ -55,7 +57,7 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
-import SelectField from '@/components/Form/SelectField.vue';
+import SelectField from '@/components/Form/SelectField/SelectField.vue';
 
 import { Statuses } from '@/models/statuses';
 

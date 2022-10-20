@@ -47,7 +47,7 @@ import { Themes, Sizes, Views, Icons, Rounded } from './types';
 /* IMPORTS */
 
 import { computed, useSlots } from 'vue';
-import BaseIcon from '@/components/BaseIcon.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import {
     IHTMLButtonAttributes,
     IRouterLinkAttributes,
@@ -62,18 +62,18 @@ import makeClasses from '@/helpers/makeClasses';
 interface IProps {
     href?: string
     icon?: {
-        name: keyof typeof Icons
+        name: Icons
         width?: string
         height?: string
         class?: string
         prepend?: boolean
     }
-    rounded: keyof typeof Rounded
+    rounded: Rounded
     disabled: boolean
     type: IHTMLButtonAttributes['type'] | IHTMLLabelAttributes['type']
-    theme: keyof typeof Themes
-    size: keyof typeof Sizes
-    view: keyof typeof Views
+    theme: Themes
+    size: Sizes
+    view: Views
     wrapContent: boolean
     themeSettings?: any
 }
@@ -93,10 +93,10 @@ interface IThemeProps extends Pick<IProps, 'theme' | 'size' | 'disabled' | 'view
 const props = withDefaults(defineProps<IProps>(), {
     disabled: false,
     type: 'button',
-    theme: Themes.Gray,
-    rounded: Rounded.Sm,
-    size: Sizes.Md,
-    view: Views.Filled,
+    theme: 'gray',
+    rounded: 'sm',
+    size: 'md',
+    view: 'filled',
     wrapContent: true
 });
 const slots = useSlots();
@@ -109,15 +109,15 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.root, [
             'group inline-flex items-center justify-center relative z-1 [background-position-y:0]',
             {
-                'px-5 h-[52px] text-lg': size === Sizes.Lg,
-                'px-5 h-[40px] text-base': size === Sizes.Md,
-                'px-[18px] text-sm': size === Sizes.Sm,
-                'h-[36px]': size === Sizes.Sm && rounded === Rounded.Lg,
-                'h-[32px]': size === Sizes.Sm && rounded !== Rounded.Lg,
+                'px-5 h-[52px] text-lg': size === 'lg',
+                'px-5 h-[40px] text-base': size === 'md',
+                'px-[18px] text-sm': size === 'sm',
+                'h-[36px]': size === 'sm' && rounded === 'lg',
+                'h-[32px]': size === 'sm' && rounded !== 'lg',
 
-                'text-white': view === Views.Filled && [Themes.Gray, Themes.Primary].includes(theme),
-                'text-gray-500 active:text-gray-700': view === Views.Filled && theme === Themes.Surface,
-                'text-gray-500 active:text-gray-600': [Views.Ghost, Views.Outlined].includes(view) && theme === Themes.Gray,
+                'text-white': view === 'filled' && ['gray', 'primary'].includes(theme),
+                'text-gray-500 active:text-gray-700': view === 'filled' && theme === 'surface',
+                'text-gray-500 active:text-gray-600': ['ghost', 'outlined'].includes(view) && theme === 'gray',
                 '!text-disabled-text pointer-events-none': disabled
             }
         ]];
@@ -131,21 +131,21 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.bg, [
             'absolute inset-0 -z-1 transition-fast',
             {
-                'bg-gray-700 group-hover:bg-gray-800 group-active:bg-600': view === Views.Filled && theme === Themes.Gray,
-                'border-gray-200 border group-hover:bg-gray-100 group-active:bg-transparent': view === Views.Outlined && theme === Themes.Gray,
-                'group-hover:bg-gray-100 group-active:bg-transparent': view === Views.Ghost && theme === Themes.Gray,
+                'bg-gray-700 group-hover:bg-gray-800 group-active:bg-600': view === 'filled' && theme === 'gray',
+                'border-gray-200 border group-hover:bg-gray-100 group-active:bg-transparent': view === 'outlined' && theme === 'gray',
+                'group-hover:bg-gray-100 group-active:bg-transparent': view === 'ghost' && theme === 'gray',
 
-                'bg-surface-400 group-hover:bg-gray-300': view === Views.Filled && theme === Themes.Surface,
+                'bg-surface-400 group-hover:bg-gray-300': view === 'filled' && theme === 'surface',
 
-                'bg-primary-500 group-hover:bg-primary-600 group-active:bg-primary-800': view === Views.Filled && theme === Themes.Primary,
+                'bg-primary-500 group-hover:bg-primary-600 group-active:bg-primary-800': view === 'filled' && theme === 'primary',
 
 
-                '!bg-disabled-light': disabled && view === Views.Filled,
+                '!bg-disabled-light': disabled && view === 'filled',
 
-                // 'rounded': rounded === Rounded.Base,
-                'rounded-[5px]': rounded === Rounded.Sm,
-                'rounded-[30px]': rounded === Rounded.Lg,
-                'rounded-full': rounded === Rounded.Full
+                // 'rounded': rounded === 'base',
+                'rounded-[5px]': rounded === 'sm',
+                'rounded-[30px]': rounded === 'lg',
+                'rounded-full': rounded === 'full'
             }
         ]];
     },

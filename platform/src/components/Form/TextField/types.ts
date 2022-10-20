@@ -1,7 +1,4 @@
-enum Sizes {
-    Sm = 'sm',
-    Md = 'md'
-}
+type Sizes = 'sm' | 'md';
 
 export {
     Sizes

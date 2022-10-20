@@ -11,9 +11,13 @@
 
 
 <script lang="ts" setup>
+/* IMPORTS */
+
 import { computed } from 'vue';
 import Popper from 'vue3-popper';
 import makeClasses from '@/helpers/makeClasses';
+
+/* INTERFACES */
 
 interface IProps {
     hover?: boolean
@@ -21,27 +25,33 @@ interface IProps {
     content?: string
 }
 
-interface IEmits {
-    (e: 'update:modelValue', value: string): void
-}
-
 interface ThemeProps {
 }
+
+/* META */
 
 const props = withDefaults(defineProps<IProps>(), {
     hover: true,
     placement: 'top'
 });
-const emit = defineEmits<IEmits>();
+
+/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<ThemeProps>(() => ({
     root: () => []
 }));
 
+/* DATA */
+/* COMPUTED */
+
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
     });
 });
+
+/* WATCH */
+/* METHODS */
+
 </script>
 
 <style>

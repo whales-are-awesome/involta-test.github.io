@@ -18,9 +18,9 @@ import makeClasses from '@/helpers/makeClasses';
 /* INTERFACES */
 
 interface IProps {
-    view: keyof typeof Views
-    theme: keyof typeof Themes
-    rounded: keyof typeof Rounded
+    view: Views
+    theme: Themes
+    rounded: Rounded
     themeSettings?: any
 }
 
@@ -35,7 +35,7 @@ interface IThemeProps extends Pick<IProps, 'view' | 'theme' | 'rounded' | 'theme
 /* META */
 
 const props = withDefaults(defineProps<IProps>(), {
-    rounded: Rounded.Base
+    rounded: 'base'
 });
 const emit = defineEmits<IEmits>();
 
@@ -46,50 +46,52 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.root, [
             'inline-flex items-center',
             {
-                'uppercase text-xs font-bold tracking-[.12em]': view !== Views.Simple,
-                'text-xss tracking-[.04em]': view === Views.Simple,
+                'uppercase text-xs font-bold tracking-[.12em]': view !== 'simple',
+                'text-xss tracking-[.04em]': view === 'simple',
 
-                'px-4 py-[6px]': ![Views.Rounded, Views.Simple].includes(view),
-                'py-[2px] px-1': view === Views.Simple,
-                'p-[6px]': view === Views.Rounded && rounded === Rounded.Lg,
-                'p-2': view === Views.Rounded && rounded === Rounded.Base,
+                'px-4 py-[6px]': !['rounded', 'simple'].includes(view),
+                'py-[2px] px-1': view === 'simple',
+                'p-[6px]': view === 'rounded' && rounded === 'lg',
+                'p-2': view === 'rounded' && rounded === 'base',
 
-                'rounded-[5px]': rounded === Rounded.Base,
-                'rounded-[20px]': rounded === Rounded.Lg && view !== Views.Rounded,
-                'rounded-full': rounded === Rounded.Lg && view === Views.Rounded,
+                'rounded-[5px]': rounded === 'base',
+                'rounded-[20px]': rounded === 'lg' && view !== 'rounded',
+                'rounded-full': rounded === 'lg' && view === 'rounded',
             },
             {
-                'bg-[#078549] text-white': theme === Themes.Positive && view === Views.Filled,
-                'bg-[#E6FEF3] text-[#05751F]': theme === Themes.Positive && view === Views.Faded,
-                'border border-[#05751F] text-[#05751F]': theme === Themes.Positive && view === Views.Outlined,
-                'bg-[#078549]': theme === Themes.Positive && view === Views.Rounded,
+                'bg-[#078549] text-white': theme === 'positive' && view === 'filled',
+                'bg-[#E6FEF3] text-[#05751F]': theme === 'positive' && view === 'faded',
+                'border border-[#05751F] text-[#05751F]': theme === 'positive' && view === 'outlined',
+                'bg-[#078549]': theme === 'positive' && view === 'rounded',
 
-                'bg-[#F2D058] text-[#424243]': theme === Themes.Warning && view === Views.Filled,
-                'bg-[#FDF8E7] text-[#755605]': theme === Themes.Warning && view === Views.Faded,
-                'border border-[#755605] text-[#755605]': theme === Themes.Warning && view === Views.Outlined,
-                'bg-[#F2D058]': theme === Themes.Warning && view === Views.Rounded,
+                'bg-[#F2D058] text-[#424243]': theme === 'warning' && view === 'filled',
+                'bg-[#FDF8E7] text-[#755605]': theme === 'warning' && view === 'faded',
+                'border border-[#755605] text-[#755605]': theme === 'warning' && view === 'outlined',
+                'bg-[#F2D058]': theme === 'warning' && view === 'rounded',
 
-                'bg-[#5A58F2] text-white': theme === Themes.Primary && view === Views.Filled,
-                'bg-[#E8E7FD] text-[#4D4BE7]': theme === Themes.Primary && view === Views.Faded,
-                'border border-[#4D4BE7] text-[#4D4BE7]': theme === Themes.Primary && view === Views.Outlined,
-                'bg-[#5A58F2]': theme === Themes.Primary && view === Views.Rounded,
+                'bg-[#5A58F2] text-white': theme === 'primary' && view === 'filled',
+                'bg-[#E8E7FD] text-[#4D4BE7]': theme === 'primary' && view === 'faded',
+                'border border-[#4D4BE7] text-[#4D4BE7]': theme === 'primary' && view === 'outlined',
+                'bg-[#5A58F2]': theme === 'primary' && view === 'rounded',
 
-                'bg-[#DA0000] text-white': theme === Themes.Critical && view === Views.Filled,
-                'bg-[#FDE7E9] text-[#CB101D]': theme === Themes.Critical && view === Views.Faded,
-                'border border-[#CB101D] text-[#CB101D]': theme === Themes.Critical && view === Views.Outlined,
-                'bg-[#DA0000]': theme === Themes.Critical && view === Views.Rounded,
+                'bg-[#DA0000] text-white': theme === 'critical' && view === 'filled',
+                'bg-[#FDE7E9] text-[#CB101D]': theme === 'critical' && view === 'faded',
+                'border border-[#CB101D] text-[#CB101D]': theme === 'critical' && view === 'outlined',
+                'bg-[#DA0000]': theme === 'critical' && view === 'rounded',
 
-                'bg-gray-600 text-white': theme === Themes.Neutral && view === Views.Filled,
-                'bg-surface-400 text-gray-600': theme === Themes.Neutral && view === Views.Faded,
-                'border border-gray-600 text-gray-600': theme === Themes.Neutral && view === Views.Outlined,
-                'bg-gray-600': theme === Themes.Neutral && view === Views.Rounded,
+                'bg-gray-600 text-white': theme === 'neutral' && view === 'filled',
+                'bg-surface-400 text-gray-600': theme === 'neutral' && view === 'faded',
+                'border border-gray-600 text-gray-600': theme === 'neutral' && view === 'outlined',
+                'bg-gray-600': theme === 'neutral' && view === 'rounded',
 
-                'border border-primary-300 bg-primary-100 text-primary-500 rounded-[2px]': view === Views.Simple
+                'border border-primary-300 bg-primary-100 text-primary-500 rounded-[2px]': view === 'simple'
             }
         ]];
     },
 }));
 
+
+/* DATA */
 /* COMPUTED */
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
@@ -99,4 +101,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         themeSettings: props.themeSettings
     });
 });
+
+/* WATCH */
+/* METHODS */
 </script>

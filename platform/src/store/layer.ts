@@ -66,7 +66,7 @@ const actions: ActionTree<IState, any> = {
 
 
         if (!find) {
-            component = await import('@/components/Layers/' + payload + '.vue');
+            component = await import('@/components/Layers/' + `${ payload }/${ payload }.vue`);
 
             commit('add', {
                 id: payload,

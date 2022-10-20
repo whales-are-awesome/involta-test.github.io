@@ -47,33 +47,40 @@
 </template>
 
 <script lang="ts" setup>
-//////// IMPORTS ////////
+/* IMPORTS */
+
 import { computed, onMounted, ref } from 'vue';
-import { IThemeProps } from './types';
-import BaseIcon from '@/components/BaseIcon.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseWallet from '@/components/BaseWallet/BaseWallet.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import makeClasses from '@/helpers/makeClasses';
 import API from '@/helpers/api';
 
-//////// CONSTANTS ////////
+/* INTERFACES */
+
+interface IThemeProps {
+
+}
+/* META */
+/* VARS AND CUSTOM HOOKS */
 const nav = [
     { title: 'Documentation', to: { name: '' } },
     { title: 'Explore', to: { name: '' } }
 ];
-
-//
-const address = ref('');
-
 const useClasses = makeClasses<IThemeProps>(() => ({
     inner: 'px-8 py-[14px] flex items-center',
     title: 'text-gray-800 title-h5 mr-auto',
     icon: 'mr-5 text-gray-500',
     nav: 'mr-8',
     navList: 'flex space-x-8 text-gray-500'
-}))
-
+}));
 const api = new API();
+
+/* DATA */
+
+const address = ref('');
+
+/* COMPUTED */
 
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
@@ -81,16 +88,16 @@ const classes = computed((): ReturnType<typeof useClasses> => {
     });
 });
 
-async function onClick() {
-    address.value = (await api.eth.requestAccounts())[0];
-}
+/* LIFECYCLE */
 
 onMounted(async() => {
     address.value = (await api.eth.getAccounts())[0];
 });
+
+/* WATCH */
+/* METHODS */
+
+async function onClick() {
+    address.value = (await api.eth.requestAccounts())[0];
+}
 </script>
-
-<style scoped>
-
-</style>
-

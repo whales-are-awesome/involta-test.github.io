@@ -28,10 +28,13 @@
 
 
 <script lang="ts" setup>
+/* IMPORTS */
+
 import { computed, ref } from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import makeClasses from '@/helpers/makeClasses';
 
+/* INTERFACES */
 
 interface IProps {
     modelValue: Date
@@ -46,25 +49,13 @@ interface ThemeProps {
     isPickerShown: boolean
 }
 
+/* META */
+
 const props = defineProps<IProps>();
 const emit = defineEmits<IEmits>();
 
-const isPickerShown = ref(false);
-const pickerOptions = {
-    enableTimePicker: false,
-    hidefieldIcon: true,
-    autoApply: true,
-    inline: true
-};
+/* VARS AND CUSTOM HOOKS */
 
-const value = computed({
-    get() {
-        return props.modelValue;
-    },
-    set(value: IProps['modelValue']) {
-        emit('update:modelValue', value);
-    }
-});
 const useClasses = makeClasses<ThemeProps>(() => ({
     root: ({ isPickerShown }) => [
         'bg-white px-4 py-3 date-field relative z-50 border-2  rounded-lg transition-fast',
@@ -82,12 +73,36 @@ const useClasses = makeClasses<ThemeProps>(() => ({
         }
     ]
 }));
+const pickerOptions = {
+    enableTimePicker: false,
+    hidefieldIcon: true,
+    autoApply: true,
+    inline: true
+};
+
+/* DATA */
+
+const isPickerShown = ref(false);
+
+/* COMPUTED */
+
+const value = computed({
+    get() {
+        return props.modelValue;
+    },
+    set(value: IProps['modelValue']) {
+        emit('update:modelValue', value);
+    }
+});
 
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
         isPickerShown: isPickerShown.value
     });
 });
+
+/* WATCH */
+/* METHODS */
 
 function showPicker() {
     isPickerShown.value = true;
@@ -106,6 +121,7 @@ function formatValue(_date: Date) {
 
     return `${day > 9 ? day : '0' + day}.${month > 9 ? month : '0' + month}.${year}`;
 }
+
 </script>
 
 <style src="@vuepic/vue-datepicker/dist/main.css"></style>

@@ -17,7 +17,7 @@
 
 import { computed } from 'vue';
 //import  from '@/components/';
-import BaseIcon from '@/components/BaseIcon.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
@@ -53,9 +53,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 }));
 
 /* DATA */
-
-
-
 /* COMPUTED */
 
 const classes = computed((): ReturnType<typeof useClasses> => {
@@ -65,11 +62,6 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
-
-
 
 </script>

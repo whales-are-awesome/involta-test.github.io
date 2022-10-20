@@ -24,8 +24,8 @@ import makeClasses from '@/helpers/makeClasses';
 interface IProps {
     src: string
     alt: string
-    size: keyof typeof Sizes
-    rounded: keyof typeof Rounded
+    size: Sizes
+    rounded: Rounded
 }
 
 
@@ -36,8 +36,8 @@ interface IThemeProps extends Pick<IProps, 'size' | 'rounded'>{
 /* META */
 
 const props = withDefaults(defineProps<IProps>(), {
-    size: Sizes.Base,
-    rounded: Rounded.Sm,
+    size: 'base',
+    rounded: 'sm'
 });
 
 /* VARS AND CUSTOM HOOKS */
@@ -47,25 +47,25 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ size }) => [
         'flex items-center overflow-hidden',
         {
-            'text-h3': size === Sizes.Xl,
+            'text-h3': size === 'xl'
         }
     ],
     image: ({ hasContent, size, rounded }) => [
         'object-cover w-full h-full',
         {
-            'w-[24px] h-[24px]': size === Sizes.Xs,
-            'w-[28px] h-[28px]': size === Sizes.Sm,
-            'w-[36px] h-[36px]': size === Sizes.Md,
-            'w-[44px] h-[44px]': size === Sizes.Base,
-            'w-[64px] h-[64px]': size === Sizes.Lg,
-            'w-[96px] h-[96px] text-h3': size === Sizes.Xl,
+            'w-[24px] h-[24px]': size === 'xs',
+            'w-[28px] h-[28px]': size === 'sm',
+            'w-[36px] h-[36px]': size === 'md',
+            'w-[44px] h-[44px]': size === 'base',
+            'w-[64px] h-[64px]': size === 'lg',
+            'w-[96px] h-[96px] text-h3': size === 'xl',
 
-            'rounded-[5px]': rounded === Rounded.Sm && size === Sizes.Sm,
-            'rounded-[8px]': rounded === Rounded.Sm && size === Sizes.Md,
-            'rounded-[10px]': rounded === Rounded.Sm && size === Sizes.Base,
-            'rounded-[16px]': rounded === Rounded.Sm && size === Sizes.Lg,
-            'rounded-[20px]': rounded === Rounded.Sm && size === Sizes.Xl,
-            'rounded-full': rounded === Rounded.Lg,
+            'rounded-[5px]': rounded === 'sm' && size === 'xs',
+            'rounded-[8px]': rounded === 'sm' && size === 'sm',
+            'rounded-[10px]': rounded === 'sm' && size === 'md',
+            'rounded-[16px]': rounded === 'sm' && size === 'base',
+            'rounded-[20px]': rounded === 'sm' && size === 'lg',
+            'rounded-full': rounded === 'lg',
 
             'mr-2': hasContent
         },
@@ -88,11 +88,6 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
-
-
 
 </script>

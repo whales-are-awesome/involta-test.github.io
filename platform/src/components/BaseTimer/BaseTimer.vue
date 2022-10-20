@@ -1,7 +1,5 @@
 <template>
-    <div
-        :class="classes.root"
-    >
+    <div :class="classes.root">
         <div :class="classes.inner">
             <BaseIcon
                 :class="classes.icon"
@@ -20,7 +18,7 @@
 
 import { computed } from 'vue';
 import {  } from './types';
-import BaseIcon from '@/components/BaseIcon.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import { useTimer } from '@/helpers/hooks/useTimer';
 import makeClasses from '@/helpers/makeClasses';
 
@@ -44,9 +42,6 @@ const useClasses = makeClasses(() => ({
 }));
 
 /* DATA */
-
-
-
 /* COMPUTED */
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
@@ -55,11 +50,6 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
-
-
 
 </script>

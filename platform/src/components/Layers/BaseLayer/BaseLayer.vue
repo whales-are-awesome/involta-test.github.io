@@ -28,7 +28,7 @@ import makeClasses from '@/helpers/makeClasses';
 interface IProps {
     id?: number
     containerStyles?: string
-    position: keyof typeof Position
+    position: Position
     themeSettings?: any
 }
 
@@ -39,7 +39,7 @@ interface IThemeProps extends Pick<IProps, 'position'> {
 /* META */
 
 const props = withDefaults(defineProps<IProps>(), {
-    position: Position.Center
+    position: 'center'
 });
 
 /* CONSTANTS AND HOOKS */
@@ -53,8 +53,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     wrapper: ({ position }) => [
         'min-h-screen',
         {
-            'flex items-center justify-center': position === Position.Center,
-            'flex justify-end': position === Position.Right
+            'flex items-center justify-center': position === 'center',
+            'flex justify-end': position === 'right'
         }
     ],
     container: ({ themeSettings }) => [

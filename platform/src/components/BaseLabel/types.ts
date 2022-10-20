@@ -1,23 +1,6 @@
-enum Views {
-    Filled = 'filled',
-    Faded = 'faded',
-    Outlined = 'outlined',
-    Rounded = 'rounded',
-    Simple = 'simple'
-}
-
-enum Themes {
-    Positive = 'positive',
-    Warning = 'warning',
-    Primary = 'primary',
-    Critical = 'critical',
-    Neutral = 'neutral',
-}
-
-enum Rounded {
-    Base = '',
-    Lg = 'lg'
-}
+type Views = 'filled' | 'faded' | 'outlined' | 'rounded' | 'simple';
+type Themes = 'positive' | 'warning' | 'primary' | 'critical' | 'neutral';
+type Rounded = 'base' | 'lg';
 
 export {
     Views,

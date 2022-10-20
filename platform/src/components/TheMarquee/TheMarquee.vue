@@ -27,6 +27,7 @@ import MarqueeText from 'vue-marquee-text-component'
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
+/* META */
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses(() => ({
@@ -39,6 +40,8 @@ const useClasses = makeClasses(() => ({
     item: 'text-gray-500 text-xs uppercase tracking-[0.12em] font-bold px-[30px]'
 }));
 
+
+/* DATA */
 /* COMPUTED */
 
 const classes = computed((): ReturnType<typeof useClasses> => {
@@ -46,4 +49,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 
     });
 });
+
+/* WATCH */
+/* METHODS */
 </script>

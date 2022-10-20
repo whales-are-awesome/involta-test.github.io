@@ -5,7 +5,12 @@
         @dragover.prevent
         @dragenter.prevent
     >
-        <input ref="fileRef" class="hidden" type="file" @change="uploadFile">
+        <input
+            ref="fileRef"
+            :class="classes.hidden"
+            type="file"
+            @change="uploadFile"
+        >
         <Transition
             name="fade"
             mode="out-in"
@@ -70,8 +75,8 @@
 import { computed, ref } from 'vue';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
-import BaseIcon from '@/components/BaseIcon.vue';
-import {  } from './types';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import { IFile } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import getBase64 from '@/helpers/getBase64';
 import { createId } from '@/helpers/uuid';
@@ -116,12 +121,13 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     fileImage: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 -z-1',
     fileCrossWrapper: 'absolute right-0 top-0 bg-white cursor-pointer flex items-center justify-center',
     fileText: 'p-1 text-white bg-[rgba(36,36,36,.6)] text-xss absolute bottom-0 left-0 w-full text-left overflow-hidden overflow-ellipsis whitespace-nowrap',
+    hidden: 'hidden'
 }));
 
 /* DATA */
 
 const fileRef = ref('fileRef');
-const files = ref<{name: string, image: string, id: string}[]>([]);
+const files = ref<IFile[]>([]);
 
 /* COMPUTED */
 
@@ -137,14 +143,11 @@ const value = computed({
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
         themeSettings: props.themeSettings,
-        hasFiles: files.value.length
+        hasFiles: !!files.value.length
     });
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
 
 async function onDrop(event: any) {

@@ -3,6 +3,7 @@
         v-if="!to"
         :class="classes.root"
         v-bind="attrs"
+        @click="emit('click')"
     >
         <slot></slot>
     </a>
@@ -11,6 +12,7 @@
         :class="classes.root"
         :to="to"
         v-bind="attrs"
+        @click="emit('click')"
     >
         <slot></slot>
     </RouterLink>
@@ -30,7 +32,7 @@ import makeClasses from '@/helpers/makeClasses';
 
 interface IProps {
     to?: RouterLinkProps['to']
-    theme: keyof typeof Themes
+    theme: Themes
     themeSettings?: any
 }
 
@@ -43,7 +45,9 @@ interface IThemeProps extends Pick<IProps, 'themeSettings' | 'theme'>{
 
 /* META */
 
-const props = withDefaults(defineProps<IProps>(), {});
+const props = withDefaults(defineProps<IProps>(), {
+    theme: 'primary'
+});
 const emit = defineEmits<IEmits>();
 const attrs = useAttrs();
 
@@ -54,17 +58,14 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.root,  [
             'transition-fast',
             {
-                'text-primary-400 hover:text-primary-500': theme === Themes.Primary,
-                'text-gray-400 hover:text-gray-500': theme === Themes.Secondary
+                'text-primary-400 hover:text-primary-500': theme === 'primary',
+                'text-gray-400 hover:text-gray-500': theme === 'secondary'
             }
         ]];
     },
 }));
 
 /* DATA */
-
-
-
 /* COMPUTED */
 
 const classes = computed((): ReturnType<typeof useClasses> => {
@@ -75,11 +76,6 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
-
-
 
 </script>

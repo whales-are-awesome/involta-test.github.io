@@ -3,10 +3,7 @@ interface IItem {
     id: any
 }
 
-enum Sizes {
-    Md = 'md',
-    Sm = 'sm',
-}
+type Sizes = 'sm' | 'md';
 
 export {
     IItem,

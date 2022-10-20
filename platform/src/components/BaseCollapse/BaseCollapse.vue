@@ -14,6 +14,16 @@
 </template>
 
 <script setup>
+/* IMPORTS */
+/* INTERFACES */
+/* META */
+/* VARS AND CUSTOM HOOKS */
+/* DATA */
+/* COMPUTED */
+/* WATCH */
+
+/* METHODS */
+
 function beforeEnter(element) {
     requestAnimationFrame(() => {
         if (!element.style.height) {

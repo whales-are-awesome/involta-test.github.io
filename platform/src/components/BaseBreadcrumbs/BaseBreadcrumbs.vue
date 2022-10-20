@@ -54,7 +54,7 @@
 /* IMPORTS */
 
 import {computed, defineProps} from 'vue';
-import BaseIcon from '@/components/BaseIcon.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import {useStore} from '@/store';
 import { IBreadcrumb, Views } from './types';
@@ -66,7 +66,7 @@ interface IProps {
     items?: IBreadcrumb[]
     hash: boolean
     firstAngle: boolean
-    view: keyof typeof Views
+    view: Views
 }
 
 interface IThemeProps extends Pick<IProps, 'view'> {
@@ -78,7 +78,7 @@ interface IThemeProps extends Pick<IProps, 'view'> {
 const props = withDefaults(defineProps<IProps>(), {
     hash: true,
     firstAngle: true,
-    view : Views.Secondary
+    view : 'secondary'
 });
 const store = useStore();
 
@@ -91,8 +91,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     item: ({ view }) => [
         'flex items-center',
         {
-            '!font-normal': view === Views.Secondary,
-            'text-xs': view === Views.Primary
+            '!font-normal': view === 'secondary',
+            'text-xs': view === 'primary'
         }
     ],
     itemLink: 'transition-fast',
@@ -100,8 +100,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     itemHash: 'mr-2 inline-block text-gray-400 font-normal',
     itemTitle: ({ view }) => [
         {
-            'text-gray-400 font-medium': view === Views.Primary,
-            'text-gray-500 font-semibold': view === Views.Secondary
+            'text-gray-400 font-medium': view === 'primary',
+            'text-gray-500 font-semibold': view === 'secondary'
         }
     ]
 }));

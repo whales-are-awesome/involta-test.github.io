@@ -5,10 +5,7 @@ interface IBreadcrumb {
     link: IRouterLink
 }
 
-enum Views {
-    Primary = 'primary',
-    Secondary = 'secondary'
-}
+type Views = 'primary' | 'secondary'
 
 export {
     IBreadcrumb,

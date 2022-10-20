@@ -45,9 +45,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 }));
 
 /* DATA */
-
-
-
 /* COMPUTED */
 
 const value = computed({
@@ -66,11 +63,5 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
-
-
-
 </script>

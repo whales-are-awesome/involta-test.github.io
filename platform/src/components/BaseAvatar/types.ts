@@ -1,17 +1,5 @@
-enum Sizes {
-    Xs = 'xs',
-    Sm = 'sm',
-    Md = 'md',
-    Base = 'base',
-    Lg = 'lg',
-    Xl = 'xl',
-}
-
-
-enum Rounded {
-    Sm = 'sm',
-    Lg = 'lg'
-}
+type Sizes = 'xs' | 'sm' | 'md' | 'base' | 'lg' | 'xl';
+type Rounded = 'sm' | 'lg';
 
 export {
     Sizes,

@@ -19,15 +19,14 @@
 /* IMPORTS */
 
 import { computed } from 'vue';
-import BaseIcon from '@/components/BaseIcon.vue';
-import { Icons }  from '@/models/icons';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import { Icons }  from '@/components/BaseIcon/types';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
-
 interface IProps {
-    icon: Icons.Ledger | Icons.Metamask | Icons.ConnectWallet | Icons.TrustWallet
+    icon: Extract<Icons, 'ledger' | 'metamask' | 'connect-wallet' | 'trust-wallet'>
     name: string
     isSelected?: boolean
     isDisabled?: string
@@ -63,9 +62,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 }));
 
 /* DATA */
-
-
-
 /* COMPUTED */
 
 const classes = computed((): ReturnType<typeof useClasses> => {
@@ -77,11 +73,5 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
-
-
-
 </script>

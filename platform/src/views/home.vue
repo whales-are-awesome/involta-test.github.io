@@ -112,7 +112,7 @@ import DappCard from '@/components/DappCard/DappCard.vue';
 import BaseCard from '@/components/BaseCard/BaseCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
-import SelectField from '@/components/Form/SelectField.vue';
+import SelectField from '@/components/Form/SelectField/SelectField.vue';
 
 import { Statuses } from '@/models/statuses';
 

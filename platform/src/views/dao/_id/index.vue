@@ -53,7 +53,7 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
-import SelectField from '@/components/Form/SelectField.vue';
+import SelectField from '@/components/Form/SelectField/SelectField.vue';
 
 import { Statuses } from '@/models/statuses';
 

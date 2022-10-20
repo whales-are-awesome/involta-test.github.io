@@ -13,12 +13,7 @@ import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
-
-
-
 /* META */
-
-
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses(() => ({
@@ -30,9 +25,6 @@ const useClasses = makeClasses(() => ({
 }));
 
 /* DATA */
-
-
-
 /* COMPUTED */
 
 const classes = computed((): ReturnType<typeof useClasses> => {
@@ -41,11 +33,5 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
-
-
-
 </script>

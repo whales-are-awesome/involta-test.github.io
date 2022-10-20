@@ -21,7 +21,7 @@
 /* IMPORTS */
 
 import { computed } from 'vue';
-import BaseIcon from '@/components/BaseIcon.vue'
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue'
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
@@ -54,21 +54,18 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         ]];
     },
     icon: ({ themeSettings }) => {
-        return [themeSettings?.root, [
+        return [themeSettings?.icon, [
             'text-300 pointer-events-none'
         ]];
     },
     input: ({ themeSettings }) => {
-        return [themeSettings?.root, [
+        return [themeSettings?.input, [
             'h-full absolute left-[0] top-0 w-full bg-transparent placeholder:text-300 text-sm pl-[36px]'
         ]];
     },
 }));
 
 /* DATA */
-
-
-
 /* COMPUTED */
 
 const value = computed({
@@ -87,11 +84,6 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
-
-
 
 </script>

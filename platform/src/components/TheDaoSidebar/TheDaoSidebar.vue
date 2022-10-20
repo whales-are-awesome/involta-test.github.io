@@ -92,7 +92,7 @@
 import { computed, ref, defineExpose } from 'vue';
 import { useRoute } from 'vue-router';
 import SubDaoItemsPopup from '@/components/SubDaoItemsPopup/SubDaoItemsPopup.vue';
-import BaseIcon from '@/components/BaseIcon.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
@@ -106,7 +106,7 @@ const layer = useLayer();
 /* VARS AND CUSTOM HOOKS */
 
 const root = ref(null);
-let subDao = ref([
+let subDao = ref(normalizeItems([
     {
         name: 'subDao_1',
         id: 1,
@@ -126,11 +126,7 @@ let subDao = ref([
         id: 10,
         items: []
     }
-]);
-subDao.value = subDao.value.map(item => ({
-    ...item,
-    isHovered: false
-}));
+]));
 
 const useClasses = makeClasses(() => ({
     root: ({ themeSettings }) => {
@@ -159,9 +155,6 @@ const useClasses = makeClasses(() => ({
 }));
 
 /* DATA */
-
-
-
 /* COMPUTED */
 
 const classes = computed((): ReturnType<typeof useClasses> => {
@@ -171,10 +164,14 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 });
 
 /* WATCH */
-
-
-
 /* METHODS */
+
+function normalizeItems(items: any[]) {
+    return items.map(item => ({
+        ...item,
+        isHovered: false
+    }));
+}
 
 defineExpose({
     root

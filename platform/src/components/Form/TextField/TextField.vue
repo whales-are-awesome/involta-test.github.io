@@ -128,8 +128,8 @@ import { Sizes } from './types';
 /* IMPORTS */
 
 import { computed, ref } from 'vue';
-import { Icons } from '@/models/icons';
-import BaseIcon from '@/components/BaseIcon.vue';
+import { Icons } from '@/components/BaseIcon/types';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
 import BaseTooltip from '@/components/BaseTooltip/BaseTooltip.vue';
 import makeClasses from '@/helpers/makeClasses';
@@ -150,7 +150,7 @@ interface IProps {
     isBold?: boolean
     isWrapped?: boolean
     icon?: {
-        name: keyof typeof Icons
+        name: Icons
         width?: string
         height?: string
         class?: string
@@ -172,7 +172,7 @@ interface IEmits {
 /* META */
 
 const props = withDefaults(defineProps<IProps>(), {
-    size: Sizes.Md
+    size: 'md'
 });
 const emit = defineEmits<IEmits>();
 
@@ -225,7 +225,7 @@ const useClasses = makeClasses(() => {
                     'p-3': isTextarea,
                     '!text-disabled-text': disabled,
 
-                    'text-xs': size === Sizes.Sm
+                    'text-xs': size === 'sm'
                 }
             ]
         },
@@ -358,6 +358,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
     });
 });
 
+/* WATCH */
 /* METHODS */
 
 function onFocus(): void {
