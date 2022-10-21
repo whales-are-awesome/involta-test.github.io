@@ -15,7 +15,7 @@
                 size="sm"
                 rounded="sm"
             >
-                <span class="font-semibold text-gray-600">
+                <span :class="classes.daoName">
                     {{ name }}
                 </span>
             </BaseAvatar>
@@ -58,6 +58,7 @@
                 name: 'arrow-right',
                 width: 16
             }"
+            @click="$router.push({ name: 'proposal-id', params: { id: 2 } })"
         >
             Vote
         </BaseButton>
@@ -158,6 +159,11 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'text-sm text-gray-400'
         ]];
     },
+    daoName: ({ themeSettings }) => {
+        return [themeSettings?.title, [
+            'font-semibold text-gray-600'
+        ]];
+    }
 }));
 
 /* DATA */

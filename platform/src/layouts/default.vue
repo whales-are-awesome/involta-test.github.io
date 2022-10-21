@@ -31,9 +31,9 @@ import TheSidebar from '@/components/TheSidebar/TheSidebar.vue';
 import TheDaoSidebar from '@/components/TheDaoSidebar/TheDaoSidebar.vue';
 
 const route = useRoute();
-const showDaoSidebar = computed(() => ['dao-id', 'dao-id-subdao'].includes(route.name))
+const showDaoSidebar = computed(() => ['dao-id', 'dao-id-subdao', 'proposal-id'].includes(route.name))
 const daoSidebar = ref(null);
-let el = null;
+let el: HTMLElement  = document.createElement('div');
 
 onMounted(async () => {
     await nextTick();

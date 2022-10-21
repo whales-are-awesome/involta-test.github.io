@@ -21,7 +21,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    width: '16'
+    width: 16
 })
 const emit = defineEmits(['click']);
 

@@ -53,6 +53,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     image: ({ hasContent, size, rounded }) => [
         'object-cover w-full h-full',
         {
+            'w-[20px] h-[20px]': size === 'xss',
             'w-[24px] h-[24px]': size === 'xs',
             'w-[28px] h-[28px]': size === 'sm',
             'w-[36px] h-[36px]': size === 'md',

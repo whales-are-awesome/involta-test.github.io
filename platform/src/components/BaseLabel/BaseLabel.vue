@@ -44,7 +44,7 @@ const emit = defineEmits<IEmits>();
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, theme, view, rounded }) => {
         return [themeSettings?.root, [
-            'inline-flex items-center',
+            'inline-flex items-center justify-center',
             {
                 'uppercase text-xs font-bold tracking-[.12em]': view !== 'simple',
                 'text-xss tracking-[.04em]': view === 'simple',

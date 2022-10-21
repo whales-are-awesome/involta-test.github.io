@@ -7,7 +7,7 @@
     </Component>
 </template>
 
-<script setup>
+<script setup langs="ts">
 import DefaultLayout from './default';
 
 import { computed } from 'vue';

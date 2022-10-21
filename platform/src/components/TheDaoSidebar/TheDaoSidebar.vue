@@ -42,7 +42,10 @@
                                 'border-b': index !== subDao.length - 1
                             }]"
                         >
-                            <div :class="classes.subDaoItemMain">
+                            <div
+                                :class="classes.subDaoItemMain"
+                                @click="router.push({ name : 'dao-id-subdao', params: { id: 2, subdao: 3 } })"
+                            >
                                 <p :class="classes.subDaoItemTitle">
                                     {{ item.name }}
                                 </p>
@@ -67,6 +70,7 @@
                                     v-for="(subDao, subDaoIndex) in item.items"
                                     :key="subDaoIndex"
                                     :class="classes.subDaoItemSublistItem"
+                                    @click.stop="router.push({ name : 'dao-id-subdao', params: { id: 2, subdao: 3 } })"
                                 >
                                     {{ subDao.name }}
                                 </div>
@@ -90,7 +94,7 @@
 /* IMPORTS */
 
 import { computed, ref, defineExpose } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import SubDaoItemsPopup from '@/components/SubDaoItemsPopup/SubDaoItemsPopup.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
@@ -101,6 +105,7 @@ import useLayer from '@/helpers/hooks/useLayer';
 /* META */
 
 const route = useRoute();
+const router = useRouter();
 const layer = useLayer();
 
 /* VARS AND CUSTOM HOOKS */

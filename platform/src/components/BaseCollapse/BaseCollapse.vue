@@ -13,7 +13,7 @@
     </transition>
 </template>
 
-<script setup>
+<script setup lang="ts">
 /* IMPORTS */
 /* INTERFACES */
 /* META */

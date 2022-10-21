@@ -39,10 +39,6 @@
     </Component>
 </template>
 
-<script lang="ts">
-import { Themes, Sizes, Views, Icons, Rounded } from './types';
-</script>
-
 <script setup lang="ts">
 /* IMPORTS */
 
@@ -54,6 +50,11 @@ import {
     IHTMLLinkAttributes,
     IHTMLLabelAttributes,
     IBaseButtonData,
+    Sizes,
+    Views,
+    Icons,
+    Rounded,
+    Themes
 } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
@@ -132,7 +133,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'absolute inset-0 -z-1 transition-fast',
             {
                 'bg-gray-700 group-hover:bg-gray-800 group-active:bg-600': view === 'filled' && theme === 'gray',
-                'border-gray-200 border group-hover:bg-gray-100 group-active:bg-transparent': view === 'outlined' && theme === 'gray',
+                'bg-white border-gray-200 border group-hover:bg-gray-100 group-active:bg-white': view === 'outlined' && theme === 'gray',
                 'group-hover:bg-gray-100 group-active:bg-transparent': view === 'ghost' && theme === 'gray',
 
                 'bg-surface-400 group-hover:bg-gray-300': view === 'filled' && theme === 'surface',

@@ -19,7 +19,7 @@ import makeClasses from '@/helpers/makeClasses';
 const useClasses = makeClasses(() => ({
     root: ({ themeSettings }) => {
         return [themeSettings?.root,  [
-            'flex items-center text-xss text-gray-400 mb-5 mt-9 uppercase before:w-10 before:h-px before:bg-current before:mr-2',
+            'flex items-center text-xss text-gray-400 uppercase before:w-10 before:h-px before:bg-current before:mr-2',
         ]];
     },
 }));

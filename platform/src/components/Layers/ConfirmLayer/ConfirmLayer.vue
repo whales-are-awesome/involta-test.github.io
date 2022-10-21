@@ -23,15 +23,6 @@
     </BaseLayer>
 </template>
 
-<script lang="ts">
-    enum Sizes {
-        Md = 'md',
-        Sm = 'sm'
-    }
-
-    export {};
-</script>
-
 <script lang="ts" setup>
 import {computed} from 'vue';
 import useLayer from '@/helpers/hooks/useLayer';
@@ -50,7 +41,6 @@ const props = withDefaults(defineProps<IProps>(), {
     acceptButtonCaption: 'Yes',
     declineButtonCaption: 'No'
 });
-
 
 
 const { close } = useLayer();

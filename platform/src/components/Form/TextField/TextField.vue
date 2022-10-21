@@ -1,6 +1,9 @@
 <template>
     <div :class="classes.root">
-        <div :class="classes.top">
+        <div
+            v-if="label || required || tooltip || tipTop"
+            :class="classes.top"
+        >
             <div
                 v-if="label"
                 :class="classes.label"
@@ -30,63 +33,73 @@
                 {{ tipTop }}
             </div>
         </div>
-        <div
-            ref="el"
-            :class="classes.fieldWrapper"
-        >
-            <BaseLabel
-                v-if="buttonTitle"
-                :class="classes.button"
-                view="simple"
-                theme="primary"
-                @click="emit('button-click')"
-            >
-                {{ buttonTitle }}
-            </BaseLabel>
+        <div :class="classes.main">
             <div
-                v-if="insetLabel"
-                :class="classes.insetLabel"
+                ref="el"
+                :class="classes.fieldWrapper"
             >
-                {{ insetLabel }}
+                <BaseLabel
+                    v-if="buttonTitle"
+                    :class="classes.button"
+                    view="simple"
+                    theme="primary"
+                    @click="emit('button-click')"
+                >
+                    {{ buttonTitle }}
+                </BaseLabel>
+                <div
+                    v-if="insetLabel"
+                    :class="classes.insetLabel"
+                >
+                    {{ insetLabel }}
+                </div>
+                <BaseIcon
+                    v-if="icon && icon.prepend"
+                    :class="[classes.icon, icon.class]"
+                    :name="icon.name"
+                    :width="icon.width"
+                    :height="icon.height"
+                />
+                <p :class="classes.placeholder">
+                    {{ placeholder }}
+                </p>
+                <input
+                    v-if="!textarea"
+                    v-model="value"
+                    :class="classes.field"
+                    type="text"
+                    :maxlength="maxlength"
+                    @focus="onFocus"
+                    @blur="onBlur"
+                >
+                <textarea
+                    v-else
+                    v-model="value"
+                    :class="classes.field"
+                    type="text"
+                    :maxlength="maxlength"
+                    @focus="onFocus"
+                    @blur="onBlur"
+                />
+                <BaseIcon
+                    v-if="icon && !icon.prepend"
+                    :class="[classes.icon, icon.class]"
+                    :name="icon.name"
+                    :width="icon.width"
+                    :height="icon.height"
+                />
+                <slot
+                    name="append-inner-right"
+                    v-bind="{ classes: classes.innerRight }"
+                ></slot>
             </div>
-            <BaseIcon
-                v-if="icon && icon.prepend"
-                :class="[classes.icon, icon.class]"
-                :name="icon.name"
-                :width="icon.width"
-                :height="icon.height"
-            />
-            <p :class="classes.placeholder">
-                {{ placeholder }}
-            </p>
-            <input
-                v-if="!textarea"
-                v-model="value"
-                :class="classes.field"
-                type="text"
-                :maxlength="maxlength"
-                @focus="onFocus"
-                @blur="onBlur"
-            >
-            <textarea
-                v-else
-                v-model="value"
-                :class="classes.field"
-                type="text"
-                :maxlength="maxlength"
-                @focus="onFocus"
-                @blur="onBlur"
-            />
-            <BaseIcon
-                v-if="icon && !icon.prepend"
-                :class="[classes.icon, icon.class]"
-                :name="icon.name"
-                :width="icon.width"
-                :height="icon.height"
-            />
+            <slot name="append-main"></slot>
         </div>
-        <div :class="classes.bottom">
-            <template  v-if="hint">
+        <div
+            v-if="hint || error || tipBottom"
+            :class="classes.bottom"
+        >
+            <template v-if="hint">
                 <BaseIcon
                     :class="classes.warningIcon"
                     name="warning"
@@ -98,7 +111,7 @@
                     {{ hint }}
                 </div>
             </template>
-            <template  v-if="error">
+            <template v-if="error">
                 <BaseIcon
                     :class="classes.errorIcon"
                     name="warning-circle"
@@ -120,18 +133,15 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Sizes } from './types';
-</script>
-
 <script setup lang="ts">
 /* IMPORTS */
 
-import { computed, ref } from 'vue';
-import { Icons } from '@/components/BaseIcon/types';
+import { computed, ref, useSlots } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
 import BaseTooltip from '@/components/BaseTooltip/BaseTooltip.vue';
+import { Icons } from '@/components/BaseIcon/types';
+import { Sizes } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
@@ -144,7 +154,7 @@ interface IProps {
     hint?: string
     label?: string
     insetLabel?: string
-    required?: string
+    required?: boolean
     tipTop?: string | number
     tipBottom?: string | number
     isBold?: boolean
@@ -175,6 +185,7 @@ const props = withDefaults(defineProps<IProps>(), {
     size: 'md'
 });
 const emit = defineEmits<IEmits>();
+const slots = useSlots();
 
 /* VARS AND CUSTOM HOOKS */
 
@@ -186,6 +197,7 @@ const useClasses = makeClasses(() => {
                 'bg-white px-2 py-3 rounded-[4px]': isWrapped
             }
         ],
+        main: 'flex',
         fieldWrapper: ({ isFilled, isFocus, hasError, disabled, size, isBig, isTextarea }) => {
             const states = {
                 default: !hasError && !isFocus && !disabled,
@@ -197,7 +209,7 @@ const useClasses = makeClasses(() => {
             };
 
             return [
-                'px-3 py-2.5 border rounded-[4px] relative transition-fast group',
+                'bg-white px-3 py-2.5 border rounded-[4px] relative transition-fast group flex-grow',
                 {
                     'border-surface-300 hover:bg-primary-100': states.default,
                     'border-surface-500 border-primary-400 shadow-[0_0_0_3px_#D4D4FC,0_2px_2px_-1px_rgba(0,0,0,0.12)]': states.defaultFocus,
@@ -321,6 +333,9 @@ const useClasses = makeClasses(() => {
                 '!text-disabled-text !border-disabled-dark !bg-disabled-light': disabled,
             }
         ],
+        innerRight: ({ isFilled, hasLeftIcon, disabled }) => [
+            'absolute top-2.5 right-3'
+        ]
     };
 });
 
@@ -354,7 +369,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         isBold: props.isBold,
         isTextarea: props.textarea,
         isWrapped: props.isWrapped,
-        isBig: !!props.insetLabel || props.buttonTitle
+        isBig: (!!props.insetLabel || !!props.buttonTitle || !!slots['append-inner-right']) && !props.textarea
     });
 });
 

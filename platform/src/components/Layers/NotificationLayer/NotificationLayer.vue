@@ -19,20 +19,12 @@
     </BaseLayer>
 </template>
 
-<script lang="ts">
-    enum Sizes {
-        Md = 'md',
-        Sm = 'sm'
-    }
-
-    export {}
-</script>
-
 <script lang="ts" setup>
 import {computed} from 'vue';
-import useLayer from '@/helpers/hooks/useLayer';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLayer from '../BaseLayer/BaseLayer.vue';
+import { Sizes } from './types';
+import useLayer from '@/helpers/hooks/useLayer';
 import makeClasses from '@/helpers/makeClasses';
 
 interface IProps {

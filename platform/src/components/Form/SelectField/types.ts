@@ -1,9 +1,10 @@
 interface SelectOption {
     title: string,
     id: string|number
+    icon?: string
 }
 
-type Sizes = 'md' | 'sm';
+type Sizes = 'xs' | 'md' | 'sm';
 
 export {
     SelectOption,

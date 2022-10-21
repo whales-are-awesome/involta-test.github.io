@@ -39,6 +39,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/_subdao.vue'),
     },
     {
+        path: '/proposal/:id/',
+        name: 'proposal-id',
+        meta: {
+            title: 'Proposal'
+        },
+        component: () => import(/* webpackChunkName: "ui" */ '../views/proposal/_id.vue'),
+    },
+    {
         path: '/auth',
         name: 'auth',
         meta: {

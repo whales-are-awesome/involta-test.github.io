@@ -10,7 +10,7 @@
             :clearable="false"
             :close-on-select="true"
             :searchable="false"
-            v-click-outside="open"
+            v-click-outside="close"
         >
             <template #no-options>
                 {{ notFound }}
@@ -18,9 +18,15 @@
             <template #open-indicator>
                 <span :class="classes.openIndicator"></span>
             </template>
-            <template #selected-option="{ id, title }">
-                <slot name="selected-option" v-bind="{ id, title }">
+            <template #selected-option="{ id, title, icon }">
+                <slot name="selected-option" v-bind="{ id, title, icon }">
                     <div :class="classes.selectedOption">
+                        <BaseIcon
+                            v-if="icon"
+                            :class="classes.optionIcon"
+                            :name="icon"
+                            width="24"
+                        />
                         <span
                             v-if="title"
                             v-html="title"
@@ -43,9 +49,15 @@
                     </div>
                 </slot>
             </template>
-            <template #option="{ title, id }">
-                <slot name="option" v-bind="{ title, id }">
+            <template #option="{ title, id, icon }">
+                <slot name="option" v-bind="{ title, id, icon }">
                     <div :class="classes.option">
+                        <BaseIcon
+                            v-if="icon"
+                            :class="classes.optionIcon"
+                            :name="icon"
+                            width="24"
+                        />
                         <span v-html="title" />
                     </div>
                 </slot>
@@ -77,7 +89,7 @@ interface IProps {
     placeholder?: string
     notFound?: string
     options: SelectOption[]
-    themeSettings: any
+    themeSettings?: any
     size: Sizes
 }
 
@@ -86,7 +98,7 @@ interface IEmits {
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings' | 'size'>{
-
+    isOpen: boolean
 }
 
 /* META */
@@ -101,17 +113,18 @@ const emit = defineEmits<IEmits>();
 
 const select = ref(null);
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings, size }) => {
+    root: ({ themeSettings, size, isOpen }) => {
         return [themeSettings?.root,  [
             {
                 'h-[40px]': size === 'md',
-                'h-[32px] text-sm': size === 'sm'
+                'h-[32px] text-sm': size === 'sm',
+                'h-[32px] text-xss': size === 'xs'
             }
         ]];
     },
     select: ({ themeSettings }) => {
         return [themeSettings?.root,  [
-            'border border-gray-100 rounded-[5px] shadow-[0px_4px_24px_rgba(108,108,125,.08)] overflow-hidden cursor-pointer relative z-10'
+            'border border-gray-100 rounded-[5px] shadow-[0px_4px_24px_rgba(108,108,125,.08)] overflow-hidden cursor-pointer relative'
         ]];
     },
     openIndicator: ({ themeSettings }) => {
@@ -124,7 +137,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'bg-white hover:bg-surface-100 transition-fast flex items-center',
             {
                 'px-5 h-[40px]': size === 'md',
-                'px-3 h-[32px]': size === 'sm'
+                'px-3 h-[32px]': size === 'sm',
+                'px-1 h-[32px]': size === 'xs'
             }
         ]];
     },
@@ -135,10 +149,11 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     },
     option: ({ themeSettings, size }) => {
         return [themeSettings?.option,  [
-            'py-2 bg-white hover:bg-surface-100 transition-fast',
+            'py-2 bg-white hover:bg-surface-100 transition-fast flex items-center',
             {
                 'px-5': size === 'md',
-                'px-3': size === 'sm'
+                'px-3': size === 'sm',
+                'px-1': size === 'xs'
             }
         ]];
     },
@@ -147,7 +162,11 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             '!hidden'
         ]];
     },
-
+    optionIcon: ({ themeSettings }) => {
+        return [themeSettings?.optionIcon,  [
+            'mr-2'
+        ]];
+    },
 }));
 
 
@@ -166,14 +185,15 @@ const value = computed({
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
         themeSettings: props.themeSettings,
-        size: props.size
+        size: props.size,
+        isOpen: !!select?.value?.open
     });
 });
 
 /* WATCH */
 /* METHODS */
 
-function open() {
+function close() {
     select.value.open = false;
 }
 

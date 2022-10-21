@@ -6,6 +6,7 @@
             v-for="(item, index) in items"
             :key="index"
             :class="classes.items"
+            @click.stop="router.push({ name : 'dao-id-subdao', params: { id: 2, subdao: 3 } })"
         >
             <div
                 :class="classes.item"
@@ -23,6 +24,7 @@
 /* IMPORTS */
 
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 //import  from '@/components/';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
@@ -46,6 +48,7 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 /* META */
 
 const props = withDefaults(defineProps<IProps>(), {});
+const router = useRouter();
 
 /* VARS AND CUSTOM HOOKS */
 

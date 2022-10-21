@@ -1,0 +1,381 @@
+<template>
+    <div>
+        <DaoPageHeader
+            sub-dao-name="Dao Name"
+            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            :breadcrumbs="breadcrumbs"
+        />
+        <div class="flex justify-between items-center mt-9 mb-11">
+            <div class="flex items-center text-gray-400 font-medium">
+                <BaseIcon
+                    class="mr-2"
+                    name="arrow-left"
+                    width="18"
+                />
+                Back
+            </div>
+            <div class="flex items-center text-gray-400 font-medium">
+                Next proposal
+                <BaseIcon
+                    class="ml-2 -scale-x-100"
+                    name="arrow-left"
+                    width="18"
+                />
+            </div>
+        </div>
+        <div class="flex -mx-4 -mt-8 mb-[65px]">
+            <div class="w-9/12 px-4 pt-8">
+                <div class="border border-surface-300 rounded-[12px] p-8 h-full">
+                    <p class="title-h3 !text-600 mb-3">
+                        Proposal Name
+                    </p>
+                    <div class="flex items-center mb-11">
+                        <BaseAvatar
+                            class="mr-5"
+                            :src="require('@/assets/images/common/placeholder.jpeg')"
+                            alt="image"
+                            size="sm"
+                            rounded="sm"
+                        >
+                            <span class="font-semibold text-gray-600">
+                                DAO Name
+                            </span>
+                        </BaseAvatar>
+                        <BaseBreadcrumbs :items="breadcrumbs" />
+                    </div>
+                    <div>
+                        <TextSeparator class="mb-3">
+                            Description
+                        </TextSeparator>
+                        <p class="text-400">
+                            Early Birds Early Birds Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds
+                            Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds
+                            Early Birds Early Birds
+                            <br><br>
+                            Early Birds Early Birds Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds
+                            Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds
+                            Early Birds Early Birds
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-3/12 px-4 pt-8 flex flex-col">
+                <div class="px-3 py-4 border border-surface-300 rounded-[12px] mb-4">
+                    <TextSeparator class="mb-4 pb-4 border-b border-surface-300">
+                        Proposal Status
+                    </TextSeparator>
+                    <BaseLabel
+                        theme="positive"
+                        view="faded"
+                        :theme-settings="{
+                            root: 'rounded-[8px] w-full h-[44px]'
+                        }"
+                    >
+                        Active
+                    </BaseLabel>
+                </div>
+                <div class="px-3 py-4 border border-surface-300 rounded-[12px] my-auto">
+                    <TextSeparator class="mb-4 pb-4 border-b border-surface-300">
+                        Proposal Status
+                    </TextSeparator>
+                    <BaseAvatar
+                        class="mr-5"
+                        :src="require('@/assets/images/common/placeholder.jpeg')"
+                        alt="image"
+                        rounded="lg"
+                    >
+                        <p class="font-medium ml-2 text-gray-500">
+                            0x2c934...a180
+                        </p>
+                    </BaseAvatar>
+                </div>
+                <div class="px-3 py-4 border border-surface-300 rounded-[12px] mt-4">
+                    <TextSeparator class="mb-4 pb-4 border-b border-surface-300">
+                        Current Results
+                    </TextSeparator>
+                </div>
+            </div>
+        </div>
+        <div class="flex">
+            <div class="mr-5 relative overflow-hidden z-[-2]">
+                <div>
+                    <div class="rounded-full border border-surface-300 w-[48px] h-[48px] w-[48px] h-[48px] flex items-center justify-center relative">
+                        <BaseIcon
+                            class="text-primary-400"
+                            name="sparkle"
+                            width="32"
+                        />
+                    </div>
+                </div>
+                <div class="bg-gray-200 w-px h-full absolute top-[48px] left-1/2 translate-y-[8px] -translate-x-1/2 h-full"></div>
+            </div>
+            <div class="flex-grow">
+                <p class="title-h4 mb-[30px]">
+                    Pipeline
+                </p>
+                <div class="space-y-4">
+                    <div
+                        v-for="item in 4"
+                        :key="item"
+                        class="border border-surface-300 rounded-[12px] px-8 pt-8 pb-10 relative"
+                    >
+                        <div class="max-w-[683px]">
+                            <p
+                                class="absolute bg-white left-[-52px] top-[40px] text-300 text-h5 py-1 font-bold"
+                                :class="{
+                                    'h-full': item === 4
+                                }"
+                            >
+                                {{ item }}
+                            </p>
+                            <BaseAvatar
+                                class="mr-5 mb-8"
+                                :src="require('@/assets/images/common/placeholder.jpeg')"
+                                alt="image"
+                                size="md"
+                            >
+                                <p class="title-h4 ml-1">
+                                    Uniswap
+                                </p>
+                            </BaseAvatar>
+                            <p class="text-500 font-semibold mb-2">
+                                By 1 item of
+                                <ActionLink
+                                    class="underline-offset-2 underline"
+                                    href="#"
+                                >
+                                    0x2c934...a180
+                                </ActionLink>
+                            </p>
+                            <p class="text-sm text-400 mb-6">
+                                Subheading: Some text about this wonderful opportunity to do smth
+                            </p>
+                            <TextSeparator class="mb-6">
+                                Sub Actions:
+                            </TextSeparator>
+                            <div class="flex">
+                                <div class="w-[18px] h-[18px] bg-primary-400 rounded-full mr-[21px]"></div>
+                                <div class="flex-grow">
+                                    <p class="text-500 font-semibold mb-2">
+                                        Task Name Heading
+                                    </p>
+                                    <p class="text-sm text-400 mb-5">
+                                        Subheading: Some text about this wonderful opportunity to do smth
+                                    </p>
+                                    <div class="bg-surface-200 rounded-[4px] px-6 py-4">
+                                        <TextField
+                                            v-if="item !== 4"
+                                            v-model="formData.search"
+                                            label="NFT ID to byu for the price"
+                                            placeholder="ID to buy"
+                                            tooltip="some text"
+                                            :is-bold="true"
+                                            button-title="Use suggested ID"
+                                            @button-click="formData.search = 'Ян киса'"
+                                        >
+                                            <template
+                                                v-if="item === 2"
+                                                #append-main
+                                            >
+                                                <div class="bg-white border border-surface-300 rounded-[4px] flex items-center ml-3 px-3 py-2.5">
+                                                    <div class="bg-surface-200 rounded-[4px] text-gray-300 w-6 h-6 flex items-center justify-center cursor-pointer">
+                                                        <BaseIcon
+                                                            name="minus"
+                                                            width="24"
+                                                        />
+                                                    </div>
+                                                    <div class="mx-4 text-center">
+                                                        <p class="text-xss text-300 font-semibold">
+                                                            ID to buy
+                                                        </p>
+                                                        <p class="text-gray-500 font-semibold">
+                                                            333.333
+                                                        </p>
+                                                    </div>
+                                                    <div class="bg-surface-200 rounded-[4px] text-gray-300 w-6 h-6 flex items-center justify-center cursor-pointer">
+                                                        <BaseIcon
+                                                            name="plus-bold"
+                                                            width="24"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </TextField>
+                                        <div
+                                            v-if="item === 3"
+                                            class="mt-6 pt-[18px] pb-2.5 px-3 bg-surface-300"
+                                        >
+                                            <div class="flex pb-[20px] mb-3 border-b border-gray-200 text-200 font-bold text-xs">
+                                                <p class="mr-3">
+                                                    Other Votes(23)
+                                                </p>
+                                                <p>
+                                                    Average
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <div class="flex justify-between font-medium text-xss text-gray-400 mb-3">
+                                                    <p>
+                                                        Vote
+                                                    </p>
+                                                    <p>
+                                                        Stake
+                                                    </p>
+                                                </div>
+                                                <div class="space-y-3">
+                                                    <div
+                                                        v-for="row in 3"
+                                                        :key="row"
+                                                        class="flex items-center justify-between text-xss text-gray-500 font-medium"
+                                                    >
+                                                        <BaseAvatar
+                                                            :src="require('@/assets/images/common/placeholder.jpeg')"
+                                                            alt="image"
+                                                            size="xss"
+                                                            rounded="lg"
+                                                        >
+                                                            <span>
+                                                                0x2c934...a180
+                                                            </span>
+                                                        </BaseAvatar>
+                                                        348 ETH
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            v-if="item === 4"
+                                            class="relative"
+                                        >
+                                            <TextField
+                                                v-model="formData.search"
+                                                label="NFT ID to byu for the price"
+                                                placeholder="Enter token amount"
+                                                tooltip="some text"
+                                            >
+                                                <template #append-inner-right>
+                                                    <SelectField
+                                                        v-model="formData.currencyId"
+                                                        class="font-bold"
+                                                        :options="currenyItems"
+                                                        size="xs"
+                                                    />
+                                                </template>
+                                            </TextField>
+                                            <div class="w-6 h-1 relative z-[5] mx-auto cursor-pointer">
+                                                <BaseButton
+                                                    class="h-6 w-6 !rounded-[4px] !text-gray-400 -translate-y-1/2 !p-0"
+                                                    view="outlined"
+                                                >
+                                                    <BaseIcon name="arrows-exchange"/>
+                                                </BaseButton>
+                                            </div>
+                                            <TextField
+                                                v-model="formData.search"
+                                                placeholder="Enter token amount"
+                                                :textarea="true"
+                                            >
+                                                <template
+                                                    #append-inner-right="{ classes }"
+                                                >
+                                                    <SelectField
+                                                        v-model="formData.currencyId"
+                                                        class="font-bold"
+                                                        :class="classes"
+                                                        :options="currenyItems"
+                                                        size="xs"
+                                                    />
+                                                </template>
+                                            </TextField>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex -mx-4 -mt-8 pt-[69px] relative after:absolute after:top-0 after:right-full after:h-full after:w-screen after:-scale-1 after:bg-white after:-z-1">
+                    <BaseButton
+                        class="w-[145px] uppercase mx-4 mt-8"
+                    >
+                        Against
+                    </BaseButton>
+                    <BaseButton
+                        class="w-[145px] uppercase mx-4 mt-8"
+                    >
+                        For
+                    </BaseButton>
+                    <BaseButton
+                        class="w-[145px] uppercase mx-4 mt-8"
+                        view="outlined"
+                    >
+                        Abstain
+                    </BaseButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script lang="ts" setup>
+import { computed, ref } from 'vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
+import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
+import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
+import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
+import ActionLink from '@/components/ActionLink/ActionLink.vue';
+import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
+import TextField from '@/components/Form/TextField/TextField.vue';
+import SelectField from '@/components/Form/SelectField/SelectField.vue';
+import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import { currenyItems } from '@/models/currency';
+
+import { Statuses } from '@/models/statuses';
+
+enum TagStatuses {
+    Proposals,
+    Statistics,
+    DAOs,
+    APPs
+}
+
+const tagList = ref({
+    options: [
+        {id: TagStatuses.Proposals, title: TagStatuses[TagStatuses.Proposals]},
+        {id: TagStatuses.Statistics, title: TagStatuses[TagStatuses.Statistics]}
+    ],
+    value: TagStatuses.Proposals
+})
+
+const formData = ref({
+    voteId: 0,
+    statusId: Statuses.Active,
+    search: 5,
+    currencyId: currenyItems[0]['id']
+});
+
+const formInfo = {
+    voteOptions: [
+        {id: 0, title: 'Need my vote'},
+        {id: 1, title: 'All'}
+    ],
+    statusesOptions: [
+        {id: Statuses.Active, title: Statuses[Statuses.Active]},
+        {id: Statuses.Stopped, title: Statuses[Statuses.Stopped]},
+        {id: Statuses.Closed, title: Statuses[Statuses.Closed]},
+    ]
+};
+
+const breadcrumbs = [
+    {title: 'DAO Name', link: {name: 'home'}},
+    {title: 'SubDAO_3', link: {name: 'home'}},
+    {title: 'Sub__1.2'}
+]
+
+const formResult = computed(() => ({
+    search: formData.value.search,
+    voteId: formData.value.voteId,
+    statusId: formData.value.statusId
+}));
+</script>
