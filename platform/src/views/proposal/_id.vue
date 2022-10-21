@@ -150,145 +150,161 @@
                             <p class="text-sm text-400 mb-6">
                                 Subheading: Some text about this wonderful opportunity to do smth
                             </p>
-                            <TextSeparator class="mb-6">
-                                Sub Actions:
-                            </TextSeparator>
-                            <div class="flex">
-                                <div class="w-[18px] h-[18px] bg-primary-400 rounded-full mr-[21px]"></div>
-                                <div class="flex-grow">
-                                    <p class="text-500 font-semibold mb-2">
-                                        Task Name Heading
-                                    </p>
-                                    <p class="text-sm text-400 mb-5">
-                                        Subheading: Some text about this wonderful opportunity to do smth
-                                    </p>
-                                    <div class="bg-surface-200 rounded-[4px] px-6 py-4">
-                                        <TextField
-                                            v-if="item !== 4"
-                                            v-model="formData.search"
-                                            label="NFT ID to byu for the price"
-                                            placeholder="ID to buy"
-                                            tooltip="some text"
-                                            :is-bold="true"
-                                            button-title="Use suggested ID"
-                                            @button-click="formData.search = 'Ян киса'"
-                                        >
-                                            <template
-                                                v-if="item === 2"
-                                                #append-main
-                                            >
-                                                <div class="bg-white border border-surface-300 rounded-[4px] flex items-center ml-3 px-3 py-2.5">
-                                                    <div class="bg-surface-200 rounded-[4px] text-gray-300 w-6 h-6 flex items-center justify-center cursor-pointer">
-                                                        <BaseIcon
-                                                            name="minus"
-                                                            width="24"
-                                                        />
-                                                    </div>
-                                                    <div class="mx-4 text-center">
-                                                        <p class="text-xss text-300 font-semibold">
-                                                            ID to buy
-                                                        </p>
-                                                        <p class="text-gray-500 font-semibold">
-                                                            333.333
-                                                        </p>
-                                                    </div>
-                                                    <div class="bg-surface-200 rounded-[4px] text-gray-300 w-6 h-6 flex items-center justify-center cursor-pointer">
-                                                        <BaseIcon
-                                                            name="plus-bold"
-                                                            width="24"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </template>
-                                        </TextField>
-                                        <div
-                                            v-if="item === 3"
-                                            class="mt-6 pt-[18px] pb-2.5 px-3 bg-surface-300"
-                                        >
-                                            <div class="flex pb-[20px] mb-3 border-b border-gray-200 text-200 font-bold text-xs">
-                                                <p class="mr-3">
-                                                    Other Votes(23)
-                                                </p>
-                                                <p>
-                                                    Average
-                                                </p>
-                                            </div>
-                                            <div>
-                                                <div class="flex justify-between font-medium text-xss text-gray-400 mb-3">
-                                                    <p>
-                                                        Vote
-                                                    </p>
-                                                    <p>
-                                                        Stake
-                                                    </p>
-                                                </div>
-                                                <div class="space-y-3">
-                                                    <div
-                                                        v-for="row in 3"
-                                                        :key="row"
-                                                        class="flex items-center justify-between text-xss text-gray-500 font-medium"
+                            <BaseCollapse v-show="showMore">
+                                <div>
+                                    <TextSeparator class="mb-6">
+                                        Sub Actions:
+                                    </TextSeparator>
+                                    <div class="flex mb-8">
+                                        <div class="w-[18px] h-[18px] bg-primary-400 rounded-full mr-[21px]"></div>
+                                        <div class="flex-grow">
+                                            <p class="text-500 font-semibold mb-2">
+                                                Task Name Heading
+                                            </p>
+                                            <p class="text-sm text-400 mb-5">
+                                                Subheading: Some text about this wonderful opportunity to do smth
+                                            </p>
+                                            <div class="bg-surface-200 rounded-[4px] px-6 py-4">
+                                                <TextField
+                                                    v-if="item !== 4"
+                                                    v-model="formData.search"
+                                                    label="NFT ID to byu for the price"
+                                                    placeholder="ID to buy"
+                                                    tooltip="some text"
+                                                    :is-bold="true"
+                                                    button-title="Use suggested ID"
+                                                    @button-click="formData.search = 'Ян киса'"
+                                                >
+                                                    <template
+                                                        v-if="item === 2"
+                                                        #append-main
                                                     >
-                                                        <BaseAvatar
-                                                            :src="require('@/assets/images/common/placeholder.jpeg')"
-                                                            alt="image"
-                                                            size="xss"
-                                                            rounded="lg"
-                                                        >
+                                                        <div class="bg-white border border-surface-300 rounded-[4px] flex items-center ml-3 px-3 py-2.5">
+                                                            <div class="bg-surface-200 rounded-[4px] text-gray-300 w-6 h-6 flex items-center justify-center cursor-pointer">
+                                                                <BaseIcon
+                                                                    name="minus"
+                                                                    width="24"
+                                                                />
+                                                            </div>
+                                                            <div class="mx-4 text-center">
+                                                                <p class="text-xss text-300 font-semibold">
+                                                                    ID to buy
+                                                                </p>
+                                                                <p class="text-gray-500 font-semibold">
+                                                                    333.333
+                                                                </p>
+                                                            </div>
+                                                            <div class="bg-surface-200 rounded-[4px] text-gray-300 w-6 h-6 flex items-center justify-center cursor-pointer">
+                                                                <BaseIcon
+                                                                    name="plus-bold"
+                                                                    width="24"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </TextField>
+                                                <div
+                                                    v-if="item === 3"
+                                                    class="mt-6 pt-[18px] pb-2.5 px-3 bg-surface-300"
+                                                >
+                                                    <div class="flex pb-[20px] mb-3 border-b border-gray-200 text-200 font-bold text-xs">
+                                                        <p class="mr-3">
+                                                            Other Votes(23)
+                                                        </p>
+                                                        <p>
+                                                            Average
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <div class="flex justify-between font-medium text-xss text-gray-400 mb-3">
+                                                            <p>
+                                                                Vote
+                                                            </p>
+                                                            <p>
+                                                                Stake
+                                                            </p>
+                                                        </div>
+                                                        <div class="space-y-3">
+                                                            <div
+                                                                v-for="row in 3"
+                                                                :key="row"
+                                                                class="flex items-center justify-between text-xss text-gray-500 font-medium"
+                                                            >
+                                                                <BaseAvatar
+                                                                    :src="require('@/assets/images/common/placeholder.jpeg')"
+                                                                    alt="image"
+                                                                    size="xss"
+                                                                    rounded="lg"
+                                                                >
                                                             <span>
                                                                 0x2c934...a180
                                                             </span>
-                                                        </BaseAvatar>
-                                                        348 ETH
+                                                                </BaseAvatar>
+                                                                348 ETH
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                </div>
+                                                <div
+                                                    v-if="item === 4"
+                                                    class="relative"
+                                                >
+                                                    <TextField
+                                                        v-model="formData.search"
+                                                        label="NFT ID to byu for the price"
+                                                        placeholder="Enter token amount"
+                                                        tooltip="some text"
+                                                    >
+                                                        <template #append-inner-right="{ classes }">
+                                                            <SelectField
+                                                                v-model="formData.currencyId"
+                                                                class="font-bold"
+                                                                :class="classes"
+                                                                :options="currenyItems"
+                                                                size="xs"
+                                                            />
+                                                        </template>
+                                                    </TextField>
+                                                    <div class="w-6 h-1 relative z-[5] mx-auto cursor-pointer">
+                                                        <BaseButton
+                                                            class="h-6 w-6 !rounded-[4px] !text-gray-400 -translate-y-1/2 !p-0"
+                                                            view="outlined"
+                                                        >
+                                                            <BaseIcon name="arrows-exchange"/>
+                                                        </BaseButton>
+                                                    </div>
+                                                    <TextField
+                                                        v-model="formData.search"
+                                                        placeholder="Enter token amount"
+                                                        :textarea="true"
+                                                    >
+                                                        <template
+                                                            #append-inner-right="{ classes }"
+                                                        >
+                                                            <SelectField
+                                                                v-model="formData.currencyId"
+                                                                class="font-bold"
+                                                                :class="classes"
+                                                                :options="currenyItems"
+                                                                size="xs"
+                                                            />
+                                                        </template>
+                                                    </TextField>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div
-                                            v-if="item === 4"
-                                            class="relative"
-                                        >
-                                            <TextField
-                                                v-model="formData.search"
-                                                label="NFT ID to byu for the price"
-                                                placeholder="Enter token amount"
-                                                tooltip="some text"
-                                            >
-                                                <template #append-inner-right>
-                                                    <SelectField
-                                                        v-model="formData.currencyId"
-                                                        class="font-bold"
-                                                        :options="currenyItems"
-                                                        size="xs"
-                                                    />
-                                                </template>
-                                            </TextField>
-                                            <div class="w-6 h-1 relative z-[5] mx-auto cursor-pointer">
-                                                <BaseButton
-                                                    class="h-6 w-6 !rounded-[4px] !text-gray-400 -translate-y-1/2 !p-0"
-                                                    view="outlined"
-                                                >
-                                                    <BaseIcon name="arrows-exchange"/>
-                                                </BaseButton>
-                                            </div>
-                                            <TextField
-                                                v-model="formData.search"
-                                                placeholder="Enter token amount"
-                                                :textarea="true"
-                                            >
-                                                <template
-                                                    #append-inner-right="{ classes }"
-                                                >
-                                                    <SelectField
-                                                        v-model="formData.currencyId"
-                                                        class="font-bold"
-                                                        :class="classes"
-                                                        :options="currenyItems"
-                                                        size="xs"
-                                                    />
-                                                </template>
-                                            </TextField>
-                                        </div>
                                     </div>
+                                </div>
+                            </BaseCollapse>
+                            <ShowMoreButton
+                                v-model="showMore"
+                            />
+                            <div class="w-[28px] h-[28px] flex flex-col items-center justify-center border border-gray-100 rounded-[4px] absolute right-8 top-9 space-y-1">
+                                <div
+                                    v-for="item in 3"
+                                    :key="item"
+                                    class="w-[2.6px] h-[2.6px] rounded-full bg-gray-500"
+                                >
                                 </div>
                             </div>
                         </div>
@@ -329,8 +345,9 @@ import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import ShowMoreButton from '@/components/ShowMoreButton/ShowMoreButton.vue';
+import BaseCollapse from '@/components/BaseCollapse/BaseCollapse.vue';
 import { currenyItems } from '@/models/currency';
-
 import { Statuses } from '@/models/statuses';
 
 enum TagStatuses {
@@ -354,6 +371,8 @@ const formData = ref({
     search: 5,
     currencyId: currenyItems[0]['id']
 });
+
+const showMore = ref(false);
 
 const formInfo = {
     voteOptions: [

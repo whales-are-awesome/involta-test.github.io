@@ -118,7 +118,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             {
                 'h-[40px]': size === 'md',
                 'h-[32px] text-sm': size === 'sm',
-                'h-[32px] text-xss': size === 'xs'
+                'h-[32px] text-xss': size === 'xs',
+                'z-50': isOpen
             }
         ]];
     },

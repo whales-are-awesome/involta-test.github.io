@@ -72,6 +72,7 @@
             :class="classes.button"
             size="lg"
             theme="primary"
+            @click="createDAO"
         >
             Create DAO
         </BaseButton>
@@ -91,6 +92,7 @@ import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';
 import BaseLayer from '../BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
+import DaoFactoryService from '@/services/DaoFactoryService';
 
 /* META */
 
@@ -132,6 +134,12 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 /* WATCH */
 
 /* METHODS */
+
+function createDAO() {
+    DaoFactoryService.createDao({
+
+    });
+}
 </script>
 
 <style>
