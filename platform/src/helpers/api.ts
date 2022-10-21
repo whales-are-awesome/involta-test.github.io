@@ -3,6 +3,8 @@ import { default as Web3Types } from 'web3/types';
 import { Eth } from 'web3-eth/types';
 import { Utils } from 'web3-utils/types';
 
+import DaoFactoryJSON from '@/abi/DaoFactory.json';
+
 type FetchResult<T> = Promise<[T|null, Error|null]>;
 
 class API extends Web3 {
@@ -22,6 +24,12 @@ class API extends Web3 {
 
     static get eth(): Eth {
         return API.instance.eth;
+    }
+
+    static get contracts() {
+        return {
+            daoFactory: new API.eth.Contract(JSON.parse(JSON.stringify(DaoFactoryJSON)), process.env.VUE_APP_DAO_FACTORY_ADDRESS)
+        };
     }
 
     static get utils(): Utils  {
