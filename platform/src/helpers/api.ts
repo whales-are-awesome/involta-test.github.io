@@ -7,6 +7,13 @@ import { useStore } from '@/store';
 import DaoFactoryJSON from '@/abi/DaoFactory.json';
 
 type FetchResult<T> = Promise<[T|null, Error|null]>;
+type ConctactNames = 'daoFactory';
+
+interface fetchDataProps {
+    contractName: ConctactNames
+    params: any[]
+    needReceipt: boolean
+}
 
 class API extends Web3 {
     static instance: Web3Types;
@@ -81,7 +88,30 @@ class API extends Web3 {
             console.log('networkChanged');
         })
     }
+
+    static async send<T>(props: fetchDataProps): FetchResult<T> {
+        try {
+            const contract = API.contracts[props.contractName];
+            const trx = await contract.methods.deployDao(...props.params).send({ from: API.address });
+            let trxReceipt;
+
+            if (props.needReceipt) {
+                trxReceipt = await API.eth.getTransactionReceipt(trx.transactionHash);
+            }
+
+            return [trxReceipt || trx, null];
+        } catch (e) {
+            return [null, e as Error];
+        }
+    }
 }
 
-
+// function fetchData<T>(props: fetchDataProps): FetchResult<T> {
+//     const contract = API.contracts[props.contractName];
+//     const trx = await contract.methods.deployDao(API.address, 1, 1, API.address).send({ from: API.address });
+// }
 export default API;
+
+export {
+    FetchResult
+}
