@@ -1,3 +1,4 @@
+
 <template>
     <header
         :class="classes.root"
@@ -49,12 +50,13 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseWallet from '@/components/BaseWallet/BaseWallet.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import makeClasses from '@/helpers/makeClasses';
 import API from '@/helpers/api';
+import { useStore } from '@/store';
 
 /* INTERFACES */
 
@@ -62,6 +64,9 @@ interface IThemeProps {
 
 }
 /* META */
+
+const store = useStore();
+
 /* VARS AND CUSTOM HOOKS */
 const nav = [
     { title: 'Documentation', to: { name: '' } },
@@ -78,8 +83,6 @@ const api = new API();
 
 /* DATA */
 
-const address = ref('');
-
 /* COMPUTED */
 
 const classes = computed((): ReturnType<typeof useClasses> => {
@@ -87,17 +90,17 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 
     });
 });
+const address = computed(() => store.state.web3.address);
 
 /* LIFECYCLE */
 
-onMounted(async() => {
-    address.value = (await api.eth.getAccounts())[0];
-});
 
 /* WATCH */
 /* METHODS */
 
 async function onClick() {
-    address.value = (await api.eth.requestAccounts())[0];
+    const address = (await api.eth.requestAccounts())[0];
+
+    store.dispatch('web3/updateAddress', address);
 }
 </script>
