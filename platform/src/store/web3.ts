@@ -28,6 +28,8 @@ const actions: ActionTree<IState, any> = {
             address = await API.getCurrentAddress();
         }
 
+        //@ts-ignore
+        API.address = address || payload;
         commit('setAddress', address || payload);
     }
 };

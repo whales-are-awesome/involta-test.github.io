@@ -4,13 +4,13 @@ import { Eth } from 'web3-eth/types';
 import { Utils } from 'web3-utils/types';
 import { useStore } from '@/store';
 
-
 import DaoFactoryJSON from '@/abi/DaoFactory.json';
 
 type FetchResult<T> = Promise<[T|null, Error|null]>;
 
 class API extends Web3 {
     static instance: Web3Types;
+    static address: '';
 
     constructor(protocol = (window as any).ethereum) {
         super();
