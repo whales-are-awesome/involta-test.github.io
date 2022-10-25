@@ -2,7 +2,7 @@
     <div :class="classes.root">
         <div
             :class="classes.wrapper"
-            @click.self="closeLast"
+            @click.self="close(id)"
         >
             <div
                 :class="[containerStyles, classes.container]"
@@ -14,19 +14,20 @@
 </template>
 
 <script lang="ts">
-    import { Position } from './types';
 </script>
 
 <script lang="ts" setup>
 /* IMPORTS */
 import { computed } from 'vue';
-import useLayer from '@/helpers/hooks/useLayer';
+import useLayer from '@//composables/useLayer';
 import makeClasses from '@/helpers/makeClasses';
+import { Position } from './types';
+
 
 /* INTERFACES */
 
 interface IProps {
-    id?: number
+    id?: string
     containerStyles?: string
     position: Position
     themeSettings?: any
@@ -44,7 +45,7 @@ const props = withDefaults(defineProps<IProps>(), {
 
 /* CONSTANTS AND HOOKS */
 
-const { closeLast } = useLayer();
+const { close } = useLayer();
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: () => [
@@ -96,5 +97,12 @@ const classes = computed((): ReturnType<typeof useClasses> => {
     .modal-container {
         opacity: 0;
     }
+}
+
+.fade-enter-active .base-animation-layer, .fade-leave-active .base-animation-layer {
+    @apply transition-fast;
+}
+.fade-enter-from .base-animation-layer, .fade-leave-to .base-animation-layer  {
+    transform: scale(.95);
 }
 </style>

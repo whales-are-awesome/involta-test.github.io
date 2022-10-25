@@ -47,7 +47,7 @@ import { useRoute, useRouter } from 'vue-router';
 import TheSidebarButton from './TheSidebarButton.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import useLayer from '@/helpers/hooks/useLayer';
+import useLayer from '@//composables/useLayer';
 
 /* META */
 

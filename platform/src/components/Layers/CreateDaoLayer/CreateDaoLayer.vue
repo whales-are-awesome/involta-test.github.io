@@ -1,8 +1,9 @@
 <template>
     <BaseLayer
+        id="CreateDaoLayer"
         position="right"
         :theme-settings="{
-            container: 'p-10 w-[455px] flex flex-col create-dao-layer'
+            container: 'create-dao-layer w-[455px] p-10 flex flex-col'
         }"
     >
         <div :class="classes.top">
@@ -83,7 +84,7 @@
 /* IMPORTS */
 
 import { computed, ref } from 'vue';
-import useLayer from '@/helpers/hooks/useLayer';
+import useLayer from '@//composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';

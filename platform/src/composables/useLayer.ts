@@ -1,5 +1,6 @@
 import { computed, watch }  from 'vue';
 import { store }  from '@/store';
+import emitter from '@/plugins/mitt';
 
 const appElement = document.querySelector<HTMLElement>('html')!;
 
@@ -11,18 +12,28 @@ async function open(name: string, props?: object) {
         isOpened: true,
         props
     });
+
+    return await new Promise(resolve => {
+        emitter.on('layerClose', ({ id, params }) => {
+            if (id === layer.id) {
+                resolve(params);
+            }
+        });
+    });
 }
 
-async function confirm(params: object) {
-    await open('ConfirmLayer', params);
+async function confirm(params: object): Promise<any> {
+    return await open('ConfirmLayer', params);
 }
 
-async function alert(params: object) {
-    await open('AlertLayer', params);
+async function alert(params: object): Promise<any> {
+    return await open('AlertLayer', params);
 }
 
-async function close(name?: string) {
-    await store.dispatch('layer/close', name);
+async function close(id: string, params?: any) {
+    await store.dispatch('layer/close', id);
+
+    emitter.emit('layerClose', { id, params });
 }
 
 async function closeLast() {

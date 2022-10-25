@@ -6,6 +6,7 @@ export default class DaoFactoryService {
     static async createDao(params: object): FetchResult<any> {
         const [trxReceipt, error] = await API.send<any>({
             contractName: 'daoFactory',
+            methodName: 'deployDao',
             params: [API.address, 1, 1, API.address],
             needReceipt: true
         });
@@ -19,8 +20,6 @@ export default class DaoFactoryService {
             eventName: 'DaoCreated',
             trxReceipt
         });
-
-        console.log(result);
 
         return [result, null];
     }

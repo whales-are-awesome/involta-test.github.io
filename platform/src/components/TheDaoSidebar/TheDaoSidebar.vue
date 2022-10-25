@@ -100,7 +100,7 @@ import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import useLayer from '@/helpers/hooks/useLayer';
+import useLayer from '@//composables/useLayer';
 
 /* META */
 

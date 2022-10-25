@@ -4,6 +4,7 @@
         :theme-settings="{
             container: 'p-10 w-[455px] flex flex-col create-dao-layer'
         }"
+        id="CreateSubDaoLayer"
     >
         <div :class="classes.top">
             <div :class="classes.topLeft">
@@ -79,7 +80,7 @@
 /* IMPORTS */
 
 import { computed, ref } from 'vue';
-import useLayer from '@/helpers/hooks/useLayer';
+import useLayer from '@//composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';

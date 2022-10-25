@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import useLayer from '@/helpers/hooks/useLayer';
+import useLayer from '@//composables/useLayer';
 
 const { isBlackoutShown, openedItems } = useLayer();
 </script>

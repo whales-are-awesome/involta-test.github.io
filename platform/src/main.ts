@@ -26,5 +26,6 @@ const app = createApp({
     class: 'base-icon',
 })
 .use(Maska)
-.use(router)
-.mount('#app');
+.use(router);
+
+app.mount('#app');

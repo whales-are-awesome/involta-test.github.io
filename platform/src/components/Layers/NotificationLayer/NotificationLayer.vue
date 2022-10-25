@@ -24,7 +24,7 @@ import {computed} from 'vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLayer from '../BaseLayer/BaseLayer.vue';
 import { Sizes } from './types';
-import useLayer from '@/helpers/hooks/useLayer';
+import useLayer from '@//composables/useLayer';
 import makeClasses from '@/helpers/makeClasses';
 
 interface IProps {

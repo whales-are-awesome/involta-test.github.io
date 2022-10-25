@@ -29,6 +29,7 @@ import TheHeader from '@/components/TheHeader/TheHeader.vue';
 import TheMarquee from '@/components/TheMarquee/TheMarquee.vue';
 import TheSidebar from '@/components/TheSidebar/TheSidebar.vue';
 import TheDaoSidebar from '@/components/TheDaoSidebar/TheDaoSidebar.vue';
+import emitter from '@/plugins/mitt';
 
 const route = useRoute();
 const showDaoSidebar = computed(() => ['dao-id', 'dao-id-subdao', 'proposal-id'].includes(route.name))

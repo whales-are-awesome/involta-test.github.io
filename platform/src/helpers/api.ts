@@ -11,6 +11,7 @@ type ConctactNames = 'daoFactory';
 
 interface fetchDataProps {
     contractName: ConctactNames
+    methodName: string
     params: any[]
     needReceipt: boolean
 }
@@ -92,7 +93,7 @@ class API extends Web3 {
     static async send<T>(props: fetchDataProps): FetchResult<T> {
         try {
             const contract = API.contracts[props.contractName];
-            const trx = await contract.methods.deployDao(...props.params).send({ from: API.address });
+            const trx = await contract.methods[props.methodName](...props.params).send({ from: API.address });
             let trxReceipt;
 
             if (props.needReceipt) {

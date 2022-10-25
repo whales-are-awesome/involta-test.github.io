@@ -1,45 +1,85 @@
 <template>
-    <div
-        class="modal-mask"
+    <BaseLayer
+        id="AlertLayer"
+        :theme-settings="{
+            container: 'p-[54px] w-[534px] flex flex-col base-animation-layer rounded-[4px] text-center'
+        }"
     >
         <div
-            class="modal-wrapper"
-            @click.self="closeLast"
+            v-if="iconName"
+            class="mb-11 flex justify-center"
         >
-            <div class="modal-container">
-                <div class="modal-header">
-                    <slot name="header">default header {{ id }}</slot>
-                </div>
-
-                <div class="modal-body">
-                    <slot name="body">default body</slot>
-                </div>
-
-                <div class="modal-footer">
-                    <slot name="footer">
-                        default footer
-                        <button
-                            class="modal-default-button"
-                            @click="close('BaseLayer')"
-                        >
-                            OK
-                        </button>
-                    </slot>
-                </div>
-            </div>
+            <BaseIcon
+                :name="iconName"
+                width="104"
+            />
         </div>
-    </div>
+        <p class="title-h4 mb-3">
+            {{ title }}
+        </p>
+        <p
+            class="text-400 mb-11"
+            v-html="text"
+        >
+        </p>
+        <div class="flex justify-center space-x-4">
+            <BaseButton
+                theme="surface"
+                @click="close('AlertLayer')"
+            >
+                Cancel
+            </BaseButton>
+            <BaseButton
+                theme="primary"
+                @click="close('AlertLayer', true)"
+            >
+                {{ buttonText }}
+            </BaseButton>
+        </div>
+    </BaseLayer>
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue';
-import useLayer from '@/helpers/hooks/useLayer';
+/* IMPORTS */
 
-const { close, closeLast } = useLayer();
+import { defineProps, computed } from 'vue';
+import useLayer from '@/composables/useLayer';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
+import { Statuses } from './types';
 
-defineProps({
-    id: Number
-})
+const { close } = useLayer();
+
+/* INTERFACES */
+
+interface IProps {
+    title: string
+    text: string
+    buttonText: string
+    status: Statuses
+}
+
+/* META */
+
+const props =withDefaults(defineProps<IProps>(), {
+
+});
+
+/* COMPUTED */
+
+const iconName = computed(() => {
+    switch(props.status) {
+        case 'success':
+            return 'alert-success'
+        case 'error':
+            return 'alert-error'
+        case 'unknown':
+            return 'alert-unknown';
+    }
+
+    return '';
+});
 </script>
 
 <style scoped>

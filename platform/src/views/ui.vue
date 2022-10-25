@@ -407,6 +407,30 @@
                 <BaseButton @click="open('CreateDaoLayer')">
                     Create Dao
                 </BaseButton>
+                <BaseButton @click="alert({
+                    title: 'All set successfully!',
+                    text: 'You’ve <strong>successfully created new DAO</strong>. You can add SubDAOs, manage proposals and use Dapps on the page of your DAO any time.',
+                    buttonText: 'Take me Home',
+                    status: 'success'
+                })">
+                    Success Layer
+                </BaseButton>
+                <BaseButton @click="alert({
+                    title: 'Warning message!',
+                    text: 'The <strong>Transaction was cancelled</strong> due current mistake',
+                    buttonText: 'Take me Home',
+                    status: 'error'
+                })">
+                    Warning Layer
+                </BaseButton>
+                <BaseButton @click="alert({
+                    title: 'Someone tripped over a wire in the metaverse',
+                    text: 'An unknown error has occured please try again.',
+                    buttonText: 'Take me Home',
+                    status: 'unknown'
+                })">
+                    Unknown Layer
+                </BaseButton>
             </div>
         </div>
         <div class="mb-10 pb-10 border-b border-gray-300">
@@ -439,7 +463,7 @@ import DropField from '@/components/Form/DropField/DropField.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
 import * as Form from '@/components/Form';
-import useLayer from '@/helpers/hooks/useLayer';
+import useLayer from '@//composables/useLayer';
 
 const tagList = [
     { title: 'Proposals', id: 0 },
@@ -467,7 +491,7 @@ const textField3 = ref('');
 const textField4 = ref('1234');
 const textarea = ref('');
 
-const { open } = useLayer();
+const { open, alert } = useLayer();
 
 const wallets = [
     { name: 'MetaMask', icon: 'metamask', isSelected: false, isDisabled: false },

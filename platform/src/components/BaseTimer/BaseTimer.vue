@@ -19,7 +19,7 @@
 import { computed } from 'vue';
 import {  } from './types';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
-import { useTimer } from '@/helpers/hooks/useTimer';
+import { useTimer } from '@//composables/useTimer';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
