@@ -184,7 +184,7 @@ async function createDAO() {
         });
 
         if (isCreate) {
-            open('CreateSubDaoLayer', { parentDaoAddress: response._proposalRegistry })
+            open('CreateSubDaoLayer', { parentDaoAddress: response.proposalRegistry })
         }
     } else {
         const isTake = await alert({

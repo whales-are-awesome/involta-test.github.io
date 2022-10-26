@@ -1,4 +1,5 @@
 import API from '@/helpers/api';
+import removeUnderscoreKeys from '@/helpers/removeUnderscoreKeys';
 
 function parseEventData({ JSON = [{}], eventName = '', trxReceipt = {} }) {
     //@ts-ignore
@@ -13,7 +14,7 @@ function parseEventData({ JSON = [{}], eventName = '', trxReceipt = {} }) {
         trxReceipt.logs[0].topics.slice(1)
     );
 
-    return result;
+    return removeUnderscoreKeys(result);
 }
 
 export default parseEventData;
