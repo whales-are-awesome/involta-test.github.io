@@ -167,43 +167,42 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 /* METHODS */
 
 async function createDAO() {
-    if (!checkErrors()) {
-        isSending.value = true;
+    if (checkErrors() || isSending.value) return;
 
-        const [response, error] = await DaoFactoryService.createDao({
+    isSending.value = true;
 
+    const [response, error] = await DaoFactoryService.createDao({
+
+    });
+
+    if (response) {
+        const isCreate = await alert({
+            title: 'All set successfully!',
+            text: 'You’ve <strong>successfully created new DAO</strong>. You can add SubDAOs, manage proposals and use Dapps on the page of your DAO any time.',
+            buttonText: 'Create new SubDAO',
+            status: 'success'
         });
 
-        if (response) {
-            const isCreate = await alert({
-                title: 'All set successfully!',
-                text: 'You’ve <strong>successfully created new DAO</strong>. You can add SubDAOs, manage proposals and use Dapps on the page of your DAO any time.',
-                buttonText: 'Create new SubDAO',
-                status: 'success'
-            });
-
-            if (isCreate) {
-                open('CreateSubDaoLayer')
-            }
-        } else {
-            const isTake = await alert({
-                title: 'Warning message!',
-                text: 'The <strong>Transaction was cancelled</strong> due current mistake',
-                buttonText: 'Take me Home',
-                status: 'error'
-            })
-
-            if (isTake) {
-                router.push({ name: 'home' });
-            }
+        if (isCreate) {
+            open('CreateSubDaoLayer', { parentDaoAddress: response._proposalRegistry })
         }
+    } else {
+        const isTake = await alert({
+            title: 'Warning message!',
+            text: 'The <strong>Transaction was cancelled</strong> due current mistake',
+            buttonText: 'Take me Home',
+            status: 'error'
+        })
 
-
-        await closeLast();
-
-        isSending.value = false;
-
+        if (isTake) {
+            router.push({ name: 'home' });
+        }
     }
+
+
+    await closeLast();
+
+    isSending.value = false;
 }
 </script>
 

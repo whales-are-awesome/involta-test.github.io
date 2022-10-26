@@ -2,7 +2,12 @@
     <BaseLayer
         position="right"
         :theme-settings="{
-            container: 'p-10 w-[455px] flex flex-col create-dao-layer'
+            container: [
+                'p-10 w-[455px] flex flex-col create-dao-layer',
+                {
+                    '-preloader': isSending
+                }
+            ]
         }"
         id="CreateSubDaoLayer"
     >
@@ -25,6 +30,7 @@
                 :required="true"
                 :maxlength="50"
                 :tip-top="`${ formData.name.length }/50`"
+                :error="formErrors.name"
             />
             <TextField
                 v-model="formData.description"
@@ -35,6 +41,7 @@
                 :textarea="true"
                 :maxlength="150"
                 :tip-top="`${ formData.description.length }/150`"
+                :error="formErrors.description"
             />
             <BaseAccordion
                 class="max-w-[400px]"
@@ -70,6 +77,7 @@
             :class="classes.button"
             size="lg"
             theme="primary"
+            @click="createSubDao"
         >
             Create SubDAO
         </BaseButton>
@@ -79,7 +87,8 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed, ref } from 'vue';
+import { computed, defineProps, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import useLayer from '@//composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -90,12 +99,23 @@ import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
+import useForm from '@/composables/useForm';
+import DaoFactoryService from '@/services/DaoFactoryService';
+
+/* INTERFACES */
+
+interface IProps {
+    parentDaoAddress: string
+}
 
 /* META */
 
+const props = withDefaults(defineProps<IProps>(), {});
+const router = useRouter();
+
 /* CONSTANTS AND HOOKS */
 
-const { close } = useLayer();
+const { close, alert, closeLast, open } = useLayer();
 const useClasses = makeClasses(() => ({
     top: () => [
         'flex items-center justify-between mb-11'
@@ -115,12 +135,29 @@ const useClasses = makeClasses(() => ({
 
 /* DATA */
 
-const formData = ref({
-    name: '',
-    description: '',
-    governanceTokens: '',
-    addressReceiver: '',
-    addressRegistry: '',
+const isSending = ref(false);
+const [formData, formErrors, checkErrors] = useForm({
+    name: {
+        value: '',
+        required: 'Введите значение',
+        pattern: {
+            text: 'Minimum 2 symbols',
+            value: /[a-zA-Z]{2,}/
+        }
+    },
+    description: {
+        value: '',
+        required: 'Введите значение'
+    },
+    governanceTokens: {
+        value: ''
+    },
+    addressReceiver: {
+        value: ''
+    },
+    addressRegistry: {
+        value: ''
+    },
 });
 
 /* COMPUTED */
@@ -133,6 +170,45 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 /* WATCH */
 
 /* METHODS */
+
+async function createSubDao() {
+    if (checkErrors() || isSending.value) return;
+
+    isSending.value = true;
+
+    const [response, error] = await DaoFactoryService.createSubDao({
+        parentDaoAddress: props.parentDaoAddress
+    });
+
+    if (response) {
+        const isTake = await alert({
+            title: 'All set successfully!',
+            text: 'You’ve <strong>successfully created new SubDAO</strong>',
+            buttonText: 'Take me Home',
+            status: 'success'
+        });
+
+        if (isTake) {
+            router.push({ name: 'home' });
+        }
+    } else {
+        const isTake = await alert({
+            title: 'Warning message!',
+            text: 'The <strong>Transaction was cancelled</strong> due current mistake',
+            buttonText: 'Take me Home',
+            status: 'error'
+        })
+
+        if (isTake) {
+            router.push({ name: 'home' });
+        }
+    }
+
+
+    await closeLast();
+
+    isSending.value = false;
+}
 </script>
 
 <style>

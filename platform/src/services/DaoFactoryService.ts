@@ -24,11 +24,11 @@ export default class DaoFactoryService {
         return [result, null];
     }
 
-    static async createSubDao(params: object): Promise<any> {
+    static async createSubDao(params: any): Promise<any> {
         const [trxReceipt, error] = await API.send<any>({
             contractName: 'daoFactory',
             methodName: 'deployDao',
-            params: [API.address, 1, 1, API.address],
+            params: [API.address, 1, 1, params.parentDaoAddress],
             needReceipt: true
         });
 
