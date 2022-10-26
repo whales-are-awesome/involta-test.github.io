@@ -20,6 +20,7 @@
                 :required="true"
                 :maxlength="50"
                 :tip-top="`${ formData.name.length }/50`"
+                :error="formErrors.name"
             />
             <TextField
                 v-model="formData.description"
@@ -30,6 +31,7 @@
                 :textarea="true"
                 :maxlength="150"
                 :tip-top="`${ formData.description.length }/150`"
+                :error="formErrors.description"
             />
             <TextField
                 v-model="formData.externalLink"
@@ -87,12 +89,12 @@ import { computed, ref } from 'vue';
 import useLayer from '@//composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
-import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';
 import BaseLayer from '../BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
+import useForm from '@/composables/useForm';
 import DaoFactoryService from '@/services/DaoFactoryService';
 
 /* META */
@@ -115,14 +117,49 @@ const useClasses = makeClasses(() => ({
 }));
 
 /* DATA */
-
-const formData = ref({
-    name: '',
-    description: '',
-    externalLink: '',
-    governanceTokens: '',
-    addressReceiver: '',
-    addressRegistry: '',
+const [formData, formErrors, checkErrors] = useForm({
+    name: {
+        value: '',
+        required: {
+            text: 'Введите значение',
+            value: true
+        }
+    },
+    description: {
+        value: '',
+        required: {
+            text: 'Введите значение',
+            value: true
+        },
+    },
+    externalLink: {
+        value: '',
+        required: {
+            text: 'Введите значение',
+            value: true
+        }
+    },
+    governanceTokens: {
+        value: '',
+        required: {
+            text: 'Введите значение',
+            value: true
+        }
+    },
+    addressReceiver: {
+        value: '',
+        required: {
+            text: 'Введите значение',
+            value: true
+        }
+    },
+    addressRegistry: {
+        value: '',
+        required: {
+            text: 'Введите значение',
+            value: true
+        }
+    },
 });
 
 /* COMPUTED */
@@ -137,9 +174,10 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 /* METHODS */
 
 function createDAO() {
-    DaoFactoryService.createDao({
-
-    });
+    console.log(checkErrors());
+    // DaoFactoryService.createDao({
+    //
+    // });
 }
 </script>
 
