@@ -2,7 +2,7 @@
     .-preloader {
         @apply opacity-60 relative pointer-events-none;
         &::after {
-            @apply absolute top-1/2 block left-1/2 -mt-5 -ml-5 w-10 h-10 box-border rounded-full z-10 animate-spin border-2 border-surface-500;
+            @apply absolute top-1/2 block left-1/2 -mt-5 -ml-5 w-10 h-10 box-border rounded-full z-10 animate-spin border-2 border-primary-500;
             content: '';
             border-left: 2px solid rgba(255, 255, 255, 0);
         }

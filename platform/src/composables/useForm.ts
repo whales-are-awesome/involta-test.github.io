@@ -4,7 +4,7 @@ import _ from 'lodash';
 interface IProps {
     [key: string]: {
         value: any
-        required?: ICheckTypeValue<boolean>
+        required?: string
         pattern?: ICheckTypeValue<RegExp>
     }
 }
@@ -26,7 +26,7 @@ type Result = [
 ]
 
 interface ICheckTypeValue<T> {
-    value: T
+    value?: T
     text: string
 }
 
@@ -60,19 +60,23 @@ function useForm(props: IProps): Result {
             const field = props[key];
             const item = data.value[key];
 
-            if (field.required?.value) {
+            if (field.required) {
                 if (_.isEmpty(item)) {
-                    errors.value[key] = field.required.text;
+                    errors.value[key] = field.required;
+
+                    continue;
                 } else {
-                    errors.value[key] = '';
+                    delete errors.value[key];
                 }
             }
 
             if (field.pattern?.value) {
-                if (field.pattern.value.test(item)) {
+                if (!field.pattern.value.test(item)) {
                     errors.value[key] = field.pattern.text;
+
+                    continue;
                 } else {
-                    errors.value[key] = '';
+                    delete errors.value[key];
                 }
             }
         }

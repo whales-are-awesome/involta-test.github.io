@@ -37,10 +37,11 @@ async function close(id: string, params?: any) {
 }
 
 async function closeLast() {
-    const last = store.state.layer.items.at(-1);
+    const last = store.state.layer.items
+        .filter((item: any) => item.isOpened).at(-1);
 
     if (last) {
-        await store.dispatch('layer/close', last.id);
+        return await store.dispatch('layer/close', last.id);
     }
 }
 

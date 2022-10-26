@@ -3,7 +3,12 @@
         id="CreateDaoLayer"
         position="right"
         :theme-settings="{
-            container: 'create-dao-layer w-[455px] p-10 flex flex-col'
+            container: [
+                'create-dao-layer w-[455px] p-10 flex flex-col',
+                {
+                    '-preloader': isSending
+                }
+            ]
         }"
     >
         <div :class="classes.top">
@@ -38,6 +43,7 @@
                 label="External link"
                 placeholder="External link"
                 :required="true"
+                :error="formErrors.externalLink"
             />
             <DropField
                 class="max-w-[400px]"
@@ -86,6 +92,7 @@
 /* IMPORTS */
 
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import useLayer from '@//composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -101,7 +108,8 @@ import DaoFactoryService from '@/services/DaoFactoryService';
 
 /* CONSTANTS AND HOOKS */
 
-const { close } = useLayer();
+const { close, alert, closeLast, open } = useLayer();
+const router = useRouter();
 const useClasses = makeClasses(() => ({
     top: () => [
         'flex items-center justify-between mb-11'
@@ -117,48 +125,33 @@ const useClasses = makeClasses(() => ({
 }));
 
 /* DATA */
+
+const isSending = ref(false);
 const [formData, formErrors, checkErrors] = useForm({
     name: {
         value: '',
-        required: {
-            text: 'Введите значение',
-            value: true
+        required: 'Введите значение',
+        pattern: {
+            text: 'Minimum 2 symbols',
+            value: /[a-zA-Z]{2,}/
         }
     },
     description: {
         value: '',
-        required: {
-            text: 'Введите значение',
-            value: true
-        },
+        required: 'Введите значение'
     },
     externalLink: {
         value: '',
-        required: {
-            text: 'Введите значение',
-            value: true
-        }
+        required: 'Введите значение'
     },
     governanceTokens: {
-        value: '',
-        required: {
-            text: 'Введите значение',
-            value: true
-        }
+        value: ''
     },
     addressReceiver: {
-        value: '',
-        required: {
-            text: 'Введите значение',
-            value: true
-        }
+        value: ''
     },
     addressRegistry: {
-        value: '',
-        required: {
-            text: 'Введите значение',
-            value: true
-        }
+        value: ''
     },
 });
 
@@ -173,11 +166,44 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 
 /* METHODS */
 
-function createDAO() {
-    console.log(checkErrors());
-    // DaoFactoryService.createDao({
-    //
-    // });
+async function createDAO() {
+    if (!checkErrors()) {
+        isSending.value = true;
+
+        const [response, error] = await DaoFactoryService.createDao({
+
+        });
+
+        if (response) {
+            const isCreate = await alert({
+                title: 'All set successfully!',
+                text: 'You’ve <strong>successfully created new DAO</strong>. You can add SubDAOs, manage proposals and use Dapps on the page of your DAO any time.',
+                buttonText: 'Create new SubDAO',
+                status: 'success'
+            });
+
+            if (isCreate) {
+                open('CreateSubDaoLayer')
+            }
+        } else {
+            const isTake = await alert({
+                title: 'Warning message!',
+                text: 'The <strong>Transaction was cancelled</strong> due current mistake',
+                buttonText: 'Take me Home',
+                status: 'error'
+            })
+
+            if (isTake) {
+                router.push({ name: 'home' });
+            }
+        }
+
+
+        await closeLast();
+
+        isSending.value = false;
+
+    }
 }
 </script>
 

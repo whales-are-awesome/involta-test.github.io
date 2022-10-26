@@ -6,18 +6,20 @@
         >
         </div>
     </Transition>
-    <TransitionGroup name="fade">
+    <Transition name="fade">
         <Component
-            v-for="item in openedItems"
-            :key="item.id"
-            :is="item.component"
-            v-bind="item.props"
+            v-if="lastItem"
+            :is="lastItem.component"
+            v-bind="lastItem.props"
         />
-    </TransitionGroup>
+    </Transition>
 </template>
 
 <script lang="ts" setup>
 import useLayer from '@//composables/useLayer';
+import { computed } from 'vue';
 
 const { isBlackoutShown, openedItems } = useLayer();
+
+const lastItem = computed(() => openedItems.value.at(-1));
 </script>

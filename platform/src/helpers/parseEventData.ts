@@ -1,4 +1,3 @@
-import DaoFactoryJSON from '@/abi/DaoFactory.json';
 import API from '@/helpers/api';
 
 function parseEventData({ JSON = [{}], eventName = '', trxReceipt = {} }) {

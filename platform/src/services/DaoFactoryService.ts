@@ -25,11 +25,24 @@ export default class DaoFactoryService {
     }
 
     static async createSubDao(params: object): Promise<any> {
-        const contract = API.contracts.daoFactory;
-        const trx = await contract.methods.deployDao(API.address, 1, 1, API.address).send({ from: API.address });
-        const trxReceipt = await API.eth.getTransactionReceipt(trx.transactionHash);
+        const [trxReceipt, error] = await API.send<any>({
+            contractName: 'daoFactory',
+            methodName: 'deployDao',
+            params: [API.address, 1, 1, API.address],
+            needReceipt: true
+        });
 
-        // totalCompanies.value = +(await contract.value.methods.totalCampaigns().call());
+        if (error) {
+            return [null, error];
+        }
+
+        const result = parseEventData({
+            JSON: DaoFactoryJSON,
+            eventName: 'DaoCreated',
+            trxReceipt
+        });
+
+        return [result, null];
     }
     // static fetchCompany(config?: RequestConfig): Promise<any> {
     //     return api.get('/api/companies', config);
