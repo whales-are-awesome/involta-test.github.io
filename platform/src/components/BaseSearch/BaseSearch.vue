@@ -12,6 +12,8 @@
             :class="classes.input"
             type="text"
             placeholder="Search"
+            @focus="onFocus"
+            @blur="onBlur"
         >
     </div>
 </template>
@@ -20,7 +22,7 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue'
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
@@ -37,7 +39,8 @@ interface IEmits {
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
-
+    isFocus: boolean
+    isFilled: boolean
 }
 
 /* META */
@@ -48,9 +51,13 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => {
+    root: ({ themeSettings, isFocus, isFilled }) => {
         return [themeSettings?.root, [
-            'h-[40px] bg-surface-300 rounded-[40px] p-[14px] relative overflow-hidden'
+            'h-[40px] bg-surface-300 rounded-[40px] p-[14px] relative overflow-hidden transition-fast',
+            {
+                'md:w-[40px]': !isFocus && !isFilled,
+                'md:w-full': isFocus || isFilled
+            }
         ]];
     },
     icon: ({ themeSettings }) => {
@@ -58,14 +65,20 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'text-300 pointer-events-none'
         ]];
     },
-    input: ({ themeSettings }) => {
+    input: ({ themeSettings, isFocus, isFilled }) => {
         return [themeSettings?.input, [
-            'h-full absolute left-[0] top-0 w-full bg-transparent placeholder:text-300 text-sm pl-[36px]'
+            'h-full absolute left-0 top-0 w-full bg-transparent placeholder:text-300 text-sm pl-[36px]',
+            {
+                'opacity-0': !isFocus && !isFilled
+            }
         ]];
     },
 }));
 
 /* DATA */
+
+const isFocus = ref(false);
+
 /* COMPUTED */
 
 const value = computed({
@@ -79,11 +92,20 @@ const value = computed({
 
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
-        themeSettings: props.themeSettings
+        themeSettings: props.themeSettings,
+        isFocus: isFocus.value,
+        isFilled: !!value.value
     });
 });
 
 /* WATCH */
 /* METHODS */
 
+function onFocus(): void {
+    isFocus.value = true;
+}
+
+function onBlur(): void {
+    isFocus.value = false;
+}
 </script>

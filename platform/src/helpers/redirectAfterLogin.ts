@@ -8,8 +8,6 @@ export default function redirectAfterLogin(): void {
         router.push({ name: 'home' });
     }
 
-    console.log(!API.isLoggedIn, !isAuthPage);
-
     if (!API.isLoggedIn && !isAuthPage) {
         window.location.reload();
     }

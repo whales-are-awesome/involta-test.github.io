@@ -126,7 +126,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     },
     avatar: ({ themeSettings }) => {
         return [themeSettings?.avatar, [
-            'mr-5'
+            'mr-5 flex-shrink-0'
         ]];
     },
     breadcrumbs: ({ themeSettings }) => {

@@ -65,7 +65,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'rounded-[8px]': rounded === 'sm' && size === 'sm',
             'rounded-[10px]': rounded === 'sm' && size === 'md',
             'rounded-[16px]': rounded === 'sm' && size === 'base',
-            'rounded-[20px]': rounded === 'sm' && size === 'lg',
+            'rounded-[20px]': rounded === 'sm' && ['lg', 'xl'].includes(size),
             'rounded-full': rounded === 'lg',
 
             'mr-2': hasContent

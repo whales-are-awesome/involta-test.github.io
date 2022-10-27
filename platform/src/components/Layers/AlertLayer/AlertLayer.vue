@@ -1,5 +1,6 @@
 <template>
     <BaseLayer
+        class="p-8"
         id="AlertLayer"
         :theme-settings="{
             container: 'p-[54px] w-[534px] flex flex-col base-animation-layer rounded-[4px] text-center'

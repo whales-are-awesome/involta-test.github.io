@@ -13,16 +13,18 @@
                 dear user
             </div>
         </div>
-        <div class="mb-6 flex justify-between">
+        <div class="mb-6 flex justify-between relative">
             <TagsList
                 v-model="tagList.value"
-                class="pt-[10px]"
+                class="pt-[10px] mr-[54px]"
                 :items="tagList.options"
             />
-            <BaseSearch
-                class="w-[515px]"
-                v-model="formData.search"
-            />
+            <div class="max-w-[515px] w-full md:max-w-none">
+                <BaseSearch
+                    class="md:!absolute md:top-0 md:right-0 md:z-1"
+                    v-model="formData.search"
+                />
+            </div>
         </div>
         <div class="flex space-x-4 mb-6">
             <SelectField
@@ -56,7 +58,7 @@
                 class="flex flex-wrap -mx-3 -mt-6 mb-8"
             >
                 <div
-                    class="w-1/4 px-3 mt-6"
+                    class="w-1/4 px-3 mt-6 md:w-1/3"
                     v-for="item in 12"
                     :key="item"
                 >
@@ -80,7 +82,7 @@
         <div v-if="tagList.value === TagStatuses.APPs">
             <div class="flex flex-wrap -mx-3 -mt-6 mb-8">
                 <div
-                    class="w-1/4 px-3 mt-6"
+                    class="w-1/4 px-3 mt-6 md:w-1/3"
                     v-for="item in 12"
                     :key="item"
                 >

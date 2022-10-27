@@ -77,9 +77,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    // @ts-ignore
-    if (to.meta.title) document.title = to.meta.title;
-
     if (to.meta.middleware) {
         const middleware = Array.isArray(to.meta.middleware)
             ? to.meta.middleware
@@ -95,6 +92,9 @@ router.beforeEach((to, from, next) => {
 
         return middleware[0]({...context, next: nextMiddleware});
     }
+
+    // @ts-ignore
+    if (to.meta.title) document.title = to.meta.title;
 
     return next();
 });

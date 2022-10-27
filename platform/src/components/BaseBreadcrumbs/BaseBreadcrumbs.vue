@@ -85,9 +85,9 @@ const store = useStore();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: 'flex items-center',
-    angle: 'mr-3 text-gray-400',
-    items: 'space-x-2 flex',
+    root: 'flex items-center overflow-hidden',
+    angle: 'mr-3 text-gray-400 flex-shrink-0',
+    items: 'space-x-2 flex flex-shrink-0',
     item: ({ view }) => [
         'flex items-center',
         {

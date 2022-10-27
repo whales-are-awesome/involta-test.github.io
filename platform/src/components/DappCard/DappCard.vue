@@ -79,7 +79,7 @@ const props = withDefaults(defineProps<IProps>(), {});
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => {
         return [themeSettings?.root, [
-            'border border-gray-100 rounded-[12px] p-8'
+            'border border-gray-100 rounded-[12px] p-8 md:py-6 md:px-5'
         ]];
     },
     avatarWrapper: 'flex justify-center mb-4',

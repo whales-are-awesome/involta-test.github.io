@@ -2,7 +2,7 @@ import { Icons } from '@/components/BaseIcon/types';
 
 type Themes = 'gray' | 'surface' | 'primary';
 type Views = 'filled' | 'outlined' | 'ghost';
-type Sizes = 'lg' | 'md' | 'sm';
+type Sizes = 'lg' | 'md' | 'sm' | '';
 type Rounded = 'base' | 'sm' | 'lg' | 'full';
 
 // Which tag component can be

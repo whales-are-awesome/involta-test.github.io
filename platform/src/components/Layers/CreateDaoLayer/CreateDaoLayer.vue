@@ -4,7 +4,7 @@
         position="right"
         :theme-settings="{
             container: [
-                'create-dao-layer w-[455px] p-10 flex flex-col',
+                'create-dao-layer w-[455px] p-10 flex flex-col sm:w-full',
                 {
                     '-preloader': isSending
                 }

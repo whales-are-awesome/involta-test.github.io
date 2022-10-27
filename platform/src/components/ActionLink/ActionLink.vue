@@ -59,7 +59,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'transition-fast',
             {
                 'text-primary-400 hover:text-primary-500': theme === 'primary',
-                'text-gray-400 hover:text-gray-500': theme === 'secondary'
+                'text-gray-400 hover:text-gray-500': theme === 'secondary',
+                'text-gray-500 hover:text-gray-600': theme === 'secondary-dark'
             }
         ]];
     },
