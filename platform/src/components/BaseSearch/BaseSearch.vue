@@ -69,7 +69,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.input, [
             'h-full absolute left-0 top-0 w-full bg-transparent placeholder:text-300 text-sm pl-[36px]',
             {
-                'opacity-0': !isFocus && !isFilled
+                'md:opacity-0': !isFocus && !isFilled
             }
         ]];
     },
