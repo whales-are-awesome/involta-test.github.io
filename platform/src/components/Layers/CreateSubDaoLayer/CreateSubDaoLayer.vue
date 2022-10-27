@@ -139,7 +139,7 @@ const isSending = ref(false);
 const [formData, formErrors, checkErrors] = useForm({
     name: {
         value: '',
-        required: 'Введите значение',
+        required: 'Empty field',
         pattern: {
             text: 'Minimum 2 symbols',
             value: /[a-zA-Z]{2,}/
@@ -147,7 +147,7 @@ const [formData, formErrors, checkErrors] = useForm({
     },
     description: {
         value: '',
-        required: 'Введите значение'
+        required: 'Empty field'
     },
     governanceTokens: {
         value: ''

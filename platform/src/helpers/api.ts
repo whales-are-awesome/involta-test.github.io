@@ -2,7 +2,8 @@ import Web3 from 'web3';
 import { default as Web3Types } from 'web3/types';
 import { Eth } from 'web3-eth/types';
 import { Utils } from 'web3-utils/types';
-import { useStore } from '@/store';
+import { store } from '@/store';
+import redirectAfterLogin  from '@/helpers/redirectAfterLogin';
 
 import DaoFactoryJSON from '@/abi/DaoFactory.json';
 
@@ -18,7 +19,7 @@ interface fetchDataProps {
 
 class API extends Web3 {
     static instance: Web3Types;
-    static address: '';
+    static address = '';
 
     constructor(protocol = (window as any).ethereum) {
         super();
@@ -31,8 +32,6 @@ class API extends Web3 {
     }
 
     static init(protocol = (window as any).ethereum) {
-        const store = useStore();
-
         API.instance = new Web3(protocol);
         API.handleAll();
 
@@ -73,20 +72,16 @@ class API extends Web3 {
     }
 
     static networkAccountsChange(): void {
-        const store = useStore();
-
-        window.ethereum.on('accountsChanged', () => {
-            store.dispatch('web3/updateAddress');
-            console.log('accountsChanged');
+        window.ethereum.on('accountsChanged', async () => {
+            await store.dispatch('web3/updateAddress');
+            redirectAfterLogin();
         })
     }
 
     static handleNetworkChange(): void {
-        const store = useStore();
-
-        window.ethereum.on('networkChanged', () => {
-            store.dispatch('web3/updateAddress');
-            console.log('networkChanged');
+        window.ethereum.on('networkChanged', async () => {
+            await store.dispatch('web3/updateAddress');
+            redirectAfterLogin();
         })
     }
 
@@ -104,6 +99,18 @@ class API extends Web3 {
         } catch (e) {
             return [null, e as Error];
         }
+    }
+
+    static async login(): Promise<string> {
+        const address = (await API.eth.requestAccounts())[0];
+
+        API.address = address;
+
+        return address;
+    }
+
+    static get isLoggedIn(): boolean {
+        return !!API.address;
     }
 }
 

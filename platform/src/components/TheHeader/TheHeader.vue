@@ -35,7 +35,7 @@
                     prepend: true
                 }"
                 rounded="lg"
-                @click="onClick"
+                @click="API.login"
             >
                 Connect Wallet
             </BaseButton>
@@ -79,7 +79,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     nav: 'mr-8',
     navList: 'flex space-x-8 text-gray-500'
 }));
-const api = new API();
 
 /* DATA */
 
@@ -97,10 +96,4 @@ const address = computed(() => store.state.web3.address);
 
 /* WATCH */
 /* METHODS */
-
-async function onClick() {
-    const address = (await api.eth.requestAccounts())[0];
-
-    store.dispatch('web3/updateAddress', address);
-}
 </script>

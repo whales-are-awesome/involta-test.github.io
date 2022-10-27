@@ -73,8 +73,6 @@ function useForm(props: IProps): Result {
             if (field.pattern?.value) {
                 if (!field.pattern.value.test(item)) {
                     errors.value[key] = field.pattern.text;
-
-                    continue;
                 } else {
                     delete errors.value[key];
                 }

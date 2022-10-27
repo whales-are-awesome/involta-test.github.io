@@ -19,6 +19,7 @@
                             :key="wallet.icon"
                             class="w-[200px] mx-2 mt-4"
                             v-bind="wallet"
+                            @click="auth"
                         />
                     </div>
                 </div>
@@ -28,17 +29,30 @@
 </template>
 
 <script setup lang="ts">
+import { nextTick } from 'vue';
+import { useRouter } from 'vue-router';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import WalletNameCard from '@/components/WalletNameCard/WalletNameCard.vue';
 
+import API from '@/helpers/api';
+
+const router = useRouter();
+
 const wallets = {
     ['Supported Wallet']: [
-        { name: 'MetaMask', icon: 'metamask', isSelected: false }
+        { name: 'MetaMask', icon: 'metamask', isSelected: false, onClick: () => ({}) }
     ],
     ['Will be available soon:']: [
-        { name: 'ConnectWallet', icon: 'connect-wallet', isDisabled: true },
-        { name: 'Ledger', icon: 'ledger', isDisabled: true },
-        { name: 'TrustWallet', icon: 'trust-wallet', isDisabled: true },
+        { name: 'ConnectWallet', icon: 'connect-wallet', isDisabled: true, onClick: () => ({}) },
+        { name: 'Ledger', icon: 'ledger', isDisabled: true, onClick: () => ({}) },
+        { name: 'TrustWallet', icon: 'trust-wallet', isDisabled: true, onClick: () => ({}) },
     ]
+}
+
+
+async function auth() {
+    await API.login();
+
+    router.push({ name: 'home' });
 }
 </script>

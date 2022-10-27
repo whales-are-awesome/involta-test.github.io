@@ -7,6 +7,7 @@ import web3 from './web3'
 export interface State {
     breadcrumbs: any
     layer: any
+    web3: any
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()

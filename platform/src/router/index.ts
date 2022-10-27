@@ -1,6 +1,8 @@
-import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
-import {store} from '@/store';
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { store } from '@/store';
 import scrollIntoView from '@/helpers/scrollIntoView';
+
+import auth from '@/middleware/auth';
 
 // @ts-ignore
 import Home from '@/views/home.vue'
@@ -10,7 +12,8 @@ const routes: Array<RouteRecordRaw> = [
         path: '/',
         name: 'home',
         meta: {
-            title: 'OuterCircle'
+            title: 'OuterCircle',
+            middleware: [auth]
         },
         component: Home
     },
@@ -26,7 +29,8 @@ const routes: Array<RouteRecordRaw> = [
         path: '/dao/:id',
         name: 'dao-id',
         meta: {
-            title: 'DAO'
+            title: 'DAO',
+            middleware: [auth]
         },
         component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/index.vue'),
     },
@@ -34,7 +38,8 @@ const routes: Array<RouteRecordRaw> = [
         path: '/dao/:id/:subdao',
         name: 'dao-id-subdao',
         meta: {
-            title: 'SubDAO'
+            title: 'SubDAO',
+            middleware: [auth]
         },
         component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/_subdao.vue'),
     },
@@ -42,7 +47,8 @@ const routes: Array<RouteRecordRaw> = [
         path: '/proposal/:id/',
         name: 'proposal-id',
         meta: {
-            title: 'Proposal'
+            title: 'Proposal',
+            middleware: [auth]
         },
         component: () => import(/* webpackChunkName: "ui" */ '../views/proposal/_id.vue'),
     },
@@ -50,7 +56,8 @@ const routes: Array<RouteRecordRaw> = [
         path: '/auth',
         name: 'auth',
         meta: {
-            title: 'Connect wallet'
+            title: 'Connect wallet',
+            middleware: [auth]
         },
         component: () => import(/* webpackChunkName: "ui" */ '../views/auth.vue'),
     },
@@ -67,17 +74,52 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
     history: createWebHistory(),
     routes
-})
+});
 
 router.beforeEach((to, from, next) => {
     // @ts-ignore
     if (to.meta.title) document.title = to.meta.title;
 
-    next();
+    if (to.meta.middleware) {
+        const middleware = Array.isArray(to.meta.middleware)
+            ? to.meta.middleware
+            : [to.meta.middleware];
+
+        const context = {
+            from,
+            next,
+            router,
+            to,
+        };
+        const nextMiddleware = nextFactory(context, middleware, 1);
+
+        return middleware[0]({...context, next: nextMiddleware});
+    }
+
+    return next();
 });
+
 router.afterEach((context, asd) => {
     store.commit('breadcrumbs/clear');
     scrollIntoView(document.body);
 });
+
+//@ts-ignore
+function nextFactory(context, middleware, index) {
+    const subsequentMiddleware = middleware[index];
+    // If no subsequent Middleware exists,
+    // the default `next()` callback is returned.
+    if (!subsequentMiddleware) return context.next;
+
+    //@ts-ignore
+    return (...parameters) => {
+        // Run the default Vue Router `next()` callback first.
+        context.next(...parameters);
+        // Then run the subsequent Middleware with a new
+        // `nextMiddleware()` callback.
+        const nextMiddleware = nextFactory(context, middleware, index + 1);
+        subsequentMiddleware({...context, next: nextMiddleware});
+    };
+}
 
 export default router
