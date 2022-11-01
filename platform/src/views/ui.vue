@@ -371,6 +371,19 @@
             </div>
         </div>
         <div class="mb-10 pb-10 border-b border-gray-300">
+            <h3 class="mb-6">Date Field {{ dateField }}</h3>
+            <DateFieldsWrapper>
+                <DateField
+                    v-model="dateField"
+                    title="Date Field"
+                />
+                <DateField
+                    v-model="dateField"
+                    title="Date Field"
+                />
+            </DateFieldsWrapper>
+        </div>
+        <div class="mb-10 pb-10 border-b border-gray-300">
             <h3 class="mb-6">Accordion</h3>
             <BaseAccordion
                 class="max-w-[400px]"
@@ -461,8 +474,9 @@ import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import DappCard from '@/components/DappCard/DappCard.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
+import DateField from '@/components/Form/DateField/DateField.vue';
+import DateFieldsWrapper from '@/components/Form/DateField/DateFieldsWrapper.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
-import * as Form from '@/components/Form';
 import useLayer from '@//composables/useLayer';
 
 const tagList = [
@@ -489,6 +503,7 @@ const textField = ref('');
 const textField2 = ref('');
 const textField3 = ref('');
 const textField4 = ref('1234');
+const dateField = ref('');
 const textarea = ref('');
 
 const { open, alert } = useLayer();

@@ -24,7 +24,7 @@ import makeClasses from '@/helpers/makeClasses';
 
 interface IProps {
     width: number | string
-    themeSettings: any
+    themeSettings?: any
 }
 
 interface IEmits {

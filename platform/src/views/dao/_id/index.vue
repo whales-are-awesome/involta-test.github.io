@@ -10,15 +10,32 @@
             size="sm"
         />
         <div class="p-4 bg-surface-200 rounded-[10px]">
-            <div class="flex space-x-4 mb-[30px]">
-                <SelectField
-                    v-model="formData.statusId"
-                    :options="formInfo.statusesOptions"
-                />
-                <SelectField
-                    v-model="formData.voteId"
-                    :options="formInfo.voteOptions"
-                />
+            <div class="flex justify-between mb-[30px]">
+                <div class="flex space-x-4 ">
+                    <SelectField
+                        v-model="formData.statusId"
+                        size="sm"
+                        :options="formInfo.statusesOptions"
+                    />
+                    <SelectField
+                        v-model="formData.voteId"
+                        size="sm"
+                        :options="formInfo.voteOptions"
+                    />
+                </div>
+                <div>
+                    <BaseButton
+                        view="outlined"
+                        :icon="{
+                            name: 'plus',
+                            width: 14,
+                            prepend: true
+                        }"
+                        @click="open('CreateProposalLayer')"
+                    >
+                        New Proposal
+                    </BaseButton>
+                </div>
             </div>
             <div
                 v-if="tagList.value === TagStatuses.Proposals"
@@ -54,6 +71,7 @@ import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
+import useLayer from '@/composables/useLayer';
 
 import { Statuses } from '@/models/statuses';
 
@@ -63,6 +81,8 @@ enum TagStatuses {
     DAOs,
     APPs
 }
+
+const { open } = useLayer();
 
 const tagList = ref({
     options: [

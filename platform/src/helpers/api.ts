@@ -57,10 +57,6 @@ class API extends Web3 {
         }
     }
 
-    static async getCurrentAddress(): Promise<string> {
-        return (await API.eth.getAccounts())[0];
-    }
-
 
     static async send<T>(props: fetchDataProps): FetchResult<T> {
         try {
@@ -76,10 +72,6 @@ class API extends Web3 {
         } catch (e) {
             return [null, e as Error];
         }
-    }
-
-    static get isLoggedIn(): boolean {
-        return !!API.address;
     }
 }
 

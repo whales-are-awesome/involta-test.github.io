@@ -4,7 +4,7 @@ interface SelectOption {
     icon?: string
 }
 
-type Sizes = 'xs' | 'md' | 'sm';
+type Sizes = 'xs' | 'md' | 'sm' | 'lg';
 
 export {
     SelectOption,

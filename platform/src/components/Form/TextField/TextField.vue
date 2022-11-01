@@ -266,12 +266,8 @@ const useClasses = makeClasses(() => {
                 '!text-disabled-text': disabled,
             }
         ],
-        top: ({ isFilled, hasLeftIcon }) => [
-            'flex items-center mb-1',
-            {
-                'left-[13px]': hasLeftIcon,
-                'right-[13px]': !hasLeftIcon
-            }
+        top: () => [
+            'flex items-center mb-1'
         ],
         label: ({ isFilled, hasLeftIcon, disabled }) => [
             'text-gray-500 text-sm font-bold',

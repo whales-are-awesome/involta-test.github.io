@@ -1,36 +1,45 @@
 <template>
-    <div :class="classes.root">
-        <VueSelect
-            v-model="value"
-            :class="classes.select"
-            ref="select"
-            :options="options"
-            label="title"
-            :reduce="(option) => option.id"
-            :clearable="false"
-            :close-on-select="true"
-            :searchable="false"
-            v-click-outside="close"
-        >
-            <template #no-options>
-                {{ notFound }}
-            </template>
-            <template #open-indicator>
-                <span :class="classes.openIndicator"></span>
-            </template>
-            <template #selected-option="{ id, title, icon }">
-                <slot name="selected-option" v-bind="{ id, title, icon }">
-                    <div :class="classes.selectedOption">
-                        <BaseIcon
-                            v-if="icon"
-                            :class="classes.optionIcon"
-                            :name="icon"
-                            width="24"
-                        />
-                        <span
-                            v-if="title"
-                            v-html="title"
-                        >
+    <FieldInfo
+        v-if="tooltip || label || required"
+        :tooltip="tooltip"
+        :label="label"
+        :hint="hint"
+        :required="required"
+        :tip="tip"
+        :error="error"
+    >
+        <div :class="classes.main">
+            <VueSelect
+                v-model="value"
+                :class="classes.select"
+                ref="select"
+                :options="options"
+                label="title"
+                :reduce="(option) => option.id"
+                :clearable="false"
+                :close-on-select="true"
+                :searchable="false"
+                v-click-outside="close"
+            >
+                <template #no-options>
+                    {{ notFound }}
+                </template>
+                <template #open-indicator>
+                    <span :class="classes.openIndicator"></span>
+                </template>
+                <template #selected-option="{ id, title, icon }">
+                    <slot name="selected-option" v-bind="{ id, title, icon }">
+                        <div :class="classes.selectedOption">
+                            <BaseIcon
+                                v-if="icon"
+                                :class="classes.optionIcon"
+                                :name="icon"
+                                width="24"
+                            />
+                            <span
+                                v-if="title"
+                                v-html="title"
+                            >
                         </span>
                             <span
                                 v-else-if="placeholder"
@@ -38,39 +47,40 @@
                             >
                             {{ placeholder }}
                         </span>
-                        <BaseIcon
-                            :class="[classes.arrowIcon, {
+                            <BaseIcon
+                                :class="[classes.arrowIcon, {
                                'rotate-180' :select?.open
                             }]"
-                            name="select-angle"
-                            width="8"
-                            height="5"
-                        />
-                    </div>
-                </slot>
-            </template>
-            <template #option="{ title, id, icon }">
-                <slot name="option" v-bind="{ title, id, icon }">
-                    <div :class="classes.option">
-                        <BaseIcon
-                            v-if="icon"
-                            :class="classes.optionIcon"
-                            :name="icon"
-                            width="24"
-                        />
-                        <span v-html="title" />
-                    </div>
-                </slot>
-            </template>
-            <template #search="{ attributes, events }">
-                <input
-                    :class="classes.search"
-                    v-bind="attributes"
-                    v-on="events"
-                >
-            </template>
-        </VueSelect>
-    </div>
+                                name="select-angle"
+                                width="8"
+                                height="5"
+                            />
+                        </div>
+                    </slot>
+                </template>
+                <template #option="{ title, id, icon }">
+                    <slot name="option" v-bind="{ title, id, icon }">
+                        <div :class="classes.option">
+                            <BaseIcon
+                                v-if="icon"
+                                :class="classes.optionIcon"
+                                :name="icon"
+                                width="24"
+                            />
+                            <span v-html="title" />
+                        </div>
+                    </slot>
+                </template>
+                <template #search="{ attributes, events }">
+                    <input
+                        :class="classes.search"
+                        v-bind="attributes"
+                        v-on="events"
+                    >
+                </template>
+            </VueSelect>
+        </div>
+    </FieldInfo>
 </template>
 
 <script lang="ts" setup>
@@ -79,6 +89,7 @@
 import { computed, ref } from 'vue';
 import VueSelect from 'vue-select';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import FieldInfo from '@/components/Form/FieldInfo/FieldInfo.vue';
 import { SelectOption, Sizes } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
@@ -91,6 +102,14 @@ interface IProps {
     options: SelectOption[]
     themeSettings?: any
     size: Sizes
+
+    tooltip?: string
+    hint?: string
+    label?: string
+    required?: boolean
+    tip?: string | number
+    error?: string
+    disabled?: boolean
 }
 
 interface IEmits {
@@ -113,13 +132,14 @@ const emit = defineEmits<IEmits>();
 
 const select = ref(null);
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings, size, isOpen }) => {
+    main: ({ themeSettings, size, isOpen }) => {
         return [themeSettings?.root,  [
             {
                 'h-[40px]': size === 'md',
+                'h-[48px]': size === 'lg',
                 'h-[32px] text-sm': size === 'sm',
                 'h-[32px] text-xss': size === 'xs',
-                'z-50': isOpen
+                'z-50 relative': isOpen
             }
         ]];
     },
@@ -137,6 +157,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.selectedOption,  [
             'bg-white hover:bg-surface-100 transition-fast flex items-center',
             {
+                'px-3 h-[48px]': size === 'lg',
                 'px-5 h-[40px]': size === 'md',
                 'px-3 h-[32px]': size === 'sm',
                 'px-1 h-[32px]': size === 'xs'
@@ -153,7 +174,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'py-2 bg-white hover:bg-surface-100 transition-fast flex items-center',
             {
                 'px-5': size === 'md',
-                'px-3': size === 'sm',
+                'px-3': ['lg', 'sm'].includes(size),
                 'px-1': size === 'xs'
             }
         ]];

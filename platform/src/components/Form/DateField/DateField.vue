@@ -32,6 +32,7 @@
 
 import { computed, ref } from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
@@ -58,18 +59,19 @@ const emit = defineEmits<IEmits>();
 
 const useClasses = makeClasses<ThemeProps>(() => ({
     root: ({ isPickerShown }) => [
-        'bg-white px-4 py-3 date-field relative z-50 border-2  rounded-lg transition-fast',
+        'bg-white px-4 pt-[10px] pb-[6px] date-field relative border-2 rounded-lg transition-fast hover:bg-primary-100',
         {
-            'border-surface-500': isPickerShown,
+            'border-primary-200 z-50': isPickerShown,
             'border-transparent': !isPickerShown,
         }
     ],
     fieldWrapper: 'flex flex-col text-500 placeholder:text-300',
-    fieldTitle: 'text-xs text-200',
+    fieldTitle: 'text-xs text-200 !leading-none',
+    field: 'bg-transparent text-sm h-[24px]',
     picker: ({ isPickerShown }) => [
         'absolute top-full left-0 w-full translate-y-7',
         {
-            'hidden': !isPickerShown
+            '!hidden': !isPickerShown
         }
     ]
 }));
@@ -123,8 +125,6 @@ function formatValue(_date: Date) {
 }
 
 </script>
-
-<style src="@vuepic/vue-datepicker/dist/main.css"></style>
 
 <style>
     .date-field {
