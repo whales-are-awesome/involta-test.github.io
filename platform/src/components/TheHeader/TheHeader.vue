@@ -50,7 +50,7 @@
                 </BaseButton>
             </div>
             <BaseButton
-                v-if="!address"
+                v-if="address === ''"
                 size="sm"
                 :icon="{
                     name: 'wallet',
@@ -58,7 +58,7 @@
                     prepend: true
                 }"
                 rounded="lg"
-                @click="API.login"
+                :href="{ name: 'auth' }"
             >
                 Connect Wallet
             </BaseButton>
@@ -66,6 +66,11 @@
                 v-if="address"
                 :value="address"
             />
+            <div
+                v-if="address === null"
+                class="w-[120px] h-[40px] -preloader -preloader_sm"
+            >
+            </div>
         </div>
     </header>
 </template>
@@ -73,14 +78,13 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseWallet from '@/components/BaseWallet/BaseWallet.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import makeClasses from '@/helpers/makeClasses';
-import API from '@/helpers/api';
-import { useStore } from '@/store';
+import { store } from '@/store';
 
 /* INTERFACES */
 
@@ -88,8 +92,6 @@ interface IThemeProps {
 
 }
 /* META */
-
-const store = useStore();
 
 /* VARS AND CUSTOM HOOKS */
 const nav = [
@@ -116,7 +118,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 
     });
 });
-const address = computed(() => store.state.web3.address);
+const address = computed(() => store.state.wallet.address);
 
 /* LIFECYCLE */
 

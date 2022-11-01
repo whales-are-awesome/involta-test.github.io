@@ -21,21 +21,15 @@ class API extends Web3 {
     static instance: Web3Types;
     static address = '';
 
-    constructor(protocol = (window as any).ethereum) {
-        super();
-
+    static init(protocol = (window as any).ethereum) {
         if (!API.instance) {
-            API.init(protocol);
+            API.instance = new Web3(protocol);
+            // API.handleAll();
+
+            // store.dispatch('web3/updateAddress');
         }
 
-        return API.instance || this;
-    }
-
-    static init(protocol = (window as any).ethereum) {
-        API.instance = new Web3(protocol);
-        API.handleAll();
-
-        store.dispatch('web3/updateAddress');
+        return API.instance;
     }
 
     static get eth(): Eth {
@@ -44,7 +38,8 @@ class API extends Web3 {
 
     static get contracts() {
         return {
-            daoFactory: new API.eth.Contract(JSON.parse(JSON.stringify(DaoFactoryJSON)), process.env.VUE_APP_DAO_FACTORY_ADDRESS)
+            // @ts-ignore
+            daoFactory: API.eth.Contract(JSON.parse(JSON.stringify(DaoFactoryJSON)), process.env.VUE_APP_DAO_FACTORY_ADDRESS)
         };
     }
 
@@ -66,24 +61,6 @@ class API extends Web3 {
         return (await API.eth.getAccounts())[0];
     }
 
-    static handleAll(): void {
-        API.networkAccountsChange();
-        API.handleNetworkChange();
-    }
-
-    static networkAccountsChange(): void {
-        window.ethereum.on('accountsChanged', async () => {
-            await store.dispatch('web3/updateAddress');
-            redirectAfterLogin();
-        })
-    }
-
-    static handleNetworkChange(): void {
-        window.ethereum.on('networkChanged', async () => {
-            await store.dispatch('web3/updateAddress');
-            redirectAfterLogin();
-        })
-    }
 
     static async send<T>(props: fetchDataProps): FetchResult<T> {
         try {
@@ -99,14 +76,6 @@ class API extends Web3 {
         } catch (e) {
             return [null, e as Error];
         }
-    }
-
-    static async login(): Promise<string> {
-        const address = (await API.eth.requestAccounts())[0];
-
-        API.address = address;
-
-        return address;
     }
 
     static get isLoggedIn(): boolean {

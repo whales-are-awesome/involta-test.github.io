@@ -57,11 +57,12 @@ import {
     Themes
 } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IRouterLink from '@/models/routerLink';
 
 /* INTERFACES */
 
 interface IProps {
-    href?: string
+    href?: IRouterLink
     icon?: {
         name: Icons
         width?: string

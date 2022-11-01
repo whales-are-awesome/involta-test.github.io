@@ -1,18 +1,18 @@
-import { store } from '@/store';
-import API from '@/helpers/api';
+import Wallet from '@/wallets';
 
 export default async function auth({ next, from, to }: any) {
     const isAuthPage = to.name === 'auth';
 
     if (!from.name) {
-        await store.dispatch('web3/updateAddress');
+        await Wallet.init();
     }
 
-    if (API.isLoggedIn && isAuthPage) {
+
+    if (Wallet.loggedIn && isAuthPage) {
         next({ name: 'home' });
     }
 
-    if (!API.isLoggedIn  && !isAuthPage) {
+    if (!Wallet.loggedIn  && !isAuthPage) {
         next({ name: 'auth' });
     }
 

@@ -1,13 +1,12 @@
 import { GetterTree, MutationTree, ActionTree  } from 'vuex';
-import API from '@/helpers/api';
 
 interface IState {
-    address: string
+    address: string | null
 }
 
 function state(): IState {
     return {
-        address: ''
+        address: null
     };
 }
 
@@ -21,16 +20,8 @@ const mutations: MutationTree<IState> = {
 };
 
 const actions: ActionTree<IState, any> = {
-    async updateAddress({ commit }, payload: IState['address']) {
-        let address = '';
-
-        if (!payload) {
-            address = await API.getCurrentAddress();
-        }
-
-        //@ts-ignore
-        API.address = address || payload;
-        commit('setAddress', address || payload);
+    setAddress({ commit }, payload: IState['address']) {
+        commit('setAddress', payload);
     }
 };
 

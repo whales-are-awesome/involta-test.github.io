@@ -11,8 +11,8 @@ import clickOutside from './directives/clickOutside';
 import './assets/styles/global.css';
 
 const app = createApp({
-    beforeCreate() {
-        new API();
+    async beforeCreate() {
+        API.init();
     },
     setup () {
         provide(DefaultApolloClient, apolloClient)

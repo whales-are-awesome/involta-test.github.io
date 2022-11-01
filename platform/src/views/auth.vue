@@ -19,7 +19,7 @@
                             :key="wallet.icon"
                             class="w-[200px] mx-2 mt-4"
                             v-bind="wallet"
-                            @click="auth"
+                            @click="auth(wallet)"
                         />
                     </div>
                 </div>
@@ -29,30 +29,30 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import WalletNameCard from '@/components/WalletNameCard/WalletNameCard.vue';
 
 import API from '@/helpers/api';
+import Wallet from '@/wallets';
 
 const router = useRouter();
 
 const wallets = {
     ['Supported Wallet']: [
-        { name: 'MetaMask', icon: 'metamask', isSelected: false, onClick: () => ({}) }
+        { name: 'MetaMask', icon: 'metamask', login: () => Wallet.MetaMask.login() },
+        { name: 'ConnectWallet', icon: 'connect-wallet', login: () => Wallet.ConnectWallet.login() },
     ],
     ['Will be available soon:']: [
-        { name: 'ConnectWallet', icon: 'connect-wallet', isDisabled: true, onClick: () => ({}) },
-        { name: 'Ledger', icon: 'ledger', isDisabled: true, onClick: () => ({}) },
-        { name: 'TrustWallet', icon: 'trust-wallet', isDisabled: true, onClick: () => ({}) },
+        { name: 'Ledger', icon: 'ledger', isDisabled: true, login: () => ({}) },
+        { name: 'TrustWallet', icon: 'trust-wallet', isDisabled: true, login: () => ({}) },
     ]
 }
 
 
-async function auth() {
-    await API.login();
+async function auth(wallet: any) {
+    await wallet.login();
 
-    router.push({ name: 'home' });
+    // router.push({ name: 'home' });
 }
 </script>
