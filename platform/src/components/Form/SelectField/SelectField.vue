@@ -1,6 +1,5 @@
 <template>
     <FieldInfo
-        v-if="tooltip || label || required"
         :tooltip="tooltip"
         :label="label"
         :hint="hint"

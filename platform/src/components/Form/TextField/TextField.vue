@@ -158,6 +158,7 @@ interface IProps {
     tipTop?: string | number
     tipBottom?: string | number
     isBold?: boolean
+    isBig?: boolean
     isWrapped?: boolean
     icon?: {
         name: Icons
@@ -365,7 +366,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         isBold: props.isBold,
         isTextarea: props.textarea,
         isWrapped: props.isWrapped,
-        isBig: (!!props.insetLabel || !!props.buttonTitle || !!slots['append-inner-right']) && !props.textarea
+        isBig: props.isBig
     });
 });
 

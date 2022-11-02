@@ -1,9 +1,9 @@
 import { Icons } from '@/components/BaseIcon/types';
 
-type Themes = 'gray' | 'surface' | 'primary';
+type Themes = 'gray' | 'surface' | 'primary' | 'primary-200';
 type Views = 'filled' | 'outlined' | 'ghost';
-type Sizes = 'lg' | 'md' | 'sm' | '';
-type Rounded = 'base' | 'sm' | 'lg' | 'full';
+type Sizes = 'lg' | 'md' | 'sm' | 'icon' | '';
+type Rounded = 'base' | 'sm' | 'lg' | 'full' | 'icon';
 
 // Which tag component can be
 type ComponentTagType = 'button' | 'RouterLink' | 'a'  | 'label';

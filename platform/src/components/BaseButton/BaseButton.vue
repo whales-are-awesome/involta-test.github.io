@@ -114,11 +114,13 @@ const useClasses = makeClasses<IThemeProps>(() => ({
                 'px-5 h-[52px] text-lg': size === 'lg',
                 'px-5 h-[40px] text-base': size === 'md',
                 'px-[18px] text-sm': size === 'sm',
+                'w-[36px] h-[36px]': size === 'icon',
                 'h-[36px]': size === 'sm' && rounded === 'lg',
                 'h-[32px]': size === 'sm' && rounded !== 'lg',
 
                 'text-white': view === 'filled' && ['gray', 'primary'].includes(theme),
                 'text-gray-500 active:text-gray-700': view === 'filled' && theme === 'surface',
+                'text-primary-500': view === 'outlined' && theme === 'primary-200',
                 'text-gray-500 active:text-gray-600': ['ghost', 'outlined'].includes(view) && theme === 'gray',
                 '!text-disabled-text pointer-events-none': disabled
             }
@@ -140,12 +142,14 @@ const useClasses = makeClasses<IThemeProps>(() => ({
                 'bg-surface-400 group-hover:bg-gray-300': view === 'filled' && theme === 'surface',
 
                 'bg-primary-500 group-hover:bg-primary-600 group-active:bg-primary-800': view === 'filled' && theme === 'primary',
+                'border border-primary-200 group-hover:bg-primary-300 group-active:bg-primary-800': view === 'outlined' && theme === 'primary-200',
 
 
                 '!bg-disabled-light': disabled && view === 'filled',
 
                 // 'rounded': rounded === 'base',
                 'rounded-[5px]': rounded === 'sm',
+                'rounded-[10px]': rounded === 'icon',
                 'rounded-[30px]': rounded === 'lg',
                 'rounded-full': rounded === 'full'
             }

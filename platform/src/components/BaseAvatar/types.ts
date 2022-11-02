@@ -1,5 +1,5 @@
-type Sizes = 'xss' | 'xs' | 'sm' | 'md' | 'base' | 'lg' | 'xl';
-type Rounded = 'sm' | 'lg';
+type Sizes = 'tiny' | 'xss' | 'xs' | 'sm' | 'md' | 'base' | 'lg' | 'xl';
+type Rounded = 'xs' | 'sm' | 'lg';
 
 export {
     Sizes,

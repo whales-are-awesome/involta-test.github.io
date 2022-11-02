@@ -4,9 +4,23 @@
         @click="toggleVisibility"
     >
         <div :class="classes.top">
-            <p :class="classes.title">
-                {{ title }}
-            </p>
+            <div
+                v-if="title"
+                :class="classes.info"
+            >
+                <p
+                    :class="classes.title"
+                >
+                    {{ title }}
+                </p>
+                <p
+                    v-if="description"
+                    :class="classes.description"
+                >
+                    {{ description }}
+                </p>
+            </div>
+            <slot name="top"></slot>
             <div :class="classes.iconWrapper">
                 <BaseIcon
                     :class="classes.icon"
@@ -40,6 +54,7 @@ import makeClasses from '@/helpers/makeClasses';
 
 interface IProps {
     title?: string
+    description?: string
     themeSettings?: any
     isVisible: boolean
 }
@@ -57,13 +72,18 @@ const props = withDefaults(defineProps<IProps>(), {
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => {
+    root: ({ themeSettings, isVisibleLocal }) => {
         return [themeSettings?.root, [
-            'px-3 py-4 bg-primary-100 rounded-[4px] cursor-pointer'
+            'px-3 py-4 rounded-[4px] cursor-pointer border',
+            {
+                'bg-primary-100 border-transparent': isVisibleLocal,
+                'border-gray-300': !isVisibleLocal
+            }
         ]];
     },
     top: 'flex items-center justify-between',
     title: 'text-gray-500 text-sm font-semibold',
+    description: 'text-gray-500 text-xss',
     collapseInner: 'pt-6 cursor-default',
     iconWrapper: 'flex items-center justify-center w-9 h-9 border border-gray-200 rounded-[10px]',
     icon: ({ isVisibleLocal }) => [

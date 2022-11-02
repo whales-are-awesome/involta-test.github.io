@@ -66,22 +66,123 @@
                     title="End date"
                 />
             </DateFieldsWrapper>
-<!--            <BaseAccordion-->
-<!--                class="max-w-[400px]"-->
-<!--                title="Advanced DAO information"-->
-<!--                :is-visible="true"-->
-<!--            >-->
-<!--            </BaseAccordion>-->
         </div>
         <div :class="classes.advanced">
             <TextSeparator>
                 Advanced Pipeline tasks
             </TextSeparator>
-            <BaseAccordion
-                title="Dapp Name"
-            >
-
+            <BaseBlock>
+                <BaseHeading
+                    class="mb-3"
+                    title="To add App search for it’s Name"
+                    tooltip="To add App search for it’s Name"
+                />
+                <DropdownSearch
+                    v-model="formData.name"
+                />
+            </BaseBlock>
+            <BaseAccordion>
+                <template #top>
+                    <BaseAvatar
+                        :src="require('@/assets/images/common/placeholder.jpeg')"
+                        alt="DAO"
+                        rounded="xs"
+                        size="md"
+                    >
+                        <BaseHeading
+                            title="Add Dapp"
+                            tooltip="Add Dapp"
+                        >
+                            Use APPs for your advanced proposal
+                        </BaseHeading>
+                    </BaseAvatar>
+                </template>
             </BaseAccordion>
+            <BaseAdd class="items-center !mb-8">
+                <BaseHeading
+                    class="ml-4"
+                    title="Add Dapp"
+                    tooltip="Add Dapp"
+                >
+                    Use APPs for your advanced proposal
+                </BaseHeading>
+            </BaseAdd>
+            <BaseAccordion
+                title="Custom Transaction"
+                description="Create custom transaction description"
+                :is-visible="true"
+            >
+                <div class="space-y-3">
+                    <TextField
+                        v-model="formData.name"
+                        label="Contract address"
+                        placeholder="0x2c934...a180"
+                        :required="true"
+                        :is-wrapped="true"
+                        :error="formErrors.name"
+                    />
+                    <TextField
+                        v-model="formData.name"
+                        label="Function Name"
+                        placeholder="Value"
+                        :required="true"
+                        :maxlength="50"
+                        :tip-top="`${ formData.name.length }/50`"
+                        :is-wrapped="true"
+                        :error="formErrors.name"
+                    />
+                    <TextSeparator class="!my-8">
+                        Advanced Pipeline tasks
+                    </TextSeparator>
+                    <div class="bg-white rounded-[4px] py-2 px-3">
+                        <BaseHeading
+                            class="mb-2"
+                            title="1. Parameter"
+                            tooltip="Use Custom transaction for personal data?"
+                        />
+                        <div class="flex space-x-3">
+                            <SelectField
+                                class="w-1/2"
+                                v-model="formData.name"
+                                :options="[{ id: 1, title: 'uint32' }, { id: 2, title: 'uint8' }]"
+                                placeholder="Type"
+                                :is-big="true"
+                                :error="formErrors.name"
+                            />
+                            <TextField
+                                class="w-1/2"
+                                v-model="formData.name"
+                                placeholder="Value"
+                                :is-big="true"
+                                :error="formErrors.name"
+                            />
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <BaseButton
+                            size="sm"
+                            theme="primary-200"
+                            view="outlined"
+                            :icon="{
+                                name: 'plus',
+                                width: 10,
+                                prepend: true
+                            }"
+                        >
+                            Add Parameter
+                        </BaseButton>
+                    </div>
+                </div>
+            </BaseAccordion>
+            <BaseAdd class="items-center">
+                <BaseHeading
+                    class="ml-4"
+                    title="Add Custom Transaction"
+                    tooltip="Use Custom transaction for personal data?"
+                >
+                    Use Custom transaction for personal data?
+                </BaseHeading>
+            </BaseAdd>
         </div>
         <BaseButton
             :class="classes.button"
@@ -106,7 +207,12 @@ import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
+import BaseHeading from '@/components/BaseHeading/BaseHeading.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
+import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
+import BaseAdd from '@/components/BaseAdd/BaseAdd.vue';
+import BaseBlock from '@/components/BaseBlock/BaseBlock.vue';
+import DropdownSearch from '@/components/DropdownSearch/DropdownSearch.vue';
 import DateField from '@/components/Form/DateField/DateField.vue';
 import DateFieldsWrapper from '@/components/Form/DateField/DateFieldsWrapper.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
