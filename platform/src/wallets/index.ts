@@ -1,13 +1,13 @@
-import MetaMask from './MetaMask';
+import InjectedWallet from './InjectedWallet';
 import ConnectWallet from './ConnectWallet';
 import { store } from '@/store';
 
-type wallets = 'metamask' | 'connectWallet' | '';
-type walletsClasses = MetaMask | ConnectWallet;
+type wallets = 'injectedWallet' | 'connectWallet' | '';
+type walletsClasses = InjectedWallet | ConnectWallet;
 
 class Wallet {
-    static currentWalletName: wallets = 'metamask';
-    static MetaMask = MetaMask;
+    static currentWalletId: wallets = 'injectedWallet';
+    static InjectedWallet = InjectedWallet;
     static ConnectWallet = ConnectWallet;
 
     static get loggedIn() {
@@ -20,21 +20,24 @@ class Wallet {
     }
 
     static get currentWallet(): walletsClasses {
-        switch (Wallet.currentWalletName) {
-            case 'metamask':
-                return MetaMask;
+        switch (Wallet.currentWalletId) {
+            case 'injectedWallet':
+                return InjectedWallet;
             case 'connectWallet':
                 return ConnectWallet;
             default:
-                return MetaMask;
+                return InjectedWallet;
         }
     }
 
     static async init(): Promise<void> {
-        // check if loggedIn in MetaMask
-        const address = await MetaMask.updateAddress();
-
-        if (!address) {
+        if (await InjectedWallet.updateAddress()) {
+            // check if loggedIn in InjectedWallet
+            Wallet.currentWalletId = 'injectedWallet';
+        } else if (await ConnectWallet.updateAddress()) {
+            // check if loggedIn in ConnectWallet
+            Wallet.currentWalletId = 'connectWallet';
+        } else {
             store.dispatch('wallet/setAddress', '');
         }
     }

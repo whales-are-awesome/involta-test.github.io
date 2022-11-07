@@ -2,9 +2,6 @@ import Web3 from 'web3';
 import { default as Web3Types } from 'web3/types';
 import { Eth } from 'web3-eth/types';
 import { Utils } from 'web3-utils/types';
-import { store } from '@/store';
-import redirectAfterLogin  from '@/helpers/redirectAfterLogin';
-
 import DaoFactoryJSON from '@/abi/DaoFactory.json';
 
 type FetchResult<T> = Promise<[T|null, Error|null]>;
@@ -21,12 +18,9 @@ class API extends Web3 {
     static instance: Web3Types;
     static address = '';
 
-    static init(protocol = (window as any).ethereum) {
+    static async init(protocol = window.ethereum) {
         if (!API.instance) {
             API.instance = new Web3(protocol);
-            // API.handleAll();
-
-            // store.dispatch('web3/updateAddress');
         }
 
         return API.instance;
@@ -39,7 +33,7 @@ class API extends Web3 {
     static get contracts() {
         return {
             // @ts-ignore
-            daoFactory: API.eth.Contract(JSON.parse(JSON.stringify(DaoFactoryJSON)), process.env.VUE_APP_DAO_FACTORY_ADDRESS)
+            daoFactory: new API.eth.Contract(JSON.parse(JSON.stringify(DaoFactoryJSON)), process.env.VUE_APP_DAO_FACTORY_ADDRESS)
         };
     }
 

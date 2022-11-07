@@ -1,66 +1,87 @@
-import AuthClient, { generateNonce } from "@walletconnect/auth-client";
-import '@walletconnect/types';
 //@ts-ignore
-import QRCodeModal from '@walletconnect/qrcode-modal';
+import { providers } from 'ethers';
+//@ts-ignore
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import '@walletconnect/types';
+import { store } from '@/store';
+import redirectAfterLogin from '@/helpers/redirectAfterLogin';
 
 class ConnectWallet {
-    static instance: AuthClient;
+    static provider: any;
+    static signer: any;
     static address = '';
 
-    static async init(): Promise<void> {
-        ConnectWallet.instance = await AuthClient.init({
-            relayUrl: 'wss://relay.walletconnect.com',
-            projectId: process.env.VUE_APP_CONNECT_WALLET_PROJECT_ID!,
-            metadata: {
-                name: 'OuterCircle',
-                description: "A Dapp using WalletConnect AuthClient",
-                url: window.location.host,
-                icons: [],
-            },
+    static init(qrcode: boolean): void {
+        ConnectWallet.provider = new WalletConnectProvider({
+            infuraId: process.env.VUE_APP_INFURA_ID,
+            qrcode: qrcode
         });
 
         ConnectWallet.handleAll();
+
     }
 
     static handleAll() {
-        ConnectWallet.handleAuthResponse();
+        // ConnectWallet.handleAuthResponse();
+        ConnectWallet.handleDisconnect();
+        ConnectWallet.handleAccountsChanged();
+        ConnectWallet.handleChainChanged();
     }
 
-    static handleAuthResponse(): void {
-        ConnectWallet.instance.on('auth_response', ({ params }) => {
-            console.log(2);
-            console.log(params);
-            // if (params.result?.s) {
-            //     // Response contained a valid signature -> user is authenticated.
-            // } else {
-            //     // Handle error or invalid signature case
-            //     console.error(params.message);
-            // }
+    // static handleAuthResponse(): void {
+    // }
+
+    static handleDisconnect(): void {
+        ConnectWallet.provider.on('disconnect', (code: any, reason: any) => {
+            console.log("disconnected");
+            redirectAfterLogin();
+        });
+    }
+
+    static handleAccountsChanged(): void {
+        ConnectWallet.provider.on('accountsChanged', (accounts: any) => {
+            console.log('accountsChanged');
+        });
+    }
+
+    static handleChainChanged(): void {
+        ConnectWallet.provider.on('chainChanged', (chainId: any) => {
+            console.log('chainChanged');
         });
     }
 
     static async login(): Promise<string> {
-        if (!ConnectWallet.instance) {
-            await ConnectWallet.init();
+        try {
+            ConnectWallet.init(true);
+            ConnectWallet.provider.enable();
+
+            const web3Provider = new providers.Web3Provider(ConnectWallet.provider);
+            const signer = await web3Provider.getSigner();
+            ConnectWallet.address = await signer.getAddress();
+
+            store.dispatch('wallet/setAddress', ConnectWallet.address);
+        } catch (e) {
+            console.log(e);
         }
 
-        const { uri } = await ConnectWallet.instance.request({
-            aud: window.location.href,
-            domain: window.location.hostname.split('.').slice(-2).join('.'),
-            chainId: 'eip155:1',
-            type: 'eip4361',
-            statement: 'Sign in with wallet.',
-            nonce: generateNonce(),
-        });
+        return ConnectWallet.address;
+    }
 
-        if (uri) {
-            console.log(uri);
-            QRCodeModal.open(uri, () => {
-                console.log("EVENT", "QR Code Modal closed");
-            });
+    static async updateAddress(): Promise<string> {
+        ConnectWallet.init(false);
+        ConnectWallet.provider.enable();
+
+        if (!ConnectWallet.provider.connected)  {
+            return '';
         }
 
-        return '';
+        const web3Provider = new providers.Web3Provider(ConnectWallet.provider);
+        const signer = await web3Provider.getSigner();
+        ConnectWallet.address = await signer.getAddress();
+
+        store.dispatch('wallet/setAddress', ConnectWallet.address);
+
+        return ConnectWallet.address;
     }
 }
 

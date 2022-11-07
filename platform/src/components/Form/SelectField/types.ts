@@ -4,9 +4,11 @@ interface SelectOption {
     icon?: string
 }
 
-type Sizes = 'xs' | 'md' | 'sm' | 'lg';
+type Sizes = 'xs' | 'md' | 'sm' | 'lg' | 'xl' | 'xxl';
+type AngleView = 'primary' | 'secondary';
 
 export {
     SelectOption,
-    Sizes
+    Sizes,
+    AngleView
 }

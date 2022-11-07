@@ -21,7 +21,10 @@
                 </p>
             </div>
             <slot name="top"></slot>
-            <div :class="classes.iconWrapper">
+            <div
+                v-if="!noChevron"
+                :class="classes.iconWrapper"
+            >
                 <BaseIcon
                     :class="classes.icon"
                     name="chevron-down"
@@ -57,6 +60,7 @@ interface IProps {
     description?: string
     themeSettings?: any
     isVisible: boolean
+    noChevron?: boolean
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{

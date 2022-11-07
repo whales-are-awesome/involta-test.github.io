@@ -12,7 +12,7 @@ import './assets/styles/global.css';
 
 const app = createApp({
     async beforeCreate() {
-        API.init();
+        await API.init();
     },
     setup () {
         provide(DefaultApolloClient, apolloClient)

@@ -15,13 +15,6 @@
                         <div :class="classes.name">
                             DAO Name
                         </div>
-                        <div
-                            :class="classes.more"
-                        >
-                            <div :class="classes.moreCircle"></div>
-                            <div :class="classes.moreCircle"></div>
-                            <div :class="classes.moreCircle"></div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -145,8 +138,6 @@ const useClasses = makeClasses(() => ({
     logo: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 z-0 opacity-70',
     topInfo: 'absolute left-0 bottom-0 px-2 pb-[10px] w-full flex justify-between items-center',
     name: 'text-surface-100 text-white font-semibold',
-    more: 'bg-[rgba(212,212,214,0.2)] rounded-full w-6 h-6 flex items-center justify-center flex-col space-y-px',
-    moreCircle: 'bg-white rounded-full w-[3px] h-[3px]',
     subDaoTitle: 'mb-5 mt-9',
     subDaoItems: 'mb-[20px]',
     subDaoItem: 'pl-2 pr-[11px] text-sm text-gray-500 cursor-pointer relative',

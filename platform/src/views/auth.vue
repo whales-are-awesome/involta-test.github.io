@@ -6,22 +6,14 @@
                 By connecting a wallet, I agree to OuterCircle’s <ActionLink href="//google.com" target="_blank">Terms of Service</ActionLink>, and <ActionLink href="//google.com" target="_blank">Privacy Policy</ActionLink>.
             </p>
             <div class="space-y-8">
-                <div
-                    v-for="(item, name) in wallets"
-                    :key="name"
-                >
-                    <p class="text-400 font-medium text-sm mb-4">
-                        {{ name }}
-                    </p>
-                    <div class="flex -mx-2 -mt-4 md:flex-wrap">
-                        <WalletNameCard
-                            v-for="wallet in item"
-                            :key="wallet.icon"
-                            class="w-[200px] mx-2 mt-4"
-                            v-bind="wallet"
-                            @click="auth(wallet)"
-                        />
-                    </div>
+                <div class="flex -mx-2 -mt-4 md:flex-wrap">
+                    <WalletNameCard
+                        v-for="wallet in wallets"
+                        :key="wallet.icon"
+                        class="w-[200px] mx-2 mt-4"
+                        v-bind="wallet"
+                        @click="auth(wallet)"
+                    />
                 </div>
             </div>
         </div>
@@ -29,30 +21,37 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import WalletNameCard from '@/components/WalletNameCard/WalletNameCard.vue';
 
-import API from '@/helpers/api';
 import Wallet from '@/wallets';
+import API from '@/helpers/api';
 
 const router = useRouter();
 
-const wallets = {
-    ['Supported Wallet']: [
-        { name: 'MetaMask', icon: 'metamask', login: () => Wallet.MetaMask.login() },
-        { name: 'ConnectWallet', icon: 'connect-wallet', login: () => Wallet.ConnectWallet.login() },
-    ],
-    ['Will be available soon:']: [
-        { name: 'Ledger', icon: 'ledger', isDisabled: true, login: () => ({}) },
-        { name: 'TrustWallet', icon: 'trust-wallet', isDisabled: true, login: () => ({}) },
-    ]
-}
 
+const wallets = computed(() => {
+    const result = [];
+    const provider = API.instance.currentProvider;
+
+    if ('isMetaMask' in provider && 'isTrustWallet' in provider) {
+        result.push({ id: 'injectedWallet', name: 'Injected', icon: 'injectedWallet', login: () => Wallet.InjectedWallet.login() });
+    } else if ('isMetaMask' in provider) {
+        result.push({ id: 'injectedWallet', name: 'MetaMask', icon: 'metamask', login: () => Wallet.InjectedWallet.login() });
+    } else if ('isTrustWallet' in provider) {
+        result.push({ id: 'injectedWallet', name: 'TrustWallet', icon: 'trustWallet', login: () => Wallet.InjectedWallet.login() });
+    }
+
+    result.push({ id: 'connectWallet', name: 'ConnectWallet', icon: 'connect-wallet', login: () => Wallet.ConnectWallet.login() });
+
+    return result;
+});
 
 async function auth(wallet: any) {
     await wallet.login();
 
-    // router.push({ name: 'home' });
+    Wallet.currentWalletId = wallet.id;
 }
 </script>

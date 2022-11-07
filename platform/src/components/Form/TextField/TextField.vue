@@ -53,6 +53,12 @@
                 >
                     {{ insetLabel }}
                 </div>
+                <div
+                    v-if="insetLeftLabel"
+                    :class="classes.insetLeftLabel"
+                >
+                    {{ insetLeftLabel }}
+                </div>
                 <BaseIcon
                     v-if="icon && icon.prepend"
                     :class="[classes.icon, icon.class]"
@@ -154,6 +160,7 @@ interface IProps {
     hint?: string
     label?: string
     insetLabel?: string
+    insetLeftLabel?: string
     required?: boolean
     tipTop?: string | number
     tipBottom?: string | number
@@ -186,7 +193,6 @@ const props = withDefaults(defineProps<IProps>(), {
     size: 'md'
 });
 const emit = defineEmits<IEmits>();
-const slots = useSlots();
 
 /* VARS AND CUSTOM HOOKS */
 
@@ -219,15 +225,16 @@ const useClasses = makeClasses(() => {
                     'border-[#CB101D] ': states.errorFocus,
                     'pointer-events-none border-disabled-dark bg-disabled-light': states.disabled,
 
+                    'h-[62px]': size === 'xl',
                     'h-12': !isBig && !isTextarea,
                     'h-[56px]': isBig && !isTextarea,
                     'h-[96px]': isTextarea,
                 }
             ];
         },
-        field: ({ isFilled, size, hasLeftIcon, isBold, isBig, isTextarea, disabled }) => {
+        field: ({ isFilled, size, hasLeftIcon, isBold, isBig, isTextarea, disabled, insetLeftLabel }) => {
             return [
-                'absolute inset-0 rounded-[4px] transition-fast resize-none bg-transparent',
+                'absolute inset-0 rounded-[4px] transition-fast resize-none bg-transparent text-500',
                 {
                     'font-bold': isBold,
                     'pl-[13px]': !hasLeftIcon,
@@ -237,12 +244,13 @@ const useClasses = makeClasses(() => {
                     'pt-[14px]': isFilled && isBig,
                     'p-3': isTextarea,
                     '!text-disabled-text': disabled,
+                    'pt-[17px]': !!insetLeftLabel,
 
                     'text-xs': size === 'sm'
                 }
             ]
         },
-        placeholder: ({ isFilled, isBig, hasLeftIcon, disabled }) => {
+        placeholder: ({ isFilled, isBig, hasLeftIcon, disabled, insetLeftLabel }) => {
             return [
                 'text-300 absolute z-10 transition-fast pointer-events-none',
                 {
@@ -253,6 +261,7 @@ const useClasses = makeClasses(() => {
                     'hidden': !isBig && isFilled,
                     'text-400 text-xss top-[8px] left-[13px] font-semibold': isFilled,
                     '!text-disabled-text': disabled,
+                    'pt-[16px]': !!insetLeftLabel,
                 }
             ]
         },
@@ -300,6 +309,11 @@ const useClasses = makeClasses(() => {
                 '!text-disabled-text': disabled,
             }
         ],
+        insetLeftLabel: ({ themeSettings }) => {
+            return [themeSettings?.insetLeftLabel,  [
+                'absolute left-3 top-3 text-gray-500 text-xss font-semibold leading-1'
+            ]];
+        },
         bottom: ({ isFilled, hasLeftIcon, error }) => [
             'mt-1 flex items-center',
             {
@@ -363,6 +377,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         isFilled: !!value.value,
         hasLeftIcon: !!props.icon?.prepend,
         hasRightIcon: !props.icon?.prepend,
+        insetLeftLabel: props.insetLeftLabel,
         isBold: props.isBold,
         isTextarea: props.textarea,
         isWrapped: props.isWrapped,

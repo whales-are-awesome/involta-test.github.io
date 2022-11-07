@@ -26,7 +26,7 @@ import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
 interface IProps {
-    icon: Extract<Icons, 'ledger' | 'metamask' | 'connect-wallet' | 'trust-wallet'>
+    icon: Extract<Icons, 'ledger' | 'injectedWallet' | 'connect-wallet' | 'trust-wallet'>
     name: string
     isSelected?: boolean
     isDisabled?: string

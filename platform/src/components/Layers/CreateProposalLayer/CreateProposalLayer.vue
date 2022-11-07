@@ -49,6 +49,7 @@
                 label="Select relative SubDAO"
                 tooltip="Select relative SubDAO"
                 size="lg"
+                angle-view="secondary"
             />
             <DateFieldsWrapper
                 label="Choose Dates"
@@ -81,7 +82,7 @@
                     v-model="formData.name"
                 />
             </BaseBlock>
-            <BaseAccordion>
+            <BaseAccordion :no-chevron="true">
                 <template #top>
                     <BaseAvatar
                         :src="require('@/assets/images/common/placeholder.jpeg')"
@@ -96,7 +97,49 @@
                             Use APPs for your advanced proposal
                         </BaseHeading>
                     </BaseAvatar>
+                    <DeleteButton
+                        theme="surface-300"
+                    />
                 </template>
+                <div class="space-y-3">
+                    <SelectField
+                        v-model="formData.name"
+                        size="xl"
+                        inner-label="Type"
+                        :options="formInfo.solidityTypes"
+                        placeholder="Text"
+                        :searchable="true"
+                        angle-view="secondary"
+                        :error="formErrors.name"
+                        value="Function to do"
+                        :required="true"
+                        tooltip="lool"
+                        :is-wrapped="true"
+                        label="Function to do"
+                        :theme-settings="{
+                            innerLabel: '!text-300'
+                        }"
+                    />
+                    <TextField
+                        v-model="formData.name"
+                        label="Name of the task"
+                        placeholder="Task Name"
+                        :maxlength="50"
+                        :tip-top="`${ formData.name.length }/50`"
+                        :is-wrapped="true"
+                        :error="formErrors.name"
+                    />
+                    <TextField
+                        v-model="formData.name"
+                        label="Task Description"
+                        placeholder="Task Description"
+                        :maxlength="150"
+                        :tip-top="`${ formData.name.length }/150`"
+                        :is-wrapped="true"
+                        :textarea="true"
+                        :error="formErrors.name"
+                    />
+                </div>
             </BaseAccordion>
             <BaseAdd class="items-center !mb-8">
                 <BaseHeading
@@ -108,13 +151,22 @@
                 </BaseHeading>
             </BaseAdd>
             <BaseAccordion
-                title="Custom Transaction"
-                description="Create custom transaction description"
+                v-for="transaction in formData.transactions"
+                :key="transaction.id"
+                :title="transaction.funcName || 'Custom Transaction'"
+                :description="transaction.address || 'Create custom transaction description'"
                 :is-visible="true"
+                :no-chevron="true"
             >
+                <template #top>
+                    <DeleteButton
+                        theme="surface-300"
+                        @click="deleteTransaction(transaction.id)"
+                    />
+                </template>
                 <div class="space-y-3">
                     <TextField
-                        v-model="formData.name"
+                        v-model="transaction.address"
                         label="Contract address"
                         placeholder="0x2c934...a180"
                         :required="true"
@@ -122,7 +174,7 @@
                         :error="formErrors.name"
                     />
                     <TextField
-                        v-model="formData.name"
+                        v-model="transaction.funcName"
                         label="Function Name"
                         placeholder="Value"
                         :required="true"
@@ -131,29 +183,44 @@
                         :is-wrapped="true"
                         :error="formErrors.name"
                     />
-                    <TextSeparator class="!my-8">
-                        Advanced Pipeline tasks
+                    <TextSeparator
+                        v-if="transaction.parameters.length"
+                        class="!my-8"
+                    >
+                        Parameters
                     </TextSeparator>
-                    <div class="bg-white rounded-[4px] py-2 px-3">
-                        <BaseHeading
-                            class="mb-2"
-                            title="1. Parameter"
-                            tooltip="Use Custom transaction for personal data?"
-                        />
+                    <div
+                        v-for="(parameter, index) in transaction.parameters"
+                        :key="index"
+                        class="bg-white rounded-[4px] py-3 px-3"
+                    >
+                        <div class="flex justify-between items-center mb-2">
+                            <BaseHeading
+                                :title="(index + 1) + '. Parameter'"
+                                tooltip="Use Custom transaction for personal data?"
+                            />
+                            <DeleteButton
+                                @click="deleteTransactionParameter(transaction.id, index)"
+                            />
+                        </div>
                         <div class="flex space-x-3">
                             <SelectField
                                 class="w-1/2"
-                                v-model="formData.name"
-                                :options="[{ id: 1, title: 'uint32' }, { id: 2, title: 'uint8' }]"
-                                placeholder="Type"
-                                :is-big="true"
+                                v-model="parameter.type"
+                                size="xl"
+                                inner-label="Type"
+                                :options="formInfo.solidityTypes"
+                                placeholder="Text"
+                                :searchable="true"
+                                angle-view="secondary"
                                 :error="formErrors.name"
                             />
                             <TextField
                                 class="w-1/2"
-                                v-model="formData.name"
-                                placeholder="Value"
-                                :is-big="true"
+                                v-model="parameter.value"
+                                inset-left-label="Value"
+                                placeholder="Text"
+                                size="xl"
                                 :error="formErrors.name"
                             />
                         </div>
@@ -168,13 +235,17 @@
                                 width: 10,
                                 prepend: true
                             }"
+                            @click="addTransactionParameter(transaction.id)"
                         >
                             Add Parameter
                         </BaseButton>
                     </div>
                 </div>
             </BaseAccordion>
-            <BaseAdd class="items-center">
+            <BaseAdd
+                class="items-center"
+                @click="addTransaction"
+            >
                 <BaseHeading
                     class="ml-4"
                     title="Add Custom Transaction"
@@ -212,6 +283,8 @@ import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseAdd from '@/components/BaseAdd/BaseAdd.vue';
 import BaseBlock from '@/components/BaseBlock/BaseBlock.vue';
+import DeleteButton from '@/components/DeleteButton/DeleteButton.vue';
+import { solidityTypes } from '@/models/solidityTypes';
 import DropdownSearch from '@/components/DropdownSearch/DropdownSearch.vue';
 import DateField from '@/components/Form/DateField/DateField.vue';
 import DateFieldsWrapper from '@/components/Form/DateField/DateFieldsWrapper.vue';
@@ -219,6 +292,8 @@ import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
 import DaoFactoryService from '@/services/DaoFactoryService';
+import { createId } from '@/helpers/uuid';
+import API from '@/helpers/api';
 
 /* INTERFACES */
 
@@ -259,7 +334,11 @@ const formInfo = {
     subdao: [
         { id: 1, title: 'DAO 1' },
         { id: 2, title: 'DAO 2' }
-    ]
+    ],
+    solidityTypes: solidityTypes.map(item => ({
+        title: item,
+        id: item
+    }))
 }
 const [formData, formErrors, checkErrors] = useForm({
     name: {
@@ -279,7 +358,14 @@ const [formData, formErrors, checkErrors] = useForm({
     subdaoId: {
         value: formInfo.subdao[0].id
     },
+    typeId: {
+        value: formInfo.solidityTypes[0].id
+    },
+    transactions: {
+        value: []
+    }
 });
+
 
 /* COMPUTED */
 
@@ -288,17 +374,32 @@ const classes = computed((): ReturnType<typeof useClasses> => {
     });
 });
 
+const formResult = computed(() => {
+    return {
+        transactions: formData.value.transactions.map((item: any) => ({
+            address: item.address,
+            value: 0,
+            response: '',
+            data: `${ item.funcName }(${ item.parameters.map((param: any) => param.type.trim()).join(',') })`,
+            transType: 0
+        }))
+    }
+});
+
+
 /* WATCH */
 
 /* METHODS */
 
 async function createProposal() {
+    console.log(formResult.value.transactions);
     if (checkErrors() || isSending.value) return;
 
     isSending.value = true;
 
     const [response, error] = await DaoFactoryService.createProposal({
     });
+
 
     if (response) {
         const isTake = await alert({
@@ -328,6 +429,36 @@ async function createProposal() {
     await closeLast();
 
     isSending.value = false;
+}
+
+function addTransaction() {
+    formData.value.transactions.push({
+        id: createId('transaction'),
+        address: '',
+        funcName: '',
+        parameters: []
+    });
+}
+
+function addTransactionParameter(id: string) {
+    const transaction = formData.value.transactions.find((item: any) => item.id === id);
+
+    transaction.parameters.push({
+        type: '',
+        value: ''
+    });
+}
+
+function deleteTransaction(id: string) {
+    const index = formData.value.transactions.findIndex((item: any) => item.id === id);
+
+    formData.value.transactions.splice(index, 1);
+}
+
+function deleteTransactionParameter(id: string, index: number) {
+    const transaction = formData.value.transactions.find((item: any) => item.id === id);
+
+    transaction.parameters.splice(index, 1);
 }
 </script>
 

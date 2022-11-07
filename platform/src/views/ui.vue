@@ -509,7 +509,7 @@ const textarea = ref('');
 const { open, alert } = useLayer();
 
 const wallets = [
-    { name: 'MetaMask', icon: 'metamask', isSelected: false, isDisabled: false },
+    { name: 'InjectedWallet', icon: 'injectedWallet', isSelected: false, isDisabled: false },
     { name: 'ConnectWallet', icon: 'connect-wallet', isSelected: false, isDisabled: false },
     { name: 'Ledger', icon: 'ledger', isSelected: true, isDisabled: false },
     { name: 'TrustWallet', icon: 'trust-wallet', isSelected: false, isDisabled: true },

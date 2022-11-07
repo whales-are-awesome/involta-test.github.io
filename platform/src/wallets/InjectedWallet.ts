@@ -8,16 +8,19 @@ function init(target: any, propertyKey: string, propertyDescriptor: PropertyDesc
     }
 }
 
-class MetaMask {
+class InjectedWallet {
     static address = '';
 
     static init(): void {
-        MetaMask.handleAll();
+        InjectedWallet.handleAll();
     }
 
     @init
     static async login(): Promise<string> {
         const address = (await API.eth.requestAccounts())[0];
+
+        console.log(address);
+        console.log(API.eth);
 
         API.address = address;
 
@@ -25,31 +28,31 @@ class MetaMask {
     }
 
     static handleAll() {
-        MetaMask.networkAccountsChange();
-        MetaMask.handleNetworkChange();
+        InjectedWallet.networkAccountsChange();
+        InjectedWallet.handleNetworkChange();
     }
 
     @init
     static async updateAddress(): Promise<string> {
-        MetaMask.address = (await API.eth.getAccounts())[0];
-        store.dispatch('wallet/setAddress', MetaMask.address);
+        InjectedWallet.address = (await API.eth.getAccounts())[0];
+        store.dispatch('wallet/setAddress', InjectedWallet.address);
 
-        return MetaMask.address;
+        return InjectedWallet.address;
     }
 
     static networkAccountsChange(): void {
         window.ethereum.on('accountsChanged', async () => {
-            await MetaMask.updateAddress();
+            await InjectedWallet.updateAddress();
             redirectAfterLogin();
         })
     }
 
     static handleNetworkChange(): void {
         window.ethereum.on('networkChanged', async () => {
-            await MetaMask.updateAddress();
+            await InjectedWallet.updateAddress();
             redirectAfterLogin();
         })
     }
 }
 
-export default MetaMask;
+export default InjectedWallet;

@@ -1,4 +1,4 @@
-type Sizes = 'sm' | 'md';
+type Sizes = 'sm' | 'md' | 'xl';
 
 export {
     Sizes
