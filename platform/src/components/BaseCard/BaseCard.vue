@@ -22,6 +22,7 @@
             <BaseBreadcrumbs
                 :class="classes.breadcrumbs"
                 :items="breadcrumbs"
+                :hash="breadcrumbsHash"
             />
         </div>
         <div :class="classes.title">
@@ -87,6 +88,7 @@ interface IProps {
     labelTitle: string
     title: string
     text: string
+    breadcrumbsHash?: boolean
     endDate: Date
     users: any[]
 }

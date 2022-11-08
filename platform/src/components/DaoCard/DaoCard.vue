@@ -79,16 +79,16 @@ const props = withDefaults(defineProps<IProps>(), {});
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => {
         return [themeSettings?.root, [
-            'border border-gray-100 rounded-[12px] p-8 md:py-6 md:px-5'
+            'border border-gray-100 rounded-[12px] px-8 py-6 md:py-6 md:px-5'
         ]];
     },
     avatarWrapper: 'flex justify-center mb-4',
     title: 'text-sm font-semibold text-gray-600 mb-4 text-center',
     info: 'flex justify-center mb-9',
     infoItem: 'text-center',
-    infoItemTop: 'text-gray-400 text-tiny',
+    infoItemTop: 'text-gray-400 text-tiny whitespace-nowrap',
     infoItemBottom: 'text-center text-xss text-gray-600 font-semibold',
-    infoDelimiter: 'bg-gray-100 w-px h-[26px] mx-3',
+    infoDelimiter: 'bg-gray-100 w-px h-[26px] mx-7',
     buttonWrapper: 'flex justify-center',
     button: 'mx-auto w-[117px]'
 }));

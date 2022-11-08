@@ -20,7 +20,7 @@
             </div>
             <template v-if="true">
                 <TextSeparator :class="classes.subDaoTitle">
-                    subDao
+                    subDaoS
                 </TextSeparator>
                 <div :class="classes.subDaoItems">
                     <div
@@ -106,17 +106,17 @@ const layer = useLayer();
 const root = ref(null);
 let subDao = ref(normalizeItems([
     {
-        name: 'subDao_1',
+        name: 'SubDao_1',
         id: 1,
         items: []
     },
     {
-        name: 'subDao_2',
+        name: 'SubDao_2',
         id: 2,
         items: [
-            { name: 'subDao_2_1', id: 6, items: [] },
-            { name: 'subDao_2_2', id: 7, items: [] },
-            { name: 'subDao_2_3', id: 8, items: [] },
+            { name: 'SubDao_2_1', id: 6, items: [] },
+            { name: 'SubDao_2_2', id: 7, items: [] },
+            { name: 'SubDao_2_3', id: 8, items: [] },
         ]
     },
     {
@@ -137,8 +137,8 @@ const useClasses = makeClasses(() => ({
     topInner: 'pb-[100%] relative',
     logo: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 z-0 opacity-70',
     topInfo: 'absolute left-0 bottom-0 px-2 pb-[10px] w-full flex justify-between items-center',
-    name: 'text-surface-100 text-white font-semibold',
-    subDaoTitle: 'mb-5 mt-9',
+    name: 'text-surface-100 text-white font-semibold text-lg',
+    subDaoTitle: 'mb-[13px] mt-9',
     subDaoItems: 'mb-[20px]',
     subDaoItem: 'pl-2 pr-[11px] text-sm text-gray-500 cursor-pointer relative',
     subDaoItemInner: 'border-secondary-200 py-2',

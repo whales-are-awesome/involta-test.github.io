@@ -1,7 +1,7 @@
 <template>
     <div>
         <DaoPageHeader
-            sub-dao-name="SubDAO_3"
+            name="SubDAO_3"
             description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis disap"
             :breadcrumbs="breadcrumbs"
         />

@@ -26,20 +26,20 @@
                 />
             </div>
         </div>
-        <div class="flex space-x-4 mb-6">
-            <SelectField
-                v-model="formData.statusId"
-                :options="formInfo.statusesOptions"
-            />
-            <SelectField
-                v-model="formData.voteId"
-                :options="formInfo.voteOptions"
-            />
-        </div>
         <div
             v-if="tagList.value === TagStatuses.Proposals"
             class="space-y-[18px]"
         >
+            <div class="flex space-x-4 mb-6">
+                <SelectField
+                    v-model="formData.statusId"
+                    :options="formInfo.statusesOptions"
+                />
+                <SelectField
+                    v-model="formData.voteId"
+                    :options="formInfo.voteOptions"
+                />
+            </div>
             <BaseCard
                 v-for="item in 3"
                 :key="item"
@@ -62,9 +62,9 @@
                     v-for="item in 12"
                     :key="item"
                 >
-                    <DappCard
+                    <DaoCard
                         :avatar="require('@/assets/images/common/placeholder.jpeg')"
-                        name="Dapp Name"
+                        name="DAO Name"
                         supported-by="232 OC"
                         backed-by="100 OC"
                     />
@@ -86,9 +86,9 @@
                     v-for="item in 12"
                     :key="item"
                 >
-                    <DappCard
+                    <DaoCard
                         :avatar="require('@/assets/images/common/placeholder.jpeg')"
-                        name="Dapp Name"
+                        name="DAO Name"
                         supported-by="232 OC"
                         backed-by="100 OC"
                     />
@@ -110,7 +110,7 @@
 import { computed, ref } from 'vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
-import DappCard from '@/components/DappCard/DappCard.vue';
+import DaoCard from '@/components/DaoCard/DaoCard.vue';
 import BaseCard from '@/components/BaseCard/BaseCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';

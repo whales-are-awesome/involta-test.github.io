@@ -41,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
             title: 'SubDAO',
             middleware: [auth]
         },
-        component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/_subdao.vue'),
+        component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/index.vue'),
     },
     {
         path: '/proposal/:id/',

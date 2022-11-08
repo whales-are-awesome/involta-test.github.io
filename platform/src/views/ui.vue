@@ -247,7 +247,7 @@
                     v-for="item in 4"
                     :key="item"
                 >
-                    <DappCard
+                    <DaoCard
                         :avatar="require('@/assets/images/common/placeholder.jpeg')"
                         name="Dapp Name"
                         supported-by="232 OC"
@@ -471,7 +471,7 @@ import BaseTimer from '@/components/BaseTimer/BaseTimer.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseCard from '@/components/BaseCard/BaseCard.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
-import DappCard from '@/components/DappCard/DappCard.vue';
+import DaoCard from '@/components/DaoCard/DaoCard.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import DateField from '@/components/Form/DateField/DateField.vue';

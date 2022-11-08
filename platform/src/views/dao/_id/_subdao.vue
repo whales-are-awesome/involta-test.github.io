@@ -1,6 +1,6 @@
 <template>
     <DaoPageHeader
-        sub-dao-name="Dao Name"
+        name="SubDAO_3"
         description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
         :breadcrumbs="breadcrumbs"
     />
@@ -51,7 +51,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
-import DappCard from '@/components/DappCard/DappCard.vue';
+import DaoCard from '@/components/DaoCard/DaoCard.vue';
 import BaseCard from '@/components/BaseCard/BaseCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
