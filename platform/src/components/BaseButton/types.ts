@@ -1,6 +1,6 @@
 import { Icons } from '@/components/BaseIcon/types';
 
-type Themes = 'gray' | 'surface' | 'primary' | 'primary-200';
+type Themes = 'gray' | 'gray-500' | 'surface' | 'primary' | 'primary-200';
 type Views = 'filled' | 'outlined' | 'ghost';
 type Sizes = 'lg' | 'md' | 'sm' | 'icon' | '';
 type Rounded = 'base' | 'sm' | 'lg' | 'full' | 'icon';

@@ -5,8 +5,8 @@ export default async function auth({ next, from, to }: any) {
     const isAuthPage = to.name === 'auth';
 
     if (!from.name) {
-        // await API.init();
-        // await Wallet.init();
+        await API.init();
+        await Wallet.init();
     }
 
     if (Wallet.loggedIn && isAuthPage) {

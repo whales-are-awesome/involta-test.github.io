@@ -121,7 +121,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
                 'text-white': view === 'filled' && ['gray', 'primary'].includes(theme),
                 'text-gray-500 active:text-gray-700': view === 'filled' && theme === 'surface',
                 'text-primary-500': view === 'outlined' && theme === 'primary-200',
-                'text-gray-500 active:text-gray-600': ['ghost', 'outlined'].includes(view) && theme === 'gray',
+                'text-gray-500 active:text-gray-600': ['ghost', 'outlined'].includes(view) && ['gray', 'gray-500'].includes(theme),
                 '!text-disabled-text pointer-events-none': disabled
             }
         ]];
@@ -136,7 +136,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'absolute inset-0 -z-1 transition-fast',
             {
                 'bg-gray-700 group-hover:bg-gray-800 group-active:bg-600': view === 'filled' && theme === 'gray',
-                'bg-white border-gray-200 border group-hover:bg-gray-100 group-active:bg-white': view === 'outlined' && theme === 'gray',
+                'border-gray-200 border group-hover:bg-gray-100 group-active:bg-white': view === 'outlined' && theme === 'gray',
+                'border-gray-500 border group-hover:bg-gray-100 group-active:bg-white': view === 'outlined' && theme === 'gray-500',
                 'group-hover:bg-gray-100 group-active:bg-transparent': view === 'ghost' && theme === 'gray',
 
                 'bg-surface-400 group-hover:bg-gray-300': view === 'filled' && theme === 'surface',

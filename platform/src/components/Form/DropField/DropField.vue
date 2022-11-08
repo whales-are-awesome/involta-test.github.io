@@ -31,7 +31,8 @@
                 </p >
                 <div :class="classes.delimiter"></div>
                 <BaseButton
-                    theme="primary"
+                    view="outlined"
+                    theme="gray-500"
                     rounded="sm"
                     :icon="{
                         name: 'upload',
