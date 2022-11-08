@@ -3,11 +3,13 @@
         :class="classes.root"
         @click="emit('click')"
     >
-        <BaseIcon
-            :class="classes.icon"
-            :name="icon"
-            width="36"
-        />
+        <div :class="classes.iconWrapper">
+            <BaseIcon
+                :class="classes.icon"
+                :name="icon"
+                width="36"
+            />
+        </div>
         <p :class="classes.name">
             {{ name }}
         </p>
@@ -26,7 +28,7 @@ import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
 interface IProps {
-    icon: Extract<Icons, 'ledger' | 'injectedWallet' | 'connect-wallet' | 'trust-wallet'>
+    icon: Extract<Icons, 'ledger' | 'injected-wallet' | 'connect-wallet' | 'trust-wallet'>
     name: string
     isSelected?: boolean
     isDisabled?: string
@@ -50,7 +52,7 @@ const emit = defineEmits<IEmits>();
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isSelected, isDisabled }) => {
         return [themeSettings?.root, [
-            'transition-fast px-4 py-3 rounded-[10px] border font-medium text-text-500 flex items-center',
+            'transition-fast px-4 py-3 rounded-[10px] border border-surface-500 font-medium text-text-500 flex items-center',
             {
                 'bg-white border-surface-300 hover:bg-primary-100 cursor-pointer': !isSelected && !isDisabled,
                 'bg-primary-100 border-primary-400': isSelected,
@@ -58,7 +60,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             }
         ]];
     },
-    icon: 'mr-3'
+    icon: 'mr-3 flex-shrink-0'
 }));
 
 /* DATA */
