@@ -5,7 +5,7 @@
         <BaseIcon
             :class="classes.icon"
             name="search"
-            width="12"
+            width="13"
         />
         <input
             v-model="value"

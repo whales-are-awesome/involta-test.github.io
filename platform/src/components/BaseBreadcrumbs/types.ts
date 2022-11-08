@@ -1,8 +1,9 @@
 import IRouterLink from '@/models/routerLink';
 
 interface IBreadcrumb {
-    title: string
-    link: IRouterLink
+    title?: string
+    link?: IRouterLink
+    dots?: boolean
 }
 
 type Views = 'primary' | 'secondary'

@@ -46,7 +46,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.root, [
             'inline-flex items-center justify-center',
             {
-                'uppercase text-xs font-bold tracking-[.12em]': view !== 'simple',
+                'uppercase text-xs font-bold tracking-[.08em]': view !== 'simple',
                 'text-xss tracking-[.04em]': view === 'simple',
 
                 'px-4 py-[6px]': !['rounded', 'simple'].includes(view),

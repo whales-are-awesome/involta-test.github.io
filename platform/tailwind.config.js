@@ -21,7 +21,7 @@ module.exports = {
             600: '#050505',
             surface: {
                 200: '#F6F6F9',
-                300: '#F0F0F3',
+                300: '#EAEAED',
                 400: '#E4E4E7',
                 500: '#D9D8DB'
             },

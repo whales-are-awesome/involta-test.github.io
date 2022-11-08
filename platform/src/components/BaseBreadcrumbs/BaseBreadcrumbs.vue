@@ -2,7 +2,7 @@
     <div :class="classes.root">
         <BaseIcon
             v-if="firstAngle"
-            :class="classes.angle"
+            :class="classes.chevron"
             width="5"
             height="9"
             name="chevron-right"
@@ -19,28 +19,37 @@
                     :to="item.link"
                     :theme="view"
                 >
-                <span
-                    v-if="hash"
-                    :class="classes.itemHash"
-                >
-                    #
-                </span>
+                    <BaseIcon
+                        v-if="hash"
+                        :class="classes.itemHash"
+                        name="hash"
+                        width="12"
+                    />
                     {{ item.title }}
                 </ActionLink>
                 <template v-else>
-                    <span
+                    <BaseIcon
                         v-if="hash"
                         :class="classes.itemHash"
+                        name="hash"
+                        width="12"
+                    />
+                    <span
+                        v-if="item.title"
+                        :class="classes.itemTitle"
                     >
-                        #
-                    </span>
-                    <span :class="classes.itemTitle">
                         {{ item.title }}
                     </span>
                 </template>
+                <div
+                    v-if="item.dots"
+                    :class="classes.dots"
+                >
+                    ...
+                </div>
                 <BaseIcon
                     v-if="+index !== resultItems.length - 1"
-                    :class="classes.itemAngle"
+                    :class="classes.itemChevron"
                     width="5"
                     height="9"
                     name="chevron-right"
@@ -86,7 +95,7 @@ const store = useStore();
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: 'flex items-center overflow-hidden',
-    angle: 'mr-3 text-gray-400 flex-shrink-0',
+    chevron: 'mr-2 text-gray-400 flex-shrink-0',
     items: 'space-x-2 flex flex-shrink-0',
     item: ({ view }) => [
         'flex items-center',
@@ -95,9 +104,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'text-xs': view === 'primary'
         }
     ],
-    itemLink: 'transition-fast',
-    itemAngle: 'pointer-events-none text-gray-400 ml-2 flex-shrink-0',
-    itemHash: 'mr-2 inline-block text-gray-400 font-normal',
+    itemLink: 'transition-fast inline-flex items-center',
+    itemChevron: 'pointer-events-none text-gray-400 ml-[3px] flex-shrink-0',
+    itemHash: 'mr-[6px] inline-block text-gray-400',
+    dots: 'text-gray-400 leading-none self-start ml-2.5 mr-4',
     itemTitle: ({ view }) => [
         {
             'text-gray-400 font-medium': view === 'primary',

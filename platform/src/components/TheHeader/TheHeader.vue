@@ -54,7 +54,7 @@
                 size="sm"
                 :icon="{
                     name: 'wallet',
-                    width: 24,
+                    width: 16,
                     prepend: true
                 }"
                 rounded="lg"
@@ -99,11 +99,11 @@ const nav = [
     { title: 'Explore', to: { name: '' } }
 ];
 const useClasses = makeClasses<IThemeProps>(() => ({
-    inner: 'px-8 py-[14px] flex items-center',
+    inner: 'px-8 pt-[14px] pb-5 flex items-center',
     title: 'text-gray-800 title-h5 mr-auto',
-    icon: 'mr-5 text-gray-500 md:hidden',
+    icon: 'mr-4 text-gray-500 md:hidden',
     nav: 'mr-8 md:hidden',
-    navList: 'flex space-x-8 text-gray-500',
+    navList: 'flex space-x-8 text-gray-500 text-xs',
     burgerWrapper: 'mr-4 hidden md:block',
     burger: 'w-[36px] h-[36px]',
     burgerRow: 'w-[12px] h-[2px] bg-gray-500 rounded-[4px] block'

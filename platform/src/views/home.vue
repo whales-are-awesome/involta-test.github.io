@@ -1,22 +1,22 @@
 <template>
     <div class="mt-[94px]">
-        <div class="flex mb-[60px]">
+        <div class="flex mb-[46px]">
             <BaseAvatar
                 class="mr-9"
                 :src="require('@/assets/images/common/placeholder.jpeg')"
                 alt="image"
                 size="xl"
             />
-            <div class="title-h3">
-                Welcome,
+            <div class="title-h3 text-gray-800">
+                Wellcome,
                 <br>
                 dear user
             </div>
         </div>
-        <div class="mb-6 flex justify-between relative">
+        <div class="mb-[36px] flex justify-between relative">
             <TagsList
                 v-model="tagList.value"
-                class="pt-[10px] mr-[54px]"
+                class="pt-[8px] mr-[42px]"
                 :items="tagList.options"
             />
             <div class="max-w-[515px] w-full md:max-w-none">

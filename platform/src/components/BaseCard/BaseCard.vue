@@ -102,10 +102,10 @@ const props = withDefaults(defineProps<IProps>(), {});
 /* VARS AND CUSTOM HOOKS */
 
 const breadcrumbs = [
-    { title: 'link 1', link: { name: 'home' } },
-    { title: 'link 2', link: { name: 'home' } },
-    { title: 'link 3', link: { name: 'home' } },
-    { title: 'link 4' }
+    { title: 'EarlyBirds', link: { name: 'home' } },
+    { dots: true },
+    { title: 'EarlyBirds', link: { name: 'home' } },
+    { title: 'EarlyBirds' }
 ]
 
 const useClasses = makeClasses<IThemeProps>(() => ({
@@ -136,12 +136,12 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     },
     title: ({ themeSettings }) => {
         return [themeSettings?.title, [
-            'text-500 text-h5 font-bold mb-3'
+            'text-500 text-h5 font-bold mb-[13px]'
         ]];
     },
     text: ({ themeSettings }) => {
         return [themeSettings?.text, [
-            'text-400 mb-6'
+            'text-400 mb-6 !leading-[28px]'
         ]];
     },
     bottom: ({ themeSettings }) => {
@@ -156,7 +156,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     },
     votes: ({ themeSettings }) => {
         return [themeSettings?.title, [
-            'text-sm text-gray-400'
+            'text-sm text-400'
         ]];
     },
     daoName: ({ themeSettings }) => {

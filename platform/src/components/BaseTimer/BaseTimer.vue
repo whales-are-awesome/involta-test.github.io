@@ -4,8 +4,8 @@
             <BaseIcon
                 :class="classes.icon"
                 name="timer"
-                width="14"
-                height="16"
+                width="15"
+                height="17"
             />
             {{ timer.hours }}:{{ timer.minutes }}:{{ timer.seconds }} left
         </div>

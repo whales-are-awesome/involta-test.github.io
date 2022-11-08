@@ -109,7 +109,7 @@ const emit = defineEmits<IEmit>();
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({size, themeSettings, view, theme, disabled, rounded}) => {
         return [themeSettings?.root, [
-            'group inline-flex items-center justify-center relative z-1 [background-position-y:0]',
+            'group inline-flex items-center justify-center relative z-1 [background-position-y:0] tracking-[0.4px]',
             {
                 'px-5 h-[52px] text-lg': size === 'lg',
                 'px-5 h-[40px] text-base': size === 'md',
@@ -164,8 +164,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.icon, [
             'transition-fast',
             {
-                'ml-[13px]': hasContent && !icon?.prepend,
-                'mr-[13px]': hasContent && icon?.prepend
+                'ml-[9px]': hasContent && !icon?.prepend,
+                'mr-[9px]': hasContent && icon?.prepend
             }
         ]];
     }

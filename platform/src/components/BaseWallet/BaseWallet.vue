@@ -37,7 +37,7 @@ const props = withDefaults(defineProps<IProps>(), {});
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => {
         return [themeSettings?.root, [
-            'bg-surface-300 text-gray-500 rounded-[30px] text-sm px-4 py-2.5'
+            'bg-surface-300 text-gray-500 text-xs rounded-[30px] text-sm px-4 py-2.5'
         ]];
     },
     circle: 'w-7 h-7 ml-3 bg-surface-500 rounded-full shrink-0'

@@ -154,12 +154,13 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     },
     main: ({ themeSettings, size, isOpen }) => {
         return [themeSettings?.main,  [
+            'text-gray-500 tracking-[0.04px]',
             {
-                'h-[62px]': size === 'xl',
-                'h-[40px]': size === 'md',
-                'h-[48px]': size === 'lg',
-                'h-[32px] text-sm': size === 'sm',
-                'h-[32px] text-xss': size === 'xs',
+                'h-[60px]': size === 'xl',
+                'h-[38px]': size === 'md',
+                'h-[46px]': size === 'lg',
+                'h-[30px] text-sm': size === 'sm',
+                'h-[30px] text-xss': size === 'xs',
                 'z-50 relative': isOpen
             }
         ]];
@@ -178,11 +179,11 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.selectedOption,  [
             'bg-white hover:bg-surface-100 transition-fast flex items-center',
             {
-                'px-3 h-[62px]': size === 'xl',
-                'px-3 h-[48px]': size === 'lg',
-                'px-5 h-[40px]': size === 'md',
-                'px-3 h-[32px]': size === 'sm',
-                'px-1 h-[32px]': size === 'xs'
+                'px-3 h-[60px]': size === 'xl',
+                'px-3 h-[46px]': size === 'lg',
+                'px-4 h-[38px]': size === 'md',
+                'px-3 h-[30px]': size === 'sm',
+                'px-1 h-[30px]': size === 'xs'
             }
         ]];
     },
@@ -191,7 +192,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
             {
                 'ml-2.5 text-200': angleView === 'primary',
-                'ml-auto text-400': angleView === 'secondary'
+                'ml-auto text-380': angleView === 'secondary'
             }
         ]];
     },
@@ -199,7 +200,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.option,  [
             'py-2 bg-white hover:bg-surface-100 transition-fast flex items-center',
             {
-                'px-5': size === 'md',
+                'px-4': size === 'md',
                 'px-3': ['lg', 'sm', 'xl'].includes(size),
                 'px-1': size === 'xs'
             }
@@ -209,11 +210,11 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.search,  [
             'absolute top-0 left-0 w-10/12 opacity-0 focus:opacity-100',
             {
-                'px-3 h-[62px]': size === 'xl',
-                'px-3 h-[48px]': size === 'lg',
-                'px-5 h-[40px]': size === 'md',
-                'px-3 h-[32px]': size === 'sm',
-                'px-1 h-[32px]': size === 'xs',
+                'px-3 h-[60px]': size === 'xl',
+                'px-3 h-[46px]': size === 'lg',
+                'px-4 h-[38px]': size === 'md',
+                'px-3 h-[30px]': size === 'sm',
+                'px-1 h-[30px]': size === 'xs',
                 '!hidden': !searchable
             }
         ]];
