@@ -1,5 +1,5 @@
 <template>
-    <div class="default max-w-[1056px] mx-auto">
+    <div class="default max-w-[1280px] mx-auto">
         <div class="flex">
             <TheSidebar
                 class="flex-shrink-0"

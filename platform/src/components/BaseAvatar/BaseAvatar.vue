@@ -26,10 +26,11 @@ interface IProps {
     alt: string
     size: Sizes
     rounded: Rounded
+    themeSettings?: any
 }
 
 
-interface IThemeProps extends Pick<IProps, 'size' | 'rounded'>{
+interface IThemeProps extends Pick<IProps, 'size' | 'rounded' | 'themeSettings'>{
     hasContent: boolean
 }
 
@@ -50,28 +51,30 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'text-h3': size === 'xl'
         }
     ],
-    image: ({ hasContent, size, rounded }) => [
-        'object-cover w-full h-full',
-        {
-            'w-[16px] h-[16px]': size === 'tiny',
-            'w-[20px] h-[20px]': size === 'xss',
-            'w-[24px] h-[24px]': size === 'xs',
-            'w-[28px] h-[28px]': size === 'sm',
-            'w-[36px] h-[36px]': size === 'md',
-            'w-[44px] h-[44px]': size === 'base',
-            'w-[64px] h-[64px]': size === 'lg',
-            'w-[96px] h-[96px] text-h3': size === 'xl',
+    image: ({ hasContent, size, rounded, themeSettings }) => {
+        return [themeSettings?.image, [
+            'object-cover w-full h-full',
+            {
+                'w-[16px] h-[16px]': size === 'tiny',
+                'w-[20px] h-[20px]': size === 'xss',
+                'w-[24px] h-[24px]': size === 'xs',
+                'w-[28px] h-[28px]': size === 'sm',
+                'w-[36px] h-[36px]': size === 'md',
+                'w-[44px] h-[44px]': size === 'base',
+                'w-[64px] h-[64px]': size === 'lg',
+                'w-[96px] h-[96px] text-h3': size === 'xl',
 
-            'rounded-[5px]': rounded === 'sm' && size === 'xs',
-            'rounded-[8px]': (rounded === 'sm' && size === 'sm') || (rounded === 'xs' && size === 'md'),
-            'rounded-[10px]': rounded === 'sm' && size === 'md',
-            'rounded-[16px]': rounded === 'sm' && size === 'base',
-            'rounded-[20px]': rounded === 'sm' && ['lg', 'xl'].includes(size),
-            'rounded-full': rounded === 'lg',
+                'rounded-[5px]': rounded === 'sm' && size === 'xs',
+                'rounded-[8px]': (rounded === 'sm' && size === 'sm') || (rounded === 'xs' && size === 'md'),
+                'rounded-[10px]': rounded === 'sm' && size === 'md',
+                'rounded-[16px]': rounded === 'sm' && size === 'base',
+                'rounded-[20px]': rounded === 'sm' && ['lg', 'xl'].includes(size),
+                'rounded-full': rounded === 'lg',
 
-            'mr-2': hasContent
-        },
-    ]
+                'mr-2': hasContent
+            },
+        ]]
+    }
 }));
 
 /* DATA */
@@ -85,7 +88,8 @@ const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
         size: props.size,
         rounded: props.rounded,
-        hasContent: hasContent.value
+        hasContent: hasContent.value,
+        themeSettings: props.themeSettings,
     });
 });
 

@@ -105,7 +105,13 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         }
     ],
     itemLink: 'transition-fast inline-flex items-center',
-    itemChevron: 'pointer-events-none text-gray-400 ml-[3px] flex-shrink-0',
+    itemChevron: ({ view }) => [
+        'pointer-events-none text-gray-400  flex-shrink-0',
+        {
+            'ml-2': view === 'primary',
+            'ml-[3px]': view === 'secondary'
+        }
+    ],
     itemHash: 'mr-[6px] inline-block text-gray-400',
     dots: 'text-gray-400 leading-none self-start ml-2.5 mr-4',
     itemTitle: ({ view }) => [

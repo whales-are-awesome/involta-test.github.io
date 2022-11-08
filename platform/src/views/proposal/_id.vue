@@ -1,30 +1,38 @@
 <template>
     <div>
         <DaoPageHeader
-            sub-dao-name="Dao Name"
-            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            sub-dao-name="SubDAO_3"
+            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis disap"
             :breadcrumbs="breadcrumbs"
         />
-        <div class="flex justify-between items-center mt-9 mb-11">
-            <div class="flex items-center text-gray-400 font-medium">
-                <BaseIcon
-                    class="mr-2"
-                    name="arrow-left"
-                    width="18"
-                />
+        <div class="flex justify-between items-center text-sm tracking-[0.4px] text-gray-400 mt-[46px] mb-11">
+            <BaseButton
+                class="!text-gray-400"
+                size="sm"
+                view="ghost"
+                :icon="{
+                    name: 'arrow-left',
+                    width: 10,
+                    prepend: true
+                }"
+            >
                 Back
-            </div>
-            <div class="flex items-center text-gray-400 font-medium">
+            </BaseButton>
+            <BaseButton
+                class="!text-gray-400"
+                size="sm"
+                view="ghost"
+                :icon="{
+                    name: 'arrow-left',
+                    class: '-scale-x-100',
+                    width: 10
+                }"
+            >
                 Next proposal
-                <BaseIcon
-                    class="ml-2 -scale-x-100"
-                    name="arrow-left"
-                    width="18"
-                />
-            </div>
+            </BaseButton>
         </div>
         <div class="flex -mx-4 -mt-8 mb-[65px]">
-            <div class="w-9/12 px-4 pt-8">
+            <div class="mx-4 mt-8">
                 <div class="border border-surface-300 rounded-[12px] p-8 h-full">
                     <p class="title-h3 !text-600 mb-3">
                         Proposal Name
@@ -47,7 +55,7 @@
                         <TextSeparator class="mb-3">
                             Description
                         </TextSeparator>
-                        <p class="text-400">
+                        <p class="text-400 leading-[20px]">
                             Early Birds Early Birds Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds
                             Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds
                             Early Birds Early Birds
@@ -59,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-3/12 px-4 pt-8 flex flex-col">
+            <div class="max-w-[252px] w-full box-border mx-4 mt-8 flex flex-col">
                 <div class="px-3 py-4 border border-surface-300 rounded-[12px] mb-4">
                     <TextSeparator class="mb-4 pb-4 border-b border-surface-300">
                         Proposal Status
@@ -68,7 +76,7 @@
                         theme="positive"
                         view="faded"
                         :theme-settings="{
-                            root: 'rounded-[8px] w-full h-[44px]'
+                            root: 'rounded-[8px] w-full h-[44px] !text-sm'
                         }"
                     >
                         Active
@@ -76,7 +84,7 @@
                 </div>
                 <div class="px-3 py-4 border border-surface-300 rounded-[12px] my-auto">
                     <TextSeparator class="mb-4 pb-4 border-b border-surface-300">
-                        Proposal Status
+                        Created by
                     </TextSeparator>
                     <BaseAvatar
                         class="mr-5"
@@ -99,7 +107,7 @@
         <div class="flex">
             <div class="mr-5 relative overflow-hidden z-[-2]">
                 <div>
-                    <div class="rounded-full border border-surface-300 w-[48px] h-[48px] w-[48px] h-[48px] flex items-center justify-center relative">
+                    <div class="rounded-full border border-surface-300 w-[48px] h-[48px] flex items-center justify-center relative">
                         <BaseIcon
                             class="text-primary-400"
                             name="sparkle"
@@ -109,19 +117,19 @@
                 </div>
                 <div class="bg-gray-200 w-px h-full absolute top-[48px] left-1/2 translate-y-[8px] -translate-x-1/2 h-full"></div>
             </div>
-            <div class="flex-grow">
-                <p class="title-h4 mb-[30px]">
+            <div class="flex-grow pt-1">
+                <p class="title-h4 text-500 mb-[38px]">
                     Pipeline
                 </p>
                 <div class="space-y-4">
                     <div
                         v-for="item in 4"
                         :key="item"
-                        class="border border-surface-300 rounded-[12px] px-8 pt-8 pb-10 relative"
+                        class="border border-surface-300 rounded-[12px] px-8 pt-[28px] pb-10 relative"
                     >
                         <div class="max-w-[683px]">
                             <p
-                                class="absolute bg-white left-[-52px] top-[40px] text-300 text-h5 py-1 font-bold"
+                                class="absolute bg-white left-[-52px] top-[30px] text-300 text-h5 py-1 font-bold"
                                 :class="{
                                     'h-full': item === 4
                                 }"
@@ -129,16 +137,19 @@
                                 {{ item }}
                             </p>
                             <BaseAvatar
-                                class="mr-5 mb-8"
+                                class="mr-5 mb-[30px]"
                                 :src="require('@/assets/images/common/placeholder.jpeg')"
                                 alt="image"
                                 size="md"
+                                :theme-settings="{
+                                    image: 'border-[0.5px] border-gray-300'
+                                }"
                             >
-                                <p class="title-h4 ml-1">
+                                <p class="title-h4 text-50 ml-1">
                                     Uniswap
                                 </p>
                             </BaseAvatar>
-                            <p class="text-500 font-semibold mb-2">
+                            <p class="text-500 font-semibold mb-1">
                                 By 1 item of
                                 <ActionLink
                                     class="underline-offset-2 underline"
@@ -147,7 +158,7 @@
                                     0x2c934...a180
                                 </ActionLink>
                             </p>
-                            <p class="text-sm text-400 mb-6">
+                            <p class="text-sm text-400 mb-8">
                                 Subheading: Some text about this wonderful opportunity to do smth
                             </p>
                             <BaseCollapse v-show="showMore">

@@ -94,8 +94,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     info: 'flex space-x-[18px] text-gray-400 text-xs',
     infoItem: 'flex items-center',
     infoItemIcon: 'mr-1',
-    subDaoName: 'font-bold text-gray-600 mb-2 mt-4',
-    description: 'text-xs text-gray-500'
+    subDaoName: 'font-bold text-gray-600 mb-2 mt-[13px]',
+    description: 'max-w-[659px] text-xs text-gray-500'
 }));
 
 /* DATA */
