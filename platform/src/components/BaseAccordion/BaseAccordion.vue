@@ -87,7 +87,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     },
     top: 'flex items-center justify-between',
     title: 'text-gray-500 text-sm font-semibold',
-    description: 'text-gray-500 text-xss',
+    description: 'text-gray-500 text-xxs',
     collapseInner: 'pt-6 cursor-default',
     iconWrapper: 'flex items-center justify-center w-9 h-9 border border-gray-200 rounded-[10px]',
     icon: ({ isVisibleLocal }) => [

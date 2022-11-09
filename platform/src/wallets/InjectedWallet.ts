@@ -1,6 +1,7 @@
 import API from '@/helpers/api';
 import { store } from '@/store';
 import redirectAfterLogin from '@/helpers/redirectAfterLogin';
+import Wallet from '@/wallets/index';
 
 function init(target: any, propertyKey: string, propertyDescriptor: PropertyDescriptor) {
     if (!target.instance) {
@@ -17,14 +18,7 @@ class InjectedWallet {
 
     @init
     static async login(): Promise<string> {
-        const address = (await API.eth.requestAccounts())[0];
-
-        console.log(address);
-        console.log(API.eth);
-
-        API.address = address;
-
-        return address;
+        return (await API.eth.requestAccounts())[0];
     }
 
     static handleAll() {
@@ -33,25 +27,25 @@ class InjectedWallet {
     }
 
     @init
-    static async updateAddress(): Promise<string> {
-        InjectedWallet.address = (await API.eth.getAccounts())[0];
+    static async updateAddress(address?: string): Promise<string> {
+        InjectedWallet.address = address || (await API.eth.getAccounts())[0];
         store.dispatch('wallet/setAddress', InjectedWallet.address);
 
         return InjectedWallet.address;
     }
 
     static networkAccountsChange(): void {
-        window.ethereum.on('accountsChanged', async () => {
-            await InjectedWallet.updateAddress();
+        window.ethereum.on('accountsChanged', async ([address]: string[]) => {
+            Wallet.currentWalletId = 'injectedWallet'
+            await InjectedWallet.updateAddress(address);
             redirectAfterLogin();
         })
     }
 
     static handleNetworkChange(): void {
         window.ethereum.on('networkChanged', async () => {
-            await InjectedWallet.updateAddress();
             redirectAfterLogin();
-        })
+        });
     }
 }
 

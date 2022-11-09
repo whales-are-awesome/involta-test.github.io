@@ -121,7 +121,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     file: 'w-[96px] h-[96px] relative z-1 overflow-hidden',
     fileImage: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 -z-1',
     fileCrossWrapper: 'absolute right-0 top-0 bg-white cursor-pointer flex items-center justify-center',
-    fileText: 'p-1 text-white bg-[rgba(36,36,36,.6)] text-xss absolute bottom-0 left-0 w-full text-left overflow-hidden overflow-ellipsis whitespace-nowrap',
+    fileText: 'p-1 text-white bg-[rgba(36,36,36,.6)] text-xxs absolute bottom-0 left-0 w-full text-left overflow-hidden overflow-ellipsis whitespace-nowrap',
     hidden: 'hidden'
 }));
 

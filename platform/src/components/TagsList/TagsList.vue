@@ -64,21 +64,21 @@ const useClasses = makeClasses<ThemeProps>(() => ({
     items: ({ size }) => [
         'flex',
         {
-            'space-x-[15px]': size === 'md',
+            'space-x-[15px] md:space-x-[14px] sm:space-x-[26px]': size === 'md',
             'space-x-[24px]': size === 'sm'
         }
     ],
     item: ({ size }) => [
         'cursor-pointer font-bold transition-fast hover:text-[#7A78F3]',
         {
-            'pb-[30px] px-2.5 md:text-xs': size === 'md',
+            'pb-[30px] px-2.5 md:text-xs md:pb-[25px] sm:pb-[6px] sm:px-0': size === 'md',
             'pb-[6px] text-xs': size === 'sm'
         }
     ],
     line: ({ size }) => [
         'bg-[#7A78F3] absolute top-full left-0 -translate-y-1/2 z-10 transition-fast',
         {
-            'h-px': size === 'md',
+            'h-px sm:h-[2px]': size === 'md',
             'h-[2px]': size === 'sm'
         }
     ]

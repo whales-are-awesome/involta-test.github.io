@@ -95,7 +95,7 @@ const useClasses = makeClasses(() => {
             }
         ],
         content: ({ disabled }) => [
-            'text-gray-500 text-xss',
+            'text-gray-500 text-xxs',
             {
                 '!text-disabled-text': disabled,
             }

@@ -4,6 +4,12 @@
         :class="classes.root"
     >
         <div :class="classes.inner">
+            <img
+                :class="classes.logo"
+                :src="require('@/assets/images/common/logo.png')"
+                alt="OuterCircle"
+                @click="$router.push({ name: 'home' })"
+            >
             <p :class="classes.title">
                 OuterCircle.
             </p>
@@ -68,7 +74,7 @@
             />
             <div
                 v-if="address === null"
-                class="w-[120px] h-[40px] -preloader -preloader_sm"
+                :class="classes.preloader"
             >
             </div>
         </div>
@@ -99,14 +105,16 @@ const nav = [
     { title: 'Explore', to: { name: '' } }
 ];
 const useClasses = makeClasses<IThemeProps>(() => ({
-    inner: 'px-8 pt-[14px] pb-5 flex items-center',
-    title: 'text-gray-800 title-h5 mr-auto',
+    inner: 'px-8 pt-[14px] pb-5 flex items-center sm:py-3 sm:px-6',
+    title: 'text-gray-800 title-h5 mr-auto sm:!text-xs',
     icon: 'mr-4 text-gray-500 md:hidden',
     nav: 'mr-8 md:hidden',
     navList: 'flex space-x-8 text-gray-500 text-xs',
-    burgerWrapper: 'mr-4 hidden md:block',
-    burger: 'w-[36px] h-[36px]',
-    burgerRow: 'w-[12px] h-[2px] bg-gray-500 rounded-[4px] block'
+    burgerWrapper: 'mr-4 hidden md:flex sm:mr-2',
+    burger: 'w-[36px] h-[36px] sm:w-[24px] sm:h-[24px]',
+    burgerRow: 'w-[12px] h-[2px] bg-gray-500 rounded-[4px] block -translate-y-[1px] sm:w-2 sm:h-px',
+    logo: 'hidden w-[24px] sm:inline-block mr-1',
+    preloader: 'w-[120px] h-[40px] -preloader -preloader_sm'
 }));
 
 /* DATA */

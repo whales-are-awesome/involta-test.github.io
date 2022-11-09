@@ -2,19 +2,19 @@
     <div class="default">
         <div class="flex">
             <TheSidebar
-                class="flex-shrink-0"
+                class="flex-shrink-0 sm:hidden"
             />
             <TheDaoSidebar
                 ref="daoSidebar"
-                class="z-[1000] flex-shrink-0 transition-[width] duration-[0.25s] ease-[cubic-bezier(0.645, 0.045, 0.355, 1)] min-h-screen [clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]"
+                class="z-[1000] flex-shrink-0 transition-[width] duration-[0.25s] ease-[cubic-bezier(0.645, 0.045, 0.355, 1)] min-h-screen [clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)] sm:hidden"
                 :class="{
                     '!w-0 ': !showDaoSidebar
                 }"
             />
-            <div class="flex-grow flex flex-col">
+            <div class="flex-grow flex flex-col overflow-hidden sm:min-h-screen">
                 <TheHeader />
                 <TheMarquee />
-                <div class="px-8 pb-9 flex-grow">
+                <div class="px-8 pb-9 relative flex-grow sm:px-6">
                     <slot></slot>
                 </div>
             </div>

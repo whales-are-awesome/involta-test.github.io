@@ -34,6 +34,9 @@
                             width: 14,
                             prepend: true
                         }"
+                        :theme-settings="{
+                            bg: 'bg-white'
+                        }"
                         @click="open('CreateProposalLayer')"
                     >
                         New Proposal
@@ -46,7 +49,7 @@
                 </TextSeparator>
                 <div class="space-y-[18px]">
                     <BaseCard
-                        v-for="item in 3"
+                        v-for="item in 1"
                         :key="item"
                         :avatar="require('@/assets/images/common/placeholder.jpeg')"
                         name="DAO Name"

@@ -15,7 +15,7 @@ html {
     font-weight: 400;
 }
 body {
-    @apply text-black;
+    @apply text-black text-base;
     background: white;
     min-width: 320px;
 }

@@ -6,7 +6,7 @@
                     :class="classes.logo"
                     :src="require('@/assets/images/common/logo.png')"
                     alt="OuterCircle"
-                    @click="router.push({ name: 'home' })"
+                    @click="$router.push({ name: 'home' })"
                 >
             </div>
             <div :class="classes.menuItems">
@@ -14,7 +14,7 @@
                     icon="home"
                     icon-width="17"
                     :active="route.name === 'home'"
-                    @click="router.push({ name: 'home' })"
+                    @click="$router.push({ name: 'home' })"
                 />
                 <TheSidebarButton
                     icon="plus"
@@ -24,14 +24,14 @@
                 />
                 <TheSidebarButton
                     :active="route.name === 'ui'"
-                    @click="router.push({ name: 'ui' })"
+                    @click="$router.push({ name: 'ui' })"
                 >
                     <div class="-translate-x-2">UI</div>
                 </TheSidebarButton>
                 <TheSidebarButton
                     :image="require('@/assets/images/common/logo.png')"
                     :active="route.name === 'dao-id'"
-                    @click="router.push({ name: 'dao-id', params: { id: 2 } })"
+                    @click="$router.push({ name: 'dao-id', params: { id: 2 } })"
                 />
             </div>
         </div>
@@ -43,7 +43,7 @@
 /* IMPORTS */
 
 import { computed, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import TheSidebarButton from './TheSidebarButton.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
@@ -52,7 +52,6 @@ import useLayer from '@//composables/useLayer';
 /* META */
 
 const route = useRoute();
-const router = useRouter();
 
 /* VARS AND CUSTOM HOOKS */
 

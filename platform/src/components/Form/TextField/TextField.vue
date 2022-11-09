@@ -259,7 +259,7 @@ const useClasses = makeClasses(() => {
                     'top-[12px]': !isFilled && !isBig,
                     'top-[16px]': !isFilled && isBig,
                     'hidden': !isBig && isFilled,
-                    'text-400 text-xss top-[8px] left-[13px] font-semibold': isFilled,
+                    'text-400 text-xxs top-[8px] left-[13px] font-semibold': isFilled,
                     '!text-disabled-text': disabled,
                     'pt-[16px]': !!insetLeftLabel,
                 }
@@ -311,7 +311,7 @@ const useClasses = makeClasses(() => {
         ],
         insetLeftLabel: ({ themeSettings }) => {
             return [themeSettings?.insetLeftLabel,  [
-                'absolute left-3 top-3 text-gray-500 text-xss font-semibold leading-1'
+                'absolute left-3 top-3 text-gray-500 text-xxs font-semibold leading-1'
             ]];
         },
         bottom: ({ isFilled, hasLeftIcon, error }) => [

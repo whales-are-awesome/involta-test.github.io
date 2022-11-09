@@ -5,6 +5,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import '@walletconnect/types';
 import { store } from '@/store';
 import redirectAfterLogin from '@/helpers/redirectAfterLogin';
+import Wallet from '@/wallets/index';
 
 class ConnectWallet {
     static provider: any;

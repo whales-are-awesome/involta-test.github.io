@@ -401,20 +401,21 @@ module.exports = {
         },
         fontSize: {
             tiny: ['8px', {lineHeight: '12px'}],
-            xss: ['10px', {lineHeight: '14px'}],
+            xxs: ['10px', {lineHeight: '14px'}],
             xs: ['12px', {lineHeight: '16px'}],
             sm: ['14px', {lineHeight: '18px'}],
-            base: ['1rem', {lineHeight: '0.8rem'}],
+            base: ['1rem', {lineHeight: '20px'}],
             md: ['18px', {lineHeight: '22px'}],
             lg: ['20px', {lineHeight: '24px'}],
             xl: ['22px', {lineHeight: '26px'}],
+
             'h1': ['56px', {lineHeight: '64px'}],
             'h2': ['48px', {lineHeight: '56px'}],
             'h3': ['40px', {lineHeight: '48px'}],
             'h4': ['32px', {lineHeight: '40px'}],
             'h5': ['24px', {lineHeight: '32px'}],
             'h6': ['16px', {lineHeight: '24px'}],
-            'h7': ['12px', {lineHeight: '16px'}]
+            'h7': ['12px', {lineHeight: '16px'}],
         },
         fontWeight: {
             thin: '100',
@@ -989,6 +990,7 @@ module.exports = {
         'disabled',
     ],
     plugins: [
+        require('@tailwindcss/line-clamp'),
         plugin(function({ addUtilities }) {
             const newUtilities = {
                 '.transition-none': {

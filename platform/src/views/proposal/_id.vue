@@ -55,7 +55,7 @@
                         <TextSeparator class="mb-3">
                             Description
                         </TextSeparator>
-                        <p class="text-400 leading-[20px]">
+                        <p class="text-400">
                             Early Birds Early Birds Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds
                             Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds
                             Early Birds Early Birds
@@ -198,7 +198,7 @@
                                                                 />
                                                             </div>
                                                             <div class="mx-4 text-center">
-                                                                <p class="text-xss text-300 font-semibold">
+                                                                <p class="text-xxs text-300 font-semibold">
                                                                     ID to buy
                                                                 </p>
                                                                 <p class="text-gray-500 font-semibold">
@@ -227,7 +227,7 @@
                                                         </p>
                                                     </div>
                                                     <div>
-                                                        <div class="flex justify-between font-medium text-xss text-gray-400 mb-3">
+                                                        <div class="flex justify-between font-medium text-xxs text-gray-400 mb-3">
                                                             <p>
                                                                 Vote
                                                             </p>
@@ -239,12 +239,12 @@
                                                             <div
                                                                 v-for="row in 3"
                                                                 :key="row"
-                                                                class="flex items-center justify-between text-xss text-gray-500 font-medium"
+                                                                class="flex items-center justify-between text-xxs text-gray-500 font-medium"
                                                             >
                                                                 <BaseAvatar
                                                                     :src="require('@/assets/images/common/placeholder.jpeg')"
                                                                     alt="image"
-                                                                    size="xss"
+                                                                    size="xxs"
                                                                     rounded="lg"
                                                                 >
                                                             <span>

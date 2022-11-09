@@ -95,18 +95,18 @@ const store = useStore();
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: 'flex items-center overflow-hidden',
-    chevron: 'mr-2 text-gray-400 flex-shrink-0',
+    chevron: 'mr-2 text-gray-400 flex-shrink-0 sm:scale-[.6] sm:mr-1',
     items: 'space-x-2 flex flex-shrink-0',
     item: ({ view }) => [
         'flex items-center',
         {
-            '!font-normal': view === 'secondary',
+            '!font-normal sm:!text-xxs': view === 'secondary',
             'text-xs': view === 'primary'
         }
     ],
     itemLink: 'transition-fast inline-flex items-center',
     itemChevron: ({ view }) => [
-        'pointer-events-none text-gray-400  flex-shrink-0',
+        'pointer-events-none text-gray-400 flex-shrink-0 sm:scale-[.6]',
         {
             'ml-2': view === 'primary',
             'ml-[3px]': view === 'secondary'

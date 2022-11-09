@@ -5,15 +5,11 @@ import { svgSpritePlugin } from 'vue-svg-sprite'
 import App from './App.vue'
 import router from './router'
 import { store, key } from './store'
-import API from './helpers/api';
 import apolloClient from './plugins/apollo';
 import clickOutside from './directives/clickOutside';
 import './assets/styles/global.css';
 
 const app = createApp({
-    async beforeCreate() {
-        await API.init();
-    },
     setup () {
         provide(DefaultApolloClient, apolloClient)
     },

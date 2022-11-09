@@ -157,10 +157,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'text-gray-500 tracking-[0.04px]',
             {
                 'h-[60px]': size === 'xl',
-                'h-[38px]': size === 'md',
+                'h-[38px] sm:h-[30px]': size === 'md',
                 'h-[46px]': size === 'lg',
                 'h-[30px] text-sm': size === 'sm',
-                'h-[30px] text-xss': size === 'xs',
+                'h-[30px] text-xxs': size === 'xs',
                 'z-50 relative': isOpen
             }
         ]];
@@ -181,7 +181,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             {
                 'px-3 h-[60px]': size === 'xl',
                 'px-3 h-[46px]': size === 'lg',
-                'px-4 h-[38px]': size === 'md',
+                'px-4 h-[38px] sm:h-[30px] sm:px-3': size === 'md',
                 'px-3 h-[30px]': size === 'sm',
                 'px-1 h-[30px]': size === 'xs'
             }
@@ -200,7 +200,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.option,  [
             'py-2 bg-white hover:bg-surface-100 transition-fast flex items-center',
             {
-                'px-4': size === 'md',
+                'px-4 sm:px-3': size === 'md',
                 'px-3': ['lg', 'sm', 'xl'].includes(size),
                 'px-1': size === 'xs'
             }
@@ -212,7 +212,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             {
                 'px-3 h-[60px]': size === 'xl',
                 'px-3 h-[46px]': size === 'lg',
-                'px-4 h-[38px]': size === 'md',
+                'px-4 h-[38px] sm:h-[30px]': size === 'md',
                 'px-3 h-[30px]': size === 'sm',
                 'px-1 h-[30px]': size === 'xs',
                 '!hidden': !searchable
@@ -234,7 +234,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     },
     innerLabel: ({ themeSettings }) => {
         return [themeSettings?.innerLabel,  [
-            'absolute left-3 top-3 text-gray-500 text-xss font-semibold leading-1'
+            'absolute left-3 top-3 text-gray-500 text-xxs font-semibold leading-1'
         ]];
     },
     title: ({ themeSettings, innerLabel }) => {
