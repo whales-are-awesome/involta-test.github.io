@@ -1,12 +1,12 @@
 <template>
     <div class="min-h-full flex items-center justify-center">
-        <div class="max-w-[680px] w-full border border-surface-300 rounded-[20px] py-8 px-6 mt-[91px] mb-8">
-            <p class="title-h3 mb-4">Connect Wallet</p>
-            <p class="font-medium text-sm mb-9">
+        <div class="max-w-[680px] w-full border border-surface-300 rounded-[20px] py-8 px-6 mt-[91px] mb-8 lg:max-w-[464px] sm:px-3 sm:py-6">
+            <p class="title-h3 mb-4 sm:mb-3">Connect Wallet</p>
+            <p class="font-medium text-sm mb-9 sm:text-sm">
                 By connecting a wallet, I agree to OuterCircle’s <ActionLink href="//google.com" target="_blank">Terms of Service</ActionLink>, and <ActionLink href="//google.com" target="_blank">Privacy Policy</ActionLink>.
             </p>
             <div class="space-y-8">
-                <div class="flex -mx-2 -mt-4 md:flex-wrap">
+                <div class="flex -mx-2 -mt-4">
                     <WalletNameCard
                         v-for="wallet in wallets"
                         :key="wallet.icon"

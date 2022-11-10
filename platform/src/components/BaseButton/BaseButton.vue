@@ -115,7 +115,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
                 'px-5 h-[40px] text-base': size === 'md',
                 'px-[18px] text-sm': size === 'sm',
                 'w-[36px] h-[36px]': size === 'icon',
-                'h-[36px]': size === 'sm' && rounded === 'lg',
+                'h-[36px] sm:h-[24px] sm:!text-xxs': size === 'sm' && rounded === 'lg',
                 'h-[32px]': size === 'sm' && rounded !== 'lg',
 
                 'text-white': view === 'filled' && ['gray', 'primary'].includes(theme),

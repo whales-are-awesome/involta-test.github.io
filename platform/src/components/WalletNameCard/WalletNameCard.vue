@@ -9,6 +9,11 @@
                 :name="icon"
                 width="36"
             />
+            <BaseIcon
+                :class="classes.iconMobile"
+                :name="icon"
+                width="28"
+            />
         </div>
         <p :class="classes.name">
             {{ name }}
@@ -52,7 +57,7 @@ const emit = defineEmits<IEmits>();
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isSelected, isDisabled }) => {
         return [themeSettings?.root, [
-            'transition-fast px-4 py-3 rounded-[10px] border border-surface-500 font-medium text-text-500 flex items-center',
+            'transition-fast px-4 py-3 rounded-[10px] border border-surface-500 font-medium text-text-500 flex items-center sm:p-2 sm:text-xxs',
             {
                 'bg-white border-surface-300 hover:bg-primary-100 cursor-pointer': !isSelected && !isDisabled,
                 'bg-primary-100 border-primary-400': isSelected,
@@ -60,7 +65,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             }
         ]];
     },
-    icon: 'mr-3 flex-shrink-0'
+    icon: 'mr-3 flex-shrink-0 sm:hidden',
+    iconMobile: 'mr-1 flex-shrink-0 sm:block',
 }));
 
 /* DATA */
