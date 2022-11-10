@@ -31,15 +31,15 @@
                 Next proposal
             </BaseButton>
         </div>
-        <div class="flex -mx-4 -mt-8 mb-[65px]">
-            <div class="mx-4 mt-8">
+        <div class="flex -mx-4 -mt-11 mb-[65px] lg:flex-wrap">
+            <div class="mx-4 mt-11">
                 <div class="border border-surface-300 rounded-[12px] p-8 h-full">
                     <p class="title-h3 !text-600 mb-3">
                         Proposal Name
                     </p>
-                    <div class="flex items-center mb-11">
+                    <div class="flex items-center mb-11 lg:mb-8">
                         <BaseAvatar
-                            class="mr-5"
+                            class="mr-5 flex-shrink-0"
                             :src="require('@/assets/images/common/placeholder.jpeg')"
                             alt="image"
                             size="sm"
@@ -67,40 +67,48 @@
                     </div>
                 </div>
             </div>
-            <div class="max-w-[252px] w-full box-border mx-4 mt-8 flex flex-col">
-                <div class="px-3 py-4 border border-surface-300 rounded-[12px] mb-4">
-                    <TextSeparator class="mb-4 pb-4 border-b border-surface-300">
-                        Proposal Status
-                    </TextSeparator>
-                    <BaseLabel
-                        theme="positive"
-                        view="faded"
-                        :theme-settings="{
-                            root: 'rounded-[8px] w-full h-[44px] !text-sm'
-                        }"
-                    >
-                        Active
-                    </BaseLabel>
-                </div>
-                <div class="px-3 py-4 border border-surface-300 rounded-[12px] my-auto">
-                    <TextSeparator class="mb-4 pb-4 border-b border-surface-300">
-                        Created by
-                    </TextSeparator>
-                    <BaseAvatar
-                        class="mr-5"
-                        :src="require('@/assets/images/common/placeholder.jpeg')"
-                        alt="image"
-                        rounded="lg"
-                    >
-                        <p class="font-medium ml-2 text-gray-500">
-                            0x2c934...a180
-                        </p>
-                    </BaseAvatar>
-                </div>
-                <div class="px-3 py-4 border border-surface-300 rounded-[12px] mt-4">
-                    <TextSeparator class="mb-4 pb-4 border-b border-surface-300">
-                        Current Results
-                    </TextSeparator>
+            <div class="max-w-[252px] w-full mx-4 mt-11 lg:max-w-none">
+                <div class="min-h-full flex flex-col lg:flex-row lg:-mt-4 lg:-mx-2">
+                    <div class="mb-4 lg:mt-4 lg:mb-0 lg:px-2 lg:w-[30.5%]">
+                        <div class="px-3 py-4 border border-surface-300 rounded-[12px]">
+                            <TextSeparator class="mb-4 pb-4 border-b border-surface-300">
+                                Proposal Status
+                            </TextSeparator>
+                            <BaseLabel
+                                theme="positive"
+                                view="faded"
+                                :theme-settings="{
+                                    root: 'rounded-[8px] w-full h-[44px] !text-sm'
+                                }"
+                            >
+                                Active
+                            </BaseLabel>
+                        </div>
+                    </div>
+                    <div class="my-auto lg:mt-4 lg:mb-0 lg:px-2 lg:w-[39%]">
+                        <div class="px-3 py-4 border border-surface-300 rounded-[12px]">
+                            <TextSeparator class="mb-4 pb-4 border-b border-surface-300">
+                                Created by
+                            </TextSeparator>
+                            <BaseAvatar
+                                class="mr-5"
+                                :src="require('@/assets/images/common/placeholder.jpeg')"
+                                alt="image"
+                                rounded="lg"
+                            >
+                                <p class="font-medium ml-2 text-gray-500">
+                                    0x2c934...a180
+                                </p>
+                            </BaseAvatar>
+                        </div>
+                    </div>
+                    <div class="mt-4 lg:px-2 lg:w-[30.5%]">
+                        <div class="px-3 py-4 border border-surface-300 rounded-[12px]">
+                            <TextSeparator class="mb-4 pb-4 border-b border-surface-300">
+                                Current Results
+                            </TextSeparator>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -118,7 +126,7 @@
                 <div class="bg-gray-200 w-px h-full absolute top-[48px] left-1/2 translate-y-[8px] -translate-x-1/2 h-full"></div>
             </div>
             <div class="flex-grow pt-1">
-                <p class="title-h4 text-500 mb-[38px]">
+                <p class="title-h4 text-500 mb-[38px] lg:mb-[34px]">
                     Pipeline
                 </p>
                 <div class="space-y-4">
@@ -127,7 +135,7 @@
                         :key="item"
                         class="border border-surface-300 rounded-[12px] px-8 pt-[28px] pb-10 relative"
                     >
-                        <div class="max-w-[683px]">
+                        <div>
                             <p
                                 class="absolute bg-white left-[-52px] top-[30px] text-300 text-h5 py-1 font-bold"
                                 :class="{
@@ -149,7 +157,7 @@
                                     Uniswap
                                 </p>
                             </BaseAvatar>
-                            <p class="text-500 font-semibold mb-1">
+                            <p class="text-500 font-semibold mb-1 lg:mb-2">
                                 By 1 item of
                                 <ActionLink
                                     class="underline-offset-2 underline"
@@ -158,21 +166,21 @@
                                     0x2c934...a180
                                 </ActionLink>
                             </p>
-                            <p class="text-sm text-400 mb-8">
+                            <p class="text-sm text-400">
                                 Subheading: Some text about this wonderful opportunity to do smth
                             </p>
                             <BaseCollapse v-show="showMore">
-                                <div>
+                                <div class="mt-6">
                                     <TextSeparator class="mb-6">
                                         Sub Actions:
                                     </TextSeparator>
                                     <div class="flex mb-8">
                                         <div class="w-[18px] h-[18px] bg-primary-400 rounded-full mr-[21px]"></div>
                                         <div class="flex-grow">
-                                            <p class="text-500 font-semibold mb-2">
+                                            <p class="text-500 font-semibold text-sm mb-2">
                                                 Task Name Heading
                                             </p>
-                                            <p class="text-sm text-400 mb-5">
+                                            <p class="text-xs text-400 mb-5">
                                                 Subheading: Some text about this wonderful opportunity to do smth
                                             </p>
                                             <div class="bg-surface-200 rounded-[4px] px-6 py-4">
@@ -183,18 +191,17 @@
                                                     placeholder="ID to buy"
                                                     tooltip="some text"
                                                     :is-bold="true"
-                                                    button-title="Use suggested ID"
-                                                    @button-click="formData.search = 'Ян киса'"
+                                                    :is-big="true"
                                                 >
                                                     <template
                                                         v-if="item === 2"
                                                         #append-main
                                                     >
-                                                        <div class="bg-white border border-surface-300 rounded-[4px] flex items-center ml-3 px-3 py-2.5">
-                                                            <div class="bg-surface-200 rounded-[4px] text-gray-300 w-6 h-6 flex items-center justify-center cursor-pointer">
+                                                        <div class="bg-white border border-surface-300 rounded-[4px] flex items-center justify-between ml-3 px-3 py-2.5 w-1/2">
+                                                            <div class="bg-surface-200 rounded-[4px] text-gray-300 w-8 h-8 flex items-center justify-center cursor-pointer">
                                                                 <BaseIcon
                                                                     name="minus"
-                                                                    width="24"
+                                                                    width="30"
                                                                 />
                                                             </div>
                                                             <div class="mx-4 text-center">
@@ -205,15 +212,20 @@
                                                                     333.333
                                                                 </p>
                                                             </div>
-                                                            <div class="bg-surface-200 rounded-[4px] text-gray-300 w-6 h-6 flex items-center justify-center cursor-pointer">
+                                                            <div class="bg-surface-200 rounded-[4px] text-gray-300 w-8 h-8 flex items-center justify-center cursor-pointer">
                                                                 <BaseIcon
                                                                     name="plus-bold"
-                                                                    width="24"
+                                                                    width="30"
                                                                 />
                                                             </div>
                                                         </div>
                                                     </template>
                                                 </TextField>
+                                                <ShowMoreButton
+                                                    v-if="item !== 4"
+                                                    class="mt-4 h-[30px]"
+                                                    v-model="showMore"
+                                                />
                                                 <div
                                                     v-if="item === 3"
                                                     class="mt-6 pt-[18px] pb-2.5 px-3 bg-surface-300"
@@ -280,6 +292,9 @@
                                                         <BaseButton
                                                             class="h-6 w-6 !rounded-[4px] !text-gray-400 -translate-y-1/2 !p-0"
                                                             view="outlined"
+                                                            :theme-settings="{
+                                                                bg: 'bg-white'
+                                                            }"
                                                         >
                                                             <BaseIcon name="arrows-exchange"/>
                                                         </BaseButton>
@@ -308,6 +323,7 @@
                                 </div>
                             </BaseCollapse>
                             <ShowMoreButton
+                                class="mt-8"
                                 v-model="showMore"
                             />
                             <div class="w-[28px] h-[28px] flex flex-col items-center justify-center border border-gray-100 rounded-[4px] absolute right-8 top-9 space-y-1">
