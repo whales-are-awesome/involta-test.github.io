@@ -66,7 +66,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         ]];
     },
     icon: 'mr-3 flex-shrink-0 sm:hidden',
-    iconMobile: 'mr-1 flex-shrink-0 sm:block',
+    iconMobile: 'mr-1 flex-shrink-0 hidden sm:block',
 }));
 
 /* DATA */
