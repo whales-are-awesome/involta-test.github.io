@@ -20,27 +20,27 @@
         <div :class="classes.fields">
             <TextField
                 v-model="formData.name"
-                label="Name of DAO"
+                title="Name of DAO"
                 placeholder="Name of DAO"
                 :required="true"
                 :maxlength="50"
-                :tip-top="`${ formData.name.length }/50`"
+                :tip="`${ formData.name.length }/50`"
                 :error="formErrors.name"
             />
             <TextField
                 v-model="formData.description"
-                label="DAO description"
+                title="DAO description"
                 placeholder="DAO description"
                 tooltip="DAO description"
                 :required="true"
-                :textarea="true"
+                view="textarea"
                 :maxlength="150"
-                :tip-top="`${ formData.description.length }/150`"
+                :tip="`${ formData.description.length }/150`"
                 :error="formErrors.description"
             />
             <TextField
                 v-model="formData.externalLink"
-                label="External link"
+                title="External link"
                 placeholder="External link"
                 :required="true"
                 :error="formErrors.externalLink"
@@ -55,21 +55,21 @@
                 <div class="space-y-2">
                     <TextField
                         v-model="formData.governanceTokens"
-                        label="Amount of Governance tokens"
+                        title="Amount of Governance tokens"
                         placeholder="Amount of Governance tokens"
                         :is-wrapped="true"
                         tooltip="Some text"
                     />
                     <TextField
                         v-model="formData.addressReceiver"
-                        label="Address of tokens receiver"
+                        title="Address of tokens receiver"
                         placeholder="Address of tokens’ receiver"
                         :is-wrapped="true"
                         tooltip="Some text"
                     />
                     <TextField
                         v-model="formData.addressRegistry"
-                        label="Address of Proposal Registry"
+                        title="Address of Proposal Registry"
                         placeholder="Address of Proposal Registry"
                         :is-wrapped="true"
                         tooltip="Some text"

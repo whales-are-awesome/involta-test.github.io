@@ -271,7 +271,7 @@
                         class="max-w-[400px]"
                         placeholder="Placeholder text"
                         :is-bold="true"
-                        label="Default field"
+                        title="Default field"
                     />
                 </div>
                 <div>
@@ -280,14 +280,14 @@
                         class="max-w-[400px]"
                         placeholder="Placeholder text"
                         :required="true"
-                        tip-top="tip 10/13"
+                        tip="tip 10/13"
                         tip-bottom="tip 12/13"
                         :icon="{
                             name: 'warning',
                             width: 12,
                             prepend: true
                         }"
-                        label="Field with inset label"
+                        title="Field with inset label"
                         tooltip="Some text"
                         inset-label="$9.32"
                         hint="Hint message."
@@ -299,14 +299,14 @@
                         class="max-w-[400px]"
                         placeholder="Placeholder text"
                         :required="true"
-                        tip-top="tip 10/13"
+                        tip="tip 10/13"
                         tip-bottom="tip 12/13"
                         :icon="{
                             name: 'warning',
                             width: 12,
                             prepend: true
                         }"
-                        label="Field with inset button"
+                        title="Field with inset button"
                         tooltip="Some text"
                         hint="Hint message."
                         :is-bold="true"
@@ -317,11 +317,11 @@
                 <div>
                     <TextField
                         v-model="textarea"
-                        :textarea="true"
+                        view="textarea"
                         class="max-w-[400px]"
                         placeholder="Placeholder text"
                         :is-bold="true"
-                        label="Textarea field"
+                        title="Textarea field"
                         :maxlength="500"
                         :tip-bottom="`${500 - textarea.length} left`"
                     />
@@ -332,14 +332,14 @@
                         class="max-w-[400px]"
                         placeholder="Placeholder text"
                         :required="true"
-                        tip-top="tip 10/13"
+                        tip="tip 10/13"
                         tip-bottom="tip 12/13"
                         :icon="{
                             name: 'warning',
                             width: 12,
                             prepend: true
                         }"
-                        label="Field with inset button"
+                        title="Field with inset button"
                         tooltip="Some text"
                         error="Error text."
                         :is-bold="true"
@@ -353,7 +353,7 @@
                         class="max-w-[400px]"
                         placeholder="Placeholder text"
                         :required="true"
-                        tip-top="tip 10/13"
+                        tip="tip 10/13"
                         :disabled="true"
                         tip-bottom="tip 12/13"
                         :icon="{
@@ -361,7 +361,7 @@
                             width: 12,
                             prepend: true
                         }"
-                        label="Disabled field"
+                        title="Disabled field"
                         tooltip="Some text"
                         :is-bold="true"
                         button-title="Use average amount"
@@ -396,7 +396,7 @@
                         v-model="textField2"
                         placeholder="Placeholder text"
                         :required="true"
-                        tip-top="tip 10/13"
+                        tip="tip 10/13"
                         tip-bottom="tip 12/13"
                         :is-wrapped="true"
                         :icon="{
@@ -404,7 +404,7 @@
                         width: 12,
                         prepend: true
                     }"
-                        label="Field with inset button"
+                        title="Field with inset button"
                         tooltip="Some text"
                         hint="Hint message."
                         :is-bold="true"

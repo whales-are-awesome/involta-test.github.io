@@ -25,22 +25,22 @@
         <div :class="classes.fields">
             <TextField
                 v-model="formData.name"
-                label="Name of SubDAO"
+                title="Name of SubDAO"
                 placeholder="SubDAO Name"
                 :required="true"
                 :maxlength="50"
-                :tip-top="`${ formData.name.length }/50`"
+                :tip="`${ formData.name.length }/50`"
                 :error="formErrors.name"
             />
             <TextField
                 v-model="formData.description"
-                label="SubDAO description"
+                title="SubDAO description"
                 placeholder="About SubDAO"
                 tooltip="About SubDAO"
                 :required="true"
-                :textarea="true"
+                view="textarea"
                 :maxlength="150"
-                :tip-top="`${ formData.description.length }/150`"
+                :tip="`${ formData.description.length }/150`"
                 :error="formErrors.description"
             />
             <BaseAccordion
@@ -51,21 +51,21 @@
                 <div class="space-y-2">
                     <TextField
                         v-model="formData.governanceTokens"
-                        label="Amount of Governance tokens"
+                        title="Amount of Governance tokens"
                         placeholder="100"
                         :is-wrapped="true"
                         tooltip="Some text"
                     />
                     <TextField
                         v-model="formData.addressReceiver"
-                        label="Address of tokens receiver"
+                        title="Address of tokens receiver"
                         placeholder="0x2c934...a180"
                         :is-wrapped="true"
                         tooltip="Some text"
                     />
                     <TextField
                         v-model="formData.addressRegistry"
-                        label="Address of Proposal Registry"
+                        title="Address of Proposal Registry"
                         placeholder="0x2c934...a180"
                         :is-wrapped="true"
                         tooltip="Some text"

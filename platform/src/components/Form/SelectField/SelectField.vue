@@ -1,12 +1,14 @@
 <template>
-    <FieldInfo
-        :class="classes.root"
+    <BlockInfo
+        :title="title"
         :tooltip="tooltip"
-        :label="label"
-        :hint="hint"
         :required="required"
         :tip="tip"
+        :hint="hint"
         :error="error"
+        :tip-bottom="tipBottom"
+        :disabled="disabled"
+        :description="description"
     >
         <div :class="classes.main">
             <VueSelect
@@ -87,7 +89,7 @@
                 </template>
             </VueSelect>
         </div>
-    </FieldInfo>
+    </BlockInfo>
 </template>
 
 <script lang="ts" setup>
@@ -96,7 +98,7 @@
 import { computed, ref } from 'vue';
 import VueSelect from 'vue-select';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
-import FieldInfo from '@/components/Form/FieldInfo/FieldInfo.vue';
+import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
 import { SelectOption, Sizes, AngleView } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
@@ -108,19 +110,22 @@ interface IProps {
     notFound?: string
     searchable?: boolean
     options: SelectOption[]
-    themeSettings?: any
     isWrapped?: boolean
     size: Sizes
-
     angleView: AngleView
-    tooltip?: string
-    hint?: string
     innerLabel?: string
-    label?: string
-    required?: boolean
-    tip?: string | number
-    error?: string
-    disabled?: boolean
+    themeSettings?: any
+
+
+    title?: IBlockInfoProps['title']
+    tooltip?: IBlockInfoProps['tooltip']
+    required?: IBlockInfoProps['required']
+    tip?: IBlockInfoProps['tip']
+    hint?: IBlockInfoProps['hint']
+    error?: IBlockInfoProps['error']
+    description?: IBlockInfoProps['description']
+    tipBottom?: IBlockInfoProps['tipBottom']
+    disabled?: IBlockInfoProps['disabled']
 }
 
 interface IEmits {

@@ -1,41 +1,51 @@
 <template>
     <div :class="classes.root">
-        <div
-            v-if="tooltip || label || required"
-            :class="classes.top"
-        >
-            <div
-                v-if="label"
-                :class="classes.label"
-            >
-                {{ label }}
-            </div>
-            <BaseIcon
-                v-if="required"
-                :class="classes.requiredIcon"
-                name="required"
-                width="6"
-            />
-            <BaseTooltip
-                v-if="tooltip"
-                :content="tooltip"
-            >
+        <div :class="classes.top">
+            <div :class="classes.topMain">
+                <div
+                    v-if="title"
+                    :class="classes.title"
+                >
+                    {{ title }}
+                </div>
                 <BaseIcon
-                    :class="classes.tooltipIcon"
-                    name="warning-circle"
-                    width="9"
+                    v-if="required"
+                    :class="classes.requiredIcon"
+                    name="required"
+                    width="6"
                 />
-            </BaseTooltip>
+                <BaseTooltip
+                    v-if="tooltip"
+                    :content="tooltip"
+                >
+                    <BaseIcon
+                        :class="classes.tooltipIcon"
+                        name="warning-circle"
+                        width="9"
+                    />
+                </BaseTooltip>
+                <div
+                    v-if="tip"
+                    :class="classes.tip"
+                >
+                    {{ tip }}
+                </div>
+            </div>
             <div
-                v-if="tip"
-                :class="classes.tip"
+                v-if="description"
+                :class="classes.description"
             >
-                {{ tip }}
+                {{ description }}
             </div>
         </div>
-        <slot></slot>
         <div
-            v-if="hint || error"
+            v-if="$slots.default"
+            :class="classes.content"
+        >
+            <slot></slot>
+        </div>
+        <div
+            v-if="hint || error || tipBottom"
             :class="classes.bottom"
         >
             <template v-if="hint">
@@ -63,10 +73,10 @@
                 </div>
             </template>
             <div
-                v-if="tip"
+                v-if="tipBottom"
                 :class="classes.tip"
             >
-                {{ tip }}
+                {{ tipBottom }}
             </div>
         </div>
     </div>
@@ -82,19 +92,21 @@ import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
 
-interface IProps {
+export interface IProps {
+    title?: string
     tooltip?: string
-    label?: string
+    description?: string
     required?: boolean
     tip?: string | number
     hint?: string
     error?: string
+    tipBottom?: string | number
     disabled?: boolean
+
+    themeSettings?: any
 }
 
 interface IEmits {
-    (e: 'update:modelValue', value: string): void
-    (e: 'button-click'): void
 }
 
 /* META */
@@ -102,15 +114,26 @@ interface IEmits {
 const props = withDefaults(defineProps<IProps>(), {
 });
 const emit = defineEmits<IEmits>();
+const slots = useSlots();
 
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses(() => {
     return {
-        top: () => [
-            'flex items-center mb-1'
+        top: ({ hasContent }) => [
+            {
+                'mb-2': hasContent
+            }
         ],
-        label: ({ disabled }) => [
+        topMain: () => [
+            'flex items-center'
+        ],
+        description: ({ themeSettings }) => {
+            return [themeSettings?.description, [
+                'text-xxs text-gray-400',
+            ]];
+        },
+        title: ({ disabled }) => [
             'text-gray-500 text-sm font-bold',
             {
                 '!text-disabled-text': disabled,
@@ -134,8 +157,15 @@ const useClasses = makeClasses(() => {
                 '!text-disabled-text': disabled,
             }
         ],
+        content: ({ disabled, themeSettings }) => {
+            return [themeSettings?.content, [
+                {
+                    '!text-disabled-text': disabled,
+                }
+            ]];
+        },
         bottom: ({ error }) => [
-            'mt-1 flex items-center',
+            'mt-2 flex items-center',
             {
                 'absolute w-full top-full left-0 z-10': error
             }
@@ -168,7 +198,9 @@ const useClasses = makeClasses(() => {
 
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
-        disabled: props.disabled
+        disabled: props.disabled,
+        hasContent: !!slots.default,
+        themeSettings: props.themeSettings
     });
 });
 

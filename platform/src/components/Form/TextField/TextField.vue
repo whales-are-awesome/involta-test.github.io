@@ -1,171 +1,107 @@
 <template>
     <div :class="classes.root">
-        <div
-            v-if="label || required || tooltip || tipTop"
-            :class="classes.top"
+        <BlockInfo
+            :title="title"
+            :tooltip="tooltip"
+            :required="required"
+            :tip="tip"
+            :hint="hint"
+            :error="error"
+            :tip-bottom="tipBottom"
+            :disabled="disabled"
+            :description="description"
         >
-            <div
-                v-if="label"
-                :class="classes.label"
-            >
-                {{ label }}
-            </div>
-            <BaseIcon
-                v-if="required"
-                :class="classes.requiredIcon"
-                name="required"
-                width="6"
-            />
-            <BaseTooltip
-                v-if="tooltip"
-                :content="tooltip"
-            >
-                <BaseIcon
-                    :class="classes.tooltipIcon"
-                    name="warning-circle"
-                    width="9"
-                />
-            </BaseTooltip>
-            <div
-                v-if="tipTop"
-                :class="classes.tip"
-            >
-                {{ tipTop }}
-            </div>
-        </div>
-        <div :class="classes.main">
-            <div
-                ref="el"
-                :class="classes.fieldWrapper"
-            >
-                <BaseLabel
-                    v-if="buttonTitle"
-                    :class="classes.button"
-                    view="simple"
-                    theme="primary"
-                    @click="emit('button-click')"
-                >
-                    {{ buttonTitle }}
-                </BaseLabel>
+            <div :class="classes.main">
                 <div
-                    v-if="insetLabel"
-                    :class="classes.insetLabel"
+                    ref="el"
+                    :class="classes.fieldWrapper"
                 >
-                    {{ insetLabel }}
+                    <BaseLabel
+                        v-if="buttonTitle"
+                        :class="classes.button"
+                        view="simple"
+                        theme="primary"
+                        @click="emit('button-click')"
+                    >
+                        {{ buttonTitle }}
+                    </BaseLabel>
+                    <div
+                        v-if="insetLabel"
+                        :class="classes.insetLabel"
+                    >
+                        {{ insetLabel }}
+                    </div>
+                    <div
+                        v-if="insetLeftLabel"
+                        :class="classes.insetLeftLabel"
+                    >
+                        {{ insetLeftLabel }}
+                    </div>
+                    <BaseIcon
+                        v-if="icon && icon.prepend"
+                        :class="[classes.icon, icon.class]"
+                        :name="icon.name"
+                        :width="icon.width"
+                        :height="icon.height"
+                    />
+                    <p :class="classes.placeholder">
+                        {{ placeholder }}
+                    </p>
+                    <input
+                        v-if="view !== 'textarea'"
+                        v-model="value"
+                        :class="classes.field"
+                        type="text"
+                        :maxlength="maxlength"
+                        @focus="onFocus"
+                        @blur="onBlur"
+                    >
+                    <textarea
+                        v-else
+                        v-model="value"
+                        :class="classes.field"
+                        type="text"
+                        :maxlength="maxlength"
+                        @focus="onFocus"
+                        @blur="onBlur"
+                    />
+                    <BaseIcon
+                        v-if="icon && !icon.prepend"
+                        :class="[classes.icon, icon.class]"
+                        :name="icon.name"
+                        :width="icon.width"
+                        :height="icon.height"
+                    />
+                    <slot
+                        name="append-inner-right"
+                        v-bind="{ classes: classes.innerRight }"
+                    ></slot>
                 </div>
-                <div
-                    v-if="insetLeftLabel"
-                    :class="classes.insetLeftLabel"
-                >
-                    {{ insetLeftLabel }}
-                </div>
-                <BaseIcon
-                    v-if="icon && icon.prepend"
-                    :class="[classes.icon, icon.class]"
-                    :name="icon.name"
-                    :width="icon.width"
-                    :height="icon.height"
-                />
-                <p :class="classes.placeholder">
-                    {{ placeholder }}
-                </p>
-                <input
-                    v-if="!textarea"
-                    v-model="value"
-                    :class="classes.field"
-                    type="text"
-                    :maxlength="maxlength"
-                    @focus="onFocus"
-                    @blur="onBlur"
-                >
-                <textarea
-                    v-else
-                    v-model="value"
-                    :class="classes.field"
-                    type="text"
-                    :maxlength="maxlength"
-                    @focus="onFocus"
-                    @blur="onBlur"
-                />
-                <BaseIcon
-                    v-if="icon && !icon.prepend"
-                    :class="[classes.icon, icon.class]"
-                    :name="icon.name"
-                    :width="icon.width"
-                    :height="icon.height"
-                />
-                <slot
-                    name="append-inner-right"
-                    v-bind="{ classes: classes.innerRight }"
-                ></slot>
+                <slot name="append-main"></slot>
             </div>
-            <slot name="append-main"></slot>
-        </div>
-        <div
-            v-if="hint || error || tipBottom"
-            :class="classes.bottom"
-        >
-            <template v-if="hint">
-                <BaseIcon
-                    :class="classes.warningIcon"
-                    name="warning"
-                    width="10"
-                />
-                <div
-                    :class="classes.hint"
-                >
-                    {{ hint }}
-                </div>
-            </template>
-            <template v-if="error">
-                <BaseIcon
-                    :class="classes.errorIcon"
-                    name="warning-circle"
-                    width="12"
-                />
-                <div
-                    :class="classes.error"
-                >
-                    {{ error }}
-                </div>
-            </template>
-            <div
-                v-if="tipBottom"
-                :class="classes.tip"
-            >
-                {{ tipBottom }}
-            </div>
-        </div>
+        </BlockInfo>
     </div>
 </template>
 
 <script setup lang="ts">
 /* IMPORTS */
 
-import { computed, ref, useSlots } from 'vue';
+import { computed, ref } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
-import BaseTooltip from '@/components/BaseTooltip/BaseTooltip.vue';
+import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
 import { Icons } from '@/components/BaseIcon/types';
-import { Sizes } from './types';
+import { Sizes, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
 
-interface IProps {
+interface IProps extends IBlockInfoProps {
     modelValue: string
-    textarea?: boolean
-    tooltip?: string
     placeholder?: string
-    hint?: string
-    label?: string
     insetLabel?: string
     insetLeftLabel?: string
-    required?: boolean
-    tipTop?: string | number
-    tipBottom?: string | number
     isBold?: boolean
-    isBig?: boolean
     isWrapped?: boolean
     icon?: {
         name: Icons
@@ -175,22 +111,31 @@ interface IProps {
         prepend?: boolean
     }
     buttonTitle?: string
-    size?: Sizes
-    disabled?: boolean
-    error?: string
+    size: Sizes
+    view: Views
     maxlength?: number | string
+
+    title?: IBlockInfoProps['title']
+    tooltip?: IBlockInfoProps['tooltip']
+    required?: IBlockInfoProps['required']
+    tip?: IBlockInfoProps['tip']
+    hint?: IBlockInfoProps['hint']
+    error?: IBlockInfoProps['error']
+    description?: IBlockInfoProps['description']
+    tipBottom?: IBlockInfoProps['tipBottom']
+    disabled?: IBlockInfoProps['disabled']
 }
 
 interface IEmits {
     (e: 'update:modelValue', value: string): void
     (e: 'button-click'): void
-
 }
 
 /* META */
 
 const props = withDefaults(defineProps<IProps>(), {
-    size: 'md'
+    size: 'md',
+    view: 'default'
 });
 const emit = defineEmits<IEmits>();
 
@@ -198,14 +143,14 @@ const emit = defineEmits<IEmits>();
 
 const useClasses = makeClasses(() => {
     return {
-        root: ({ isFilled, isFocus, hasError, disabled, size, isBig, isTextarea, isWrapped }) => [
+        root: ({ isWrapped }) => [
             'relative',
             {
                 'bg-white px-2 py-3 rounded-[4px]': isWrapped
             }
         ],
         main: 'flex',
-        fieldWrapper: ({ isFilled, isFocus, hasError, disabled, size, isBig, isTextarea }) => {
+        fieldWrapper: ({ isFilled, isFocus, hasError, disabled, size, view }) => {
             const states = {
                 default: !hasError && !isFocus && !disabled,
                 defaultFocus: !hasError && isFocus && !disabled,
@@ -220,90 +165,70 @@ const useClasses = makeClasses(() => {
                 {
                     'border-surface-300 hover:bg-primary-100': states.default,
                     'border-surface-500 border-primary-400 shadow-[0_0_0_3px_#D4D4FC,0_2px_2px_-1px_rgba(0,0,0,0.12)]': states.defaultFocus,
-                    'border-gray-300e': states.filled,
+                    'border-gray-300': states.filled,
                     'border-[#CB101D]': states.error,
                     'border-[#CB101D] ': states.errorFocus,
                     'pointer-events-none border-disabled-dark bg-disabled-light': states.disabled,
 
-                    'h-[62px]': size === 'xl',
-                    'h-12': !isBig && !isTextarea,
-                    'h-[56px]': isBig && !isTextarea,
-                    'h-[96px]': isTextarea,
+                    'h-[62px]': view === 'default' && size === 'xl',
+                    'h-12': view === 'default' && size === 'md',
+                    'h-[56px]': view === 'floating-placeholder' && size === 'md',
+                    'h-[96px]': view === 'textarea' && size === 'md',
                 }
             ];
         },
-        field: ({ isFilled, size, hasLeftIcon, isBold, isBig, isTextarea, disabled, insetLeftLabel }) => {
+        field: ({ isFilled, size, isBold, view, disabled, hasInsetLeftLabel, hasRightIcon, hasLeftIcon }) => {
             return [
                 'absolute inset-0 rounded-[4px] transition-fast resize-none bg-transparent text-500',
                 {
                     'font-bold': isBold,
-                    'pl-[13px]': !hasLeftIcon,
-                    'pl-8': hasLeftIcon,
+                    '!text-disabled-text': disabled,
+
+                    'px-3': !hasRightIcon && !hasLeftIcon,
+                    'pl-3 pr-8': hasRightIcon,
+                    'pl-8 pr-3': hasLeftIcon,
+                    'pt-[17px]': !!hasInsetLeftLabel,
+
                     'text-200': !isFilled,
                     'text-400': isFilled,
-                    'pt-[14px]': isFilled && isBig,
-                    'p-3': isTextarea,
-                    '!text-disabled-text': disabled,
-                    'pt-[17px]': !!insetLeftLabel,
+                    'pt-[14px]': isFilled && view === 'floating-placeholder',
+                    'p-3': view === 'textarea',
 
                     'text-xs': size === 'sm'
                 }
             ]
         },
-        placeholder: ({ isFilled, isBig, hasLeftIcon, disabled, insetLeftLabel }) => {
+        placeholder: ({ isFilled, view, hasRightIcon, hasLeftIcon, disabled, hasInsetLeftLabel }) => {
             return [
                 'text-300 absolute z-10 transition-fast pointer-events-none',
                 {
+                    'left-3': (!hasRightIcon && !hasLeftIcon) || hasRightIcon,
                     'left-8': hasLeftIcon,
+
                     'text-200': !isFilled,
-                    'top-[12px]': !isFilled && !isBig,
-                    'top-[16px]': !isFilled && isBig,
-                    'hidden': !isBig && isFilled,
-                    'text-400 text-xxs top-[8px] left-[13px] font-semibold': isFilled,
                     '!text-disabled-text': disabled,
-                    'pt-[16px]': !!insetLeftLabel,
+                    'pt-[16px]': !!hasInsetLeftLabel,
+
+                    'hidden': view !== 'floating-placeholder' && isFilled,
+                    'top-[12px]': view !== 'floating-placeholder' && !isFilled,
+
+                    'top-[16px]': view === 'floating-placeholder' && !isFilled,
+                    'text-400 text-xxs top-[8px] left-[13px] font-semibold': view === 'floating-placeholder' && isFilled,
                 }
             ]
         },
-        icon: ({ isFilled, hasLeftIcon, isBig, isBold, disabled }) => [
+        icon: ({ isFilled, hasRightIcon, hasLeftIcon, view, isBold, disabled }) => [
             'absolute -translate-y-1/2 top-1/2 z-10 pointer-events-none transition-fast',
             {
                 'text-gray-300': !isBold || !isFilled,
                 'text-gray-500': isBold && isFilled,
                 'left-[13px]': hasLeftIcon,
-                'right-[13px]': !hasLeftIcon,
-                'mt-[8px]': isFilled && isBig,
+                'right-[13px]': hasRightIcon,
+                'mt-[8px]': isFilled && view === 'floating-placeholder',
                 '!text-disabled-text': disabled,
             }
         ],
-        top: () => [
-            'flex items-center mb-1'
-        ],
-        label: ({ isFilled, hasLeftIcon, disabled }) => [
-            'text-gray-500 text-sm font-bold',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        requiredIcon: ({ isFilled, hasLeftIcon, disabled }) => [
-            'text-status-error self-start ml-1 translate-y-1',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        tooltipIcon: ({ isFilled, hasLeftIcon, disabled }) => [
-            'text-300 ml-[5px]',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        tip: ({ isFilled, hasLeftIcon, disabled }) => [
-            'ml-auto text-gray-500 text-xs',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        insetLabel: ({ isFilled, hasLeftIcon, disabled }) => [
+        insetLabel: ({ disabled }) => [
             'absolute font-bold top-1 right-3 z-10 text-gray-500',
             {
                 '!text-disabled-text': disabled,
@@ -314,37 +239,13 @@ const useClasses = makeClasses(() => {
                 'absolute left-3 top-3 text-gray-500 text-xxs font-semibold leading-1'
             ]];
         },
-        bottom: ({ isFilled, hasLeftIcon, error }) => [
-            'mt-1 flex items-center',
-            {
-                'absolute w-full top-full left-0 z-10': error
-            }
-        ],
-        warningIcon: ({ isFilled, hasLeftIcon, disabled }) => [
-            'text-gray-500 mr-2',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        hint: ({ isFilled, hasLeftIcon, disabled }) => [
-            'text-gray-500 text-xs font-bold',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        errorIcon: ({ isFilled, hasLeftIcon }) => [
-            'text-[#CB101D] mr-2'
-        ],
-        error: () => [
-            'text-[#CB101D] text-xs font-bold'
-        ],
-        button: ({ isFilled, hasLeftIcon, disabled }) => [
+        button: ({ disabled }) => [
             'absolute top-2.5 right-3 z-10 cursor-pointer',
             {
                 '!text-disabled-text !border-disabled-dark !bg-disabled-light': disabled,
             }
         ],
-        innerRight: ({ isFilled, hasLeftIcon, disabled }) => [
+        innerRight: () => [
             'absolute top-2.5 right-3'
         ]
     };
@@ -373,15 +274,14 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         isFocus: isFocus.value,
         hasError: !!props.error,
         size: props.size,
+        view: props.view,
         disabled: props.disabled,
         isFilled: !!value.value,
-        hasLeftIcon: !!props.icon?.prepend,
-        hasRightIcon: !props.icon?.prepend,
-        insetLeftLabel: props.insetLeftLabel,
+        hasLeftIcon: props.icon && props.icon.prepend,
+        hasRightIcon: props.icon && !props.icon.prepend,
+        hasInsetLeftLabel: props.insetLeftLabel,
         isBold: props.isBold,
-        isTextarea: props.textarea,
         isWrapped: props.isWrapped,
-        isBig: props.isBig
     });
 });
 

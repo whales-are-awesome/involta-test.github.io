@@ -187,11 +187,11 @@
                                                 <TextField
                                                     v-if="item !== 4"
                                                     v-model="formData.search"
-                                                    label="NFT ID to byu for the price"
+                                                    title="NFT ID to byu for the price"
                                                     placeholder="ID to buy"
                                                     tooltip="some text"
                                                     :is-bold="true"
-                                                    :is-big="true"
+                                                    view="floating-placeholder"
                                                 >
                                                     <template
                                                         v-if="item === 2"
@@ -274,7 +274,7 @@
                                                 >
                                                     <TextField
                                                         v-model="formData.search"
-                                                        label="NFT ID to byu for the price"
+                                                        title="NFT ID to byu for the price"
                                                         placeholder="Enter token amount"
                                                         tooltip="some text"
                                                     >
@@ -302,7 +302,7 @@
                                                     <TextField
                                                         v-model="formData.search"
                                                         placeholder="Enter token amount"
-                                                        :textarea="true"
+                                                        view="textarea"
                                                     >
                                                         <template
                                                             #append-inner-right="{ classes }"

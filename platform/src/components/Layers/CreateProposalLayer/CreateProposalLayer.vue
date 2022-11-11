@@ -25,34 +25,34 @@
         <div :class="classes.fields">
             <TextField
                 v-model="formData.name"
-                label="Name of Proposal"
+                title="Name of Proposal"
                 placeholder="Proposal Name"
                 :required="true"
                 :maxlength="50"
-                :tip-top="`${ formData.name.length }/50`"
+                :tip="`${ formData.name.length }/50`"
                 :error="formErrors.name"
             />
             <TextField
                 v-model="formData.description"
-                label="Proposal description"
+                title="Proposal description"
                 placeholder="About Proposal"
                 tooltip="About SubDAO"
                 :required="true"
-                :textarea="true"
+                view="textarea"
                 :maxlength="150"
-                :tip-top="`${ formData.description.length }/150`"
+                :tip="`${ formData.description.length }/150`"
                 :error="formErrors.description"
             />
             <SelectField
                 v-model="formData.subdaoId"
                 :options="formInfo.subdao"
-                label="Select relative SubDAO"
+                title="Select relative SubDAO"
                 tooltip="Select relative SubDAO"
                 size="lg"
                 angle-view="secondary"
             />
             <DateFieldsWrapper
-                label="Choose Dates"
+                title="Choose Dates"
                 tooltip="About SubDAO"
                 :required="true"
             >
@@ -73,14 +73,14 @@
                 Advanced Pipeline tasks
             </TextSeparator>
             <BaseBlock>
-                <BaseHeading
-                    class="mb-3"
+                <BlockInfo
                     title="To add App search for it’s Name"
                     tooltip="To add App search for it’s Name"
-                />
-                <DropdownSearch
-                    v-model="formData.name"
-                />
+                >
+                    <DropdownSearch
+                        v-model="formData.name"
+                    />
+                </BlockInfo>
             </BaseBlock>
             <BaseAccordion :no-chevron="true">
                 <template #top>
@@ -90,12 +90,14 @@
                         rounded="xs"
                         size="md"
                     >
-                        <BaseHeading
+                        <BlockInfo
                             title="Add Dapp"
                             tooltip="Add Dapp"
-                        >
-                            Use APPs for your advanced proposal
-                        </BaseHeading>
+                            description="Use APPs for your advanced proposal"
+                            :theme-settings="{
+                                description: '!text-gray-500'
+                            }"
+                        />
                     </BaseAvatar>
                     <DeleteButton
                         theme="surface-300"
@@ -115,40 +117,42 @@
                         :required="true"
                         tooltip="lool"
                         :is-wrapped="true"
-                        label="Function to do"
+                        title="Function to do"
                         :theme-settings="{
                             innerLabel: '!text-300'
                         }"
                     />
                     <TextField
                         v-model="formData.name"
-                        label="Name of the task"
+                        title="Name of the task"
                         placeholder="Task Name"
                         :maxlength="50"
-                        :tip-top="`${ formData.name.length }/50`"
+                        :tip="`${ formData.name.length }/50`"
                         :is-wrapped="true"
                         :error="formErrors.name"
                     />
                     <TextField
                         v-model="formData.name"
-                        label="Task Description"
+                        title="Task Description"
                         placeholder="Task Description"
                         :maxlength="150"
-                        :tip-top="`${ formData.name.length }/150`"
+                        :tip="`${ formData.name.length }/150`"
                         :is-wrapped="true"
-                        :textarea="true"
+                        view="textarea"
                         :error="formErrors.name"
                     />
                 </div>
             </BaseAccordion>
             <BaseAdd class="items-center !mb-8">
-                <BaseHeading
+                <BlockInfo
                     class="ml-4"
                     title="Add Dapp"
                     tooltip="Add Dapp"
-                >
-                    Use APPs for your advanced proposal
-                </BaseHeading>
+                    description="Use APPs for your advanced proposal"
+                    :theme-settings="{
+                        description: '!text-gray-500'
+                    }"
+                />
             </BaseAdd>
             <BaseAccordion
                 v-for="transaction in formData.transactions"
@@ -167,7 +171,7 @@
                 <div class="space-y-3">
                     <TextField
                         v-model="transaction.address"
-                        label="Contract address"
+                        title="Contract address"
                         placeholder="0x2c934...a180"
                         :required="true"
                         :is-wrapped="true"
@@ -175,11 +179,11 @@
                     />
                     <TextField
                         v-model="transaction.funcName"
-                        label="Function Name"
+                        title="Function Name"
                         placeholder="Value"
                         :required="true"
                         :maxlength="50"
-                        :tip-top="`${ formData.name.length }/50`"
+                        :tip="`${ formData.name.length }/50`"
                         :is-wrapped="true"
                         :error="formErrors.name"
                     />
@@ -195,7 +199,7 @@
                         class="bg-white rounded-[4px] py-3 px-3"
                     >
                         <div class="flex justify-between items-center mb-2">
-                            <BaseHeading
+                            <BlockInfo
                                 :title="(index + 1) + '. Parameter'"
                                 tooltip="Use Custom transaction for personal data?"
                             />
@@ -246,13 +250,15 @@
                 class="items-center"
                 @click="addTransaction"
             >
-                <BaseHeading
+                <BlockInfo
                     class="ml-4"
                     title="Add Custom Transaction"
                     tooltip="Use Custom transaction for personal data?"
-                >
-                    Use Custom transaction for personal data?
-                </BaseHeading>
+                    description="Use Custom transaction for personal data?"
+                    :theme-settings="{
+                        description: '!text-gray-500'
+                    }"
+                />
             </BaseAdd>
         </div>
         <BaseButton
@@ -278,7 +284,7 @@ import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
-import BaseHeading from '@/components/BaseHeading/BaseHeading.vue';
+import BlockInfo from '@/components/BlockInfo/BlockInfo.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseAdd from '@/components/BaseAdd/BaseAdd.vue';

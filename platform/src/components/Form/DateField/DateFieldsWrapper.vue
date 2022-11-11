@@ -1,18 +1,20 @@
 <template>
     <div :class="classes.root">
-        <FieldInfo
-            v-if="tooltip || label || required"
+        <BlockInfo
+            :title="title"
             :tooltip="tooltip"
-            :label="label"
-            :hint="hint"
             :required="required"
             :tip="tip"
+            :hint="hint"
             :error="error"
+            :tip-bottom="tipBottom"
+            :disabled="disabled"
+            :description="description"
         >
             <div :class="classes.main">
                 <slot></slot>
             </div>
-        </FieldInfo>
+        </BlockInfo>
     </div>
 </template>
 
@@ -21,19 +23,21 @@
 /* IMPORTS */
 
 import { computed } from 'vue';
-import FieldInfo from '@/components/Form/FieldInfo/FieldInfo.vue';
+import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
 
 interface IProps {
-    tooltip?: string
-    hint?: string
-    label?: string
-    required?: boolean
-    tip?: string | number
-    error?: string
-    disabled?: boolean
+    title?: IBlockInfoProps['title']
+    tooltip?: IBlockInfoProps['tooltip']
+    required?: IBlockInfoProps['required']
+    tip?: IBlockInfoProps['tip']
+    hint?: IBlockInfoProps['hint']
+    error?: IBlockInfoProps['error']
+    description?: IBlockInfoProps['description']
+    tipBottom?: IBlockInfoProps['tipBottom']
+    disabled?: IBlockInfoProps['disabled']
 }
 
 interface IEmits {

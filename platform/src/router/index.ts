@@ -62,6 +62,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "ui" */ '../views/auth.vue'),
     },
     {
+        path: '/test',
+        name: 'test',
+        meta: {
+            title: 'Test',
+        },
+        component: () => import(/* webpackChunkName: "ui" */ '../views/test.vue'),
+    },
+    {
         path: "/:catchAll(.*)",
         name: "NotFound",
         component: () => import(/* webpackChunkName: "404" */ '../views/404.vue'),
