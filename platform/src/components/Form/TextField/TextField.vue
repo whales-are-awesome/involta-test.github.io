@@ -15,6 +15,7 @@
                 <div
                     ref="el"
                     :class="classes.fieldWrapper"
+                    @click="onClick"
                 >
                     <BaseLabel
                         v-if="buttonTitle"
@@ -49,6 +50,7 @@
                     </p>
                     <input
                         v-if="view !== 'textarea'"
+                        ref="input"
                         v-model="value"
                         :class="classes.field"
                         type="text"
@@ -58,6 +60,7 @@
                     >
                     <textarea
                         v-else
+                        ref="input"
                         v-model="value"
                         :class="classes.field"
                         type="text"
@@ -114,6 +117,7 @@ interface IProps extends IBlockInfoProps {
     size: Sizes
     view: Views
     maxlength?: number | string
+    themeSettings?: any
 
     title?: IBlockInfoProps['title']
     tooltip?: IBlockInfoProps['tooltip']
@@ -131,6 +135,15 @@ interface IEmits {
     (e: 'button-click'): void
 }
 
+interface IThemeProps extends Pick<IProps, 'size' | 'view' | 'disabled' | 'isBold' | 'isWrapped' | 'themeSettings'> {
+    isFocus: boolean
+    hasError: boolean
+    isFilled: boolean
+    hasLeftIcon: boolean
+    hasRightIcon: boolean
+    hasInsetLeftLabel: boolean
+}
+
 /* META */
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -138,10 +151,11 @@ const props = withDefaults(defineProps<IProps>(), {
     view: 'default'
 });
 const emit = defineEmits<IEmits>();
+const input = ref(null);
 
 /* VARS AND CUSTOM HOOKS */
 
-const useClasses = makeClasses(() => {
+const useClasses = makeClasses<IThemeProps>(() => {
     return {
         root: ({ isWrapped }) => [
             'relative',
@@ -149,7 +163,11 @@ const useClasses = makeClasses(() => {
                 'bg-white px-2 py-3 rounded-[4px]': isWrapped
             }
         ],
-        main: 'flex',
+        main: ({ themeSettings }) => {
+            return [themeSettings?.main, [
+                'flex'
+            ]]
+        },
         fieldWrapper: ({ isFilled, isFocus, hasError, disabled, size, view }) => {
             const states = {
                 default: !hasError && !isFocus && !disabled,
@@ -174,20 +192,24 @@ const useClasses = makeClasses(() => {
                     'h-12': view === 'default' && size === 'md',
                     'h-[56px]': view === 'floating-placeholder' && size === 'md',
                     'h-[96px]': view === 'textarea' && size === 'md',
+                    'h-[66px]': view === 'swap' && size === 'md',
+                    'h-[106px]': view === 'swap' && size === 'xl',
                 }
             ];
         },
         field: ({ isFilled, size, isBold, view, disabled, hasInsetLeftLabel, hasRightIcon, hasLeftIcon }) => {
             return [
-                'absolute inset-0 rounded-[4px] transition-fast resize-none bg-transparent text-500',
+                'absolute rounded-[4px] transition-fast resize-none bg-transparent text-500',
                 {
+                    'inset-0': view !== 'swap',
+                    'left-0 top-[13px] w-10/12': view === 'swap',
                     'font-bold': isBold,
                     '!text-disabled-text': disabled,
 
                     'px-3': !hasRightIcon && !hasLeftIcon,
                     'pl-3 pr-8': hasRightIcon,
                     'pl-8 pr-3': hasLeftIcon,
-                    'pt-[17px]': !!hasInsetLeftLabel,
+                    'pt-[17px]': hasInsetLeftLabel,
 
                     'text-200': !isFilled,
                     'text-400': isFilled,
@@ -210,7 +232,7 @@ const useClasses = makeClasses(() => {
                     'pt-[16px]': !!hasInsetLeftLabel,
 
                     'hidden': view !== 'floating-placeholder' && isFilled,
-                    'top-[12px]': view !== 'floating-placeholder' && !isFilled,
+                    'top-[13px]': view !== 'floating-placeholder' && !isFilled,
 
                     'top-[16px]': view === 'floating-placeholder' && !isFilled,
                     'text-400 text-xxs top-[8px] left-[13px] font-semibold': view === 'floating-placeholder' && isFilled,
@@ -277,11 +299,13 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         view: props.view,
         disabled: props.disabled,
         isFilled: !!value.value,
-        hasLeftIcon: props.icon && props.icon.prepend,
-        hasRightIcon: props.icon && !props.icon.prepend,
+        hasLeftIcon: !!props.icon && !!props.icon.prepend,
+        hasRightIcon: !!props.icon && !props.icon.prepend,
         hasInsetLeftLabel: props.insetLeftLabel,
         isBold: props.isBold,
         isWrapped: props.isWrapped,
+
+        themeSettings: props.themeSettings
     });
 });
 
@@ -294,6 +318,10 @@ function onFocus(): void {
 
 function onBlur(): void {
     isFocus.value = false;
+}
+
+function onClick(): void {
+    input.value.focus();
 }
 </script>
 

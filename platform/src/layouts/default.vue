@@ -6,7 +6,7 @@
             />
             <TheDaoSidebar
                 ref="daoSidebar"
-                class="z-[1000] flex-shrink-0 transition-[width] duration-[0.25s] ease-[cubic-bezier(0.645, 0.045, 0.355, 1)] min-h-screen [clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)] sm:hidden"
+                class="z-[1000] flex-shrink-0 transition-[width] duration-[0.25s] ease-[cubic-bezier(0.645, 0.045, 0.355, 1)] min-h-screen [clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)] md:hidden"
                 :class="{
                     '!w-0 ': !showDaoSidebar
                 }"

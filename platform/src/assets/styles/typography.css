@@ -50,31 +50,31 @@ h6, .title-h6 {
         line-height: 22px;
     }
 
-    .text-h1 {
+    .text-h1, h1, .title-h1 {
         font-size: 32px;
         line-height: 40px;
     }
-    .text-h2 {
+    .text-h2, h2, .title-h2 {
         font-size: 28px;
         line-height: 36px;
     }
-    .text-h3 {
+    .text-h3, h3, .title-h3 {
         font-size: 24px;
         line-height: 32px;
     }
-    .text-h4 {
+    .text-h4, h4, .title-h4 {
         font-size: 20px;
         line-height: 28px;
     }
-    .text-h5 {
+    .text-h5, h5, .title-h5 {
         font-size: 16px;
         line-height: 24px;
     }
-    .text-h6 {
+    .text-h6, h6, .title-h6 {
         font-size: 12px;
         line-height: 20px;
     }
-    .text-h7 {
+    .text-h7, .title-h7 {
         font-size: 12px;
         line-height: 20px;
     }

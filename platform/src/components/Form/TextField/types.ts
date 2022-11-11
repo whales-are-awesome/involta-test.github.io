@@ -1,5 +1,5 @@
 type Sizes = 'sm' | 'md' | 'xl';
-type Views = 'default' | 'floating-placeholder' | 'textarea';
+type Views = 'default' | 'floating-placeholder' | 'textarea' | 'swap';
 
 export {
     Sizes,

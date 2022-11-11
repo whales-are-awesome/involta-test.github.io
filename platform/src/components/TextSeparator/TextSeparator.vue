@@ -8,12 +8,19 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed } from 'vue';
+import { computed, defineProps } from 'vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
+
+interface IProps {
+    themeSettings?: any
+}
 /* META */
+const props = withDefaults(defineProps<IProps>(), {
+
+});
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses(() => ({
@@ -29,6 +36,7 @@ const useClasses = makeClasses(() => ({
 
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
+        themeSettings: props.themeSettings
     });
 });
 

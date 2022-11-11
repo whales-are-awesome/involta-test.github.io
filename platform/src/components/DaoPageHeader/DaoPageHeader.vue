@@ -78,22 +78,22 @@ const props = withDefaults(defineProps<IProps>(), {});
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => {
         return [themeSettings?.root,  [
-            'line-wave-bg py-4 px-8 -mx-[30px] border-b border-primary-100'
+            'line-wave-bg py-4 px-8 -mx-[30px] border-b border-primary-100 sm:py-9 sm:px-[30px]'
         ]];
     },
     inner: 'bg-white border border-primary-100 rounded-[10px] px-4 py-3 h-[120px]',
     top: 'flex items-center justify-between',
     name: ({ hasBreadcrumbs }) => [
-        'font-bold text-gray-600 mb-2',
+        'font-bold text-gray-600 mb-2 md:mb-3 sm:text-xs',
         {
-            'mt-[13px]': hasBreadcrumbs,
+            'mt-[13px] sm:mt-[17px]': hasBreadcrumbs,
             '-mt-[3px]': !hasBreadcrumbs
         }
     ],
-    info: 'flex space-x-[18px] text-gray-400 text-xs',
+    info: 'flex space-x-[18px] text-gray-400 text-xs sm:hidden',
     infoItem: 'flex items-center',
     infoItemIcon: 'mr-1',
-    description: 'max-w-[659px] text-xs text-gray-500'
+    description: 'max-w-[659px] text-xs text-gray-500 line-clamp-2 sm:line-clamp-3'
 }));
 
 /* DATA */
@@ -120,5 +120,10 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 }
 .line-wave-bg:after {
 
+}
+@screen sm {
+    .line-wave-bg {
+        background-image: url('@/assets/sprite/svg/line-wave-mobile.svg');
+    }
 }
 </style>

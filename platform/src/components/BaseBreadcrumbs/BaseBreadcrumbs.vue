@@ -101,7 +101,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         'flex items-center',
         {
             '!font-normal sm:!text-xxs': view === 'secondary',
-            'text-xs': view === 'primary'
+            'text-xs sm:!text-tiny !font-medium': view === 'primary'
         }
     ],
     itemLink: 'transition-fast inline-flex items-center',

@@ -1,6 +1,9 @@
 <template>
     <div :class="classes.root">
-        <div :class="classes.top">
+        <div
+            v-if="title || tip"
+            :class="classes.top"
+        >
             <div :class="classes.topMain">
                 <div
                     v-if="title"
