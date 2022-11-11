@@ -189,9 +189,9 @@ const useClasses = makeClasses<IThemeProps>(() => {
                     'pointer-events-none border-disabled-dark bg-disabled-light': states.disabled,
 
                     'h-[62px]': view === 'default' && size === 'xl',
-                    'h-12': view === 'default' && size === 'md',
+                    'h-12 sm:h-8': view === 'default' && size === 'md',
                     'h-[56px]': view === 'floating-placeholder' && size === 'md',
-                    'h-[96px]': view === 'textarea' && size === 'md',
+                    'h-[96px] sm:h-[88px]': view === 'textarea' && size === 'md',
                     'h-[66px]': view === 'swap' && size === 'md',
                     'h-[106px]': view === 'swap' && size === 'xl',
                 }
@@ -206,9 +206,9 @@ const useClasses = makeClasses<IThemeProps>(() => {
                     'font-bold': isBold,
                     '!text-disabled-text': disabled,
 
-                    'px-3': !hasRightIcon && !hasLeftIcon,
-                    'pl-3 pr-8': hasRightIcon,
-                    'pl-8 pr-3': hasLeftIcon,
+                    'px-3 sm:px-2': !hasRightIcon && !hasLeftIcon,
+                    'pl-3 pr-8 sm:pl-2': hasRightIcon,
+                    'pl-8 pr-3 sm:pr-2': hasLeftIcon,
                     'pt-[17px]': hasInsetLeftLabel,
 
                     'text-200': !isFilled,
@@ -216,15 +216,16 @@ const useClasses = makeClasses<IThemeProps>(() => {
                     'pt-[14px]': isFilled && view === 'floating-placeholder',
                     'p-3': view === 'textarea',
 
-                    'text-xs': size === 'sm'
+                    'text-xs': size === 'sm',
+                    'sm:text-xs': size === 'md'
                 }
             ]
         },
-        placeholder: ({ isFilled, view, hasRightIcon, hasLeftIcon, disabled, hasInsetLeftLabel }) => {
+        placeholder: ({ isFilled, view, hasRightIcon, hasLeftIcon, disabled, hasInsetLeftLabel, size }) => {
             return [
                 'text-300 absolute z-10 transition-fast pointer-events-none',
                 {
-                    'left-3': (!hasRightIcon && !hasLeftIcon) || hasRightIcon,
+                    'left-3 sm:left-2': (!hasRightIcon && !hasLeftIcon) || hasRightIcon,
                     'left-8': hasLeftIcon,
 
                     'text-200': !isFilled,
@@ -232,10 +233,13 @@ const useClasses = makeClasses<IThemeProps>(() => {
                     'pt-[16px]': !!hasInsetLeftLabel,
 
                     'hidden': view !== 'floating-placeholder' && isFilled,
-                    'top-[13px]': view !== 'floating-placeholder' && !isFilled,
+                    'top-[13px] sm:top-[7px]': view !== 'floating-placeholder' && !isFilled,
 
                     'top-[16px]': view === 'floating-placeholder' && !isFilled,
                     'text-400 text-xxs top-[8px] left-[13px] font-semibold': view === 'floating-placeholder' && isFilled,
+
+                    'text-xs': size === 'sm',
+                    'sm:text-xs': size === 'md'
                 }
             ]
         },

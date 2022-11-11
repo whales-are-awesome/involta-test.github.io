@@ -3,7 +3,7 @@
         position="right"
         :theme-settings="{
             container: [
-                'p-10 w-[455px] flex flex-col create-dao-layer sm:w-full',
+                'p-10 w-[455px] flex flex-col create-dao-layer sm:w-full sm:px-6',
                 {
                     '-preloader': isSending
                 }
@@ -263,7 +263,7 @@
         </div>
         <BaseButton
             :class="classes.button"
-            size="lg"
+            :size="!isMobile.sm ? 'lg' : 'md'"
             theme="primary"
             @click="createProposal"
         >
@@ -300,6 +300,7 @@ import useForm from '@/composables/useForm';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import { createId } from '@/helpers/uuid';
 import API from '@/helpers/api';
+import useIsMobile from '@/composables/useIsMobile';
 
 /* INTERFACES */
 
@@ -315,15 +316,16 @@ const router = useRouter();
 /* CONSTANTS AND HOOKS */
 
 const { close, alert, closeLast } = useLayer();
+const isMobile = useIsMobile();
 const useClasses = makeClasses(() => ({
     top: () => [
-        'flex items-center justify-between mb-11'
+        'flex items-center justify-between mb-11 sm:items-start'
     ],
     title: () => [
         'title-h5 !text-600 mb-2'
     ],
     topText: () => [
-        'text-sm font-medium text-400'
+        'text-sm font-medium text-400 sm:text-xxs'
     ],
     cross: () => [
         'text-[#B6B6BE] cursor-pointer'
