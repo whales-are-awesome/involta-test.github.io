@@ -1,26 +1,21 @@
 import InjectedWallet from './InjectedWallet';
 import ConnectWallet from './ConnectWallet';
 import { store } from '@/store';
+// import redirectAfterLogin from '@/helpers/redirectAfterLogin';
 
-type wallets = 'injectedWallet' | 'connectWallet' | '';
 type walletsClasses = InjectedWallet | ConnectWallet;
 
 class Wallet {
-    static currentWalletId: wallets = 'injectedWallet';
     static InjectedWallet = InjectedWallet;
     static ConnectWallet = ConnectWallet;
 
-    static get loggedIn() {
-        return !!Wallet.address;
-    }
-
-    static get address(): string {
+    static async disconnect(): Promise<void> {
         //@ts-ignore
-        return Wallet.currentWallet.address;
+        return await Wallet.currentWallet.disconnect();
     }
 
     static get currentWallet(): walletsClasses {
-        switch (Wallet.currentWalletId) {
+        switch (store.state.wallet.wallet) {
             case 'injectedWallet':
                 return InjectedWallet;
             case 'connectWallet':
@@ -31,14 +26,15 @@ class Wallet {
     }
 
     static async init(): Promise<void> {
-        if (await InjectedWallet.updateAddress()) {
-            // check if loggedIn in InjectedWallet
-            Wallet.currentWalletId = 'injectedWallet';
-        } else if (await ConnectWallet.updateAddress()) {
+        if (await ConnectWallet.tryConnectAndSetAddress()) {
             // check if loggedIn in ConnectWallet
-            Wallet.currentWalletId = 'connectWallet';
+            store.dispatch('wallet/setWallet', 'connectWallet');
+        } else if (await InjectedWallet.tryConnectAndSetAddress()) {
+            // check if loggedIn in InjectedWallet
+            store.dispatch('wallet/setWallet', 'injectedWallet')
         } else {
             store.dispatch('wallet/setAddress', '');
+            InjectedWallet.init();
         }
     }
 }

@@ -1,16 +1,15 @@
 import router from '@/router';
-import Wallet from '@/wallets';
+import { store } from '@/store';
 
 export default function redirectAfterLogin(): void {
     const isAuthPage = router.currentRoute.value.name === 'auth';
+    const loggedIn = store.getters['wallet/loggedIn'];
 
-    console.log(Wallet.loggedIn);
-
-    if (Wallet.loggedIn && isAuthPage) {
+    if (loggedIn && isAuthPage) {
         router.push({ name: 'home' });
     }
 
-    if (!Wallet.loggedIn && !isAuthPage) {
+    if (!loggedIn && !isAuthPage) {
         window.location.reload();
     }
 }

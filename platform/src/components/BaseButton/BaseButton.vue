@@ -53,6 +53,7 @@ import {
     Sizes,
     Views,
     Icons,
+    Justify,
     Rounded,
     Themes
 } from './types';
@@ -76,6 +77,7 @@ interface IProps {
     theme: Themes
     size: Sizes
     view: Views
+    justify: Justify
     wrapContent: boolean
     themeSettings?: any
 }
@@ -84,7 +86,7 @@ interface IEmit {
     (e: 'click'): void
 }
 
-interface IThemeProps extends Pick<IProps, 'theme' | 'size' | 'disabled' | 'view' | 'rounded' | 'themeSettings' | 'icon'> {
+interface IThemeProps extends Pick<IProps, 'theme' | 'size' | 'disabled' | 'view' | 'rounded' | 'themeSettings' | 'icon' | 'justify'> {
     hasContent?: boolean
     hasIcon?: boolean
     isFocused?: boolean
@@ -99,6 +101,7 @@ const props = withDefaults(defineProps<IProps>(), {
     rounded: 'sm',
     size: 'md',
     view: 'filled',
+    justify: 'center',
     wrapContent: true
 });
 const slots = useSlots();
@@ -107,9 +110,9 @@ const emit = defineEmits<IEmit>();
 /* CONSTANTS AND HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({size, themeSettings, view, theme, disabled, rounded}) => {
+    root: ({size, themeSettings, view, theme, disabled, rounded, justify}) => {
         return [themeSettings?.root, [
-            'group inline-flex items-center justify-center relative z-1 [background-position-y:0] tracking-[0.4px]',
+            'group inline-flex items-center relative z-1 [background-position-y:0] tracking-[0.4px]',
             {
                 'px-5 h-[52px] text-lg': size === 'lg',
                 'px-5 h-[40px] text-base': size === 'md',
@@ -118,6 +121,9 @@ const useClasses = makeClasses<IThemeProps>(() => ({
                 'w-[36px] h-[36px]': size === 'icon',
                 'h-[36px] sm:h-[24px] sm:!text-xxs': size === 'sm' && rounded === 'lg',
                 'h-[32px]': size === 'sm' && rounded !== 'lg',
+
+                'justify-center': justify === 'center',
+                'justify-start': justify === 'start',
 
                 'text-white': view === 'filled' && ['gray', 'primary'].includes(theme),
                 'text-gray-500 active:text-gray-700': view === 'filled' && theme === 'surface',
@@ -218,6 +224,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         size: props.size,
         theme: props.theme,
         view: props.view,
+        justify: props.justify,
         disabled: props.disabled,
         rounded: props.rounded,
         hasContent: hasContent.value,

@@ -1,7 +1,6 @@
 import API from '@/helpers/api';
 import { store } from '@/store';
 import redirectAfterLogin from '@/helpers/redirectAfterLogin';
-import Wallet from '@/wallets/index';
 
 function init(target: any, propertyKey: string, propertyDescriptor: PropertyDescriptor) {
     if (!target.instance) {
@@ -10,15 +9,17 @@ function init(target: any, propertyKey: string, propertyDescriptor: PropertyDesc
 }
 
 class InjectedWallet {
-    static address = '';
-
     static init(): void {
         InjectedWallet.handleAll();
     }
 
     @init
     static async login(): Promise<string> {
-        return (await API.eth.requestAccounts())[0];
+        const address = (await API.eth.requestAccounts())[0];
+        store.dispatch('wallet/setAddress', address);
+        store.dispatch('wallet/setWallet', 'injectedWallet');
+
+        return address;
     }
 
     static handleAll() {
@@ -27,24 +28,35 @@ class InjectedWallet {
     }
 
     @init
-    static async updateAddress(address?: string): Promise<string> {
-        InjectedWallet.address = address || (await API.eth.getAccounts())[0];
-        store.dispatch('wallet/setAddress', InjectedWallet.address);
+    static async tryConnectAndSetAddress(_address?: string): Promise<string> {
+        const address = _address || (await API.eth.getAccounts())[0];
+        store.dispatch('wallet/setAddress', address);
 
-        return InjectedWallet.address;
+        return address;
+    }
+
+    static async disconnect(): Promise<void> {
+        //@ts-ignore
+        await API.eth.currentProvider.disconnect();
     }
 
     static networkAccountsChange(): void {
         window.ethereum.on('accountsChanged', async ([address]: string[]) => {
-            Wallet.currentWalletId = 'injectedWallet'
-            await InjectedWallet.updateAddress(address);
+            if (store.state.wallet.wallet === 'connectWallet') {
+                return;
+            } else if (!store.state.wallet.wallet) {
+                store.dispatch('wallet/setWallet', 'injectedWallet');
+            }
+
+            store.dispatch('wallet/setAddress', address);
             redirectAfterLogin();
+            console.log('accountsChanged')
         })
     }
 
     static handleNetworkChange(): void {
         window.ethereum.on('networkChanged', async () => {
-            redirectAfterLogin();
+            console.log('networkChanged')
         });
     }
 }

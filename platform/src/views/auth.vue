@@ -52,6 +52,6 @@ const wallets = computed(() => {
 async function auth(wallet: any) {
     await wallet.login();
 
-    Wallet.currentWalletId = wallet.id;
+    router.push({ name: 'home' });
 }
 </script>

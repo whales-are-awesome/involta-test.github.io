@@ -1,11 +1,22 @@
 <template>
     <Popper
+        ref="root"
         :class="classes.root"
         :content="content"
         :hover="hover"
         :placement="placement"
+        :show="isShown"
+        @mouseenter="isShown = true"
+        @mouseleave="isShown = false"
+        @close="isShown = false"
     >
         <slot></slot>
+        <template
+            v-if="$slots.content"
+            #content="{ close }"
+        >
+            <slot name="content" v-bind="{ close }"></slot>
+        </template>
     </Popper>
 </template>
 
@@ -13,7 +24,7 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed } from 'vue';
+import { computed, useSlots, ref, defineExpose } from 'vue';
 import Popper from 'vue3-popper';
 import makeClasses from '@/helpers/makeClasses';
 
@@ -26,6 +37,7 @@ interface IProps {
 }
 
 interface ThemeProps {
+    hasContent: boolean
 }
 
 /* META */
@@ -34,11 +46,22 @@ const props = withDefaults(defineProps<IProps>(), {
     hover: true,
     placement: 'top'
 });
+const slots = useSlots();
+const root = ref(null);
 
 /* VARS AND CUSTOM HOOKS */
 
+const isShown = ref<boolean>(false)
+
 const useClasses = makeClasses<ThemeProps>(() => ({
-    root: () => []
+    root: ({ hasContent }) => {
+        return [
+            'popper-root',
+            {
+                'no-style': hasContent
+            }
+        ]
+    }
 }));
 
 /* DATA */
@@ -46,29 +69,34 @@ const useClasses = makeClasses<ThemeProps>(() => ({
 
 const classes = computed((): ReturnType<typeof useClasses> => {
     return useClasses({
+        hasContent: !!slots.content
     });
 });
 
 /* WATCH */
 /* METHODS */
 
+defineExpose({
+    isShown
+});
+
 </script>
 
 <style>
 :root {
-    --popper-theme-background-color: theme('colors.500');
-    --popper-theme-background-color-hover: theme('colors.500');
-    --popper-theme-text-color: #ffffff;
+    --popper-theme-background-color: transparent;
+    --popper-theme-background-color-hover: transparent;
+    --popper-theme-text-color: currentColor;
     --popper-theme-border-width: 0px;
     --popper-theme-border-style: solid;
-    --popper-theme-border-radius: 6px;
+    --popper-theme-border-radius: initial;
     --popper-theme-padding: 0.25rem;
 }
 </style>
 <style scoped>
-:deep(.popper) {
-    @apply bg-500 p-1 rounded-sm text-sm font-normal;
-    background: theme('colors.500');
-    color: #fff;
+.popper-root:not(.no-style) {
+    :deep(.popper) {
+        @apply bg-500 p-1 rounded-sm text-sm font-normal text-white ;
+    }
 }
 </style>

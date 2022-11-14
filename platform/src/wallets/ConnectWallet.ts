@@ -4,13 +4,10 @@ import { providers } from 'ethers';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import '@walletconnect/types';
 import { store } from '@/store';
-import redirectAfterLogin from '@/helpers/redirectAfterLogin';
-import Wallet from '@/wallets/index';
 
 class ConnectWallet {
     static provider: any;
     static signer: any;
-    static address = '';
 
     static init(qrcode: boolean): void {
         ConnectWallet.provider = new WalletConnectProvider({
@@ -19,29 +16,23 @@ class ConnectWallet {
         });
 
         ConnectWallet.handleAll();
-
     }
 
     static handleAll() {
-        // ConnectWallet.handleAuthResponse();
         ConnectWallet.handleDisconnect();
         ConnectWallet.handleAccountsChanged();
         ConnectWallet.handleChainChanged();
     }
 
-    // static handleAuthResponse(): void {
-    // }
-
     static handleDisconnect(): void {
         ConnectWallet.provider.on('disconnect', (code: any, reason: any) => {
-            console.log("disconnected");
-            redirectAfterLogin();
+            window.location.reload();
         });
     }
 
     static handleAccountsChanged(): void {
-        ConnectWallet.provider.on('accountsChanged', (accounts: any) => {
-            console.log('accountsChanged');
+        ConnectWallet.provider.on('accountsChanged', ([account]: any) => {
+            store.dispatch('wallet/setAddress', account);
         });
     }
 
@@ -52,23 +43,32 @@ class ConnectWallet {
     }
 
     static async login(): Promise<string> {
+        let address = '';
+
         try {
             ConnectWallet.init(true);
             ConnectWallet.provider.enable();
 
             const web3Provider = new providers.Web3Provider(ConnectWallet.provider);
             const signer = await web3Provider.getSigner();
-            ConnectWallet.address = await signer.getAddress();
 
-            store.dispatch('wallet/setAddress', ConnectWallet.address);
+            address = await signer.getAddress();
+
+            store.dispatch('wallet/setAddress', address);
+            store.dispatch('wallet/setWallet', 'connectWallet');
         } catch (e) {
             console.log(e);
         }
 
-        return ConnectWallet.address;
+        return address;
     }
 
-    static async updateAddress(): Promise<string> {
+    static async disconnect(): Promise<void> {
+        //@ts-ignore
+        await ConnectWallet.provider.close();
+    }
+
+    static async tryConnectAndSetAddress(): Promise<string> {
         ConnectWallet.init(false);
         ConnectWallet.provider.enable();
 
@@ -78,11 +78,11 @@ class ConnectWallet {
 
         const web3Provider = new providers.Web3Provider(ConnectWallet.provider);
         const signer = await web3Provider.getSigner();
-        ConnectWallet.address = await signer.getAddress();
+        const address = await signer.getAddress();
 
-        store.dispatch('wallet/setAddress', ConnectWallet.address);
+        store.dispatch('wallet/setAddress', address);
 
-        return ConnectWallet.address;
+        return address;
     }
 }
 

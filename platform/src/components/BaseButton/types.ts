@@ -4,6 +4,7 @@ type Themes = 'gray' | 'gray-500' | 'surface' | 'primary' | 'primary-200';
 type Views = 'filled' | 'outlined' | 'ghost';
 type Sizes = 'lg' | 'md' | 'sm' | 'icon' | 'mobile' | '';
 type Rounded = 'base' | 'sm' | 'lg' | 'full' | 'icon';
+type Justify = 'start' | 'center';
 
 // Which tag component can be
 type ComponentTagType = 'button' | 'RouterLink' | 'a'  | 'label';
@@ -40,6 +41,7 @@ export {
     Sizes,
     Views,
     Rounded,
+    Justify,
     ComponentTagType,
     IHTMLButtonAttributes,
     IRouterLinkAttributes,
