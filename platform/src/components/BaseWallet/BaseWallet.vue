@@ -68,6 +68,7 @@ import BaseButton  from '@/components/BaseButton/BaseButton.vue';
 import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import {  } from './types';
 import Wallet from '@/wallets';
+import useLayer from '@/composables/useLayer';
 import makeClasses from '@/helpers/makeClasses';
 import cutAddress from '@/helpers/cutAddress';
 import copy from '@/helpers/copy';
@@ -90,6 +91,7 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 const props = withDefaults(defineProps<IProps>(), {});
 
 /* VARS AND CUSTOM HOOKS */
+const { open } = useLayer();
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isHovered }) => {
@@ -135,7 +137,12 @@ function copyAddress(callback: () => void) {
 }
 
 async function disconnect(callback: () => void) {
-    await Wallet.disconnect();
     callback();
+
+    const isClose = await open('DisconnectLayer');
+
+    if (isClose) {
+        Wallet.disconnect();
+    }
 }
 </script>

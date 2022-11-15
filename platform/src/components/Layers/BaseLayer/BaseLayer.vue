@@ -105,4 +105,10 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 .fade-enter-from .base-animation-layer, .fade-leave-to .base-animation-layer  {
     transform: scale(.95);
 }
+
+.modal-enter-from .modal-container,
+.modal-leave-to .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
 </style>
