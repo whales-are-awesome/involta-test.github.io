@@ -125,12 +125,24 @@ const useClasses = makeClasses<IThemeProps>(() => ({
                 'justify-center': justify === 'center',
                 'justify-start': justify === 'start',
 
-                'text-white': view === 'filled' && ['gray', 'primary', 'primary-400'].includes(theme),
-                'text-gray-500 active:text-gray-700': view === 'filled' && theme === 'surface',
-                'text-primary-500': view === 'outlined' && theme === 'primary-200',
-                'text-gray-500 active:text-gray-600': ['ghost', 'outlined'].includes(view) && ['gray', 'gray-500'].includes(theme),
                 '!text-disabled-text pointer-events-none': disabled
-            }
+            },
+
+            view === 'filled' && {
+                'text-white': ['gray', 'primary', 'primary-400'].includes(theme),
+                'text-gray-500 active:text-gray-700': theme === 'surface',
+            },
+
+
+            view === 'outlined' && {
+                'text-primary-500': view === 'outlined' && theme === 'primary-200',
+                'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme),
+            },
+
+            view === 'ghost' && {
+                'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme),
+
+            },
         ]];
     },
     container: ({themeSettings}) => {
@@ -142,25 +154,30 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         return [themeSettings?.bg, [
             'absolute inset-0 -z-1 transition-fast',
             {
-                'bg-gray-700 group-hover:bg-gray-800 group-active:bg-600': view === 'filled' && theme === 'gray',
-                'border-gray-200 border group-hover:bg-gray-100 group-active:bg-white': view === 'outlined' && theme === 'gray',
-                'border-gray-500 border group-hover:bg-gray-100 group-active:bg-white': view === 'outlined' && theme === 'gray-500',
-                'group-hover:bg-gray-100 group-active:bg-transparent': view === 'ghost' && theme === 'gray',
 
-                'bg-surface-400 group-hover:bg-gray-300': view === 'filled' && theme === 'surface',
-
-                'bg-primary-500 group-hover:bg-primary-600 group-active:bg-primary-800': view === 'filled' && theme === 'primary',
-                'border bg-primary-400 group-hover:bg-primary-500 group-active:bg-primary-800': view === 'filled' && theme === 'primary-400',
-                'border border-primary-200 group-hover:bg-primary-300 group-active:bg-primary-800': view === 'outlined' && theme === 'primary-200',
-
-
-                '!bg-disabled-light': disabled && view === 'filled',
-
-                // 'rounded': rounded === 'base',
                 'rounded-[5px]': rounded === 'sm',
                 'rounded-[10px]': rounded === 'icon',
                 'rounded-[30px]': rounded === 'lg',
                 'rounded-full': rounded === 'full'
+            },
+
+            view === 'filled' && {
+                'bg-gray-700 group-hover:bg-gray-800 group-active:bg-600': theme === 'gray',
+                'bg-surface-400 group-hover:bg-gray-300': theme === 'surface',
+                'bg-primary-500 group-hover:bg-primary-600 group-active:bg-primary-800': theme === 'primary',
+                'border bg-primary-400 group-hover:bg-primary-500 group-active:bg-primary-800': theme === 'primary-400',
+
+                '!bg-disabled-light': disabled
+            },
+
+            view === 'outlined' && {
+                'border-gray-200 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray',
+                'border-gray-500 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray-500',
+                'border border-primary-200 group-hover:bg-primary-300 group-active:bg-primary-800': theme === 'primary-200',
+            },
+
+            view === 'ghost' && {
+                'group-hover:bg-gray-100 group-active:bg-transparent': theme === 'gray',
             }
         ]];
     },

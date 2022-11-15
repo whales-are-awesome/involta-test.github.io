@@ -17,7 +17,7 @@
                 :src="avatar"
                 alt="image"
                 size="sm"
-                rounded="sm"
+                rounded="xs"
             >
                 <span :class="classes.daoName">
                     {{ name }}
@@ -47,7 +47,7 @@
                     :class="classes.usersItem"
                     size="xs"
                     :src="user.avatar"
-                    rounded="lg"
+                    rounded="full"
                     :alt="`avatar - ${ user.id }`"
                 />
             </div>

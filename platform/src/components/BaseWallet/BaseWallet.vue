@@ -7,7 +7,7 @@
                 :class="classes.avatar"
                 :src="require('@/assets/images/common/placeholder.jpeg')"
                 alt="DAO"
-                rounded="lg"
+                rounded="full"
                 size="tiny"
             >
                 <span :class="classes.value">

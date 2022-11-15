@@ -64,25 +64,25 @@ const useClasses = makeClasses(() => ({
         ]];
     },
     inner: ({ themeSettings }) => {
-        return [themeSettings?.root, [
+        return [themeSettings?.inner, [
             'w-[72px] h-screen bg-surface-300 py-2 fixed top-0 left-0',
         ]];
     },
     logoWrapper: ({ themeSettings }) => {
-        return [themeSettings?.root, [
+        return [themeSettings?.logoWrapper, [
             `w-11 mx-auto pb-[18px] mb-[18px] relative
             after:border-b-2 after:border-gray-200 after:top-full after:left-1/2 after:-translate-x-1/2 after:w-[28px] after:h-[2px] after:bg-gray-300 after:block after:absolute`,
         ]];
     },
     logo: ({ themeSettings, isHome }) => {
-        return [themeSettings?.root, [
+        return [themeSettings?.logo, [
             {
                 'cursor-pointer': !isHome
             }
         ]];
     },
     menuItems: ({ themeSettings }) => {
-        return [themeSettings?.root, [
+        return [themeSettings?.menuItems, [
             'space-y-5',
         ]];
     }

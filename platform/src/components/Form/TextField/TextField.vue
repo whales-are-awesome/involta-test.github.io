@@ -187,22 +187,34 @@ const useClasses = makeClasses<IThemeProps>(() => {
                     'border-[#CB101D]': states.error,
                     'border-[#CB101D] ': states.errorFocus,
                     'pointer-events-none border-disabled-dark bg-disabled-light': states.disabled,
+                },
 
-                    'h-[62px]': view === 'default' && size === 'xl',
-                    'h-12 sm:h-8': view === 'default' && size === 'md',
-                    'h-[56px]': view === 'floating-placeholder' && size === 'md',
-                    'h-[96px] sm:h-[88px]': view === 'textarea' && size === 'md',
-                    'h-[66px]': view === 'swap' && size === 'md',
-                    'h-[106px]': view === 'swap' && size === 'xl',
-                }
+                view === 'default' && {
+                    'h-[62px]': size === 'xl',
+                    'h-12 sm:h-8': size === 'md',
+                },
+
+                view === 'floating-placeholder' && {
+                    'h-[56px]': size === 'md',
+                },
+
+                view === 'textarea' && {
+                    'h-[96px] sm:h-[88px]': size === 'md',
+                },
+
+                view === 'swap' && {
+                    'h-[66px]': size === 'md',
+                    'h-[106px]': size === 'xl',
+                },
             ];
         },
         field: ({ isFilled, size, isBold, view, disabled, hasInsetLeftLabel, hasRightIcon, hasLeftIcon }) => {
+            const notViewSwap =  'inset-0';
+
             return [
                 'absolute rounded-[4px] transition-fast resize-none bg-transparent text-500',
                 {
-                    'inset-0': view !== 'swap',
-                    'left-0 top-[13px] w-10/12': view === 'swap',
+
                     'font-bold': isBold,
                     '!text-disabled-text': disabled,
 
@@ -213,12 +225,28 @@ const useClasses = makeClasses<IThemeProps>(() => {
 
                     'text-200': !isFilled,
                     'text-400': isFilled,
-                    'pt-[14px]': isFilled && view === 'floating-placeholder',
-                    'p-3': view === 'textarea',
 
                     'text-xs': size === 'sm',
                     'sm:text-xs': size === 'md'
-                }
+                },
+
+                view === 'default' && [
+                    notViewSwap
+                ],
+
+                view === 'floating-placeholder' && {
+                    [notViewSwap]: true,
+                    'pt-[14px]': isFilled
+                },
+
+                view === 'textarea' && [
+                    notViewSwap,
+                    'p-3'
+                ],
+
+                view === 'swap' && [
+                    'left-0 top-[13px] w-10/12'
+                ],
             ]
         },
         placeholder: ({ isFilled, view, hasRightIcon, hasLeftIcon, disabled, hasInsetLeftLabel, size }) => {
@@ -232,14 +260,19 @@ const useClasses = makeClasses<IThemeProps>(() => {
                     '!text-disabled-text': disabled,
                     'pt-[16px]': !!hasInsetLeftLabel,
 
-                    'hidden': view !== 'floating-placeholder' && isFilled,
-                    'top-[13px] sm:top-[7px]': view !== 'floating-placeholder' && !isFilled,
-
-                    'top-[16px]': view === 'floating-placeholder' && !isFilled,
-                    'text-400 text-xxs top-[8px] left-[13px] font-semibold': view === 'floating-placeholder' && isFilled,
 
                     'text-xs': size === 'sm',
                     'sm:text-xs': size === 'md'
+                },
+
+                view !== 'floating-placeholder' && {
+                    'hidden': isFilled,
+                    'top-[13px] sm:top-[7px]': !isFilled,
+                },
+
+                view === 'floating-placeholder' && {
+                    'top-[16px]': view === 'floating-placeholder' && !isFilled,
+                    'text-400 text-xxs top-[8px] left-[13px] font-semibold': isFilled,
                 }
             ]
         },
@@ -250,8 +283,11 @@ const useClasses = makeClasses<IThemeProps>(() => {
                 'text-gray-500': isBold && isFilled,
                 'left-[13px]': hasLeftIcon,
                 'right-[13px]': hasRightIcon,
-                'mt-[8px]': isFilled && view === 'floating-placeholder',
                 '!text-disabled-text': disabled,
+            },
+
+            view === 'floating-placeholder' && {
+                'mt-[8px]': isFilled
             }
         ],
         insetLabel: ({ disabled }) => [

@@ -5,8 +5,12 @@
             :src="require('@/assets/images/common/placeholder.jpeg')"
             alt="image"
             size="xl"
+            rounded="xl"
+            :theme-settings="{
+                image: 'sm:rounded-[16px]'
+            }"
         >
-            <p class="text-gray-800 ml-7 sm:ml-2">
+            <p class="title-h3 text-gray-800 ml-7 sm:ml-2">
                 Welcome,
                 <br>
                 dear user

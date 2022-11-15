@@ -10,7 +10,7 @@
             Do you want to disconnect wallet?
         </p>
         <p class="title-h6 mb-16 text-500">
-            0xe6kL7Cpv1oYaNvfG7cdB34jHPRhsa57QzfkGdVa715
+            {{ address }}
         </p>
         <div class="flex justify-center space-x-4">
             <BaseButton
@@ -31,9 +31,11 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
+import { computed } from 'vue';
 import useLayer from '@/composables/useLayer';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
+import { store } from '@/store';
 
 const { close } = useLayer();
 
@@ -42,5 +44,7 @@ const { close } = useLayer();
 /* META */
 
 /* COMPUTED */
+
+const address = computed(() => store.state.wallet.address);
 
 </script>

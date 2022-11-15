@@ -45,11 +45,8 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const slots = useSlots();
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ size }) => [
-        'flex items-center overflow-hidden',
-        {
-            'title-h3': size === 'xl'
-        }
+    root: () => [
+        'flex items-center overflow-hidden'
     ],
     image: ({ hasContent, size, rounded, themeSettings }) => {
         return [themeSettings?.image, [
@@ -64,16 +61,16 @@ const useClasses = makeClasses<IThemeProps>(() => ({
                 'w-[64px] h-[64px]': size === 'lg',
                 'w-[96px] h-[96px] sm:w-16 sm:h-16': size === 'xl',
 
-                'rounded-[5px]': rounded === 'sm' && size === 'xs',
-                'rounded-[8px]': (rounded === 'sm' && size === 'sm') || (rounded === 'xs' && size === 'md'),
-                'rounded-[10px]': rounded === 'sm' && size === 'md',
-                'rounded-[16px]': rounded === 'sm' && size === 'base',
-                'rounded-[20px] sm:rounded-[16px]': rounded === 'sm' && ['lg', 'xl'].includes(size),
-                'rounded-full': rounded === 'lg',
+                'rounded-[5px]': rounded === 'xs',
+                'rounded-[8px]': rounded === 'sm',
+                'rounded-[10px]': rounded === 'md',
+                'rounded-[16px]': rounded === 'lg',
+                'rounded-[20px]': rounded === 'xl',
+                'rounded-full': rounded === 'full',
 
                 'mr-2': hasContent
             },
-        ]]
+        ]];
     }
 }));
 

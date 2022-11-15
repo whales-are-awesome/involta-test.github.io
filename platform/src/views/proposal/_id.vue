@@ -108,7 +108,7 @@
                             <BaseAvatar
                                 :src="require('@/assets/images/common/placeholder.jpeg')"
                                 alt="image"
-                                rounded="lg"
+                                rounded="full"
                             >
                                 <p class="font-medium ml-2 text-gray-500 md:text-xxs md:ml-0">
                                     0x2c934...a180
@@ -168,6 +168,7 @@
                                 :src="require('@/assets/images/common/placeholder.jpeg')"
                                 alt="image"
                                 size="md"
+                                :rounded="!isMobile.sm ? 'sm' : 'xs'"
                                 :theme-settings="{
                                     image: 'border-[0.5px] border-gray-300'
                                 }"
@@ -284,7 +285,7 @@
                                                                     :src="require('@/assets/images/common/placeholder.jpeg')"
                                                                     alt="image"
                                                                     size="xxs"
-                                                                    rounded="lg"
+                                                                    rounded="full"
                                                                 >
                                                             <span>
                                                                 0x2c934...a180

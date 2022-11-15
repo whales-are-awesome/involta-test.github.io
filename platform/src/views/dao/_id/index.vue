@@ -17,31 +17,27 @@
                 <div class="flex space-x-4 ">
                     <SelectField
                         v-model="formData.statusId"
-                        size="sm"
                         :options="formInfo.statusesOptions"
                     />
                     <SelectField
                         v-model="formData.voteId"
-                        size="sm"
                         :options="formInfo.voteOptions"
                     />
                 </div>
-                <div v-if="!isSubdao">
-                    <BaseButton
-                        view="outlined"
-                        :icon="{
+                <BaseButton
+                    view="outlined"
+                    :icon="{
                             name: 'plus',
                             width: 14,
                             prepend: true
                         }"
-                        :theme-settings="{
+                    :theme-settings="{
                             bg: 'bg-white'
                         }"
-                        @click="open('CreateProposalLayer')"
-                    >
-                        New Proposal
-                    </BaseButton>
-                </div>
+                    @click="open('CreateProposalLayer')"
+                >
+                    New Proposal
+                </BaseButton>
             </div>
             <template v-if="tagList.value === TagStatuses.Proposals">
                 <TextSeparator class="mb-[10px]">

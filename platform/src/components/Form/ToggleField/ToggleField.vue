@@ -93,45 +93,64 @@ const useClasses = makeClasses<ThemeProps>(
         ],
         fake: ({ type, checked, view, disabled, size }) => [
             'relative transition-fast fill-current flex-shrink-0 border',
-            {
-                'text-white group-hover:border-surface-500': view === 'primary',
-                'border-200': !checked && view === 'primary',
 
-                'rounded-sm w-4 h-4': view === 'primary' && type === 'checkbox',
-                '!bg-surface-500': checked && type === 'checkbox',
+            view === 'primary' && [
+                'text-white group-hover:border-surface-500',
+                {
+                    'border-200': !checked,
+                },
 
-                'rounded-full w-3 h-3': type === 'radio' && view === 'primary',
-                'border-surface-500': checked && !disabled && view === 'primary' && type === 'radio',
-                'bg-100 border-200': disabled && checked && view === 'primary' && type === 'radio',
+                type === 'radio' && {
+                    'rounded-full w-3 h-3': true,
+                    'border-surface-500': checked && !disabled,
+                    'bg-100 border-200': disabled && checked,
+                    'opacity-[.12]': disabled && !checked,
+                    'group-hover:border-surface-500 peer-focus-visible:border-surface-500 peer-focus-visible:shadow-[0_0_0_4px_rgba(78,70,180,0.2)]': true
+                },
+                type === 'checkbox' && {
+                    'rounded-sm w-4 h-4': true,
+                    'opacity-[.12]': disabled && checked,
+                    'group-hover:border-surface-500 peer-focus-visible:border-surface-500 peer-focus-visible:shadow-[0_0_0_4px_rgba(78,70,180,0.2)]': true
+                }
+            ],
 
-                'rounded-full bg-[#E3E3E5] border-[#D1D1D1]': view === 'switch',
-                'bg-gray-200': !checked && view === 'switch',
-                '!border-surface-600': checked && !disabled && view === 'switch',
-                'w-6 h-3.5': view === 'switch' && size === 'md',
-                'w-11 h-6': view === 'switch' && size === 'lg',
+            view === 'switch' && {
+                'rounded-full bg-[#E3E3E5] border-[#D1D1D1]': true,
+                'bg-gray-200': !checked,
+                '!border-surface-600': checked && !disabled,
+                'w-6 h-3.5': size === 'md',
+                'w-11 h-6': size === 'lg',
+            },
 
-                'group-hover:border-surface-500 peer-focus-visible:border-surface-500 peer-focus-visible:shadow-[0_0_0_4px_rgba(78,70,180,0.2)]': ['checkbox', 'radio'].includes(type!) && view === 'primary',
-                'opacity-[.12]': disabled && ((checked && type === 'checkbox') || (!checked && type === 'radio'))
+            type === 'checkbox' && {
+                '!bg-surface-500': checked
             }
         ],
         fakeIcon: ({ type, checked, view, disabled, size }) => [
             'absolute top-1/2 -translate-y-1/2 transition-fast',
-            {
-                'left-1/2 -translate-x-1/2': view === 'primary',
 
-                'w-1.5 h-1.5 rounded-full': type === 'radio' && view === 'primary',
-                'bg-surface-500': checked && type === 'radio' && view === 'primary',
-                'bg-200': disabled && checked && type === 'radio' && view === 'primary',
+            view === 'primary' && [
+                'left-1/2 -translate-x-1/2',
 
-                'rounded-full bg-white left-[1px]': view === 'switch',
-                'w-2.5 h-2.5': view === 'switch' && size === 'md',
-                'w-5 h-5': view === 'switch' && size === 'lg',
-                'bg-[#D1D1D1]': disabled && view === 'switch',
-                'translate-x-2': checked && view === 'switch' && size === 'md',
-                'translate-x-5': checked && view === 'switch' && size === 'lg'
+                type === 'radio' && {
+                    'w-1.5 h-1.5 rounded-full': true,
+                    'bg-surface-500': checked,
+                    'bg-200': disabled && checked
+                },
+                type === 'checkbox' && {
+                }
+            ],
+
+            view === 'switch' && {
+                'rounded-full bg-white left-[1px]': true,
+                'w-2.5 h-2.5': size === 'md',
+                'w-5 h-5': size === 'lg',
+                'bg-[#D1D1D1]': disabled,
+                'translate-x-2': checked && size === 'md',
+                'translate-x-5': checked && size === 'lg'
             }
         ],
-        text: ({ checked, wrapper }) => [
+        text: ({ wrapper }) => [
             'ml-2 transition-fast text-base',
             {
                 'text-200 group-hover:text-surface-500': wrapper !== 'button',

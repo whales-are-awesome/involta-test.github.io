@@ -8,6 +8,10 @@
                 :src="avatar"
                 :alt="name"
                 size="xl"
+                rounded="xl"
+                :theme-settings="{
+                    image: 'sm:rounded-[12px]'
+                }"
             />
         </div>
         <p :class="classes.title">

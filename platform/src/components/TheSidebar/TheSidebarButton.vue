@@ -13,12 +13,13 @@
                 :height="iconHeight"
                 :name="icon"
             />
-            <img
+            <BaseAvatar
                 v-if="image"
                 :class="classes.image"
                 :src="image"
+                size="md"
                 alt="OuterCircle"
-            >
+            />
             <slot></slot>
         </div>
     </div>
@@ -31,6 +32,7 @@
 import { computed, ref } from 'vue';
 import {  } from './types';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import makeClasses from '@/helpers/makeClasses';
 
 /* INTERFACES */
@@ -63,7 +65,7 @@ const emit = defineEmits<IEmits>();
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isHovered, isActive }) => {
-        return [themeSettings?.inner, [
+        return [themeSettings?.root, [
           `
             relative flex justify-center
             before:absolute before:w-[12px] before:h-[12px] before:bg-300 before:top-1/2 before:-translate-y-1/2

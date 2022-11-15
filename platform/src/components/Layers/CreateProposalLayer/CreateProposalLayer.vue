@@ -87,7 +87,7 @@
                     <BaseAvatar
                         :src="require('@/assets/images/common/placeholder.jpeg')"
                         alt="DAO"
-                        rounded="xs"
+                        rounded="sm"
                         size="md"
                     >
                         <BlockInfo
