@@ -164,12 +164,12 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         ]];
     },
     bottom: ({ themeSettings }) => {
-        return [themeSettings?.title, [
+        return [themeSettings?.bottom, [
             'mb-8 flex items-center sm:mb-11'
         ]];
     },
     users: ({ themeSettings }) => {
-        return [themeSettings?.title, [
+        return [themeSettings?.users, [
             'mr-4 ml-auto flex sm:ml-0 sm:mr-2'
         ]];
     },
@@ -179,32 +179,32 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         ]];
     },
     votes: ({ themeSettings }) => {
-        return [themeSettings?.title, [
+        return [themeSettings?.votes, [
             'text-sm text-400'
         ]];
     },
     daoName: ({ themeSettings }) => {
-        return [themeSettings?.title, [
+        return [themeSettings?.daoName, [
             'font-semibold text-gray-600 sm:!text-xl sm:ml-1'
         ]];
     },
     voteButton: ({ themeSettings }) => {
-        return [themeSettings?.vote, [
+        return [themeSettings?.voteButton, [
             'w-[137px] sm:hidden'
         ]];
     },
     voteButtonMobile: ({ themeSettings }) => {
-        return [themeSettings?.vote, [
+        return [themeSettings?.voteButtonMobile, [
             'w-full h-11 hidden sm:flex after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-screen after:h-px after:bg-gray-200 after:absolute'
         ]];
     },
     timer: ({ themeSettings }) => {
-        return [themeSettings?.vote, [
+        return [themeSettings?.timer, [
             'sm:hidden'
         ]];
     },
     timerMobile: ({ themeSettings }) => {
-        return [themeSettings?.vote, [
+        return [themeSettings?.timerMobile, [
             'mb-8 mr-auto hidden sm:block'
         ]];
     },

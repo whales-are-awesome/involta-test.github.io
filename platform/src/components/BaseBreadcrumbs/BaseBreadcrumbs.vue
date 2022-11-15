@@ -15,9 +15,11 @@
             >
                 <ActionLink
                     v-if="item.link"
-                    :class="classes.itemLink"
                     :to="item.link"
                     :theme="view"
+                    :theme-settings="{
+                        root: classes.itemLink
+                    }"
                 >
                     <BaseIcon
                         v-if="hash"
@@ -104,7 +106,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'text-xs sm:!text-tiny !font-medium': view === 'primary'
         }
     ],
-    itemLink: 'transition-fast inline-flex items-center',
+    itemLink: 'inline-flex items-center',
     itemChevron: ({ view }) => [
         'pointer-events-none text-gray-400 flex-shrink-0 sm:scale-[.6]',
         {
