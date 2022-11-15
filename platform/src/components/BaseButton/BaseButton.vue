@@ -125,7 +125,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
                 'justify-center': justify === 'center',
                 'justify-start': justify === 'start',
 
-                'text-white': view === 'filled' && ['gray', 'primary'].includes(theme),
+                'text-white': view === 'filled' && ['gray', 'primary', 'primary-400'].includes(theme),
                 'text-gray-500 active:text-gray-700': view === 'filled' && theme === 'surface',
                 'text-primary-500': view === 'outlined' && theme === 'primary-200',
                 'text-gray-500 active:text-gray-600': ['ghost', 'outlined'].includes(view) && ['gray', 'gray-500'].includes(theme),
@@ -150,6 +150,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
                 'bg-surface-400 group-hover:bg-gray-300': view === 'filled' && theme === 'surface',
 
                 'bg-primary-500 group-hover:bg-primary-600 group-active:bg-primary-800': view === 'filled' && theme === 'primary',
+                'border bg-primary-400 group-hover:bg-primary-500 group-active:bg-primary-800': view === 'filled' && theme === 'primary-400',
                 'border border-primary-200 group-hover:bg-primary-300 group-active:bg-primary-800': view === 'outlined' && theme === 'primary-200',
 
 

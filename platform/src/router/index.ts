@@ -3,6 +3,7 @@ import { store } from '@/store';
 import scrollIntoView from '@/helpers/scrollIntoView';
 
 import auth from '@/middleware/auth';
+import walletsInit from '@/middleware/wallets-init';
 
 // @ts-ignore
 import Home from '@/views/home.vue'
@@ -85,21 +86,19 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.meta.middleware) {
-        const middleware = Array.isArray(to.meta.middleware)
-            ? to.meta.middleware
-            : [to.meta.middleware];
+    const middleware = to.meta.middleware
+        ? [walletsInit, ...to.meta.middleware as Array<any>]
+        : [walletsInit];
 
-        const context = {
-            from,
-            next,
-            router,
-            to,
-        };
-        const nextMiddleware = nextFactory(context, middleware, 1);
+    const context = {
+        from,
+        next,
+        router,
+        to,
+    };
+    const nextMiddleware = nextFactory(context, middleware, 1);
 
-        return middleware[0]({...context, next: nextMiddleware});
-    }
+    return middleware[0]({...context, next: nextMiddleware});
 
     // @ts-ignore
     if (to.meta.title) document.title = to.meta.title;
