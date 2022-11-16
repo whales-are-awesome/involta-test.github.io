@@ -42,12 +42,12 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import TheSidebarButton from './TheSidebarButton.vue';
-import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import useLayer from '@//composables/useLayer';
+import { IProps } from '@/components/BlockInfo/BlockInfo.vue';
 
 /* META */
 
@@ -57,47 +57,31 @@ const route = useRoute();
 
 const layer = useLayer();
 
-const useClasses = makeClasses(() => ({
-    root: ({ themeSettings }) => {
-        return [themeSettings?.root, [
-            'w-[72px]',
-        ]];
-    },
-    inner: ({ themeSettings }) => {
-        return [themeSettings?.inner, [
-            'w-[72px] h-screen bg-surface-300 py-2 fixed top-0 left-0',
-        ]];
-    },
-    logoWrapper: ({ themeSettings }) => {
-        return [themeSettings?.logoWrapper, [
-            `w-11 mx-auto pb-[18px] mb-[18px] relative
-            after:border-b-2 after:border-gray-200 after:top-full after:left-1/2 after:-translate-x-1/2 after:w-[28px] after:h-[2px] after:bg-gray-300 after:block after:absolute`,
-        ]];
-    },
-    logo: ({ themeSettings, isHome }) => {
-        return [themeSettings?.logo, [
-            {
-                'cursor-pointer': !isHome
-            }
-        ]];
-    },
-    menuItems: ({ themeSettings }) => {
-        return [themeSettings?.menuItems, [
-            'space-y-5',
-        ]];
-    }
+interface IThemeProps {
+    isHome: boolean
+}
+
+const useClasses = makeClasses<IThemeProps>(() => ({
+    root: 'w-[72px]',
+    inner: 'w-[72px] h-screen bg-surface-300 py-2 fixed top-0 left-0',
+    logoWrapper: `w-11 mx-auto pb-[18px] mb-[18px] relative
+                  after:border-b-2 after:border-gray-200 after:top-full after:left-1/2 after:-translate-x-1/2 after:w-[28px] after:h-[2px] after:bg-gray-300 after:block after:absolute`,
+    logo: ({ isHome }) => ({
+        'cursor-pointer': !isHome
+    }),
+    menuItems: 'space-y-5'
 }));
 
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         isHome: route.name === 'home'
     });
 });
 
-const isCreateDaoOpened = computed<boolean>(() => {
+const isCreateDaoOpened = computed(() => {
     return !!layer.openedItems.value.find(item => item.id === 'CreateDaoLayer');
 });
 

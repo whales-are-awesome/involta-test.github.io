@@ -16,15 +16,15 @@
 /* IMPORTS */
 
 import { computed } from 'vue';
-//import  from '@/components/';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     width: number | string
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
@@ -45,17 +45,15 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => {
-        return [themeSettings?.root,  [
-            'text-[#B6B6BE] hover:text-[#777781] active:shadow-[0_0_0_4px_rgba(169,169,250,.25)] transition-fast cursor-pointer rounded-[4px] bg-white p-1'
-        ]];
-    },
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'text-[#B6B6BE] hover:text-[#777781] active:shadow-[0_0_0_4px_rgba(169,169,250,.25)] transition-fast cursor-pointer rounded-[4px] bg-white p-1'
+    ]
 }));
 
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });

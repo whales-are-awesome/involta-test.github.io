@@ -49,7 +49,7 @@ const useClasses = makeClasses(() => ({
     ]
 }));
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
     });
 });

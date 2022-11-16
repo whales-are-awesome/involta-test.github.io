@@ -31,15 +31,17 @@
 /* IMPORTS */
 
 import { computed, ref } from 'vue';
-import Datepicker from '@vuepic/vue-datepicker';
+import Datepicker, { VueDatePicker } from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     modelValue: Date
     title: string
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
@@ -57,6 +59,11 @@ const emit = defineEmits<IEmits>();
 
 /* VARS AND CUSTOM HOOKS */
 
+const pickerOptions: VueDatePicker = {
+    enableTimePicker: false,
+    autoApply: true,
+    inline: true
+};
 const useClasses = makeClasses<ThemeProps>(() => ({
     root: ({ isPickerShown }) => [
         'bg-white px-4 pt-[10px] pb-[6px] date-field relative border-2 rounded-lg transition-fast hover:bg-primary-100',
@@ -75,12 +82,6 @@ const useClasses = makeClasses<ThemeProps>(() => ({
         }
     ]
 }));
-const pickerOptions = {
-    enableTimePicker: false,
-    hidefieldIcon: true,
-    autoApply: true,
-    inline: true
-};
 
 /* DATA */
 
@@ -97,7 +98,7 @@ const value = computed({
     }
 });
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         isPickerShown: isPickerShown.value
     });
@@ -106,13 +107,13 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 /* WATCH */
 /* METHODS */
 
-function showPicker() {
+function showPicker(): void {
     isPickerShown.value = true;
 }
-function hidePicker() {
+function hidePicker(): void {
     isPickerShown.value = false;
 }
-function formatValue(_date: Date) {
+function formatValue(_date: Date): string {
     const date = new Date(_date);
 
     if (!_date) return '';

@@ -97,10 +97,11 @@
 
 import { computed, ref } from 'vue';
 import VueSelect from 'vue-select';
-import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import BaseIcon, { IProps as IIconProps } from '@/components/BaseIcon/BaseIcon.vue';
 import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
 import { SelectOption, Sizes, AngleView } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -114,7 +115,7 @@ interface IProps {
     size: Sizes
     angleView: AngleView
     innerLabel?: string
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root' | 'innerLabel'>
 
 
     title?: IBlockInfoProps['title']
@@ -148,107 +149,72 @@ const emit = defineEmits<IEmits>();
 
 /* VARS AND CUSTOM HOOKS */
 
-const select = ref(null);
+const select = ref<InstanceType<typeof VueSelect> | null>(null);
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings, isWrapped }) => {
-        return [themeSettings?.root,  [
-            {
-                'bg-white px-2 py-3 rounded-[4px]': isWrapped
-            }
-        ]];
-    },
-    main: ({ themeSettings, size, isOpen }) => {
-        return [themeSettings?.main,  [
-            'text-gray-500 tracking-[0.04px]',
-            {
-                'h-[60px]': size === 'xl',
-                'h-[38px] sm:h-[30px]': size === 'md',
-                'h-[46px]': size === 'lg',
-                'h-[30px] text-sm': size === 'sm',
-                'h-[30px] text-xxs': size === 'xs',
-                'z-50 relative': isOpen
-            }
-        ]];
-    },
-    select: ({ themeSettings }) => {
-        return [themeSettings?.select,  [
-            'border border-gray-100 rounded-[5px] shadow-[0px_4px_24px_rgba(108,108,125,.08)] overflow-hidden cursor-pointer relative'
-        ]];
-    },
-    openIndicator: ({ themeSettings }) => {
-        return [themeSettings?.openIndicator,  [
-            'hidden'
-        ]];
-    },
-    selectedOption: ({ themeSettings, size }) => {
-        return [themeSettings?.selectedOption,  [
-            'bg-white hover:bg-surface-100 transition-fast flex items-center',
-            {
-                'px-3 h-[60px]': size === 'xl',
-                'px-3 h-[46px]': size === 'lg',
-                'px-4 h-[38px] sm:h-[30px] sm:px-3': size === 'md',
-                'px-3 h-[30px]': size === 'sm',
-                'px-1 h-[30px]': size === 'xs'
-            }
-        ]];
-    },
-    arrowIcon: ({ themeSettings, angleView }) => {
-        return [themeSettings?.arrowIcon,  [
-
-            {
-                'ml-2.5 text-200': angleView === 'primary',
-                'ml-auto text-380': angleView === 'secondary'
-            }
-        ]];
-    },
-    option: ({ themeSettings, size }) => {
-        return [themeSettings?.option,  [
-            'py-2 bg-white hover:bg-surface-100 transition-fast flex items-center',
-            {
-                'px-4 sm:px-3': size === 'md',
-                'px-3': ['lg', 'sm', 'xl'].includes(size),
-                'px-1': size === 'xs'
-            }
-        ]];
-    },
-    search: ({ themeSettings, size, searchable }) => {
-        return [themeSettings?.search,  [
-            'absolute top-0 left-0 w-10/12 opacity-0 focus:opacity-100',
-            {
-                'px-3 h-[60px]': size === 'xl',
-                'px-3 h-[46px]': size === 'lg',
-                'px-4 h-[38px] sm:h-[30px]': size === 'md',
-                'px-3 h-[30px]': size === 'sm',
-                'px-1 h-[30px]': size === 'xs',
-                '!hidden': !searchable
-            }
-        ]];
-    },
-    optionIcon: ({ themeSettings }) => {
-        return [themeSettings?.optionIcon,  [
-            'mr-2'
-        ]];
-    },
-    placeholder: ({ themeSettings, innerLabel }) => {
-        return [themeSettings?.placeholder,  [
-            'text-200',
-            {
-                'translate-y-[7px]': !!innerLabel
-            }
-        ]];
-    },
-    innerLabel: ({ themeSettings }) => {
-        return [themeSettings?.innerLabel,  [
-            'absolute left-3 top-3 text-gray-500 text-xxs font-semibold leading-1'
-        ]];
-    },
-    title: ({ themeSettings, innerLabel }) => {
-        return [themeSettings?.title,  [
-            {
-                'translate-y-[7px]': !!innerLabel
-            }
-        ]];
-    }
+    root: ({ themeSettings, isWrapped }) => [themeSettings?.root,
+        {
+            'bg-white px-2 py-3 rounded-[4px]': isWrapped
+        }
+    ],
+    main: ({ size, isOpen }) => [
+        'text-gray-500 tracking-[0.04px]',
+        {
+            'h-[60px]': size === 'xl',
+            'h-[38px] sm:h-[30px]': size === 'md',
+            'h-[46px]': size === 'lg',
+            'h-[30px] text-sm': size === 'sm',
+            'h-[30px] text-xxs': size === 'xs',
+            'z-50 relative': isOpen
+        }
+    ],
+    select: 'border border-gray-100 rounded-[5px] shadow-[0px_4px_24px_rgba(108,108,125,.08)] overflow-hidden cursor-pointer relative',
+    openIndicator: 'hidden',
+    selectedOption: ({ size }) => [
+        'bg-white hover:bg-surface-100 transition-fast flex items-center',
+        {
+            'px-3 h-[60px]': size === 'xl',
+            'px-3 h-[46px]': size === 'lg',
+            'px-4 h-[38px] sm:h-[30px] sm:px-3': size === 'md',
+            'px-3 h-[30px]': size === 'sm',
+            'px-1 h-[30px]': size === 'xs'
+        }
+    ],
+    arrowIcon: ({ angleView }) => ({
+        'ml-2.5 text-200': angleView === 'primary',
+        'ml-auto text-380': angleView === 'secondary'
+    }),
+    option: ({ size }) => [
+        'py-2 bg-white hover:bg-surface-100 transition-fast flex items-center',
+        {
+            'px-4 sm:px-3': size === 'md',
+            'px-3': ['lg', 'sm', 'xl'].includes(size),
+            'px-1': size === 'xs'
+        }
+    ],
+    search: ({ size, searchable }) => [
+        'absolute top-0 left-0 w-10/12 opacity-0 focus:opacity-100',
+        {
+            'px-3 h-[60px]': size === 'xl',
+            'px-3 h-[46px]': size === 'lg',
+            'px-4 h-[38px] sm:h-[30px]': size === 'md',
+            'px-3 h-[30px]': size === 'sm',
+            'px-1 h-[30px]': size === 'xs',
+            '!hidden': !searchable
+        }
+    ],
+    optionIcon: 'mr-2',
+    placeholder: ({ innerLabel }) => [
+        'text-200',
+        {
+            'translate-y-[7px]': !!innerLabel
+        }
+    ],
+    innerLabel: ({ themeSettings }) => [themeSettings?.innerLabel,
+        'absolute left-3 top-3 text-gray-500 text-xxs font-semibold leading-1'
+    ],
+    title: ({ innerLabel }) => ({
+        'translate-y-[7px]': !!innerLabel
+    })
 }));
 
 
@@ -264,7 +230,7 @@ const value = computed({
     }
 });
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
         size: props.size,
@@ -276,7 +242,8 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         isWrapped: props.isWrapped
     });
 });
-const angleIcon = computed(() => {
+
+const angleIcon = computed<IIconProps | ''>(() => {
     switch (props.angleView) {
         case 'primary':
             return {
@@ -298,7 +265,7 @@ const angleIcon = computed(() => {
 /* WATCH */
 /* METHODS */
 
-function close() {
+function close(): void {
     select.value.open = false;
 }
 

@@ -12,11 +12,13 @@ import { computed } from 'vue';
 //import  from '@/components/';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
+
 
 /* INTERFACES */
 
 interface IProps {
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
@@ -34,17 +36,15 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => {
-        return [themeSettings?.root,  [
-            'px-3 py-4 rounded-[4px] bg-primary-100'
-        ]];
-    },
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'px-3 py-4 rounded-[4px] bg-primary-100'
+    ]
 }));
 
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });

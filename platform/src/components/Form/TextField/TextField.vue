@@ -96,10 +96,11 @@ import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/Blo
 import { Icons } from '@/components/BaseIcon/types';
 import { Sizes, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
-interface IProps extends IBlockInfoProps {
+interface IProps {
     modelValue: string
     placeholder?: string
     insetLabel?: string
@@ -117,7 +118,7 @@ interface IProps extends IBlockInfoProps {
     size: Sizes
     view: Views
     maxlength?: number | string
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 
     title?: IBlockInfoProps['title']
     tooltip?: IBlockInfoProps['tooltip']
@@ -157,17 +158,13 @@ const input = ref(null);
 
 const useClasses = makeClasses<IThemeProps>(() => {
     return {
-        root: ({ isWrapped }) => [
+        root: ({ isWrapped, themeSettings }) => [themeSettings?.root,
             'relative',
             {
                 'bg-white px-2 py-3 rounded-[4px]': isWrapped
             }
         ],
-        main: ({ themeSettings }) => {
-            return [themeSettings?.main, [
-                'flex'
-            ]]
-        },
+        main: 'flex',
         fieldWrapper: ({ isFilled, isFocus, hasError, disabled, size, view }) => {
             const states = {
                 default: !hasError && !isFocus && !disabled,
@@ -296,20 +293,14 @@ const useClasses = makeClasses<IThemeProps>(() => {
                 '!text-disabled-text': disabled,
             }
         ],
-        insetLeftLabel: ({ themeSettings }) => {
-            return [themeSettings?.insetLeftLabel,  [
-                'absolute left-3 top-3 text-gray-500 text-xxs font-semibold leading-1'
-            ]];
-        },
+        insetLeftLabel: 'absolute left-3 top-3 text-gray-500 text-xxs font-semibold leading-1',
         button: ({ disabled }) => [
             'absolute top-2.5 right-3 z-10 cursor-pointer',
             {
                 '!text-disabled-text !border-disabled-dark !bg-disabled-light': disabled,
             }
         ],
-        innerRight: () => [
-            'absolute top-2.5 right-3'
-        ]
+        innerRight: 'absolute top-2.5 right-3'
     };
 });
 
@@ -323,7 +314,7 @@ const value = computed({
     get() {
         return props.modelValue;
     },
-    set(value: string) {
+    set(value: IProps['modelValue']) {
         if (!props.maxlength || value.length <= +props.maxlength ) {
             emit('update:modelValue', value)
         }
@@ -331,7 +322,7 @@ const value = computed({
 });
 
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         isFocus: isFocus.value,
         hasError: !!props.error,
@@ -341,7 +332,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         isFilled: !!value.value,
         hasLeftIcon: !!props.icon && !!props.icon.prepend,
         hasRightIcon: !!props.icon && !props.icon.prepend,
-        hasInsetLeftLabel: props.insetLeftLabel,
+        hasInsetLeftLabel: !!props.insetLeftLabel,
         isBold: props.isBold,
         isWrapped: props.isWrapped,
 

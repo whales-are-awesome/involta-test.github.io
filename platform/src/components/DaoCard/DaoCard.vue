@@ -1,7 +1,5 @@
 <template>
-    <div
-        :class="classes.root"
-    >
+    <div :class="classes.root">
         <div :class="classes.avatarWrapper">
             <BaseAvatar
                 :class="classes.avatar"
@@ -62,15 +60,16 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
-    themeSettings?: any
     avatar: string
     name: string
     supportedBy: string
     backedBy: string
+    themeSettings?: IThemeSettings<'root'>
 }
 
 
@@ -85,11 +84,9 @@ const props = withDefaults(defineProps<IProps>(), {});
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => {
-        return [themeSettings?.root, [
-            'border border-gray-100 rounded-[12px] px-8 py-6 md:py-6 md:px-5 md:px-2.5 sm:px-2'
-        ]];
-    },
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'border border-gray-100 rounded-[12px] px-8 py-6 md:py-6 md:px-5 md:px-2.5 sm:px-2'
+    ],
     avatarWrapper: 'flex justify-center mb-4',
     title: 'text-sm font-semibold text-gray-600 mb-4 text-center',
     info: 'flex justify-center mb-9 sm:mb-6',
@@ -104,7 +101,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });

@@ -55,6 +55,7 @@ import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
 import { IBreadcrumb  } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -62,7 +63,7 @@ interface IProps {
     name?: string
     description?: string
     breadcrumbs?: IBreadcrumb[]
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
@@ -76,11 +77,9 @@ const props = withDefaults(defineProps<IProps>(), {});
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => {
-        return [themeSettings?.root,  [
-            'line-wave-bg py-4 px-8 -mx-[30px] border-b border-primary-100 sm:py-9 sm:px-[30px]'
-        ]];
-    },
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'line-wave-bg py-4 px-8 -mx-[30px] border-b border-primary-100 sm:py-9 sm:px-[30px]'
+    ],
     inner: 'bg-white border border-primary-100 rounded-[10px] px-4 py-3 h-[120px]',
     top: 'flex items-center justify-between',
     name: ({ hasBreadcrumbs }) => [
@@ -99,7 +98,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
         hasBreadcrumbs: !!props.breadcrumbs?.length

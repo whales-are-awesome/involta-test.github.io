@@ -1,4 +1,5 @@
 import { ActionTree, MutationTree } from 'vuex';
+import { IRootState } from './index';
 
 interface IState {
     width: number
@@ -11,10 +12,10 @@ function state(): IState {
 }
 
 const mutations: MutationTree<IState> = {
-    setWidth: (state: any, payload: IState['width']) => state.width = payload
+    setWidth: (state, payload: IState['width']) => state.width = payload
 };
 
-const actions: ActionTree<IState, any> = {
+const actions: ActionTree<IState, IRootState> = {
     setWidth({ commit }, payload: IState['width']) {
         commit('setWidth', payload);
     }
@@ -25,4 +26,8 @@ export default {
     mutations,
     actions,
     namespaced: true
+}
+
+export {
+    IState
 }

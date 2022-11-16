@@ -28,6 +28,7 @@ import { useRouter } from 'vue-router';
 //import  from '@/components/';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -38,7 +39,7 @@ interface IItem {
 
 interface IProps {
     items: IItem[]
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
@@ -53,11 +54,9 @@ const router = useRouter();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => {
-        return [themeSettings?.root,  [
-            'bg-secondary-200 w-[224px] absolute left-full top-0'
-        ]];
-    },
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'bg-secondary-200 w-[224px] absolute left-full top-0'
+    ],
     item: 'px-6 text-gray-500 text-sm',
     itemInner: 'py-2 text-gray-500 text-sm border-b border-secondary-300'
 }));
@@ -65,7 +64,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });

@@ -64,12 +64,13 @@
 <script setup lang="ts">
 /* IMPORTS */
 
-import {computed, defineProps} from 'vue';
+import { computed, defineProps } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
-import {useStore} from '@/store';
+import { store } from '@/store';
 import { IBreadcrumb, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -78,9 +79,10 @@ interface IProps {
     hash: boolean
     firstAngle: boolean
     view: Views
+    themeSettings?: IThemeSettings<'root'>
 }
 
-interface IThemeProps extends Pick<IProps, 'view'> {
+interface IThemeProps extends Pick<IProps, 'view' | 'themeSettings'> {
 
 }
 
@@ -91,12 +93,13 @@ const props = withDefaults(defineProps<IProps>(), {
     firstAngle: true,
     view : 'secondary'
 });
-const store = useStore();
 
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: 'flex items-center overflow-hidden',
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'flex items-center overflow-hidden'
+    ],
     chevron: 'mr-2 text-gray-400 flex-shrink-0 sm:scale-[.6] sm:mr-1',
     items: 'space-x-2 flex flex-shrink-0',
     item: ({ view }) => [
@@ -130,9 +133,10 @@ const items = computed(() => store.state.breadcrumbs.items);
 
 const resultItems = computed(() => props.items || items.value);
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
-        view: props.view
+        view: props.view,
+        themeSettings: props.themeSettings
     });
 });
 </script>

@@ -27,17 +27,18 @@
 
 import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
-import { Icons }  from '@/components/BaseIcon/types';
+import { Icons } from '@/components/BaseIcon/types';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 interface IProps {
     icon: Extract<Icons, 'ledger' | 'injected-wallet' | 'connect-wallet' | 'trust-wallet'>
     name: string
     isSelected?: boolean
-    isDisabled?: string
-    themeSettings?: any
+    isDisabled?: boolean
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
@@ -55,16 +56,14 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings, isSelected, isDisabled }) => {
-        return [themeSettings?.root, [
-            'transition-fast px-4 py-3 rounded-[10px] border border-surface-500 font-medium text-text-500 flex items-center sm:p-2 sm:text-xxs',
-            {
-                'bg-white border-surface-300 hover:bg-primary-100 cursor-pointer': !isSelected && !isDisabled,
-                'bg-primary-100 border-primary-400': isSelected,
-                '!bg-disabled-light !border-disabled-dark !text-disabled-text': isDisabled,
-            }
-        ]];
-    },
+    root: ({ themeSettings, isSelected, isDisabled }) => [themeSettings?.root,
+        'transition-fast px-4 py-3 rounded-[10px] border border-surface-500 font-medium text-text-500 flex items-center sm:p-2 sm:text-xxs',
+        {
+            'bg-white border-surface-300 hover:bg-primary-100 cursor-pointer': !isSelected && !isDisabled,
+            'bg-primary-100 border-primary-400': isSelected,
+            '!bg-disabled-light !border-disabled-dark !text-disabled-text': isDisabled,
+        }
+    ],
     icon: 'mr-3 flex-shrink-0 sm:hidden',
     iconMobile: 'mr-1 flex-shrink-0 hidden sm:block',
 }));
@@ -72,7 +71,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
         isSelected: props.isSelected,

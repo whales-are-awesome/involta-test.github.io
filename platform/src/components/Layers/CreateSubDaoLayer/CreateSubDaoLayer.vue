@@ -93,10 +93,8 @@ import useLayer from '@//composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
-import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
-import DropField from '@/components/Form/DropField/DropField.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
@@ -162,7 +160,7 @@ const [formData, formErrors, checkErrors] = useForm({
 
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
     });
 });

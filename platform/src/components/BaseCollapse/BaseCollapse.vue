@@ -24,17 +24,17 @@
 
 /* METHODS */
 
-function beforeEnter(element) {
+function beforeEnter(element: HTMLElement) {
     requestAnimationFrame(() => {
         if (!element.style.height) {
             element.style.height = '0px';
         }
 
-        element.style.display = null;
+        element.style.display = '';
     });
 }
 
-function enter(element) {
+function enter(element: HTMLElement) {
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
             element.style.height = `${element.scrollHeight}px`;
@@ -42,11 +42,11 @@ function enter(element) {
     });
 }
 
-function afterEnter(element) {
-    element.style.height = null;
+function afterEnter(element: HTMLElement) {
+    element.style.height = '';
 }
 
-function beforeLeave(element) {
+function beforeLeave(element: HTMLElement) {
     requestAnimationFrame(() => {
         if (!element.style.height) {
             element.style.height = `${element.offsetHeight}px`;
@@ -54,7 +54,7 @@ function beforeLeave(element) {
     });
 }
 
-function leave(element) {
+function leave(element: HTMLElement) {
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
             element.style.height = '0px';
@@ -62,8 +62,8 @@ function leave(element) {
     });
 }
 
-function afterLeave(element) {
-    element.style.height = null;
+function afterLeave(element: HTMLElement) {
+    element.style.height = '';
 }
 </script>
 

@@ -31,6 +31,7 @@ import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import { Sizes, Views, Types, Themes, Align, Wrappers } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -47,13 +48,15 @@ interface IProps {
     modelValue?: boolean|string|any[]
     fieldValue?: string|boolean|object|number
     reverse?: boolean
+
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
-interface ThemeProps extends Pick<IProps, 'theme' | 'type' | 'align' | 'view' | 'disabled' | 'wrapper' | 'size'> {
+interface ThemeProps extends Pick<IProps, 'theme' | 'type' | 'align' | 'view' | 'disabled' | 'wrapper' | 'size' | 'themeSettings'> {
     checked: boolean
 }
 
@@ -74,7 +77,7 @@ const emit = defineEmits<IEmits>();
 
 const useClasses = makeClasses<ThemeProps>(
     () => ({
-        root: ({ disabled, align }) => [
+        root: ({ disabled, align, themeSettings }) => [themeSettings?.root,
             'relative flex items-center transition-fast group',
             {
                 'items-center': align === 'center',
@@ -175,7 +178,7 @@ const value = computed({
     }
 });
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     const checked = props.fieldValue
         ? Array.isArray(props.modelValue)
             ? props.modelValue.includes(props.fieldValue)
@@ -190,6 +193,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         wrapper: props.wrapper,
         disabled: props.disabled,
         align: props.align,
+        themeSettings: props.themeSettings,
         checked: props.reverse ? !checked : checked
     });
 });

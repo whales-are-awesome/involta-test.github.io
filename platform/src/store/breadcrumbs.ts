@@ -1,28 +1,33 @@
+import { MutationTree  } from 'vuex';
 import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
 
-interface IBreadcrumbs {
+interface IState {
     items: IBreadcrumb[]
 }
 
-const defaultItems: IBreadcrumbs['items'] = [
+const defaultItems: IState['items'] = [
     { title: 'Главная', link: { name: 'home' } }
 ];
 
-function state() {
+function state(): IState {
     return {
         items: defaultItems.slice(0)
     };
 }
 
-const mutations = {
-    clear: (state: any) => state.items = [],
-    reset: (state: any) => state.items = defaultItems.slice(0),
-    addItem: (state: any, item: any) => state.items.push(item),
-    addItems: (state: any, items: any) => state.items = state.items.concat(items)
+const mutations: MutationTree<IState> = {
+    clear: (state) => state.items = [],
+    reset: (state) => state.items = defaultItems.slice(0),
+    addItem: (state, item: IBreadcrumb) => state.items.push(item),
+    addItems: (state, items: IState['items']) => state.items = state.items.concat(items)
 };
 
 export default {
     state,
     mutations,
     namespaced: true
+}
+
+export {
+    IState
 }

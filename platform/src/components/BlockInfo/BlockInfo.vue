@@ -92,6 +92,7 @@ import { computed, useSlots } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseTooltip from '@/components/BaseTooltip/BaseTooltip.vue';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -106,7 +107,11 @@ export interface IProps {
     tipBottom?: string | number
     disabled?: boolean
 
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root' | 'description'>
+}
+
+interface IThemeProps extends Pick<IProps, 'themeSettings' | 'disabled'>{
+    hasContent: boolean
 }
 
 interface IEmits {
@@ -121,21 +126,18 @@ const slots = useSlots();
 
 /* VARS AND CUSTOM HOOKS */
 
-const useClasses = makeClasses(() => {
+const useClasses = makeClasses<IThemeProps>(() => {
     return {
+        root: ({ themeSettings }) => [themeSettings?.root],
         top: ({ hasContent }) => [
             {
                 'mb-2': hasContent
             }
         ],
-        topMain: () => [
-            'flex items-center'
+        topMain: 'flex items-center',
+        description: ({ themeSettings }) => [themeSettings?.description,
+            'text-xxs text-gray-400',
         ],
-        description: ({ themeSettings }) => {
-            return [themeSettings?.description, [
-                'text-xxs text-gray-400',
-            ]];
-        },
         title: ({ disabled }) => [
             'text-gray-500 text-sm font-bold',
             {
@@ -160,13 +162,9 @@ const useClasses = makeClasses(() => {
                 '!text-disabled-text': disabled,
             }
         ],
-        content: ({ disabled, themeSettings }) => {
-            return [themeSettings?.content, [
-                {
-                    '!text-disabled-text': disabled,
-                }
-            ]];
-        },
+        content: ({ disabled }) => ({
+            '!text-disabled-text': disabled,
+        }),
         bottom: ({ error }) => [
             'mt-2 flex items-center',
             {
@@ -185,12 +183,8 @@ const useClasses = makeClasses(() => {
                 '!text-disabled-text': disabled,
             }
         ],
-        errorIcon: () => [
-            'text-[#CB101D] mr-2'
-        ],
-        error: () => [
-            'text-[#CB101D] text-xs font-bold'
-        ]
+        errorIcon: 'text-[#CB101D] mr-2',
+        error: 'text-[#CB101D] text-xs font-bold'
     };
 });
 
@@ -199,7 +193,7 @@ const useClasses = makeClasses(() => {
 /* COMPUTED */
 
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         disabled: props.disabled,
         hasContent: !!slots.default,

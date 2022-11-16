@@ -1,6 +1,7 @@
 import { markRaw  } from 'vue';
 import { GetterTree, MutationTree, ActionTree  } from 'vuex';
 import { Component } from '@vue/runtime-core';
+import { IRootState } from './index';
 
 interface ILayer {
     id: string
@@ -59,7 +60,7 @@ const mutations: MutationTree<IState> = {
     },
 };
 
-const actions: ActionTree<IState, any> = {
+const actions: ActionTree<IState, IRootState> = {
     async add({ commit, getters }, payload: string) {
         const find = getters['layerById'](payload);
         let component: Component;
@@ -91,4 +92,8 @@ export default {
     mutations,
     actions,
     namespaced: true
+}
+
+export {
+    IState
 }

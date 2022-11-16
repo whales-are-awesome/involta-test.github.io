@@ -50,17 +50,17 @@
 import { computed, ref } from 'vue';
 import BaseCollapse  from '@/components/BaseCollapse/BaseCollapse.vue';
 import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
-import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     title?: string
     description?: string
-    themeSettings?: any
     isVisible: boolean
     noChevron?: boolean
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
@@ -76,15 +76,13 @@ const props = withDefaults(defineProps<IProps>(), {
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings, isVisibleLocal }) => {
-        return [themeSettings?.root, [
-            'px-3 py-4 rounded-[4px] cursor-pointer border',
-            {
-                'bg-primary-100 border-transparent': isVisibleLocal,
-                'border-gray-300': !isVisibleLocal
-            }
-        ]];
-    },
+    root: ({ themeSettings, isVisibleLocal }) => [themeSettings?.root,
+        'px-3 py-4 rounded-[4px] cursor-pointer border',
+        {
+            'bg-primary-100 border-transparent': isVisibleLocal,
+            'border-gray-300': !isVisibleLocal
+        }
+    ],
     top: 'flex items-center justify-between',
     title: 'text-gray-500 text-sm font-semibold',
     description: 'text-gray-500 text-xxs',
@@ -104,7 +102,7 @@ const isVisibleLocal = ref(props.isVisible);
 
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
         isVisibleLocal: isVisibleLocal.value

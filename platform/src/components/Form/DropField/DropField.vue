@@ -1,7 +1,7 @@
 <template>
     <div
         :class="classes.root"
-        @drop="onDrop"
+        @drop.prevent="onDrop"
         @dragover.prevent
         @dragenter.prevent
     >
@@ -81,12 +81,13 @@ import { IFile } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import getBase64 from '@/helpers/getBase64';
 import { createId } from '@/helpers/uuid';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     modelValue: string
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
@@ -105,15 +106,13 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings, hasFiles }) => {
-        return [themeSettings?.root, [
-            'bg-primary-100 rounded-[10px] text-center border border-dashed border-gray-300',
-            {
-                'p-8': !hasFiles,
-                'p-[14px]': hasFiles
-            }
-        ]];
-    },
+    root: ({ themeSettings, hasFiles }) => [themeSettings?.root,
+        'bg-primary-100 rounded-[10px] text-center border border-dashed border-gray-300',
+        {
+            'p-8': !hasFiles,
+            'p-[14px]': hasFiles
+        }
+    ],
     icon: 'text-primary-500 mx-auto mb-4',
     delimiter: 'w-[180px] h-px bg-gray-300 mx-auto mb-5',
     text: 'text-gray-600 font-bold mb-2',
@@ -127,7 +126,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
 /* DATA */
 
-const fileRef = ref('fileRef');
+const fileRef = ref<HTMLElement | null>(null);
 const files = ref<IFile[]>([]);
 
 /* COMPUTED */
@@ -136,12 +135,12 @@ const value = computed({
     get() {
         return props.modelValue;
     },
-    set(value: string) {
+    set(value: IProps['modelValue']) {
         emit('update:modelValue', value)
     }
 });
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
         hasFiles: !!files.value.length
@@ -151,13 +150,14 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 /* WATCH */
 /* METHODS */
 
-async function onDrop(event: any) {
-    event.preventDefault();
-    addFiles(event?.dataTransfer.files);
+function onDrop(event: DragEvent): void {
+    if (event.dataTransfer?.files.length) {
+        addFiles(event.dataTransfer.files);
+    }
 }
 
-function addFiles(localFiles: File[]) {
-    [].map.call(localFiles, async (file: any) => {
+function addFiles(localFiles: FileList): void {
+    [].map.call(localFiles, async (file: File) => {
         const image = await getBase64(file);
         files.value.push({
             image: image[0],
@@ -167,14 +167,18 @@ function addFiles(localFiles: File[]) {
     });
 }
 
-function removeFile(id: string) {
+function removeFile(id: IFile['id']): void {
     const fileIndex = files.value.findIndex(item => item.id === id);
 
     files.value.splice(fileIndex, 1);
 }
 
-function uploadFile(event: any) {
-    addFiles(event.target.files);
+function uploadFile(event: InputEvent): void {
+    const target = event.target as HTMLInputElement;
+
+    if (target.files?.length) {
+        addFiles(target.files);
+    }
 }
 
 </script>

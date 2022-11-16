@@ -14,6 +14,7 @@
 import { computed, defineEmits } from 'vue';
 import { Rounded, Themes, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -21,14 +22,12 @@ interface IProps {
     view: Views
     theme: Themes
     rounded: Rounded
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
     (e: 'click'): void
 }
-
-
 
 interface IThemeProps extends Pick<IProps, 'view' | 'theme' | 'rounded' | 'themeSettings'>{}
 
@@ -109,7 +108,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
 /* DATA */
 /* COMPUTED */
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         view: props.view,
         theme: props.theme,

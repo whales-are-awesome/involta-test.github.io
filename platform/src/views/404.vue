@@ -45,8 +45,6 @@ import useIsMobile from '@/composables/useIsMobile';
 const route = useRoute();
 const isMobile = useIsMobile();
 
-console.log(route.query.error);
-
 const errorNumber = computed(() => {
     return route.query.error || 404;
 });

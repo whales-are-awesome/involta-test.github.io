@@ -92,14 +92,14 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseTimer from '@/components/BaseTimer/BaseTimer.vue';
 import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
 import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
-import {  } from './types';
+import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
+import { IUsers } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import isMobile from '@/helpers/isMobile';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
-    themeSettings?: any
     avatar: string
     name: string
     labelTitle: string
@@ -107,7 +107,8 @@ interface IProps {
     text: string
     breadcrumbsHash?: boolean
     endDate: Date
-    users: any[]
+    users: IUsers[]
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
@@ -120,7 +121,7 @@ const props = withDefaults(defineProps<IProps>(), {});
 
 /* VARS AND CUSTOM HOOKS */
 
-const breadcrumbs = [
+const breadcrumbs: IBreadcrumb[] = [
     { title: 'EarlyBirds', link: { name: 'home' } },
     { dots: true },
     { title: 'EarlyBirds', link: { name: 'home' } },
@@ -128,86 +129,24 @@ const breadcrumbs = [
 ]
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => {
-        return [themeSettings?.root, [
-            'bg-white shadow-[0_4px_20px_rgba(108,108,125,.08)] border border-gray-100 rounded-[10px] p-6 sm:pb-0 overflow-hidden'
-        ]];
-    },
-    top: ({ themeSettings }) => {
-        return [themeSettings?.top, [
-            'flex items-center mb-8 sm:flex-wrap'
-        ]];
-    },
-    label: ({ themeSettings }) => {
-        return [themeSettings?.label, [
-            'mr-4 sm:mr-0 sm:mb-8'
-        ]];
-    },
-    avatar: ({ themeSettings }) => {
-        return [themeSettings?.avatar, [
-            'mr-5 flex-shrink-0 sm:w-full sm:mr-0'
-        ]];
-    },
-    breadcrumbs: ({ themeSettings }) => {
-        return [themeSettings?.breadcrumbs, [
-            'sm:w-full sm:mt-[3px] sm:ml-[43px]'
-        ]];
-    },
-    title: ({ themeSettings }) => {
-        return [themeSettings?.title, [
-            'text-500 text-h5 font-bold mb-[13px] sm:mb-2.5'
-        ]];
-    },
-    text: ({ themeSettings }) => {
-        return [themeSettings?.text, [
-            'text-400 mb-6 line-clamp-2 !leading-[28px] overflow-ellipsis sm:!leading-[20px] sm:line-clamp-none sm:mb-8 sm:!text-xs'
-        ]];
-    },
-    bottom: ({ themeSettings }) => {
-        return [themeSettings?.bottom, [
-            'mb-8 flex items-center sm:mb-11'
-        ]];
-    },
-    users: ({ themeSettings }) => {
-        return [themeSettings?.users, [
-            'mr-4 ml-auto flex sm:ml-0 sm:mr-2'
-        ]];
-    },
-    usersItem: ({ themeSettings }) => {
-        return [themeSettings?.usersItem, [
-            'shadow-[0_0_0_3px_white] sm:shadow-[0_0_0_1.5px_white]'
-        ]];
-    },
-    votes: ({ themeSettings }) => {
-        return [themeSettings?.votes, [
-            'text-sm text-400'
-        ]];
-    },
-    daoName: ({ themeSettings }) => {
-        return [themeSettings?.daoName, [
-            'font-semibold text-gray-600 sm:!text-xl sm:ml-1'
-        ]];
-    },
-    voteButton: ({ themeSettings }) => {
-        return [themeSettings?.voteButton, [
-            'w-[137px] sm:hidden'
-        ]];
-    },
-    voteButtonMobile: ({ themeSettings }) => {
-        return [themeSettings?.voteButtonMobile, [
-            'w-full h-11 hidden sm:flex after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-screen after:h-px after:bg-gray-200 after:absolute'
-        ]];
-    },
-    timer: ({ themeSettings }) => {
-        return [themeSettings?.timer, [
-            'sm:hidden'
-        ]];
-    },
-    timerMobile: ({ themeSettings }) => {
-        return [themeSettings?.timerMobile, [
-            'mb-8 mr-auto hidden sm:block'
-        ]];
-    },
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'bg-white shadow-[0_4px_20px_rgba(108,108,125,.08)] border border-gray-100 rounded-[10px] p-6 sm:pb-0 overflow-hidden'
+    ],
+    top: 'flex items-center mb-8 sm:flex-wrap',
+    label: 'mr-4 sm:mr-0 sm:mb-8',
+    avatar: 'mr-5 flex-shrink-0 sm:w-full sm:mr-0',
+    breadcrumbs: 'sm:w-full sm:mt-[3px] sm:ml-[43px]',
+    title: 'text-500 text-h5 font-bold mb-[13px] sm:mb-2.5',
+    text: 'text-400 mb-6 line-clamp-2 !leading-[28px] overflow-ellipsis sm:!leading-[20px] sm:line-clamp-none sm:mb-8 sm:!text-xs',
+    bottom: 'mb-8 flex items-center sm:mb-11',
+    users: 'mr-4 ml-auto flex sm:ml-0 sm:mr-2',
+    usersItem: 'shadow-[0_0_0_3px_white] sm:shadow-[0_0_0_1.5px_white]',
+    votes: 'text-sm text-400',
+    daoName: 'font-semibold text-gray-600 sm:!text-xl sm:ml-1',
+    voteButton: 'w-[137px] sm:hidden',
+    voteButtonMobile: 'w-full h-11 hidden sm:flex after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-screen after:h-px after:bg-gray-200 after:absolute',
+    timer: 'sm:hidden',
+    timerMobile: 'mb-8 mr-auto hidden sm:block',
 }));
 
 /* DATA */
@@ -216,7 +155,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });

@@ -1,4 +1,5 @@
 import { GetterTree, MutationTree, ActionTree  } from 'vuex';
+import { IRootState } from './index';
 
 type wallets = 'injectedWallet' | 'connectWallet' | '';
 
@@ -27,7 +28,7 @@ const mutations: MutationTree<IState> = {
     }
 };
 
-const actions: ActionTree<IState, any> = {
+const actions: ActionTree<IState, IRootState> = {
     setAddress({ commit }, payload: IState['address']) {
         commit('setAddress', payload);
     },
@@ -42,4 +43,8 @@ export default {
     mutations,
     actions,
     namespaced: true
+}
+
+export {
+    IState
 }

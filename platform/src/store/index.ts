@@ -1,28 +1,28 @@
 import { InjectionKey } from 'vue'
 import { createStore, useStore as baseUseStore, Store } from 'vuex'
-import breadcrumbs from './breadcrumbs'
-import layer from './layer'
-import wallet from './wallet'
-import isMobile from './isMobile'
+import breadcrumbs, { IState as IBreadcrumbsState } from './breadcrumbs'
+import layer, { IState as ILayerState } from './layer'
+import wallet, { IState as IWalletState } from './wallet'
+import isMobile, { IState as IIsMobileState } from './isMobile'
 
-export interface State {
-    breadcrumbs: any
-    layer: any
-    wallet: any
-    isMobile: any
+export interface IRootState {
+    breadcrumbs: IBreadcrumbsState
+    layer: ILayerState
+    wallet: IWalletState
+    isMobile: IIsMobileState
 }
 
-export const key: InjectionKey<Store<State>> = Symbol()
+export const key: InjectionKey<Store<IRootState>> = Symbol();
 
-export const store = createStore<State>({
+export const store = createStore<IRootState>({
     modules: {
         breadcrumbs,
         layer,
         isMobile,
         wallet
     }
-})
+});
 
 export function useStore () {
-    return baseUseStore(key)
+    return baseUseStore(key);
 }

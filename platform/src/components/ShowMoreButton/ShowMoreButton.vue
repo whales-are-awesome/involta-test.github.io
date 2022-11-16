@@ -23,12 +23,13 @@ import { computed } from 'vue';
 import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     modelValue: boolean
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root' | 'icon'>
 }
 
 interface IEmits {
@@ -47,20 +48,16 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => {
-        return [themeSettings?.root,  [
-            'flex items-center text-gray-400 cursor-pointer uppercase'
-        ]];
-    },
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'flex items-center text-gray-400 cursor-pointer uppercase'
+    ],
     text: 'tracking-[0.4px]  text-tiny underline underline-offset-1 mr-3',
-    icon: ({ themeSettings, isOpen }) => {
-        return [themeSettings?.icon,  [
-            'transition-fast',
-            {
-                'rotate-180': isOpen
-            }
-        ]];
-    },
+    icon: ({ isOpen }) => [
+        'transition-fast',
+        {
+            'rotate-180': isOpen
+        }
+    ]
 }));
 
 /* DATA */
@@ -75,7 +72,7 @@ const value = computed({
     }
 });
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
         isOpen: value.value

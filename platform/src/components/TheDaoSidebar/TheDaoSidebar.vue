@@ -87,23 +87,24 @@
 /* IMPORTS */
 
 import { computed, ref, defineExpose } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import SubDaoItemsPopup from '@/components/SubDaoItemsPopup/SubDaoItemsPopup.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
-import {  } from './types';
+import { IItem, INormalizedItem } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import useLayer from '@//composables/useLayer';
 
+/* INTERFACES */
+
 /* META */
 
-const route = useRoute();
 const router = useRouter();
 const layer = useLayer();
 
 /* VARS AND CUSTOM HOOKS */
 
-const root = ref(null);
+const root = ref<HTMLElement | null>(null);
 let subDao = ref(normalizeItems([
     {
         name: 'SubDao_1',
@@ -127,11 +128,7 @@ let subDao = ref(normalizeItems([
 ]));
 
 const useClasses = makeClasses(() => ({
-    root: ({ themeSettings }) => {
-        return [themeSettings?.root, [
-            'w-[224px]',
-        ]];
-    },
+    root: 'w-[224px]',
     inner: 'w-[224px] h-screen bg-surface-200 pb-2 fixed top-0 left-[72px]',
     top: 'w-full mx-auto mb-6 bg-black',
     topInner: 'pb-[100%] relative',
@@ -153,7 +150,7 @@ const useClasses = makeClasses(() => ({
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
 
     });
@@ -162,7 +159,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
 /* WATCH */
 /* METHODS */
 
-function normalizeItems(items: any[]) {
+function normalizeItems(items: IItem[]): INormalizedItem[] {
     return items.map(item => ({
         ...item,
         isHovered: false

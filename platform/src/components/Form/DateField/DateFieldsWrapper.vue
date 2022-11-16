@@ -25,6 +25,7 @@
 import { computed } from 'vue';
 import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -38,12 +39,14 @@ interface IProps {
     description?: IBlockInfoProps['description']
     tipBottom?: IBlockInfoProps['tipBottom']
     disabled?: IBlockInfoProps['disabled']
+
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
 }
 
-interface ThemeProps extends Pick<IProps, 'error'> {
+interface ThemeProps extends Pick<IProps, 'error' | 'themeSettings'> {
 }
 
 /* META */
@@ -54,6 +57,9 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<ThemeProps>(() => ({
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'flex shadow-[0px_4px_8px_rgba(133,134,134,0.04)] rounded-[8px]'
+    ],
     main: () => [
         'flex shadow-[0px_4px_8px_rgba(133,134,134,0.04)] rounded-[8px]'
     ]
@@ -62,9 +68,10 @@ const useClasses = makeClasses<ThemeProps>(() => ({
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
-        error: props.error
+        error: props.error,
+        themeSettings: props.themeSettings
     });
 });
 

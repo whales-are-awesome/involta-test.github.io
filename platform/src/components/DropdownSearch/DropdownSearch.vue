@@ -72,12 +72,13 @@ import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue'
 import BaseCollapse from '@/components/BaseCollapse/BaseCollapse.vue'
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     modelValue: string
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
@@ -97,56 +98,26 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => {
-        return [themeSettings?.root, [
-            'border border-primary-100 bg-white rounded-[8px] relative'
-        ]];
-    },
-    top: ({ themeSettings }) => {
-        return [themeSettings?.top, [
-            'px-2 py-2 relative'
-        ]];
-    },
-    iconWrapper: ({ themeSettings }) => {
-        return [themeSettings?.iconWrapper, [
-            'w-[20px] h-[20px] bg-primary-300 rounded-full text-white pointer-events-none flex items-center justify-center'
-        ]];
-    },
-    input: ({ themeSettings, isFocus, isFilled }) => {
-        return [themeSettings?.input, [
-            'text-500 h-full absolute left-0 top-0 w-full bg-transparent placeholder:text-300 text-sm pl-[36px]',
-            {
-                'md:opacity-0': !isFocus && !isFilled
-            }
-        ]];
-    },
-    dropdownItem: ({ themeSettings }) => {
-        return [themeSettings?.dropdownItem, [
-            `text-500 text-sm flex items-center border-left border-transparent transition-fast relative overflow-hidden px-[15px] py-2.5 text-500 cursor-pointer hover:bg-secondary-100
-            after:block after:h-full after:w-[2px] after:left-0 after:top-0 after:bg-primary-300 after:absolute after:transition-fast after:scale-y-0 hover:after:scale-y-[1]
-            `
-        ]];
-    },
-    dropdownItemLeft: ({ themeSettings }) => {
-        return [themeSettings?.dropdownItem, [
-            'min-w-[24px] pr-2'
-        ]];
-    },
-    dropdownItemSearch: ({ themeSettings }) => {
-        return [themeSettings?.dropdownItemFieldValue, [
-            'text-200 font-medium'
-        ]];
-    },
-    dropdownItemIcon: ({ themeSettings }) => {
-        return [themeSettings?.dropdownItemIcon, [
-            'mr-4 flex-shrink-0 text-200'
-        ]];
-    },
-    dropdownItemCoincidence: ({ themeSettings }) => {
-        return [themeSettings?.dropdownItemCoincidence, [
-            'text-400'
-        ]];
-    },
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'border border-primary-100 bg-white rounded-[8px] relative'
+    ],
+    top: 'px-2 py-2 relative',
+    iconWrapper: 'w-[20px] h-[20px] bg-primary-300 rounded-full text-white pointer-events-none flex items-center justify-center',
+    input: ({ isFocus, isFilled }) => [
+        'text-500 h-full absolute left-0 top-0 w-full bg-transparent placeholder:text-300 text-sm pl-[36px]',
+        {
+            'md:opacity-0': !isFocus && !isFilled
+        }
+    ],
+    dropdownItem: `text-500 text-sm flex items-center border-left border-transparent transition-fast
+                   relative overflow-hidden px-[15px] py-2.5 text-500 cursor-pointer hover:bg-secondary-100
+                   after:block after:h-full after:w-[2px] after:left-0 after:top-0 after:bg-primary-300
+                   after:absolute after:transition-fast after:scale-y-0 hover:after:scale-y-[1]
+    `,
+    dropdownItemLeft: 'min-w-[24px] pr-2',
+    dropdownItemSearch: 'text-200 font-medium',
+    dropdownItemIcon: 'mr-4 flex-shrink-0 text-200',
+    dropdownItemCoincidence: 'text-400'
 }));
 
 /* DATA */
@@ -159,12 +130,12 @@ const value = computed({
     get() {
         return props.modelValue;
     },
-    set(value: string) {
+    set(value: IProps['modelValue']) {
         emit('update:modelValue', value)
     }
 });
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
         isFocus: isFocus.value,

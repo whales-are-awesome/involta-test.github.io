@@ -22,6 +22,7 @@ import { computed } from 'vue';
 import useLayer from '@//composables/useLayer';
 import makeClasses from '@/helpers/makeClasses';
 import { Position } from './types';
+import IThemeSettings from '@/models/themeSettings';
 
 
 /* INTERFACES */
@@ -30,7 +31,7 @@ interface IProps {
     id?: string
     containerStyles?: string
     position: Position
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root' | 'container'>
 }
 
 interface IThemeProps extends Pick<IProps, 'position'> {
@@ -64,7 +65,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
 }));
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         position: props.position,
         themeSettings: props.themeSettings,

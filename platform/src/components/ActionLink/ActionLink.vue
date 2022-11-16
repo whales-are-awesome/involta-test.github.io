@@ -24,24 +24,23 @@
 
 import { computed, useAttrs } from 'vue';
 import { RouterLinkProps, RouterLink } from 'vue-router';
-//import  from '@/components/';
 import { Themes } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     to?: RouterLinkProps['to']
     theme: Themes
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
     (e: 'click'): void
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings' | 'theme'>{
-}
+interface IThemeProps extends Pick<IProps, 'themeSettings' | 'theme'>{}
 
 /* META */
 
@@ -54,22 +53,20 @@ const attrs = useAttrs();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings, theme }) => {
-        return [themeSettings?.root,  [
-            'transition-fast',
-            {
-                'text-primary-400 hover:text-primary-500': theme === 'primary',
-                'text-gray-400 hover:text-gray-500': theme === 'secondary',
-                'text-gray-500 hover:text-gray-600': theme === 'secondary-dark'
-            }
-        ]];
-    },
+    root: ({ themeSettings, theme }) => [themeSettings?.root,
+        'transition-fast',
+        {
+            'text-primary-400 hover:text-primary-500': theme === 'primary',
+            'text-gray-400 hover:text-gray-500': theme === 'secondary',
+            'text-gray-500 hover:text-gray-600': theme === 'secondary-dark'
+        }
+    ],
 }));
 
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
         theme: props.theme

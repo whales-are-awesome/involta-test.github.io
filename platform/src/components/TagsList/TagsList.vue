@@ -31,6 +31,7 @@
 import { computed, defineProps, defineEmits, ref, onMounted, watch, nextTick } from 'vue';
 import { IItem, Sizes } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 
 /* INTERFACES */
@@ -39,13 +40,14 @@ interface IProps {
     modelValue: IItem['id']
     items: IItem[]
     size: Sizes
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
-interface ThemeProps extends Pick<IProps, 'size'>{
+interface ThemeProps extends Pick<IProps, 'size' | 'themeSettings'>{
 }
 
 /* META */
@@ -58,7 +60,7 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<ThemeProps>(() => ({
-    root: () => [
+    root: ({ themeSettings }) => [themeSettings?.root,
         'relative z-1'
     ],
     items: ({ size }) => [
@@ -86,9 +88,9 @@ const useClasses = makeClasses<ThemeProps>(() => ({
 
 /* DATA */
 
-const root = ref(null);
-const itemRefs = ref([]);
-const line = ref(null);
+const root = ref<HTMLElement | null>(null);
+const itemRefs = ref<HTMLElement[]>([]);
+const line = ref<HTMLElement | null>(null);
 
 /* COMPUTED */
 
@@ -111,7 +113,7 @@ onMounted(() => nextTick(setLine));
 
 /* METHODS */
 
-function setLine() {
+function setLine(): void {
     const activeIndex = props.items.findIndex(item => item.id === value.value);
     const activeEl = itemRefs.value[activeIndex];
     const cords = activeEl.getBoundingClientRect();
@@ -121,9 +123,10 @@ function setLine() {
     line.value.style.left =  cords.x - rootCords.x + 'px';
 }
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
-        size: props.size
+        size: props.size,
+        themeSettings: props.themeSettings
     });
 });
 </script>

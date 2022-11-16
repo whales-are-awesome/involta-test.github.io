@@ -10,22 +10,20 @@
 <script setup lang="ts">
 /* IMPORTS */
 
-import {computed} from 'vue';
+import { computed } from 'vue';
 import { SvgSprite } from 'vue-svg-sprite';
 import { Icons } from './types';
 
-interface Props {
+export interface IProps {
     name: Icons
     width: number | string
     height?: number | string
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<IProps>(), {
     width: 16
 })
 const emit = defineEmits(['click']);
 
-const size = computed(() => {
-    return `${ +props.width } ${ (props.height && +props.height) || +props.width }`
-});
+const size = computed(() => `${ +props.width } ${ (props.height && +props.height) || +props.width }`);
 </script>

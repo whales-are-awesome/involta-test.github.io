@@ -21,13 +21,13 @@
 import { computed } from 'vue';
 import BaseBlock  from '@/components/BaseBlock/BaseBlock.vue';
 import BaseButton  from '@/components/BaseButton/BaseButton.vue';
-import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
@@ -45,17 +45,15 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => {
-        return [themeSettings?.root,  [
-            'flex'
-        ]];
-    }
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'flex'
+    ]
 }));
 
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });

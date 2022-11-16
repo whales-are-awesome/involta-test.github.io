@@ -73,13 +73,14 @@ import makeClasses from '@/helpers/makeClasses';
 import cutAddress from '@/helpers/cutAddress';
 import copy from '@/helpers/copy';
 import { store } from '@/store';
+import IThemeSettings from '@/models/themeSettings';
 
 
 /* INTERFACES */
 
 interface IProps {
     value: string
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
@@ -94,24 +95,18 @@ const props = withDefaults(defineProps<IProps>(), {});
 const { open } = useLayer();
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings, isHovered }) => {
-        return [themeSettings?.root, [
-            'flex items-center bg-surface-400 text-gray-500 text-xs rounded-[5px] px-4 py-2 sm:py-1 sm:px-2 sm:!text-xxs border',
-            {
-                'border-primary-400': isHovered
-            }
-        ]];
-    },
+    root: ({ themeSettings, isHovered }) => [themeSettings?.root,
+        'flex items-center bg-surface-400 text-gray-500 text-xs rounded-[5px] px-4 py-2 sm:py-1 sm:px-2 sm:!text-xxs border',
+        {
+            'border-primary-400': isHovered
+        }
+    ],
     circle: 'w-7 h-7 ml-3 bg-surface-500 rounded-full shrink-0',
     popup: 'bg-surface-200 rounded-[5px] p-1.5 flex flex-col',
     value: 'pl-[2px] mr-3',
-    icon: ({ themeSettings, isHovered }) => {
-        return [themeSettings?.icon, [
-            {
-                'rotate-180': isHovered
-            }
-        ]];
-    }
+    icon: ({ isHovered }) => ({
+        'rotate-180': isHovered
+    })
 }));
 
 /* DATA */
@@ -121,7 +116,7 @@ const tooltip= ref(null);
 /* COMPUTED */
 const wallet = computed(() => store.state.wallet.wallet);
 const isTooltipShown = computed(() => tooltip.value?.isShown);
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         isHovered: isTooltipShown.value
     });

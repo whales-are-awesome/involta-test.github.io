@@ -18,12 +18,13 @@ import { computed } from 'vue';
 import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import { Themes }  from './types';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     theme: Themes
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root'>
 }
 
 interface IEmits {
@@ -44,21 +45,19 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings, theme }) => {
-        return [themeSettings?.root,  [
-            'w-8 h-8 rounded-[2px] flex items-center justify-center text-[#FF3E3E] cursor-pointer',
-            {
-                'bg-surface-200': theme === 'surface-200',
-                'bg-surface-300': theme === 'surface-300'
-            }
-        ]];
-    },
+    root: ({ themeSettings, theme }) => [themeSettings?.root,
+        'w-8 h-8 rounded-[2px] flex items-center justify-center text-[#FF3E3E] cursor-pointer',
+        {
+            'bg-surface-200': theme === 'surface-200',
+            'bg-surface-300': theme === 'surface-300'
+        }
+    ]
 }));
 
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         theme: props.theme,
         themeSettings: props.themeSettings,

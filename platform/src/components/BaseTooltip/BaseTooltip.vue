@@ -27,6 +27,7 @@
 import { computed, useSlots, ref, defineExpose } from 'vue';
 import Popper from 'vue3-popper';
 import makeClasses from '@/helpers/makeClasses';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -34,9 +35,10 @@ interface IProps {
     hover?: boolean
     placement?: string
     content?: string
+    themeSettings?: IThemeSettings<'root'>
 }
 
-interface ThemeProps {
+interface ThemeProps extends Pick<IProps, 'themeSettings'> {
     hasContent: boolean
 }
 
@@ -47,29 +49,28 @@ const props = withDefaults(defineProps<IProps>(), {
     placement: 'top'
 });
 const slots = useSlots();
-const root = ref(null);
+const root = ref<InstanceType<typeof Popper> | null>(null);
 
 /* VARS AND CUSTOM HOOKS */
 
-const isShown = ref<boolean>(false)
+const isShown = ref(false)
 
 const useClasses = makeClasses<ThemeProps>(() => ({
-    root: ({ hasContent }) => {
-        return [
-            'popper-root',
-            {
-                'no-style': hasContent
-            }
-        ]
-    }
+    root: ({ hasContent, themeSettings }) => [themeSettings?.root,
+        'popper-root',
+        {
+            'no-style': hasContent
+        }
+    ]
 }));
 
 /* DATA */
 /* COMPUTED */
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
-        hasContent: !!slots.content
+        hasContent: !!slots.content,
+        themeSettings: props.themeSettings
     });
 });
 

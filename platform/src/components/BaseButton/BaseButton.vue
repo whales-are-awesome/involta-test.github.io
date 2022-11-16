@@ -59,6 +59,7 @@ import {
 } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import IRouterLink from '@/models/routerLink';
+import IThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -79,7 +80,7 @@ interface IProps {
     view: Views
     justify: Justify
     wrapContent: boolean
-    themeSettings?: any
+    themeSettings?: IThemeSettings<'root' | 'container' | 'bg'>
 }
 
 interface IEmit {
@@ -87,7 +88,7 @@ interface IEmit {
 }
 
 interface IThemeProps extends Pick<IProps, 'theme' | 'size' | 'disabled' | 'view' | 'rounded' | 'themeSettings' | 'icon' | 'justify'> {
-    hasContent?: boolean
+    hasContent: boolean
     hasIcon?: boolean
     isFocused?: boolean
 }
@@ -110,96 +111,84 @@ const emit = defineEmits<IEmit>();
 /* CONSTANTS AND HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({size, themeSettings, view, theme, disabled, rounded, justify}) => {
-        return [themeSettings?.root, [
-            'group inline-flex items-center relative z-1 [background-position-y:0] tracking-[0.4px]',
-            {
-                'px-5 h-[52px] text-lg': size === 'lg',
-                'px-5 h-[40px] text-base': size === 'md',
-                'px-[18px] text-sm sm:text-xxs sm:h-[28px]': size === 'sm',
-                'px-[24px] sm:text-xxs': size === 'mobile',
-                'w-[36px] h-[36px]': size === 'icon',
-                'h-[36px] sm:h-[24px] sm:!text-xxs': size === 'sm' && rounded === 'lg',
-                'h-[32px]': size === 'sm' && rounded !== 'lg',
+    root: ({size, themeSettings, view, theme, disabled, rounded, justify}) => [themeSettings?.root,
+        'group inline-flex items-center relative z-1 [background-position-y:0] tracking-[0.4px]',
+        {
+            'px-5 h-[52px] text-lg': size === 'lg',
+            'px-5 h-[40px] text-base': size === 'md',
+            'px-[18px] text-sm sm:text-xxs sm:h-[28px]': size === 'sm',
+            'px-[24px] sm:text-xxs': size === 'mobile',
+            'w-[36px] h-[36px]': size === 'icon',
+            'h-[36px] sm:h-[24px] sm:!text-xxs': size === 'sm' && rounded === 'lg',
+            'h-[32px]': size === 'sm' && rounded !== 'lg',
 
-                'justify-center': justify === 'center',
-                'justify-start': justify === 'start',
+            'justify-center': justify === 'center',
+            'justify-start': justify === 'start',
 
-                '!text-disabled-text pointer-events-none': disabled
-            },
+            '!text-disabled-text pointer-events-none': disabled
+        },
 
-            view === 'filled' && {
-                'text-white': ['gray', 'primary', 'primary-400'].includes(theme),
-                'text-gray-500 active:text-gray-700': theme === 'surface',
-            },
+        view === 'filled' && {
+            'text-white': ['gray', 'primary', 'primary-400'].includes(theme),
+            'text-gray-500 active:text-gray-700': theme === 'surface',
+        },
 
 
-            view === 'outlined' && {
-                'text-primary-500': view === 'outlined' && theme === 'primary-200',
-                'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme),
-            },
+        view === 'outlined' && {
+            'text-primary-500': view === 'outlined' && theme === 'primary-200',
+            'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme),
+        },
 
-            view === 'ghost' && {
-                'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme),
+        view === 'ghost' && {
+            'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme),
 
-            },
-        ]];
-    },
-    container: ({themeSettings}) => {
-        return [themeSettings?.container, [
-            'flex justify-center items-center transition-fast'
-        ]];
-    },
-    bg: ({view, theme, disabled, rounded, themeSettings}) => {
-        return [themeSettings?.bg, [
-            'absolute inset-0 -z-1 transition-fast',
-            {
+        },
+    ],
+    container: ({themeSettings}) => [themeSettings?.container,
+        'flex justify-center items-center transition-fast'
+    ],
+    bg: ({view, theme, disabled, rounded, themeSettings}) => [themeSettings?.bg,
+        'absolute inset-0 -z-1 transition-fast',
+        {
 
-                'rounded-[5px]': rounded === 'sm',
-                'rounded-[10px]': rounded === 'icon',
-                'rounded-[30px]': rounded === 'lg',
-                'rounded-full': rounded === 'full'
-            },
+            'rounded-[5px]': rounded === 'sm',
+            'rounded-[10px]': rounded === 'icon',
+            'rounded-[30px]': rounded === 'lg',
+            'rounded-full': rounded === 'full'
+        },
 
-            view === 'filled' && {
-                'bg-gray-700 group-hover:bg-gray-800 group-active:bg-600': theme === 'gray',
-                'bg-surface-400 group-hover:bg-gray-300': theme === 'surface',
-                'bg-primary-500 group-hover:bg-primary-600 group-active:bg-primary-800': theme === 'primary',
-                'border bg-primary-400 group-hover:bg-primary-500 group-active:bg-primary-800': theme === 'primary-400',
+        view === 'filled' && {
+            'bg-gray-700 group-hover:bg-gray-800 group-active:bg-600': theme === 'gray',
+            'bg-surface-400 group-hover:bg-gray-300': theme === 'surface',
+            'bg-primary-500 group-hover:bg-primary-600 group-active:bg-primary-800': theme === 'primary',
+            'border bg-primary-400 group-hover:bg-primary-500 group-active:bg-primary-800': theme === 'primary-400',
 
-                '!bg-disabled-light': disabled
-            },
+            '!bg-disabled-light': disabled
+        },
 
-            view === 'outlined' && {
-                'border-gray-200 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray',
-                'border-gray-500 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray-500',
-                'border border-primary-200 group-hover:bg-primary-300 group-active:bg-primary-800': theme === 'primary-200',
-            },
+        view === 'outlined' && {
+            'border-gray-200 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray',
+            'border-gray-500 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray-500',
+            'border border-primary-200 group-hover:bg-primary-300 group-active:bg-primary-800': theme === 'primary-200',
+        },
 
-            view === 'ghost' && {
-                'group-hover:bg-gray-100 group-active:bg-transparent': theme === 'gray',
-            }
-        ]];
-    },
-    content: ({themeSettings}) => {
-        return [themeSettings?.content, [
-
-        ]];
-    },
-    icon: ({themeSettings, hasContent, icon}) => {
-        return [themeSettings?.icon, [
-            'transition-fast',
-            {
-                'ml-[9px]': hasContent && !icon?.prepend,
-                'mr-[9px]': hasContent && icon?.prepend
-            }
-        ]];
-    }
+        view === 'ghost' && {
+            'group-hover:bg-gray-100 group-active:bg-transparent': theme === 'gray',
+        }
+    ],
+    content: '',
+    icon: ({ hasContent, icon }) => [
+        'transition-fast',
+        {
+            'ml-[9px]': hasContent && !icon?.prepend,
+            'mr-[9px]': hasContent && icon?.prepend
+        }
+    ]
 }));
 
 /* COMPUTED */
 
-const componentName = computed((): IBaseButtonData['componentName'] => {
+const componentName = computed<IBaseButtonData['componentName']>(() => {
     if (typeof props.href === 'object' || (typeof props.href === 'string' && /^\//.test(props.href))) {
         return 'RouterLink';
     } else if (typeof props.href === 'string' && !/^\//.test(props.href)) {
@@ -211,7 +200,7 @@ const componentName = computed((): IBaseButtonData['componentName'] => {
     return 'button';
 });
 
-const buttonAttrs = computed((): IBaseButtonData['buttonAttrs'] => {
+const buttonAttrs = computed<IBaseButtonData['buttonAttrs']>(() => {
     if (componentName.value === 'button' && (props.type === 'button' || props.type === 'submit')) {
         return {
             disabled: props.disabled,
@@ -233,11 +222,11 @@ const buttonAttrs = computed((): IBaseButtonData['buttonAttrs'] => {
     return null;
 });
 
-const hasContent = computed((): IBaseButtonData['hasContent'] => {
+const hasContent = computed<IBaseButtonData['hasContent']>(() => {
     return !!slots.default;
 });
 
-const classes = computed((): ReturnType<typeof useClasses> => {
+const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         size: props.size,
         theme: props.theme,
@@ -245,7 +234,7 @@ const classes = computed((): ReturnType<typeof useClasses> => {
         justify: props.justify,
         disabled: props.disabled,
         rounded: props.rounded,
-        hasContent: hasContent.value,
+        hasContent: !!hasContent.value,
         hasIcon: !!props.icon,
         icon: props.icon,
         themeSettings: props.themeSettings
