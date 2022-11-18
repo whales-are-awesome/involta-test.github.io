@@ -141,7 +141,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
         view === 'ghost' && {
             'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme),
-
         },
     ],
     container: ({themeSettings}) => [themeSettings?.container,

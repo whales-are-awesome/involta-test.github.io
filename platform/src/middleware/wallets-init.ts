@@ -6,8 +6,7 @@ export default async function walletsInit({ next, from }: any) {
     if (!from.name) {
         await wait(() => document.readyState === 'complete');
         await API.init();
-        await Wallet.init();
-    }
+        await Wallet.init();}
 
     return next();
 }

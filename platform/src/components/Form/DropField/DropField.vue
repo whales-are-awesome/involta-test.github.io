@@ -55,11 +55,11 @@
                     >
                         <BaseCross @click="removeFile(file.id)" />
                     </div>
-                    <img
+                    <BaseImage
                         :class="classes.fileImage"
                         :src="file.image"
                         :alt="file.name"
-                    >
+                    />
                     <p :class="classes.fileText">
                         {{ file.name }}
                     </p>

@@ -2,12 +2,12 @@
     <div :class="classes.root">
         <div :class="classes.inner">
             <div :class="classes.logoWrapper">
-                <img
+                <BaseImage
                     :class="classes.logo"
                     :src="require('@/assets/images/common/logo.png')"
                     alt="OuterCircle"
                     @click="$router.push({ name: 'home' })"
-                >
+                />
             </div>
             <div :class="classes.menuItems">
                 <TheSidebarButton

@@ -7,6 +7,7 @@ import router from './router'
 import { store, key } from './store'
 import apolloClient from './plugins/apollo';
 import clickOutside from './directives/clickOutside';
+import BaseImage from '@/components/BaseImage/BaseImage.vue';
 import './assets/styles/global.css';
 
 const app = createApp({
@@ -23,5 +24,7 @@ const app = createApp({
 })
 .use(Maska)
 .use(router);
+
+app.component('BaseImage', BaseImage);
 
 app.mount('#app');

@@ -2,11 +2,11 @@
     <div
         :class="classes.root"
     >
-        <img
+        <BaseImage
             :class="classes.image"
             :src="src"
             :alt="alt"
-        >
+        />
         <slot></slot>
     </div>
 </template>
@@ -47,7 +47,7 @@ const props = withDefaults(defineProps<IProps>(), {
 const slots = useSlots();
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
-        'flex items-center overflow-hidden'
+        'flex items-center'
     ],
     image: ({ hasContent, size, rounded, themeSettings }) => [themeSettings?.image,
         'object-cover w-full h-full',

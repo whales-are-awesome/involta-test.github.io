@@ -85,7 +85,7 @@ const router = createRouter({
     routes
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
     const middleware = to.meta.middleware
         ? [walletsInit, ...to.meta.middleware as Array<any>]
         : [walletsInit];
@@ -98,12 +98,14 @@ router.beforeEach((to, from, next) => {
     };
     const nextMiddleware = nextFactory(context, middleware, 1);
 
-    return middleware[0]({...context, next: nextMiddleware});
-
     // @ts-ignore
     if (to.meta.title) document.title = to.meta.title;
 
-    return next();
+    const last = middleware.pop();
+
+    await Promise.all(middleware.map(item => item({...context, next: nextMiddleware})))
+
+    return last({...context, next: nextMiddleware});
 });
 
 router.afterEach((context, asd) => {

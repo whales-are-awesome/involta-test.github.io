@@ -6,11 +6,11 @@
         <div :class="classes.inner">
             <div :class="classes.top">
                 <div :class="classes.topInner">
-                    <img
+                    <BaseImage
                         :class="classes.logo"
                         :src="require('@/assets/images/common/placeholder.jpeg')"
                         alt="OuterCircle"
-                    >
+                    />
                     <div :class="classes.topInfo">
                         <div :class="classes.name">
                             DAO Name

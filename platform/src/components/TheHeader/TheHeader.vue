@@ -4,12 +4,12 @@
         :class="classes.root"
     >
         <div :class="classes.inner">
-            <img
+            <BaseImage
                 :class="classes.logo"
                 :src="require('@/assets/images/common/logo.png')"
                 alt="OuterCircle"
                 @click="$router.push({ name: 'home' })"
-            >
+            />
             <p :class="classes.title">
                 OuterCircle.
             </p>
