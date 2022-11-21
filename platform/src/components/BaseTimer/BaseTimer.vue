@@ -21,13 +21,13 @@ import {  } from './types';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import { useTimer } from '@//composables/useTimer';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     endDate: Date
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{}

@@ -1,6 +1,6 @@
 <template>
     <Layout>
-        <RouterView/>
+        <RouterView />
         <div v-if="!$route.name" class="-preloader !absolute inset-0 -z-1"></div>
     </Layout>
 </template>

@@ -51,7 +51,7 @@ import { computed, ref } from 'vue';
 import BaseCollapse  from '@/components/BaseCollapse/BaseCollapse.vue';
 import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -60,7 +60,7 @@ interface IProps {
     description?: string
     isVisible: boolean
     noChevron?: boolean
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{

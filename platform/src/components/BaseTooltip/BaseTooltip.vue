@@ -27,7 +27,7 @@
 import { computed, useSlots, ref, defineExpose } from 'vue';
 import Popper from 'vue3-popper';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -35,7 +35,7 @@ interface IProps {
     hover?: boolean
     placement?: string
     content?: string
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface ThemeProps extends Pick<IProps, 'themeSettings'> {

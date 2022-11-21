@@ -22,12 +22,12 @@ import { computed } from 'vue';
 import BaseBlock  from '@/components/BaseBlock/BaseBlock.vue';
 import BaseButton  from '@/components/BaseButton/BaseButton.vue';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IEmits {

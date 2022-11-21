@@ -18,13 +18,13 @@ import { computed } from 'vue';
 import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import { Themes }  from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     theme: Themes
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IEmits {

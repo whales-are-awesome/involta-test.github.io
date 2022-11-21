@@ -73,14 +73,14 @@ import makeClasses from '@/helpers/makeClasses';
 import cutAddress from '@/helpers/cutAddress';
 import copy from '@/helpers/copy';
 import { store } from '@/store';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 
 /* INTERFACES */
 
 interface IProps {
     value: string
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{

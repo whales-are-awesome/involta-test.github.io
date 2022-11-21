@@ -31,7 +31,7 @@
 import { computed, defineProps, defineEmits, ref, onMounted, watch, nextTick } from 'vue';
 import { IItem, Sizes } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 
 /* INTERFACES */
@@ -40,7 +40,7 @@ interface IProps {
     modelValue: IItem['id']
     items: IItem[]
     size: Sizes
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IEmits {

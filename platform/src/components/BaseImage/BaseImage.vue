@@ -4,6 +4,12 @@
         :src-placeholder="require('@/assets/images/common/image-placeholder.jpg')"
         v-bind="attrs"
     />
+    <div
+        v-else
+        class="opacity-0"
+        v-bind="attrs"
+    >
+    </div>
 </template>
 
 
@@ -15,12 +21,13 @@ import { useAttrs, computed, ref, onMounted } from 'vue';
 import { until } from '@vueuse/core';
 import VLazyImage from 'v-lazy-image';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import wait from '@/helpers/wait';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 
@@ -58,8 +65,7 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 /* METHODS */
 
 onMounted(async () => {
-    await until(() => document.readyState === 'complete')
-        .toBe(true);
+    await wait(() => document.readyState === 'complete');
     show.value = true;
 });
 </script>

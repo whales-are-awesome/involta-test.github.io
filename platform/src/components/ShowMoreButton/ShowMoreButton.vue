@@ -23,13 +23,13 @@ import { computed } from 'vue';
 import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     modelValue: boolean
-    themeSettings?: IThemeSettings<'root' | 'icon'>
+    themeSettings?: ThemeSettings<'root' | 'icon'>
 }
 
 interface IEmits {

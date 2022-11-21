@@ -95,7 +95,7 @@ import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
 import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
 import { IUsers } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -108,7 +108,7 @@ interface IProps {
     breadcrumbsHash?: boolean
     endDate: Date
     users: IUsers[]
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{

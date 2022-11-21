@@ -2,8 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { store } from '@/store';
 import scrollIntoView from '@/helpers/scrollIntoView';
 
-import auth from '@/middleware/auth';
-import walletsInit from '@/middleware/wallets-init';
+import authMiddleware from '@/middleware/auth';
+import walletsInitMiddleware from '@/middleware/wallets-init';
 
 // @ts-ignore
 import Home from '@/views/home.vue'
@@ -14,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'home',
         meta: {
             title: 'OuterCircle',
-            middleware: [auth]
+            middleware: [walletsInitMiddleware, authMiddleware]
         },
         component: Home
     },
@@ -22,7 +22,8 @@ const routes: Array<RouteRecordRaw> = [
         path: '/ui',
         name: 'ui',
         meta: {
-            title: 'UI'
+            title: 'UI',
+            middleware: [walletsInitMiddleware]
         },
         component: () => import(/* webpackChunkName: "ui" */ '../views/ui.vue'),
     },
@@ -31,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'dao-id',
         meta: {
             title: 'DAO',
-            middleware: [auth]
+            middleware: [walletsInitMiddleware, authMiddleware]
         },
         component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/index.vue'),
     },
@@ -40,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'dao-id-subdao',
         meta: {
             title: 'SubDAO',
-            middleware: [auth]
+            middleware: [walletsInitMiddleware, authMiddleware]
         },
         component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/index.vue'),
     },
@@ -49,7 +50,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'proposal-id',
         meta: {
             title: 'Proposal',
-            middleware: [auth]
+            middleware: [walletsInitMiddleware, authMiddleware]
         },
         component: () => import(/* webpackChunkName: "ui" */ '../views/proposal/_id.vue'),
     },
@@ -58,7 +59,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'auth',
         meta: {
             title: 'Connect wallet',
-            middleware: [auth]
+            middleware: [walletsInitMiddleware, authMiddleware]
         },
         component: () => import(/* webpackChunkName: "ui" */ '../views/auth.vue'),
     },
@@ -67,6 +68,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'test',
         meta: {
             title: 'Test',
+            middleware: [walletsInitMiddleware]
         },
         component: () => import(/* webpackChunkName: "ui" */ '../views/test.vue'),
     },
@@ -75,7 +77,8 @@ const routes: Array<RouteRecordRaw> = [
         name: "NotFound",
         component: () => import(/* webpackChunkName: "404" */ '../views/404.vue'),
         meta: {
-            requiresAuth: false
+            requiresAuth: false,
+            middleware: [walletsInitMiddleware]
         }
     }
 ]
@@ -85,30 +88,41 @@ const router = createRouter({
     routes
 });
 
-router.beforeEach(async(to, from, next) => {
-    const middleware = to.meta.middleware
-        ? [walletsInit, ...to.meta.middleware as Array<any>]
-        : [walletsInit];
+function middlewarePipeline (context: any, middleware: any, index: any) {
+    const nextMiddleware = middleware[index]
+    if(!nextMiddleware){
+        return context.next
+    }
+    return () => {
+        const nextPipeline = middlewarePipeline(
+            context, middleware, index + 1
+        )
+        nextMiddleware({ ...context, next: nextPipeline })
+    }
+}
 
+
+router.beforeEach((to, from, next) => {
+    if (!to.meta.middleware) {
+        return next()
+    }
+    const middleware = to.meta.middleware as Array<any>
     const context = {
+        to,
         from,
         next,
-        router,
-        to,
-    };
-    const nextMiddleware = nextFactory(context, middleware, 1);
+        store
+    }
+    return middleware[0]({
+        ...context,
+        next: middlewarePipeline(context, middleware, 1)
+    });
+})
 
+router.afterEach((context, to) => {
     // @ts-ignore
     if (to.meta.title) document.title = to.meta.title;
 
-    const last = middleware.pop();
-
-    await Promise.all(middleware.map(item => item({...context, next: nextMiddleware})))
-
-    return last({...context, next: nextMiddleware});
-});
-
-router.afterEach((context, asd) => {
     store.commit('breadcrumbs/clear');
     scrollIntoView(document.body);
 });

@@ -30,7 +30,7 @@ import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import { Icons } from '@/components/BaseIcon/types';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 interface IProps {
@@ -38,7 +38,7 @@ interface IProps {
     name: string
     isSelected?: boolean
     isDisabled?: boolean
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IEmits {

@@ -18,7 +18,7 @@
 import { computed, useSlots } from 'vue';
 import { Rounded, Sizes } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -27,7 +27,7 @@ interface IProps {
     alt: string
     size: Sizes
     rounded: Rounded
-    themeSettings?: IThemeSettings<'root' | 'image'>
+    themeSettings?: ThemeSettings<'root' | 'image'>
 }
 
 

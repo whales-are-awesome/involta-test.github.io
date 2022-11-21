@@ -59,7 +59,7 @@ import {
 } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import IRouterLink from '@/models/routerLink';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -80,7 +80,7 @@ interface IProps {
     view: Views
     justify: Justify
     wrapContent: boolean
-    themeSettings?: IThemeSettings<'root' | 'container' | 'bg'>
+    themeSettings?: ThemeSettings<'root' | 'container' | 'bg'>
 }
 
 interface IEmit {

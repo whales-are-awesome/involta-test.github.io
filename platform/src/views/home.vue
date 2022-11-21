@@ -1,5 +1,6 @@
 <template>
     <div class="mt-[94px] sm:mt-[62px]">
+        {{ data }}
         <BaseAvatar
             class="mb-[46px] md:mb-[35px] sm:mb-[38px]"
             :src="require('@/assets/images/common/placeholder.jpeg')"
@@ -109,7 +110,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
 import DaoCard from '@/components/DaoCard/DaoCard.vue';
@@ -119,6 +120,7 @@ import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
 
 import { Statuses } from '@/models/statuses';
+import useDaoItems from '@/composables/views/home/useDaoItems';
 
 enum TagStatuses {
     Proposals,
@@ -155,9 +157,7 @@ const formInfo = {
     ]
 };
 
-const formResult = computed(() => ({
-    search: formData.value.search,
-    voteId: formData.value.voteId,
-    statusId: formData.value.statusId
-}));
+
+
+const daoItems = useDaoItems(formData);
 </script>

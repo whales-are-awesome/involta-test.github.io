@@ -14,7 +14,7 @@
 import { computed, defineEmits } from 'vue';
 import { Rounded, Themes, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -22,7 +22,7 @@ interface IProps {
     view: Views
     theme: Themes
     rounded: Rounded
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IEmits {

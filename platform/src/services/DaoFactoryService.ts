@@ -1,10 +1,14 @@
-import API, { FetchResult } from '@/helpers/api';
+import API, { FetchResult, SendResult } from '@/helpers/api';
 import parseEventData from '@/helpers/parseEventData';
 import DaoFactoryJSON from '@/abi/DaoFactory.json';
-import { result } from 'lodash';
+import {
+    IFetchDaoItemsParams,
+    IFetchDaoItemsResponse,
+    IFetchDaoResponse
+} from '@/models/services/DaoFactoryService';
 
 export default class DaoFactoryService {
-    static async createDao(params: object): FetchResult<any> {
+    static async createDao(params: object): SendResult<any> {
         const [trxReceipt, error] = await API.send<any>({
             contractName: 'daoFactory',
             methodName: 'deployDao',
@@ -46,7 +50,7 @@ export default class DaoFactoryService {
         return [result, null];
     }
 
-    static async createProposal(params: object): FetchResult<any> {
+    static async createProposal(params: object): SendResult<any> {
         const [trxReceipt, error] = await API.send<any>({
             contractName: 'daoFactory',
             methodName: 'createProposal',
@@ -84,4 +88,12 @@ export default class DaoFactoryService {
     //         ...data
     //     };
     // }
+
+    static async fetchDaoItems(params?: IFetchDaoItemsParams) {
+        return API.get<IFetchDaoItemsResponse[]>('/dao', params);
+    }
+
+    static async fetchDao(id: number | string) {
+        return API.get<IFetchDaoResponse>(`/dao/${ id }`);
+    }
 }

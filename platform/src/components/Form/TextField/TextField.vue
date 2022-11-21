@@ -96,7 +96,7 @@ import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/Blo
 import { Icons } from '@/components/BaseIcon/types';
 import { Sizes, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -118,7 +118,7 @@ interface IProps {
     size: Sizes
     view: Views
     maxlength?: number | string
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 
     title?: IBlockInfoProps['title']
     tooltip?: IBlockInfoProps['tooltip']

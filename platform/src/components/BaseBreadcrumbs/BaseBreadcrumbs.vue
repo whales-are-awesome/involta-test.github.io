@@ -70,7 +70,7 @@ import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import { store } from '@/store';
 import { IBreadcrumb, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -79,7 +79,7 @@ interface IProps {
     hash: boolean
     firstAngle: boolean
     view: Views
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IThemeProps extends Pick<IProps, 'view' | 'themeSettings'> {
@@ -105,7 +105,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     item: ({ view }) => [
         'flex items-center',
         {
-            '!font-normal sm:!text-xxs': view === 'secondary',
+            'sm:!text-xxs': view === 'secondary',
             'text-xs sm:!text-tiny !font-medium': view === 'primary'
         }
     ],

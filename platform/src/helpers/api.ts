@@ -3,8 +3,10 @@ import { default as Web3Types } from 'web3/types';
 import { Eth } from 'web3-eth/types';
 import { Utils } from 'web3-utils/types';
 import DaoFactoryJSON from '@/abi/DaoFactory.json';
+import axios, { Canceler } from '@/plugins/axios';
 
-type FetchResult<T> = Promise<[T|null, Error|null]>;
+type FetchResult<T> = Promise<[T|null, Error|null, Canceler]>;
+type SendResult<T> = Promise<[T|null, Error|null, Canceler?]>;
 type ConctactNames = 'daoFactory';
 
 interface fetchDataProps {
@@ -41,18 +43,7 @@ class API extends Web3 {
         return API.instance.utils;
     }
 
-    static async fetch<T>(doFunction: ()=> Promise<T>): FetchResult<T> {
-        try {
-            const result = await doFunction();
-
-            return [result, null];
-        } catch (error) {
-            return [null, error as Error];
-        }
-    }
-
-
-    static async send<T>(props: fetchDataProps): FetchResult<T> {
+    static async send<T>(props: fetchDataProps): SendResult<T> {
         try {
             const contract = API.contracts[props.contractName];
             const trx = await contract.methods[props.methodName](...props.params).send({ from: API.address });
@@ -67,14 +58,26 @@ class API extends Web3 {
             return [null, e as Error];
         }
     }
-}
 
-// function fetchData<T>(props: fetchDataProps): FetchResult<T> {
-//     const contract = API.contracts[props.contractName];
-//     const trx = await contract.methods.deployDao(API.address, 1, 1, API.address).send({ from: API.address });
-// }
+    static async get<T>(path: string, params?: {[key: string]: any}): FetchResult<T> {
+        try {
+            let cancel: Canceler | (() => void) = () => {};
+
+            const data = await axios.get<T>(path, {
+                params,
+                cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel)
+            });
+
+            //@ts-ignore
+            return [data, null, cancel];
+        } catch (e) {
+            return [null, e as Error, () => {}];
+        }
+    }
+}
 export default API;
 
 export {
-    FetchResult
+    FetchResult,
+    SendResult
 }

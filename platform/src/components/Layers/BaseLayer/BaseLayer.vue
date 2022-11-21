@@ -22,7 +22,7 @@ import { computed } from 'vue';
 import useLayer from '@//composables/useLayer';
 import makeClasses from '@/helpers/makeClasses';
 import { Position } from './types';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 
 /* INTERFACES */
@@ -31,7 +31,7 @@ interface IProps {
     id?: string
     containerStyles?: string
     position: Position
-    themeSettings?: IThemeSettings<'root' | 'container'>
+    themeSettings?: ThemeSettings<'root' | 'container'>
 }
 
 interface IThemeProps extends Pick<IProps, 'position'> {

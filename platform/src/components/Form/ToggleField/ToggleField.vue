@@ -31,7 +31,7 @@ import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import { Sizes, Views, Types, Themes, Align, Wrappers } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -49,7 +49,7 @@ interface IProps {
     fieldValue?: string|boolean|object|number
     reverse?: boolean
 
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IEmits {

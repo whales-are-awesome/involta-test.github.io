@@ -101,7 +101,7 @@ import BaseIcon, { IProps as IIconProps } from '@/components/BaseIcon/BaseIcon.v
 import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
 import { SelectOption, Sizes, AngleView } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -115,7 +115,7 @@ interface IProps {
     size: Sizes
     angleView: AngleView
     innerLabel?: string
-    themeSettings?: IThemeSettings<'root' | 'innerLabel'>
+    themeSettings?: ThemeSettings<'root' | 'innerLabel'>
 
 
     title?: IBlockInfoProps['title']

@@ -92,7 +92,7 @@ import { computed, useSlots } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseTooltip from '@/components/BaseTooltip/BaseTooltip.vue';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -107,7 +107,7 @@ export interface IProps {
     tipBottom?: string | number
     disabled?: boolean
 
-    themeSettings?: IThemeSettings<'root' | 'description'>
+    themeSettings?: ThemeSettings<'root' | 'description'>
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings' | 'disabled'>{

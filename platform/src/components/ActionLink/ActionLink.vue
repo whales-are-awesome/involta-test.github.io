@@ -26,14 +26,14 @@ import { computed, useAttrs } from 'vue';
 import { RouterLinkProps, RouterLink } from 'vue-router';
 import { Themes } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
 interface IProps {
     to?: RouterLinkProps['to']
     theme: Themes
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IEmits {

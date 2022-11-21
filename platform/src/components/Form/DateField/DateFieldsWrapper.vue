@@ -25,7 +25,7 @@
 import { computed } from 'vue';
 import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
 import makeClasses from '@/helpers/makeClasses';
-import IThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -40,7 +40,7 @@ interface IProps {
     tipBottom?: IBlockInfoProps['tipBottom']
     disabled?: IBlockInfoProps['disabled']
 
-    themeSettings?: IThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IEmits {
