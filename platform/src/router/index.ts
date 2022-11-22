@@ -52,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
             title: 'Proposal',
             middleware: [walletsInitMiddleware, authMiddleware]
         },
-        component: () => import(/* webpackChunkName: "ui" */ '../views/proposal/_id.vue'),
+        component: () => import(/* webpackChunkName: "proposal" */ '../views/proposal/_id.vue'),
     },
     {
         path: '/auth',
@@ -61,7 +61,7 @@ const routes: Array<RouteRecordRaw> = [
             title: 'Connect wallet',
             middleware: [walletsInitMiddleware, authMiddleware]
         },
-        component: () => import(/* webpackChunkName: "ui" */ '../views/auth.vue'),
+        component: () => import(/* webpackChunkName: "auth" */ '../views/auth.vue'),
     },
     {
         path: '/test',
@@ -70,14 +70,13 @@ const routes: Array<RouteRecordRaw> = [
             title: 'Test',
             middleware: [walletsInitMiddleware]
         },
-        component: () => import(/* webpackChunkName: "ui" */ '../views/test.vue'),
+        component: () => import(/* webpackChunkName: "test" */ '../views/test.vue'),
     },
     {
         path: "/:catchAll(.*)",
-        name: "NotFound",
-        component: () => import(/* webpackChunkName: "404" */ '../views/404.vue'),
+        name: "error",
+        component: () => import(/* webpackChunkName: "error" */ '../views/error.vue'),
         meta: {
-            requiresAuth: false,
             middleware: [walletsInitMiddleware]
         }
     }
@@ -103,6 +102,8 @@ function middlewarePipeline (context: any, middleware: any, index: any) {
 
 
 router.beforeEach((to, from, next) => {
+    store.dispatch('error/removeError');
+
     if (!to.meta.middleware) {
         return next()
     }

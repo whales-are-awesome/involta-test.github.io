@@ -3,7 +3,7 @@ import { computed, watch } from 'vue';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import { IDaoItemResponse } from '@/models/services/DaoFactoryService';
 
-function useDaoItems(formData: any) {
+function useProposalItems(formData: any) {
     const items = useFetchData<IDaoItemResponse[]>();
     const formResult = computed(() => ({
         search: formData.value.search,
@@ -17,7 +17,7 @@ function useDaoItems(formData: any) {
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await DaoFactoryService.fetchDaoItemsAsTable(formResult.value);
+        const [data, error, cancel] = await DaoFactoryService.fetchProposalItemsAsTable(formResult.value);
 
         if (error) {
             items.value.pending = false;
@@ -31,4 +31,4 @@ function useDaoItems(formData: any) {
     return items;
 }
 
-export default useDaoItems;
+export default useProposalItems;

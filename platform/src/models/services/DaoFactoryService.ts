@@ -1,18 +1,42 @@
-interface IFetchDaoItemsParams {
+interface IDaoItemsParams {
     search: string
     voteId: number | string
     statusId: number | string
 }
 
-interface IFetchDaoResponse {
+interface IDaoResponse {
     governance: string
 }
 
-interface IFetchDaoItemsResponse extends Pick<IFetchDaoResponse, 'governance'> {
+interface IDaoItemResponse extends Pick<IDaoResponse, 'governance'> {
+}
+
+interface INormalizedDaoItem extends Pick<IDaoResponse, 'governance'> {
+}
+
+interface IProposalItemsParams {
+    search: string
+    voteId: number | string
+    statusId: number | string
+}
+
+interface IProposalResponse {
+    governance: string
+}
+
+interface IProposalItemResponse extends Pick<IDaoResponse, 'governance'> {
+}
+
+interface INormalizedProposalItem extends Pick<IDaoResponse, 'governance'> {
 }
 
 export {
-    IFetchDaoItemsParams,
-    IFetchDaoItemsResponse,
-    IFetchDaoResponse
+    IDaoItemsParams,
+    IDaoItemResponse,
+    INormalizedDaoItem,
+    IDaoResponse,
+    IProposalItemsParams,
+    IProposalResponse,
+    IProposalItemResponse,
+    INormalizedProposalItem
 }

@@ -414,8 +414,11 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import ShowMoreButton from '@/components/ShowMoreButton/ShowMoreButton.vue';
 import BaseCollapse from '@/components/BaseCollapse/BaseCollapse.vue';
 import useIsMobile from '@/composables/useIsMobile';
+import useError from '@/composables/useError';
 import { currenyItems } from '@/models/currency';
 import { Statuses } from '@/models/statuses';
+
+useError(404);
 
 enum TagStatuses {
     Proposals,

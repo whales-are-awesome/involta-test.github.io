@@ -2,9 +2,14 @@ import API, { FetchResult, SendResult } from '@/helpers/api';
 import parseEventData from '@/helpers/parseEventData';
 import DaoFactoryJSON from '@/abi/DaoFactory.json';
 import {
-    IFetchDaoItemsParams,
-    IFetchDaoItemsResponse,
-    IFetchDaoResponse
+    IDaoItemsParams,
+    IDaoItemResponse,
+    IDaoResponse,
+    INormalizedDaoItem,
+    IProposalItemsParams,
+    IProposalResponse,
+    IProposalItemResponse,
+    INormalizedProposalItem
 } from '@/models/services/DaoFactoryService';
 
 export default class DaoFactoryService {
@@ -79,21 +84,52 @@ export default class DaoFactoryService {
 
         return [result, null];
     }
-    // static fetchCompany(config?: RequestConfig): Promise<any> {
-    //     return api.get('/api/companies', config);
-    // }
-    //
-    // static normalizeCompanyAsDefault(data: ICompany): any {
-    //     return {
-    //         ...data
-    //     };
-    // }
 
-    static async fetchDaoItems(params?: IFetchDaoItemsParams) {
-        return API.get<IFetchDaoItemsResponse[]>('/dao', params);
+    static async fetchDaoItems(params?: IDaoItemsParams) {
+        return API.get<IDaoItemResponse[]>('/dao', params);
     }
 
     static async fetchDao(id: number | string) {
-        return API.get<IFetchDaoResponse>(`/dao/${ id }`);
+        return API.get<IDaoResponse>(`/dao/${ id }`);
     }
+
+    static async fetchProposalItems(params?: IProposalItemsParams) {
+        return API.get<IProposalItemResponse[]>('/proposal', params);
+    }
+
+    static async fetchProposal(id: number | string) {
+        return API.get<IProposalResponse>(`/proposal/${ id }`);
+    }
+
+    static async fetchDaoItemsAsTable(params?: IDaoItemsParams): FetchResult<INormalizedDaoItem[]> {
+        const [data, ...rest] = await DaoFactoryService.fetchDaoItems(params);
+
+        if (!data) {
+            return [data, ...rest];
+        }
+
+        return [normalizeDaoItemsAsTable(data), ...rest];
+    }
+
+    static async fetchProposalItemsAsTable(params?: IProposalItemsParams): FetchResult<INormalizedProposalItem[]> {
+        const [data, ...rest] = await DaoFactoryService.fetchProposalItems(params);
+
+        if (!data) {
+            return [data, ...rest];
+        }
+
+        return [normalizeProposalItemsAsTable(data), ...rest];
+    }
+}
+
+function normalizeDaoItemsAsTable(items: IDaoItemResponse[]): INormalizedDaoItem[] {
+    return items.map(item => ({
+        ...item
+    }));
+}
+
+function normalizeProposalItemsAsTable(items: IProposalItemResponse[]): INormalizedProposalItem[] {
+    return items.map(item => ({
+        ...item
+    }));
 }

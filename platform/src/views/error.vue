@@ -46,7 +46,7 @@ const route = useRoute();
 const isMobile = useIsMobile();
 
 const errorNumber = computed(() => {
-    return route.query.error || 404;
+    return route.query.status || 404;
 });
 
 const text = computed<string>(() => {

@@ -25,15 +25,23 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import WalletNameCard from '@/components/WalletNameCard/WalletNameCard.vue';
+import { Icons } from '@/components/BaseIcon/types';
 
 import Wallet from '@/wallets';
 import API from '@/helpers/api';
+
+interface IWallet {
+    id: string
+    name: string
+    icon: Icons
+    login: () => Promise<string>
+}
 
 const router = useRouter();
 
 
 const wallets = computed(() => {
-    const result = [];
+    const result: IWallet[] = [];
     const provider = API.instance.currentProvider;
 
     if ('isMetaMask' in provider && 'isTrustWallet' in provider) {
@@ -49,7 +57,7 @@ const wallets = computed(() => {
     return result;
 });
 
-async function auth(wallet: any) {
+async function auth(wallet: IWallet) {
     await wallet.login();
 
     router.push({ name: 'home' });

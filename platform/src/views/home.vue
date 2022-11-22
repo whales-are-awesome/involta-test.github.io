@@ -1,6 +1,5 @@
 <template>
     <div class="mt-[94px] sm:mt-[62px]">
-        {{ data }}
         <BaseAvatar
             class="mb-[46px] md:mb-[35px] sm:mb-[38px]"
             :src="require('@/assets/images/common/placeholder.jpeg')"
@@ -44,21 +43,26 @@
                     :options="formInfo.voteOptions"
                 />
             </div>
-            <BaseCard
-                v-for="item in 3"
-                :key="item"
-                :avatar="require('@/assets/images/common/placeholder.jpeg')"
-                name="DAO Name"
-                label-title="Active"
-                title="Proposal Name"
-                :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpeg') } ]"
-                text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"
-                :end-date="new Date((new Date).setHours(23))"
-            />
+            <template v-if="proposalItems.data?.length">
+                <BaseCard
+                    v-for="item in 3"
+                    :key="item"
+                    :avatar="require('@/assets/images/common/placeholder.jpeg')"
+                    name="DAO Name"
+                    label-title="Active"
+                    title="Proposal Name"
+                    :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpeg') } ]"
+                    text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"
+                    :end-date="new Date((new Date).setHours(23))"
+                />
+            </template>
+            <div v-else-if="proposalItems.pending" class="-preloader -preloader_placeholder"></div>
+            <div v-else>Не найдено</div>
         </div>
         <div v-if="tagList.value === TagStatuses.DAOs">
             <div
-                class="flex flex-wrap -mx-3 -mt-6 mb-8 sm:-mx-[9px]"
+                v-if="daoItems.data?.length"
+                class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
             >
                 <div
                     class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
@@ -73,8 +77,10 @@
                     />
                 </div>
             </div>
+            <div v-else-if="daoItems.pending" class="-preloader -preloader_placeholder"></div>
+            <div v-else>Не найдено</div>
             <BaseButton
-                class="w-full"
+                class="w-full mt-8"
                 view="outlined"
                 size="sm"
                 rounded="lg"
@@ -110,7 +116,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { ref } from 'vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
 import DaoCard from '@/components/DaoCard/DaoCard.vue';
@@ -121,6 +127,7 @@ import SelectField from '@/components/Form/SelectField/SelectField.vue';
 
 import { Statuses } from '@/models/statuses';
 import useDaoItems from '@/composables/views/home/useDaoItems';
+import useProposalItems from '@/composables/views/home/useProposalItems';
 
 enum TagStatuses {
     Proposals,
@@ -128,22 +135,6 @@ enum TagStatuses {
     DAOs,
     APPs
 }
-
-const tagList = ref({
-    options: [
-        { id: TagStatuses.Proposals, title: TagStatuses[TagStatuses.Proposals] },
-        { id: TagStatuses.Statistics, title: TagStatuses[TagStatuses.Statistics] },
-        { id: TagStatuses.DAOs, title: TagStatuses[TagStatuses.DAOs] },
-        { id: TagStatuses.APPs, title: TagStatuses[TagStatuses.APPs] }
-    ],
-    value: TagStatuses.Proposals
-})
-
-const formData = ref({
-    voteId: 0,
-    statusId: Statuses.Active,
-    search: ''
-});
 
 const formInfo = {
     voteOptions: [
@@ -157,7 +148,22 @@ const formInfo = {
     ]
 };
 
+const tagList = ref({
+    options: [
+        { id: TagStatuses.Proposals, title: TagStatuses[TagStatuses.Proposals] },
+        { id: TagStatuses.Statistics, title: TagStatuses[TagStatuses.Statistics] },
+        { id: TagStatuses.DAOs, title: TagStatuses[TagStatuses.DAOs] },
+        { id: TagStatuses.APPs, title: TagStatuses[TagStatuses.APPs] }
+    ],
+    value: TagStatuses.Proposals
+})
 
+const formData = ref({
+    voteId: formInfo.voteOptions[0].id,
+    statusId: Statuses.Active,
+    search: ''
+});
 
+const proposalItems = useProposalItems(formData);
 const daoItems = useDaoItems(formData);
 </script>
