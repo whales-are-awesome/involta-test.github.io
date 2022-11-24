@@ -1,5 +1,7 @@
 import { ref } from 'vue';
 import { Canceler } from '@/plugins/axios';
+import { IResponseWithTotal } from '@/models/api'
+
 
 interface IData<T> {
     pending: boolean
@@ -15,4 +17,15 @@ function useFetchData<T>() {
     })
 }
 
-export default useFetchData;
+function useFetchDataWithTotal<T>() {
+    return ref<IData<IResponseWithTotal<T>>>({
+        pending: true,
+        data: null,
+        cancel: () => {}
+    })
+}
+
+export {
+    useFetchData,
+    useFetchDataWithTotal
+};

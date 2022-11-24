@@ -80,7 +80,6 @@
                         v-bind="{ classes: classes.innerRight }"
                     ></slot>
                 </div>
-                <slot name="append-main"></slot>
             </div>
         </BlockInfo>
     </div>
@@ -164,7 +163,6 @@ const useClasses = makeClasses<IThemeProps>(() => {
                 'bg-white px-2 py-3 rounded-[4px]': isWrapped
             }
         ],
-        main: 'flex',
         fieldWrapper: ({ isFilled, isFocus, hasError, disabled, size, view }) => {
             const states = {
                 default: !hasError && !isFocus && !disabled,
@@ -176,7 +174,7 @@ const useClasses = makeClasses<IThemeProps>(() => {
             };
 
             return [
-                'bg-white px-3 py-2.5 border rounded-[4px] relative transition-fast group flex-grow',
+                'bg-white px-3 py-2.5 border rounded-[4px] relative transition-fast group',
                 {
                     'border-surface-300 hover:bg-primary-100': states.default,
                     'border-surface-500 border-primary-400 shadow-[0_0_0_3px_#D4D4FC,0_2px_2px_-1px_rgba(0,0,0,0.12)]': states.defaultFocus,

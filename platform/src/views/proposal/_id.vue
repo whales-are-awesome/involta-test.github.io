@@ -204,28 +204,33 @@
                                                 Subheading: Some text about this wonderful opportunity to do smth
                                             </p>
                                             <div class="bg-surface-200 rounded-[4px] px-6 py-4 sm:p-2">
-                                                <TextField
-                                                    v-if="item !== 4"
-                                                    v-model="formData.search"
+                                                <BlockInfo
+                                                    class="mb-2"
                                                     title="NFT ID to byu for the price"
-                                                    placeholder="ID to buy"
                                                     tooltip="some text"
-                                                    :is-bold="true"
-                                                    view="floating-placeholder"
-                                                    :description="item !==1 ? 'description' : null"
-                                                    :button-title="item === 1 && !isMobile.sm ? 'Use suggested ID' : null"
-                                                    hint="Hint text"
-                                                    tip-bottom="Tip 20/30"
-                                                    :theme-settings="{
-                                                        main: 'sm:flex-col sm:items-stretch'
-                                                    }"
-                                                    @button-click="formData.search = 'lol'"
-                                                >
-                                                    <template
-                                                        v-if="item === 2"
-                                                        #append-main
-                                                    >
-                                                        <div class="bg-white border border-surface-300 rounded-[4px] flex items-center justify-between ml-3 px-3 py-2.5 w-1/2 sm:w-full sm:ml-0 sm:mt-2">
+                                                    description="description"
+                                                />
+                                                <div class="flex flex-wrap -mx-1.5 -mt-2">
+                                                    <div class="w-1/2 px-1.5 mt-2 sm:w-full">
+                                                        <TextField
+                                                            v-if="item !== 4"
+                                                            v-model="formData.search"
+                                                            placeholder="ID to buy"
+                                                            :is-bold="true"
+                                                            view="floating-placeholder"
+                                                            :description="item !==1 ? 'description' : null"
+                                                            :button-title="item === 1 && !isMobile.sm ? 'Use suggested ID' : null"
+                                                            :theme-settings="{
+                                                            main: 'sm:flex-col sm:items-stretch'
+                                                        }"
+                                                            @button-click="formData.search = 'lol'"
+                                                        />
+                                                    </div>
+                                                    <div class="w-1/2 px-1.5 mt-2 sm:w-full">
+                                                        <div
+                                                            v-if="item === 2"
+                                                            class="bg-white border border-surface-300 rounded-[4px] flex items-center justify-between px-3 py-2.5 sm:w-full sm:ml-0"
+                                                        >
                                                             <div class="bg-surface-200 rounded-[4px] text-gray-300 w-8 h-8 flex items-center justify-center cursor-pointer">
                                                                 <BaseIcon
                                                                     name="minus"
@@ -247,8 +252,8 @@
                                                                 />
                                                             </div>
                                                         </div>
-                                                    </template>
-                                                </TextField>
+                                                    </div>
+                                                </div>
                                                 <ShowMoreButton
                                                     v-if="item !== 4"
                                                     class="mt-4 h-[30px]"
@@ -413,12 +418,11 @@ import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import ShowMoreButton from '@/components/ShowMoreButton/ShowMoreButton.vue';
 import BaseCollapse from '@/components/BaseCollapse/BaseCollapse.vue';
+import BlockInfo from '@/components/BlockInfo/BlockInfo.vue';
 import useIsMobile from '@/composables/useIsMobile';
 import useError from '@/composables/useError';
 import { currenyItems } from '@/models/currency';
 import { Statuses } from '@/models/statuses';
-
-useError(404);
 
 enum TagStatuses {
     Proposals,

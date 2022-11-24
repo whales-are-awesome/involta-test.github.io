@@ -4,14 +4,17 @@ interface IDaoItemsParams {
     statusId: number | string
 }
 
-interface IDaoResponse {
+interface IDao {
+    name: string
+    description: string
+    address: string
     governance: string
 }
 
-interface IDaoItemResponse extends Pick<IDaoResponse, 'governance'> {
+interface IDaoItem extends Pick<IDao, 'governance'> {
 }
 
-interface INormalizedDaoItem extends Pick<IDaoResponse, 'governance'> {
+interface INormalizedDaoItem extends Pick<IDao, 'governance'> {
 }
 
 interface IProposalItemsParams {
@@ -20,23 +23,23 @@ interface IProposalItemsParams {
     statusId: number | string
 }
 
-interface IProposalResponse {
+interface IProposal {
     governance: string
 }
 
-interface IProposalItemResponse extends Pick<IDaoResponse, 'governance'> {
+interface IProposalItem extends Pick<IDao, 'governance'> {
 }
 
-interface INormalizedProposalItem extends Pick<IDaoResponse, 'governance'> {
+interface INormalizedProposalItem extends Pick<IDao, 'governance'> {
 }
 
 export {
     IDaoItemsParams,
-    IDaoItemResponse,
+    IDaoItem,
     INormalizedDaoItem,
-    IDaoResponse,
+    IDao,
     IProposalItemsParams,
-    IProposalResponse,
-    IProposalItemResponse,
+    IProposal,
+    IProposalItem,
     INormalizedProposalItem
 }

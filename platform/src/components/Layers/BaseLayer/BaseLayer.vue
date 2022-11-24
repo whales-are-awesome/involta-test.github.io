@@ -35,7 +35,7 @@ interface IProps {
 }
 
 interface IThemeProps extends Pick<IProps, 'position'> {
-    themeSettings?: any
+    themeSettings?: ThemeSettings<'container'>
 }
 
 /* META */

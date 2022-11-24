@@ -50,7 +50,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         'flex items-center'
     ],
     image: ({ hasContent, size, rounded, themeSettings }) => [themeSettings?.image,
-        'object-cover w-full h-full',
+        'object-cover w-full h-full transition-fast',
         {
             'w-[16px] h-[16px]': size === 'tiny',
             'w-[20px] h-[20px]': size === 'xxs',
@@ -66,7 +66,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'rounded-[10px]': rounded === 'md',
             'rounded-[16px]': rounded === 'lg',
             'rounded-[20px]': rounded === 'xl',
-            'rounded-full': rounded === 'full',
+            'rounded-[100%]': rounded === 'full',
 
             'mr-2': hasContent
         }

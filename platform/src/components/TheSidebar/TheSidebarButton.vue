@@ -18,6 +18,7 @@
                 :class="classes.image"
                 :src="image"
                 size="md"
+                :rounded="active ? 'sm' : 'full'"
                 alt="OuterCircle"
             />
             <slot></slot>
@@ -34,6 +35,7 @@ import {  } from './types';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import makeClasses from '@/helpers/makeClasses';
+import ThemeSettings from '@/models/themeSettings';
 
 /* INTERFACES */
 
@@ -43,7 +45,7 @@ interface IProps {
     iconHeight?: string | number
     active: boolean
     image?: string
-    themeSettings?: any
+    themeSettings?: ThemeSettings<'root'>
 }
 
 interface IEmits {
@@ -64,34 +66,30 @@ const emit = defineEmits<IEmits>();
 /* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings, isHovered, isActive }) => {
-        return [themeSettings?.root, [
-          `
+    root: ({ themeSettings, isHovered, isActive }) => [themeSettings?.root,
+        `
             relative flex justify-center
             before:absolute before:w-[12px] before:h-[12px] before:bg-300 before:top-1/2 before:-translate-y-1/2
             before:left-0 before:rounded-[3px] before:-translate-x-full hover:before:left-[3px] before:transition-fast
           `,
-            {
-                'before:!delay-0': !isHovered,
-                'before:!delay-200': isHovered,
-                'before:!h-full before:!left-[3px]': isActive
-            }
-        ]];
-    },
-    inner: ({ themeSettings, isHovered, isActive, hasImage }) => {
-        return [themeSettings?.inner, [
-            `w-[36px] h-[36px] text-[#7A78F3] relative flex items-center justify-center z-1 cursor-pointer
+        {
+            'before:!delay-0': !isHovered,
+            'before:!delay-200': isHovered,
+            'before:!h-full before:!left-[3px]': isActive
+        }
+    ],
+    inner: ({ isHovered, isActive, hasImage }) => [
+        `w-[36px] h-[36px] text-[#7A78F3] relative flex items-center justify-center z-1 cursor-pointer
             `,
-            {
-                'after:block after:inset-0 after:-z-1 after:bg-gray-200 after:rounded-[10px] after:absolute after:transition-fast after:scale-0 hover:after:scale-[1] bg-white rounded-[10px]': !hasImage,
-                'rounded-full': hasImage,
-                'after:!delay-200': !isHovered,
-                'after:!delay-0': isHovered,
+        {
+            'after:block after:inset-0 after:-z-1 after:bg-gray-200 after:rounded-[10px] after:absolute after:transition-fast after:scale-0 hover:after:scale-[1] bg-white rounded-[10px]': !hasImage,
+            'rounded-full': hasImage,
+            'after:!delay-200': !isHovered,
+            'after:!delay-0': isHovered,
 
-                '!text-white after:!bg-[#7A78F3] after:!scale-[1]': isActive
-            }
-        ]];
-    },
+            '!text-white after:!bg-[#7A78F3] after:!scale-[1]': isActive
+        }
+    ]
 }));
 
 /* DATA */

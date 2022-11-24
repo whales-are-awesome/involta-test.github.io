@@ -37,7 +37,7 @@
                         >
                             <div
                                 :class="classes.subDaoItemMain"
-                                @click="router.push({ name : 'dao-id-subdao', params: { id: 2, subdao: 3 } })"
+                                @click="router.push({ name : 'net-dao-id-subdao', params: { id: 2, subdao: 3, net: 'goerly' } })"
                             >
                                 <p :class="classes.subDaoItemTitle">
                                     {{ item.name }}
@@ -63,7 +63,7 @@
                                     v-for="(subDao, subDaoIndex) in item.items"
                                     :key="subDaoIndex"
                                     :class="classes.subDaoItemSublistItem"
-                                    @click.stop="router.push({ name : 'dao-id-subdao', params: { id: 2, subdao: 3 } })"
+                                    @click.stop="router.push({ name : 'net-dao-id-subdao', params: { id: 2, subdao: 3, net: 'goerly' } })"
                                 >
                                     {{ subDao.name }}
                                 </div>

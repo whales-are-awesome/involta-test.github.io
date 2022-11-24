@@ -120,5 +120,5 @@ const breadcrumbs = [
     { title: 'Sub__1.2' }
 ]
 
-const isSubdao = computed<boolean>(() => route.name === 'dao-id-subdao');
+const isSubdao = computed<boolean>(() => route.name === 'net-dao-id-subdao');
 </script>

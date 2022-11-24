@@ -1,7 +1,7 @@
 import { computed } from 'vue';
 import { store } from '@/store';
 
-interface IResponse {
+interface I {
     xl: boolean
     lg: boolean
     md: boolean
@@ -15,7 +15,7 @@ function useIsMobile() {
         init();
     }
 
-    return computed<IResponse>(() => {
+    return computed<I>(() => {
         const width = store.state.isMobile.width;
 
         return {

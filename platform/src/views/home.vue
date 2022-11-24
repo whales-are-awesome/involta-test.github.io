@@ -57,7 +57,12 @@
                 />
             </template>
             <div v-else-if="proposalItems.pending" class="-preloader -preloader_placeholder"></div>
-            <div v-else>Не найдено</div>
+            <NotFound
+                v-else
+                class="!mt-[88px]"
+                title="No Proposals found"
+                text="We couldn't find any proposals matching your query. Try another query"
+            />
         </div>
         <div v-if="tagList.value === TagStatuses.DAOs">
             <div
@@ -78,7 +83,12 @@
                 </div>
             </div>
             <div v-else-if="daoItems.pending" class="-preloader -preloader_placeholder"></div>
-            <div v-else>Не найдено</div>
+            <NotFound
+                v-else
+                class="!mt-[88px]"
+                title="No Daos found"
+                text="We couldn't find any Daos matching your query. Try another query"
+            />
             <BaseButton
                 class="w-full mt-8"
                 view="outlined"
@@ -100,6 +110,7 @@
                         name="DAO Name"
                         supported-by="232 OC"
                         backed-by="100 OC"
+                        category="category"
                     />
                 </div>
             </div>
@@ -124,6 +135,7 @@ import BaseCard from '@/components/BaseCard/BaseCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
+import NotFound from '@/components/NotFound/NotFound.vue';
 
 import { Statuses } from '@/models/statuses';
 import useDaoItems from '@/composables/views/home/useDaoItems';
@@ -161,7 +173,15 @@ const tagList = ref({
 const formData = ref({
     voteId: formInfo.voteOptions[0].id,
     statusId: Statuses.Active,
-    search: ''
+    search: '',
+    limits: {
+        proposals: 1,
+        daos: 1
+    },
+    offsets: {
+        proposals: 0,
+        daos: 0
+    }
 });
 
 const proposalItems = useProposalItems(formData);

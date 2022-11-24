@@ -34,7 +34,7 @@ import TheDaoSidebar from '@/components/TheDaoSidebar/TheDaoSidebar.vue';
 import emitter from '@/plugins/mitt';
 
 const route = useRoute();
-const showDaoSidebar = computed(() => ['dao-id', 'dao-id-subdao', 'proposal-id'].includes(route.name))
+const showDaoSidebar = computed(() => ['net-dao-id', 'net-dao-id-subdao', 'proposal-id'].includes(route.name))
 const daoSidebar = ref(null);
 let el: HTMLElement  = document.createElement('div');
 
@@ -53,13 +53,13 @@ onUnmounted(() => {
 });
 
 function addCrop() {
-    if (route.name === 'dao-id') {
+    if (route.name === 'net-dao-id') {
         el.classList.add('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
     }
 }
 
 function removeCrop() {
-    if (route.name === 'dao-id') {
+    if (route.name === 'net-dao-id') {
         el.classList.remove('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
     }
 }

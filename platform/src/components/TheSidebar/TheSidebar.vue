@@ -29,9 +29,9 @@
                     <div class="-translate-x-2">UI</div>
                 </TheSidebarButton>
                 <TheSidebarButton
-                    :image="require('@/assets/images/common/logo.png')"
-                    :active="route.name === 'dao-id'"
-                    @click="$router.push({ name: 'dao-id', params: { id: 2 } })"
+                    :image="require('@/assets/images/common/placeholder.jpeg')"
+                    :active="route.name === 'net-dao-id'"
+                    @click="$router.push({ name: 'net-dao-id', params: { id: 2, net: 'goerly' } })"
                 />
             </div>
         </div>

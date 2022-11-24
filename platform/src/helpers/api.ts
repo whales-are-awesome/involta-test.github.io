@@ -4,9 +4,9 @@ import { Eth } from 'web3-eth/types';
 import { Utils } from 'web3-utils/types';
 import DaoFactoryJSON from '@/abi/DaoFactory.json';
 import axios, { Canceler } from '@/plugins/axios';
+import router from '@/router';
+import { FetchResult, SendResult } from '@/models/api'
 
-type FetchResult<T> = Promise<[T|null, Error|null, Canceler]>;
-type SendResult<T> = Promise<[T|null, Error|null, Canceler?]>;
 type ConctactNames = 'daoFactory';
 
 interface fetchDataProps {
@@ -69,15 +69,10 @@ class API extends Web3 {
             });
 
             //@ts-ignore
-            return [data, null, cancel];
+            return [data.data, null, cancel];
         } catch (e) {
             return [null, e as Error, () => {}];
         }
     }
 }
 export default API;
-
-export {
-    FetchResult,
-    SendResult
-}
