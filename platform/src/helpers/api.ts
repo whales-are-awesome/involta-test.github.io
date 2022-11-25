@@ -4,8 +4,10 @@ import { Eth } from 'web3-eth/types';
 import { Utils } from 'web3-utils/types';
 import DaoFactoryJSON from '@/abi/DaoFactory.json';
 import axios, { Canceler } from '@/plugins/axios';
-import router from '@/router';
 import { FetchResult, SendResult } from '@/models/api'
+import { ethers } from 'ethers'
+
+
 
 type ConctactNames = 'daoFactory';
 
@@ -18,11 +20,15 @@ interface fetchDataProps {
 
 class API extends Web3 {
     static instance: Web3Types;
+    static ethersProvider: any;
     static address = '';
+    static ens: any;
 
     static async init(protocol = window.ethereum) {
         if (!API.instance) {
             API.instance = new Web3(protocol);
+
+            API.ethersProvider = new ethers.providers.JsonRpcProvider(process.env.VUE_APP_INFURA_KEY);
         }
 
         return API.instance;

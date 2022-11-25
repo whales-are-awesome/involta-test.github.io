@@ -12,6 +12,10 @@
             content: '';
         }
     }
+
+    .-preloader.-preloader_cover {
+        @apply absolute inset-0;
+    }
     .-preloader_top {
         &::after {
             @apply top-0;
@@ -21,6 +25,10 @@
     .-preloader_placeholder {
         width: 100%;
         height: 200px;
+    }
+
+    .-preloader_placeholder.-preloader_sm {
+        @apply w-full h-6;
     }
 
     .-preloader_white {

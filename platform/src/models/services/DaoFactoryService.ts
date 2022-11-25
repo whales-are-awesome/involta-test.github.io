@@ -5,16 +5,24 @@ interface IDaoItemsParams {
 }
 
 interface IDao {
+    address: string
+    network: string
+    parentAddress: string
+    creator: string
+    block: number,
     name: string
     description: string
-    address: string
-    governance: string
+    link: string
+    image: string
 }
 
-interface IDaoItem extends Pick<IDao, 'governance'> {
+interface INormalizedDao extends IDao {
 }
 
-interface INormalizedDaoItem extends Pick<IDao, 'governance'> {
+interface IDaoItem extends IDao {
+}
+
+interface INormalizedDaoItem extends IDao {
 }
 
 interface IProposalItemsParams {
@@ -27,10 +35,10 @@ interface IProposal {
     governance: string
 }
 
-interface IProposalItem extends Pick<IDao, 'governance'> {
+interface IProposalItem extends Pick<IProposal, 'governance'> {
 }
 
-interface INormalizedProposalItem extends Pick<IDao, 'governance'> {
+interface INormalizedProposalItem extends Pick<IProposal, 'governance'> {
 }
 
 export {
@@ -41,5 +49,6 @@ export {
     IProposalItemsParams,
     IProposal,
     IProposalItem,
-    INormalizedProposalItem
+    INormalizedProposalItem,
+    INormalizedDao
 }

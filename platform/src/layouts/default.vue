@@ -8,7 +8,7 @@
                 ref="daoSidebar"
                 class="z-[1000] flex-shrink-0 transition-[width] duration-[0.25s] ease-[cubic-bezier(0.645, 0.045, 0.355, 1)] min-h-screen [clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)] md:hidden"
                 :class="{
-                    '!w-0 ': !showDaoSidebar
+                    '!w-0 ': !(showDaoSidebar && currentDao)
                 }"
             />
             <div class="flex-grow flex flex-col overflow-hidden sm:min-h-screen">
@@ -31,12 +31,15 @@ import TheHeader from '@/components/TheHeader/TheHeader.vue';
 import TheMarquee from '@/components/TheMarquee/TheMarquee.vue';
 import TheSidebar from '@/components/TheSidebar/TheSidebar.vue';
 import TheDaoSidebar from '@/components/TheDaoSidebar/TheDaoSidebar.vue';
-import emitter from '@/plugins/mitt';
+import { store } from '@/store';
 
 const route = useRoute();
-const showDaoSidebar = computed(() => ['net-dao-id', 'net-dao-id-subdao', 'proposal-id'].includes(route.name))
+const showDaoSidebar = computed(() => ['network-dao-address', 'network-dao-address-subdao', 'proposal-id'].includes(route.name))
 const daoSidebar = ref(null);
 let el: HTMLElement  = document.createElement('div');
+
+const currentDao = computed(() => store.state.dao.data);
+
 
 onMounted(async () => {
     await nextTick();
@@ -53,13 +56,13 @@ onUnmounted(() => {
 });
 
 function addCrop() {
-    if (route.name === 'net-dao-id') {
+    if (route.name === 'network-dao-address') {
         el.classList.add('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
     }
 }
 
 function removeCrop() {
-    if (route.name === 'net-dao-id') {
+    if (route.name === 'network-dao-address') {
         el.classList.remove('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
     }
 }

@@ -28,8 +28,8 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "ui" */ '../views/ui.vue'),
     },
     {
-        path: '/:net/dao/:id',
-        name: 'net-dao-id',
+        path: '/:network/dao/:address',
+        name: 'network-dao-address',
         meta: {
             title: 'DAO',
             middleware: [walletsInitMiddleware, authMiddleware]
@@ -37,8 +37,8 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/index.vue'),
     },
     {
-        path: '/:net/dao/:id/:subdao',
-        name: 'net-dao-id-subdao',
+        path: '/:network/dao/:address/:subdao',
+        name: 'network-dao-address-subdao',
         meta: {
             title: 'SubDAO',
             middleware: [walletsInitMiddleware, authMiddleware]

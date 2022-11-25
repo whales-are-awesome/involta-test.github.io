@@ -5,6 +5,7 @@ import layer, { IState as ILayerState } from './layer'
 import wallet, { IState as IWalletState } from './wallet'
 import isMobile, { IState as IIsMobileState } from './isMobile'
 import error, { IState as IErrorState } from './error'
+import dao, { IState as IDaoState } from './dao'
 
 export interface IRootState {
     breadcrumbs: IBreadcrumbsState
@@ -12,6 +13,7 @@ export interface IRootState {
     wallet: IWalletState
     isMobile: IIsMobileState
     error: IErrorState
+    dao: IDaoState
 }
 
 export const key: InjectionKey<Store<IRootState>> = Symbol();
@@ -22,7 +24,8 @@ export const store = createStore<IRootState>({
         layer,
         isMobile,
         wallet,
-        error
+        error,
+        dao
     }
 });
 

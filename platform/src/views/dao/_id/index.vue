@@ -1,11 +1,13 @@
 <template>
     <DaoPageHeader
+        v-if="pageData"
         class="mb-[33px]"
-        name="DAO Name"
+        :name="pageData?.name"
         :breadcrumbs="isSubdao ? breadcrumbs : null"
-        description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis disap"
+        :description="pageData?.description"
     />
-    <div>
+    <div v-else class="-preloader -preloader_placeholder"></div>
+    <div v-if="pageData">
         <TagsList
             v-model="tagList.value"
             class="pt-[10px] mb-8 pl-[20px]"
@@ -14,17 +16,28 @@
         />
         <div class="p-4 bg-surface-200 rounded-[10px]">
             <div class="flex justify-between mb-[30px]">
-                <div class="flex space-x-4 ">
+                <div
+                    v-if="[TagStatuses.Proposals, TagStatuses.DAOs].includes(tagList.value)"
+                    class="flex space-x-4"
+                >
+                    <template v-if="tagList.value === TagStatuses.Proposals">
+                        <SelectField
+                            v-model="formData.statusId"
+                            :options="formInfo.statusesOptions"
+                        />
+                        <SelectField
+                            v-model="formData.voteId"
+                            :options="formInfo.voteOptions"
+                        />
+                    </template>
                     <SelectField
-                        v-model="formData.statusId"
-                        :options="formInfo.statusesOptions"
-                    />
-                    <SelectField
-                        v-model="formData.voteId"
-                        :options="formInfo.voteOptions"
+                        v-if="tagList.value === TagStatuses.DAOs"
+                        v-model="formData.categoryId"
+                        :options="formInfo.categoryOptions"
                     />
                 </div>
                 <BaseButton
+                    v-if="tagList.value === TagStatuses.Proposals"
                     view="outlined"
                     :icon="{
                             name: 'plus',
@@ -41,30 +54,102 @@
             </div>
             <template v-if="tagList.value === TagStatuses.Proposals">
                 <TextSeparator class="mb-[10px]">
-                    3 active proposals
+                    {{ proposalItems.data?.length }} active proposals
                 </TextSeparator>
                 <div class="space-y-[18px]">
-                    <BaseCard
-                        v-for="item in 1"
-                        :key="item"
-                        :avatar="require('@/assets/images/common/placeholder.jpeg')"
-                        name="DAO Name"
-                        label-title="Active"
-                        title="Proposal Name"
-                        votes="14"
-                        :breadcrumbs-hash="false"
-                        :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpeg') } ]"
-                        text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"
-                        :end-date="new Date((new Date).setHours(23))"
+                    <template v-if="proposalItems.data?.length">
+                        <BaseCard
+                            v-for="item in 3"
+                            :key="item"
+                            :avatar="require('@/assets/images/common/placeholder.jpeg')"
+                            name="DAO Name"
+                            label-title="Active"
+                            title="Proposal Name"
+                            :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpeg') } ]"
+                            text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"
+                            :end-date="new Date((new Date).setHours(23))"
+                        />
+                    </template>
+                    <div v-else-if="proposalItems.pending" class="-preloader -preloader_placeholder"></div>
+                    <NotFound
+                        v-else
+                        class="!my-[88px]"
+                        title="No Proposals found"
+                        text="We couldn't find any proposals matching your query. Try another query"
                     />
                 </div>
             </template>
+            <div v-if="tagList.value === TagStatuses.DAOs">
+                <div
+                    v-if="daoItemsFiltered.length"
+                    class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
+                    :class="{
+                        '-preloader': daoItems.pending
+                    }"
+                >
+                    <div
+                        class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
+                        v-for="item in daoItemsFiltered"
+                        :key="item"
+                    >
+                        <DaoCard
+                            :avatar="item.image"
+                            :name="item.name"
+                            supported-by="232 OC"
+                            backed-by="100 OC"
+                        />
+                    </div>
+                </div>
+                <div v-else-if="daoItems.pending" class="-preloader -preloader_placeholder"></div>
+                <NotFound
+                    v-else
+                    class="!mt-[88px]"
+                    title="No Daos found"
+                    text="We couldn't find any Daos matching your query. Try another query"
+                />
+                <BaseButton
+                    v-if="daoItems.data?.total !== daoItemsFiltered?.length"
+                    class="w-full mt-8"
+                    view="outlined"
+                    size="sm"
+                    rounded="lg"
+                    @click="formData.offsets.daos += 1"
+                >
+                    Show more DAOs
+                </BaseButton>
+            </div>
+            <div v-if="tagList.value === TagStatuses.APPs">
+                <div class="flex flex-wrap -mx-3 -mt-6 mb-8">
+                    <div
+                        class="w-1/4 px-3 mt-6 md:w-1/3"
+                        v-for="item in 12"
+                        :key="item"
+                    >
+                        <DaoCard
+                            :avatar="require('@/assets/images/common/placeholder.jpeg')"
+                            name="DAO Name"
+                            supported-by="232 OC"
+                            backed-by="100 OC"
+                            category="category"
+                        />
+                    </div>
+                </div>
+                <BaseButton
+                    class="w-full"
+                    view="outlined"
+                    size="sm"
+                    rounded="lg"
+                >
+                    Show more DAOs
+                </BaseButton>
+            </div>
         </div>
     </div>
+    <div v-else class="-preloader -preloader_placeholder"></div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import TagsList from '@/components/TagsList/TagsList.vue';
 import BaseCard from '@/components/BaseCard/BaseCard.vue';
@@ -72,9 +157,15 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
+import NotFound from '@/components/NotFound/NotFound.vue';
+import DaoCard from '@/components/DaoCard/DaoCard.vue';
 import useLayer from '@/composables/useLayer';
+import useDao from '@/composables/useDao';
+import useError from '@/composables/useError';
 
 import { Statuses } from '@/models/statuses';
+import useProposalItems from '@/composables/views/home/useProposalItems';
+import useDaoItems from '@/composables/useDaoItems';
 
 enum TagStatuses {
     Proposals,
@@ -96,12 +187,6 @@ const tagList = ref({
     value: TagStatuses.Proposals
 })
 
-const formData = ref({
-    voteId: 0,
-    statusId: Statuses.Active,
-    search: ''
-});
-
 const formInfo = {
     voteOptions: [
         { id: 0, title: 'Need my vote' },
@@ -111,6 +196,11 @@ const formInfo = {
         { id: Statuses.Active, title: Statuses[Statuses.Active] },
         { id: Statuses.Stopped, title: Statuses[Statuses.Stopped] },
         { id: Statuses.Closed, title: Statuses[Statuses.Closed] },
+    ],
+    categoryOptions: [
+        { id: 0, title: 'All categories' },
+        { id: 1, title: 'Category 1' },
+        { id: 2, title: 'Category d' }
     ]
 };
 
@@ -120,5 +210,34 @@ const breadcrumbs = [
     { title: 'Sub__1.2' }
 ]
 
-const isSubdao = computed<boolean>(() => route.name === 'net-dao-id-subdao');
+const formData = ref({
+    voteId: formInfo.voteOptions[0].id,
+    statusId: Statuses.Active,
+    search: '',
+    categoryId: formInfo.categoryOptions[0].id,
+    limits: {
+        proposals: 1,
+        daos: 1,
+        apps: 1
+    },
+    offsets: {
+        proposals: 0,
+        daos: 0,
+        apps: 0
+    }
+});
+
+const isSubdao = computed<boolean>(() => route.name === 'net-dao-address-subdao');
+
+const page = useDao(route.params.address as string);
+const proposalItems = useProposalItems(formData);
+const daoItems = useDaoItems(formData);
+
+watchEffect(() => {
+    page.value.error && useError(404)
+});
+const pageData = computed(() => page.value.data);
+const daoItemsFiltered = computed(() => {
+    return daoItems.value.data?.items;
+});
 </script>

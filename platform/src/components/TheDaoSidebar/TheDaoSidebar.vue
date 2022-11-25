@@ -4,21 +4,25 @@
         :class="classes.root"
     >
         <div :class="classes.inner">
-            <div :class="classes.top">
+            <div v-if="currentDao.pending" class="-preloader -preloader_cover"></div>
+            <div
+                v-if="!currentDao.pending"
+                :class="classes.top"
+            >
                 <div :class="classes.topInner">
                     <BaseImage
                         :class="classes.logo"
-                        :src="require('@/assets/images/common/placeholder.jpeg')"
+                        :src="currentDao.data?.image"
                         alt="OuterCircle"
                     />
                     <div :class="classes.topInfo">
                         <div :class="classes.name">
-                            DAO Name
+                            {{ currentDao.data?.name }}
                         </div>
                     </div>
                 </div>
             </div>
-            <template v-if="true">
+            <template v-if="!currentDao.pending">
                 <TextSeparator :class="classes.subDaoTitle">
                     subDaoS
                 </TextSeparator>
@@ -37,7 +41,7 @@
                         >
                             <div
                                 :class="classes.subDaoItemMain"
-                                @click="router.push({ name : 'net-dao-id-subdao', params: { id: 2, subdao: 3, net: 'goerly' } })"
+                                @click="router.push({ name : 'network-dao-address-subdao', params: { id: 2, subdao: 3, network: 'goerly' } })"
                             >
                                 <p :class="classes.subDaoItemTitle">
                                     {{ item.name }}
@@ -63,7 +67,7 @@
                                     v-for="(subDao, subDaoIndex) in item.items"
                                     :key="subDaoIndex"
                                     :class="classes.subDaoItemSublistItem"
-                                    @click.stop="router.push({ name : 'net-dao-id-subdao', params: { id: 2, subdao: 3, net: 'goerly' } })"
+                                    @click.stop="router.push({ name : 'network-dao-address-subdao', params: { id: 2, subdao: 3, network: 'goerly' } })"
                                 >
                                     {{ subDao.name }}
                                 </div>
@@ -94,6 +98,7 @@ import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import { IItem, INormalizedItem } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import useLayer from '@//composables/useLayer';
+import { store } from '@/store';
 
 /* INTERFACES */
 
@@ -155,6 +160,8 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 
     });
 });
+
+const currentDao = computed(() => store.state.dao);
 
 /* WATCH */
 /* METHODS */

@@ -28,11 +28,16 @@
                 >
                     <div class="-translate-x-2">UI</div>
                 </TheSidebarButton>
-                <TheSidebarButton
-                    :image="require('@/assets/images/common/placeholder.jpeg')"
-                    :active="route.name === 'net-dao-id'"
-                    @click="$router.push({ name: 'net-dao-id', params: { id: 2, net: 'goerly' } })"
-                />
+                <div v-if="daoItems.pending" class="-preloader -preloader_sm -preloader_placeholder z-10"></div>
+                <template v-else>
+                    <TheSidebarButton
+                        v-for="item in daoItems.data?.items"
+                        :key="item.address"
+                        :image="item.image"
+                        :active="route.name === 'network-dao-address' && route.params.address === item.address && route.params.network === item.network"
+                        @click="$router.push({ name: 'network-dao-address', params: { address: item.address, network: item.network } })"
+                    />
+                </template>
             </div>
         </div>
     </div>
@@ -48,6 +53,7 @@ import TheSidebarButton from './TheSidebarButton.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useLayer from '@//composables/useLayer';
 import { IProps } from '@/components/BlockInfo/BlockInfo.vue';
+import useDaoItems from '@/composables/useDaoItems';
 
 /* META */
 
@@ -71,8 +77,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     }),
     menuItems: 'space-y-5'
 }));
+const daoItems = useDaoItems({});
 
 /* DATA */
+
 /* COMPUTED */
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

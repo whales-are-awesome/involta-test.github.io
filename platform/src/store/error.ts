@@ -1,6 +1,4 @@
-import { markRaw  } from 'vue';
-import { GetterTree, MutationTree, ActionTree  } from 'vuex';
-import { Component } from '@vue/runtime-core';
+import { MutationTree, ActionTree  } from 'vuex';
 import { IRootState } from './index';
 
 interface IState {

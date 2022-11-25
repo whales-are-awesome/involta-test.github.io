@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <ErrorPage v-show="hasError" />
-        <RouterView v-show="!hasError" />
+        <RouterView :key="$route.path" v-show="!hasError" />
         <div v-if="!$route.name" class="-preloader !absolute inset-0 -z-1"></div>
     </Layout>
 </template>

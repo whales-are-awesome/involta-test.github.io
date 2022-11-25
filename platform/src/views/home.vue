@@ -13,7 +13,7 @@
             <p class="title-h3 text-gray-800 ml-7 sm:ml-2">
                 Welcome,
                 <br>
-                dear user
+                {{ address }}
             </p>
         </BaseAvatar>
         <div class="mb-[36px] flex justify-between relative sm:mb-[45px]">
@@ -66,17 +66,20 @@
         </div>
         <div v-if="tagList.value === TagStatuses.DAOs">
             <div
-                v-if="daoItems.data?.length"
+                v-if="daoItemsFiltered.length"
                 class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
+                :class="{
+                    '-preloader': daoItems.pending
+                }"
             >
                 <div
                     class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
-                    v-for="item in 12"
+                    v-for="item in daoItemsFiltered"
                     :key="item"
                 >
                     <DaoCard
-                        :avatar="require('@/assets/images/common/placeholder.jpeg')"
-                        name="DAO Name"
+                        :avatar="item.image"
+                        :name="item.name"
                         supported-by="232 OC"
                         backed-by="100 OC"
                     />
@@ -90,10 +93,12 @@
                 text="We couldn't find any Daos matching your query. Try another query"
             />
             <BaseButton
+                v-if="daoItems.data?.total !== daoItemsFiltered?.length"
                 class="w-full mt-8"
                 view="outlined"
                 size="sm"
                 rounded="lg"
+                @click="formData.offsets.daos += 1"
             >
                 Show more DAOs
             </BaseButton>
@@ -127,7 +132,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
 import DaoCard from '@/components/DaoCard/DaoCard.vue';
@@ -136,9 +141,10 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import NotFound from '@/components/NotFound/NotFound.vue';
+import { store } from '@/store';
 
 import { Statuses } from '@/models/statuses';
-import useDaoItems from '@/composables/views/home/useDaoItems';
+import useDaoItems from '@/composables/useDaoItems';
 import useProposalItems from '@/composables/views/home/useProposalItems';
 
 enum TagStatuses {
@@ -186,4 +192,10 @@ const formData = ref({
 
 const proposalItems = useProposalItems(formData);
 const daoItems = useDaoItems(formData);
+
+const daoItemsFiltered = computed(() => {
+    return daoItems.value.data?.items;
+});
+
+const address = computed(() => store.getters['wallet/addressOrName']);
 </script>

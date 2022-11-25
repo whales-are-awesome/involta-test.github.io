@@ -1,21 +1,21 @@
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { computed, watch } from 'vue';
 import DaoFactoryService from '@/services/DaoFactoryService';
-import { IDaoItem } from '@/models/services/DaoFactoryService';
+import { IProposalItem } from '@/models/services/DaoFactoryService';
 
 function useProposalItems(formData: any) {
-    const items = useFetchDataWithTotal<IDaoItem>();
+    const items = useFetchDataWithTotal<IProposalItem>();
     const formResult = computed(() => ({
         search: formData.value.search,
         voteId: formData.value.voteId,
         statusId: formData.value.statusId,
         limit: formData.value.limits.proposals,
-        offset: formData.value.offsets.proposals,
+        offset: formData.value.offsets.proposals
     }));
 
     fetchItems();
     watch(formResult, fetchItems);
-    async function fetchItems() {
+    async function fetchItems(val?: any, prevVal?: any) {
         items.value.pending = true;
         items.value.cancel();
 

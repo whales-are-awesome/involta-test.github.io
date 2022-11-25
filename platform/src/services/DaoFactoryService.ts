@@ -6,6 +6,7 @@ import {
     IDaoItemsParams,
     IDaoItem,
     IDao,
+    INormalizedDao,
     INormalizedDaoItem,
     IProposalItemsParams,
     IProposal,
@@ -13,6 +14,7 @@ import {
     INormalizedProposalItem
 } from '@/models/services/DaoFactoryService';
 import { IResponseWithTotal } from '@/models/api';
+import router from '@/router'
 
 
 export default class DaoFactoryService {
@@ -86,8 +88,8 @@ export default class DaoFactoryService {
         return [result, null];
     }
 
-    static async fetchDao(id: number | string) {
-        return API.get<IDao>(`/dao/${ id }`);
+    static async fetchDao(address: string) {
+        return API.get<IDao>('/' + router.currentRoute.value.params.network + `/dao/${ address }`);
     }
 
     static async fetchDaoItems(params?: IDaoItemsParams) {
@@ -102,11 +104,21 @@ export default class DaoFactoryService {
         return API.get<IResponseWithTotal<IProposalItem>>('/proposal', params);
     }
 
+    static async fetchDaoAsDefault(address: string): FetchResult<ReturnType<typeof normalizeDaoAsDefault>> {
+        const [data, ...rest] = await DaoFactoryService.fetchDao(address);
+
+        if (!data) {
+            return [data, ...rest];
+        }
+
+        return [normalizeDaoAsDefault(data), ...rest];
+    }
+
     static async fetchDaoItemsAsTable(params?: IDaoItemsParams): FetchResult<ReturnType<typeof normalizeDaoItemsAsTable>> {
         const [data, ...rest] = await DaoFactoryService.fetchDaoItems(params);
 
         if (!data) {
-            return [null, ...rest];
+            return [data, ...rest];
         }
 
         return [normalizeDaoItemsAsTable(data), ...rest];
@@ -115,12 +127,18 @@ export default class DaoFactoryService {
     static async fetchProposalItemsAsTable(params?: IProposalItemsParams): FetchResult<ReturnType<typeof normalizeProposalItemsAsTable>> {
         const [data, ...rest] = await DaoFactoryService.fetchProposalItems(params);
 
-        if (!data) {
+        if (!data || !data.items) {
             return [data, ...rest];
         }
 
         return [normalizeProposalItemsAsTable(data), ...rest];
     }
+}
+
+function normalizeDaoAsDefault(data: IDao): INormalizedDao {
+    return {
+        ...data
+    };
 }
 
 function normalizeDaoItemsAsTable(data: IResponseWithTotal<IDaoItem>): IResponseWithTotal<INormalizedDaoItem> {
@@ -129,7 +147,7 @@ function normalizeDaoItemsAsTable(data: IResponseWithTotal<IDaoItem>): IResponse
         items: data.items.map(item => ({
             ...item
         }))
-    }
+    };
 }
 
 function normalizeProposalItemsAsTable(data: IResponseWithTotal<IProposalItem>): IResponseWithTotal<INormalizedProposalItem> {
@@ -138,5 +156,5 @@ function normalizeProposalItemsAsTable(data: IResponseWithTotal<IProposalItem>):
         items: data.items.map(item => ({
             ...item
         }))
-    }
+    };
 }

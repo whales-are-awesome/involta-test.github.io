@@ -72,12 +72,12 @@ onMounted(async () => {
 
 <style>
 .v-lazy-image {
-    filter: blur(4px);
-    transition: filter 0.4s;
-    will-change: filter;
+    opacity: 0.2;
+    transition: opacity 0.4s;
+    will-change: opacity;
 }
 
 .v-lazy-image-loaded {
-    filter: blur(0);
+    opacity: 1;
 }
 </style>
