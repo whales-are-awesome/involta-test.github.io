@@ -45,8 +45,8 @@ const actions: ActionTree<IState, IRootState> = {
     setWallet({ commit }, payload: IState['wallet']) {
         commit('setWallet', payload);
     },
-    async fetchAndSetEnsName({ commit }) {
-        const addressName = await API.ethersProvider.lookupAddress('0x44761ef63fad902d8f8dc77e559ab116929881db');
+    async fetchAndSetEnsName({ commit, state }) {
+        const addressName = await API.ethersProvider.lookupAddress(state.address);
 
         commit('setAddressEnsName', addressName);
     }

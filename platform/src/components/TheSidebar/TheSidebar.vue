@@ -12,13 +12,13 @@
             <div :class="classes.menuItems">
                 <TheSidebarButton
                     icon="home"
-                    icon-width="17"
+                    :icon-width="isMobile.sm ? 13 : 17"
                     :active="route.name === 'home'"
                     @click="$router.push({ name: 'home' })"
                 />
                 <TheSidebarButton
                     icon="plus"
-                    icon-width="17"
+                    :icon-width="isMobile.sm ? 13 : 17"
                     :active="isCreateDaoOpened"
                     @click="layer.open('CreateDaoLayer')"
                 />
@@ -54,6 +54,7 @@ import makeClasses from '@/helpers/makeClasses';
 import useLayer from '@//composables/useLayer';
 import { IProps } from '@/components/BlockInfo/BlockInfo.vue';
 import useDaoItems from '@/composables/useDaoItems';
+import useIsMobile from '@/composables/useIsMobile';
 
 /* META */
 
@@ -62,20 +63,21 @@ const route = useRoute();
 /* VARS AND CUSTOM HOOKS */
 
 const layer = useLayer();
+const isMobile = useIsMobile();
 
 interface IThemeProps {
     isHome: boolean
 }
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: 'w-[72px]',
-    inner: 'w-[72px] h-screen bg-surface-300 py-2 fixed top-0 left-0',
-    logoWrapper: `w-11 mx-auto pb-[18px] mb-[18px] relative
+    root: 'w-[72px] sm:w-[44px]',
+    inner: 'w-[72px] h-screen bg-surface-300 py-2 fixed top-0 left-0 sm:w-full sm:static',
+    logoWrapper: `w-11 mx-auto pb-[18px] mb-[18px] relative sm:hidden
                   after:border-b-2 after:border-gray-200 after:top-full after:left-1/2 after:-translate-x-1/2 after:w-[28px] after:h-[2px] after:bg-gray-300 after:block after:absolute`,
     logo: ({ isHome }) => ({
         'cursor-pointer': !isHome
     }),
-    menuItems: 'space-y-5'
+    menuItems: 'space-y-5 sm:space-y-4'
 }));
 const daoItems = useDaoItems({});
 

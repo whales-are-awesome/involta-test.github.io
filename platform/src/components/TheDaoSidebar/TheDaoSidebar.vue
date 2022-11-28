@@ -9,7 +9,10 @@
                 v-if="!currentDao.pending"
                 :class="classes.top"
             >
-                <div :class="classes.topInner">
+                <TextSeparator :class="classes.topTextSeparator">
+                    DAO WAY
+                </TextSeparator>
+                <div :class="classes.topMain">
                     <BaseImage
                         :class="classes.logo"
                         :src="currentDao.data?.image"
@@ -133,14 +136,15 @@ let subDao = ref(normalizeItems([
 ]));
 
 const useClasses = makeClasses(() => ({
-    root: 'w-[224px]',
-    inner: 'w-[224px] h-screen bg-surface-200 pb-2 fixed top-0 left-[72px]',
-    top: 'w-full mx-auto mb-6 bg-black',
-    topInner: 'pb-[100%] relative',
+    root: 'w-[224px] sm:w-[220px] sm:flex sm:justify-center sm:overflow-hidden',
+    inner: 'w-[224px] h-screen bg-surface-200 pb-2 fixed top-0 left-[72px] sm:w-full sm:rounded-[12px] sm:bg-surface-200 sm:py-2.5 sm:static sm:mt-2 sm:mx-2',
+    top: 'w-full mx-auto mb-6 sm:px-3',
+    topMain: 'pb-[100%] relative bg-black overflow-hidden sm:rounded-[4px]',
+    topTextSeparator: 'mb-[22px] ml-2.5 hidden sm:flex sm:text-xxs',
     logo: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 z-0 opacity-70',
     topInfo: 'absolute left-0 bottom-0 px-2 pb-[10px] w-full flex justify-between items-center',
     name: 'text-surface-100 text-white font-semibold text-lg',
-    subDaoTitle: 'mb-[13px] mt-9',
+    subDaoTitle: 'mb-[13px] mt-9 sm:text-xxs',
     subDaoItems: 'mb-[20px]',
     subDaoItem: 'pl-2 pr-[11px] text-sm text-gray-500 cursor-pointer relative',
     subDaoItemInner: 'border-secondary-200 py-2',

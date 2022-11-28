@@ -1,9 +1,27 @@
-
 <template>
-    <header
-        :class="classes.root"
-    >
+    <header :class="classes.root">
         <div :class="classes.inner">
+            <div :class="classes.burgerWrapper">
+                <BaseButton
+                    :class="classes.burger"
+                    theme="surface"
+                    size=""
+                    rounded="full"
+                    :wrap-content="false"
+                    :theme-settings="{
+                        bg: '!bg-surface-300',
+                        container: 'space-y-0.5 flex-col'
+                    }"
+                    @click="emit('burger-click')"
+                >
+                    <span
+                        v-for="item in 3"
+                        :key="item"
+                        :class="classes.burgerRow"
+                    >
+                    </span>
+                </BaseButton>
+            </div>
             <BaseImage
                 :class="classes.logo"
                 :src="require('@/assets/images/common/logo.png')"
@@ -35,26 +53,6 @@
                     </li>
                 </ul>
             </nav>
-            <div :class="classes.burgerWrapper">
-                <BaseButton
-                    :class="classes.burger"
-                    theme="surface"
-                    size=""
-                    rounded="full"
-                    :wrap-content="false"
-                    :theme-settings="{
-                        bg: '!bg-surface-300',
-                        container: 'space-y-0.5 flex-col'
-                    }"
-                >
-                    <span
-                        v-for="item in 3"
-                        :key="item"
-                        :class="classes.burgerRow"
-                    >
-                    </span>
-                </BaseButton>
-            </div>
             <BaseButton
                 v-if="address === ''"
                 size="sm"
@@ -84,7 +82,7 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed } from 'vue';
+import { computed, defineEmits } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseWallet from '@/components/BaseWallet/BaseWallet.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -97,7 +95,13 @@ import { store } from '@/store';
 interface IThemeProps {
 
 }
+
+interface IEmits {
+    (e: 'burger-click'): void
+}
 /* META */
+
+const emit = defineEmits<IEmits>();
 
 /* VARS AND CUSTOM HOOKS */
 const nav = [
@@ -110,7 +114,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     icon: 'mr-4 text-gray-500 md:hidden',
     nav: 'mr-8 md:hidden',
     navList: 'flex space-x-8 text-gray-500 text-xs',
-    burgerWrapper: 'mr-4 hidden md:flex sm:mr-2',
+    burgerWrapper: 'mr-2 hidden md:flex sm:mr-2',
     burger: 'w-[36px] h-[36px] sm:w-[24px] sm:h-[24px]',
     burgerRow: 'w-[12px] h-[2px] bg-gray-500 rounded-[4px] block -translate-y-[1px] sm:w-2 sm:h-px',
     logo: 'hidden w-[24px] sm:inline-block mr-1',

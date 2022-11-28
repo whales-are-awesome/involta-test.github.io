@@ -1,18 +1,35 @@
 <template>
     <div class="default">
-        <div class="flex">
-            <TheSidebar
-                class="flex-shrink-0 sm:hidden"
-            />
-            <TheDaoSidebar
-                ref="daoSidebar"
-                class="z-[1000] flex-shrink-0 transition-[width] duration-[0.25s] ease-[cubic-bezier(0.645, 0.045, 0.355, 1)] min-h-screen [clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)] md:hidden"
+        <div
+            class="flex"
+            @click="showMobileSidebar = !showMobileSidebar"
+        >
+            <div
+                ref="sidebar"
+                class="sm:flex sm:z-[100] sm:fixed sm:top-0 sm:left-0 sm:bg-surface-300 sm:overflow-hidden sm:transition-main sm:max-w-full"
                 :class="{
-                    '!w-0 ': !(showDaoSidebar && currentDao)
+                    'sm:!max-w-0': !showMobileSidebar
                 }"
-            />
-            <div class="flex-grow flex flex-col overflow-hidden sm:min-h-screen">
-                <TheHeader />
+                @click.stop
+            >
+                <TheSidebar
+                    class="flex-shrink-0 z-[505]"
+                />
+                <TheDaoSidebar
+                    ref="daoSidebar"
+                    class="z-[500] flex-shrink-0 transition-[width] duration-[0.25s] ease-[cubic-bezier(0.645, 0.045, 0.355, 1)] min-h-screen [clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)] sm:[clip-path:none]"
+                    :class="{
+                        '!w-0 sm:w-auto sm:-translate-x-full': !(showDaoSidebar && currentDao)
+                    }"
+                />
+            </div>
+            <div
+                class="flex-grow flex flex-col overflow-hidden sm:min-h-screen"
+                :style="`transform: translateX(${ sidebarWidth}px )`"
+            >
+                <TheHeader
+                    @click.stop="showMobileSidebar = !showMobileSidebar"
+                />
                 <TheMarquee />
                 <div class="px-8 pb-9 relative flex-grow sm:px-6">
                     <slot></slot>
@@ -32,38 +49,51 @@ import TheMarquee from '@/components/TheMarquee/TheMarquee.vue';
 import TheSidebar from '@/components/TheSidebar/TheSidebar.vue';
 import TheDaoSidebar from '@/components/TheDaoSidebar/TheDaoSidebar.vue';
 import { store } from '@/store';
+import useIsMobile from '@/composables/useIsMobile';
 
 const route = useRoute();
-const showDaoSidebar = computed(() => ['network-dao-address', 'network-dao-address-subdao', 'proposal-id'].includes(route.name))
-const daoSidebar = ref(null);
-let el: HTMLElement  = document.createElement('div');
+const showDaoSidebar = computed(() => ['network-dao-address', 'network-dao-address-subdao', 'proposal-id'].includes(route.name?.toString()))
+const daoSidebar = ref<InstanceType<typeof TheDaoSidebar> | null>(null);
+const sidebar = ref(null);
+const showMobileSidebar = ref(false);
+const sidebarWidth = ref(0);
 
 const currentDao = computed(() => store.state.dao.data);
 
+const isMobile = useIsMobile();
 
 onMounted(async () => {
     await nextTick();
 
-    el = daoSidebar.value.root;
-
-    el.addEventListener('transitionstart', addCrop);
-    el.addEventListener('transitionend', removeCrop);
+    daoSidebar.value.root!.addEventListener('transitionstart', addCrop);
+    daoSidebar.value.root!.addEventListener('transitionend', removeCrop);
+    watchSidebarChangeOnMobile();
 });
 
 onUnmounted(() => {
-    el.removeEventListener('transitionstart', addCrop);
-    el.removeEventListener('transitionend', removeCrop);
+    daoSidebar.value.root!.removeEventListener('transitionstart', addCrop);
+    daoSidebar.value.root!.removeEventListener('transitionend', removeCrop);
 });
 
 function addCrop() {
     if (route.name === 'network-dao-address') {
-        el.classList.add('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
+        daoSidebar.value.root!.classList.add('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
     }
 }
 
 function removeCrop() {
     if (route.name === 'network-dao-address') {
-        el.classList.remove('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
+        daoSidebar.value.root!.classList.remove('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
     }
 }
+
+function watchSidebarChangeOnMobile() {
+    function outputsize() {
+        sidebarWidth.value = sidebar.value.offsetWidth;
+    }
+    outputsize()
+
+    new ResizeObserver(outputsize).observe(sidebar.value);
+}
+
 </script>
