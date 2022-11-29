@@ -19,10 +19,10 @@
             <div :class="classes.infoItem">
                 <div>
                     <div :class="classes.infoItemTop">
-                        Supported by
+                        Members
                     </div>
                     <div :class="classes.infoItemBottom">
-                        {{ supportedBy }}
+                        {{ members }}
                     </div>
                 </div>
             </div>
@@ -30,10 +30,10 @@
             <div :class="classes.infoItem">
                 <div>
                     <div :class="classes.infoItemTop">
-                        Backed by
+                        Proposals
                     </div>
                     <div :class="classes.infoItemBottom">
-                        {{ backedBy }}
+                        {{ proposals }}
                     </div>
                 </div>
             </div>
@@ -80,8 +80,8 @@ interface IProps {
     avatar: string
     name: string
     category: string
-    supportedBy: string
-    backedBy: string
+    members: string
+    proposals: string
     themeSettings?: ThemeSettings<'root'>
 }
 
@@ -101,7 +101,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         'border border-gray-100 rounded-[12px] px-8 py-6 md:py-6 md:px-5 md:px-2.5 sm:px-2'
     ],
     avatarWrapper: 'flex justify-center mb-4',
-    title: 'text-sm font-semibold text-gray-600 mb-4 text-center',
+    title: 'text-sm font-semibold text-gray-600 mb-4 text-center overflow-ellipsis overflow-hidden',
     info: 'flex justify-center mb-9 sm:mb-6',
     infoItem: 'text-center w-1/2 flex first:justify-end last:justify-start',
     infoItemTop: 'text-gray-400 text-tiny whitespace-nowrap',

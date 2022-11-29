@@ -3,7 +3,7 @@
         v-if="pageData"
         class="mb-[33px]"
         :name="pageData?.name"
-        :breadcrumbs="isSubdao ? breadcrumbs : null"
+        :breadcrumbs="isSubDao ? breadcrumbs : null"
         :description="pageData?.description"
     />
     <div v-else class="-preloader -preloader_placeholder"></div>
@@ -95,8 +95,8 @@
                         <DaoCard
                             :avatar="item.image"
                             :name="item.name"
-                            supported-by="232 OC"
-                            backed-by="100 OC"
+                            members="232"
+                            proposals="232"
                         />
                     </div>
                 </div>
@@ -128,8 +128,8 @@
                         <DaoCard
                             :avatar="require('@/assets/images/common/placeholder.jpeg')"
                             name="DAO Name"
-                            supported-by="232 OC"
-                            backed-by="100 OC"
+                            members="232"
+                            proposals="232"
                             category="category"
                         />
                     </div>
@@ -160,12 +160,12 @@ import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import NotFound from '@/components/NotFound/NotFound.vue';
 import DaoCard from '@/components/DaoCard/DaoCard.vue';
 import useLayer from '@/composables/useLayer';
-import useDao from '@/composables/useDao';
+import useDao from '@/composables/fetch/useDao';
 import useError from '@/composables/useError';
 
 import { Statuses } from '@/models/statuses';
 import useProposalItems from '@/composables/views/home/useProposalItems';
-import useDaoItems from '@/composables/useDaoItems';
+import useDaoItems from '@/composables/fetch/useDaoItems';
 
 enum TagStatuses {
     Proposals,
@@ -216,9 +216,9 @@ const formData = ref({
     search: '',
     categoryId: formInfo.categoryOptions[0].id,
     limits: {
-        proposals: 1,
-        daos: 1,
-        apps: 1
+        proposals: 20,
+        daos: 20,
+        apps: 20
     },
     offsets: {
         proposals: 0,
@@ -227,9 +227,13 @@ const formData = ref({
     }
 });
 
-const isSubdao = computed<boolean>(() => route.name === 'net-dao-address-subdao');
+const isSubDao = computed<boolean>(() => route.name === 'net-dao-address-subdao');
 
-const page = useDao(route.params.address as string);
+const page = useDao({
+    address: route.params.address as string
+}, {
+    saveInStorage: true
+});
 const proposalItems = useProposalItems(formData);
 const daoItems = useDaoItems(formData);
 

@@ -14,16 +14,38 @@ interface IDao {
     description: string
     link: string
     image: string
-}
-
-interface INormalizedDao extends IDao {
+    rootDao: string
 }
 
 interface IDaoItem extends IDao {
 }
 
-interface INormalizedDaoItem extends IDao {
+interface INormalizedDaoAsDefault extends IDao {
+    fullName: string
 }
+
+interface INormalizedDaoItemAsTable extends IDao {
+    fullName: string
+}
+
+interface ISubDaoItem {
+    address: string
+    network: string
+    parent: string
+    name: string
+    image: string
+}
+
+interface INormalizedSubDaoItemAsDefault extends ISubDaoItem {
+    fullName: string
+    isHovered: boolean
+}
+
+// interface IDaoCreateParams {
+//     _proposalExpirationTime
+//     _quorumRequired
+//     _parentRegistry
+// }
 
 interface IProposalItemsParams {
     search: string
@@ -44,11 +66,13 @@ interface INormalizedProposalItem extends Pick<IProposal, 'governance'> {
 export {
     IDaoItemsParams,
     IDaoItem,
-    INormalizedDaoItem,
+    INormalizedDaoItemAsTable,
     IDao,
     IProposalItemsParams,
     IProposal,
     IProposalItem,
     INormalizedProposalItem,
-    INormalizedDao
+    INormalizedDaoAsDefault,
+    ISubDaoItem,
+    INormalizedSubDaoItemAsDefault
 }

@@ -44,8 +44,8 @@
                 :error="formErrors.description"
             />
             <SelectField
-                v-model="formData.subdaoId"
-                :options="formInfo.subdao"
+                v-model="formData.subDaoId"
+                :options="formInfo.subDao"
                 title="Select relative SubDAO"
                 tooltip="Select relative SubDAO"
                 size="lg"
@@ -339,7 +339,7 @@ const useClasses = makeClasses(() => ({
 
 const isSending = ref(false);
 const formInfo = {
-    subdao: [
+    subDao: [
         { id: 1, title: 'DAO 1' },
         { id: 2, title: 'DAO 2' }
     ],
@@ -363,8 +363,8 @@ const [formData, formErrors, checkErrors] = useForm({
     endDate: {
         value: ''
     },
-    subdaoId: {
-        value: formInfo.subdao[0].id
+    subDaoId: {
+        value: formInfo.subDao[0].id
     },
     typeId: {
         value: formInfo.solidityTypes[0].id
@@ -400,7 +400,6 @@ const formResult = computed(() => {
 /* METHODS */
 
 async function createProposal() {
-    console.log(formResult.value.transactions);
     if (checkErrors() || isSending.value) return;
 
     isSending.value = true;

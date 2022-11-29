@@ -16,12 +16,12 @@
                 {{ text }}
             </p>
             <div class="flex space-x-4">
-                <BaseButton
-                    :size="isMobile.sm ? 'sm' : 'lg'"
-                    theme="surface"
-                >
-                    Cancel
-                </BaseButton>
+<!--                <BaseButton-->
+<!--                    :size="isMobile.sm ? 'sm' : 'lg'"-->
+<!--                    theme="surface"-->
+<!--                >-->
+<!--                    Cancel-->
+<!--                </BaseButton>-->
                 <BaseButton
                     :size="isMobile.sm ? 'sm' : 'lg'"
                     theme="primary-400"

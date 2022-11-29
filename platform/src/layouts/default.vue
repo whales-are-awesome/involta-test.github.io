@@ -2,13 +2,13 @@
     <div class="default">
         <div
             class="flex"
-            @click="showMobileSidebar = !showMobileSidebar"
+            @click="showMobileSidebar = false"
         >
             <div
                 ref="sidebar"
-                class="sm:flex sm:z-[100] sm:fixed sm:top-0 sm:left-0 sm:bg-surface-300 sm:overflow-hidden sm:transition-main sm:max-w-full"
+                class="flex md:z-[100] md:fixed md:top-0 md:left-0 md:bg-surface-300 md:overflow-hidden md:transition-main md:max-w-full"
                 :class="{
-                    'sm:!max-w-0': !showMobileSidebar
+                    'md:!max-w-0': !showMobileSidebar
                 }"
                 @click.stop
             >
@@ -16,10 +16,11 @@
                     class="flex-shrink-0 z-[505]"
                 />
                 <TheDaoSidebar
+                    v-if="$route.name"
                     ref="daoSidebar"
-                    class="z-[500] flex-shrink-0 transition-[width] duration-[0.25s] ease-[cubic-bezier(0.645, 0.045, 0.355, 1)] min-h-screen [clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)] sm:[clip-path:none]"
+                    class="z-[500] flex-shrink-0 transition-[width] duration-[0.25s] ease-[cubic-bezier(0.645, 0.045, 0.355, 1)] min-h-screen [clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)] md:[clip-path:none]"
                     :class="{
-                        '!w-0 sm:w-auto sm:-translate-x-full': !(showDaoSidebar && currentDao)
+                        '!w-0 md:w-auto md:-translate-x-full': !(showDaoSidebar && currentDao)
                     }"
                 />
             </div>
@@ -65,14 +66,14 @@ const isMobile = useIsMobile();
 onMounted(async () => {
     await nextTick();
 
-    daoSidebar.value.root!.addEventListener('transitionstart', addCrop);
-    daoSidebar.value.root!.addEventListener('transitionend', removeCrop);
+    daoSidebar.value.root?.addEventListener('transitionstart', addCrop);
+    daoSidebar.value.root?.addEventListener('transitionend', removeCrop);
     watchSidebarChangeOnMobile();
 });
 
 onUnmounted(() => {
-    daoSidebar.value.root!.removeEventListener('transitionstart', addCrop);
-    daoSidebar.value.root!.removeEventListener('transitionend', removeCrop);
+    daoSidebar.value.root?.removeEventListener('transitionstart', addCrop);
+    daoSidebar.value.root?.removeEventListener('transitionend', removeCrop);
 });
 
 function addCrop() {
@@ -89,7 +90,7 @@ function removeCrop() {
 
 function watchSidebarChangeOnMobile() {
     function outputsize() {
-        sidebarWidth.value = sidebar.value.offsetWidth;
+        sidebarWidth.value = (isMobile.value.md || isMobile.value.sm) ? sidebar.value.offsetWidth : 0;
     }
     outputsize()
 

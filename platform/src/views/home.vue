@@ -79,9 +79,9 @@
                 >
                     <DaoCard
                         :avatar="item.image"
-                        :name="item.name"
-                        supported-by="232 OC"
-                        backed-by="100 OC"
+                        :name="item.fullName"
+                        members="232"
+                        proposals="232"
                     />
                 </div>
             </div>
@@ -113,8 +113,8 @@
                     <DaoCard
                         :avatar="require('@/assets/images/common/placeholder.jpeg')"
                         name="DAO Name"
-                        supported-by="232 OC"
-                        backed-by="100 OC"
+                        members="232"
+                        proposals="232"
                         category="category"
                     />
                 </div>
@@ -144,7 +144,7 @@ import NotFound from '@/components/NotFound/NotFound.vue';
 import { store } from '@/store';
 
 import { Statuses } from '@/models/statuses';
-import useDaoItems from '@/composables/useDaoItems';
+import useDaoItems from '@/composables/fetch/useDaoItems';
 import useProposalItems from '@/composables/views/home/useProposalItems';
 
 enum TagStatuses {
@@ -181,8 +181,8 @@ const formData = ref({
     statusId: Statuses.Active,
     search: '',
     limits: {
-        proposals: 1,
-        daos: 1
+        proposals: 20,
+        daos: 20
     },
     offsets: {
         proposals: 0,

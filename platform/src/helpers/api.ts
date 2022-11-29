@@ -4,6 +4,7 @@ import { Eth } from 'web3-eth/types';
 import { Utils } from 'web3-utils/types';
 import DaoFactoryJSON from '@/abi/DaoFactory.json';
 import axios, { Canceler } from '@/plugins/axios';
+import camelize from '@/helpers/camelize';
 import { FetchResult, SendResult } from '@/models/api'
 import { ethers } from 'ethers'
 
@@ -75,7 +76,7 @@ class API extends Web3 {
             });
 
             //@ts-ignore
-            return [data.data, null, cancel];
+            return [data.data ? camelize(data.data) : data.data, null, cancel];
         } catch (e) {
             return [null, e as Error, () => {}];
         }

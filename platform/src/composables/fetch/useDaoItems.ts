@@ -1,10 +1,10 @@
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { computed, watch } from 'vue';
 import DaoFactoryService from '@/services/DaoFactoryService';
-import { IDaoItem } from '@/models/services/DaoFactoryService';
+import { INormalizedDaoItemAsTable } from '@/models/services/DaoFactoryService';
 
 function useDaoItems(_formData: any) {
-    const items = useFetchDataWithTotal<IDaoItem>();
+    const items = useFetchDataWithTotal<INormalizedDaoItemAsTable>();
     const formResult = computed(() => {
         const formData = _formData.value || _formData;
 

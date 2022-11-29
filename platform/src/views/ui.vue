@@ -250,8 +250,8 @@
                     <DaoCard
                         :avatar="require('@/assets/images/common/placeholder.jpeg')"
                         name="Dapp Name"
-                        supported-by="232 OC"
-                        backed-by="100 OC"
+                        members="232"
+                        proposals="232"
                     />
                 </div>
             </div>

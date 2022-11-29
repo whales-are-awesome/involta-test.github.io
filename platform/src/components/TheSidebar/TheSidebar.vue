@@ -53,7 +53,7 @@ import TheSidebarButton from './TheSidebarButton.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useLayer from '@//composables/useLayer';
 import { IProps } from '@/components/BlockInfo/BlockInfo.vue';
-import useDaoItems from '@/composables/useDaoItems';
+import useDaoItems from '@/composables/fetch/useDaoItems';
 import useIsMobile from '@/composables/useIsMobile';
 
 /* META */
@@ -71,7 +71,7 @@ interface IThemeProps {
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: 'w-[72px] sm:w-[44px]',
-    inner: 'w-[72px] h-screen bg-surface-300 py-2 fixed top-0 left-0 sm:w-full sm:static',
+    inner: 'w-[72px] h-screen bg-surface-300 py-2 fixed top-0 left-0 md:w-full md:static',
     logoWrapper: `w-11 mx-auto pb-[18px] mb-[18px] relative sm:hidden
                   after:border-b-2 after:border-gray-200 after:top-full after:left-1/2 after:-translate-x-1/2 after:w-[28px] after:h-[2px] after:bg-gray-300 after:block after:absolute`,
     logo: ({ isHome }) => ({

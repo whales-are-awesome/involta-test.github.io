@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed, defineProps, defineEmits, ref, onMounted, watch, nextTick } from 'vue';
+import { computed, defineProps, defineEmits, ref, onMounted, watch, nextTick, onUnmounted } from 'vue';
 import { IItem, Sizes } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/models/themeSettings';
@@ -109,11 +109,20 @@ watch(value, setLine);
 
 /* LIFECYCLE */
 
-onMounted(() => nextTick(setLine));
+onMounted(async() => {
+    await nextTick(setLine);
+
+    window.addEventListener('resize', setLineWithDelay);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', setLineWithDelay);
+
+});
 
 /* METHODS */
 
-function setLine(): void {
+function setLine() {
     const activeIndex = props.items.findIndex(item => item.id === value.value);
     const activeEl = itemRefs.value[activeIndex];
     const cords = activeEl.getBoundingClientRect();
@@ -121,6 +130,12 @@ function setLine(): void {
 
     line.value.style.width = activeEl.offsetWidth + 'px';
     line.value.style.left =  cords.x - rootCords.x + 'px';
+}
+
+async function setLineWithDelay(): Promise<void> {
+    setTimeout(() => {
+        setLine();
+    }, 150);
 }
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

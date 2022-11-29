@@ -29,6 +29,7 @@ function useIsMobile() {
 
 function init() {
     isInit = true;
+    store.dispatch('isMobile/setWidth', document.documentElement.offsetWidth);
 
     window.addEventListener('resize', () => {
         store.dispatch('isMobile/setWidth', document.documentElement.offsetWidth);

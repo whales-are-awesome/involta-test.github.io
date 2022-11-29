@@ -4,7 +4,7 @@
         :class="classes.root"
     >
         <div :class="classes.inner">
-            <div v-if="currentDao.pending" class="-preloader -preloader_cover"></div>
+            <div v-if="currentDao.pending || subDaoItems.pending" class="-preloader -preloader_cover"></div>
             <div
                 v-if="!currentDao.pending"
                 :class="classes.top"
@@ -20,64 +20,24 @@
                     />
                     <div :class="classes.topInfo">
                         <div :class="classes.name">
-                            {{ currentDao.data?.name }}
+                            {{ currentDao.data?.fullName }}
                         </div>
                     </div>
                 </div>
             </div>
-            <template v-if="!currentDao.pending">
+            <SubDaoMenu
+                v-if="rootDao.data"
+                :class="classes.subDaoItems"
+                :items="[rootDao.data]"
+            />
+            <template  v-if="!currentDao.pending && !subDaoItems.pending && subDaoItems.data?.items.length">
                 <TextSeparator :class="classes.subDaoTitle">
                     subDaoS
                 </TextSeparator>
-                <div :class="classes.subDaoItems">
-                    <div
-                        v-for="(item, index) in subDao"
-                        :key="index"
-                        :class="classes.subDaoItem"
-                        @mouseenter="item.isHovered = true"
-                        @mouseleave="item.isHovered = false"
-                    >
-                        <div
-                            :class="[classes.subDaoItemInner, {
-                                'border-b': index !== subDao.length - 1
-                            }]"
-                        >
-                            <div
-                                :class="classes.subDaoItemMain"
-                                @click="router.push({ name : 'network-dao-address-subdao', params: { id: 2, subdao: 3, network: 'goerly' } })"
-                            >
-                                <p :class="classes.subDaoItemTitle">
-                                    {{ item.name }}
-                                </p>
-                                <BaseIcon
-                                    v-if="item.items.length"
-                                    :class="classes.subDaoItemIcon"
-                                    name="triangle-right"
-                                    width="6"
-                                    height="4.5"
-                                />
-                                <SubDaoItemsPopup
-                                    v-if="item.isHovered"
-                                    :items="item.items"
-                                />
-                            </div>
-                            <div
-                                v-if="item.items.length"
-                                :class="classes.subDaoItemSublist"
-                            >
-                                <SubDaoItemsPopup :items="subDao.items" />
-                                <div
-                                    v-for="(subDao, subDaoIndex) in item.items"
-                                    :key="subDaoIndex"
-                                    :class="classes.subDaoItemSublistItem"
-                                    @click.stop="router.push({ name : 'network-dao-address-subdao', params: { id: 2, subdao: 3, network: 'goerly' } })"
-                                >
-                                    {{ subDao.name }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <SubDaoMenu
+                    :class="classes.subDaoItems"
+                    :items="subDaoItems.data?.items"
+                />
                 <div
                     :class="classes.addSubDao"
                     @click="layer.open('CreateSubDaoLayer')"
@@ -94,69 +54,41 @@
 /* IMPORTS */
 
 import { computed, ref, defineExpose } from 'vue';
-import { useRouter } from 'vue-router';
-import SubDaoItemsPopup from '@/components/SubDaoItemsPopup/SubDaoItemsPopup.vue';
-import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import SubDaoMenu from '@/components/SubDaoMenu/SubDaoMenu.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
-import { IItem, INormalizedItem } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import useLayer from '@//composables/useLayer';
 import { store } from '@/store';
+import useSubDaoItems from '@/composables/fetch/useSubDaoItems';
+import useDao from '@/composables/fetch/useDao';
 
 /* INTERFACES */
 
 /* META */
 
-const router = useRouter();
 const layer = useLayer();
 
-/* VARS AND CUSTOM HOOKS */
+/* REFS */
 
 const root = ref<HTMLElement | null>(null);
-let subDao = ref(normalizeItems([
-    {
-        name: 'SubDao_1',
-        id: 1,
-        items: []
-    },
-    {
-        name: 'SubDao_2',
-        id: 2,
-        items: [
-            { name: 'SubDao_2_1', id: 6, items: [] },
-            { name: 'SubDao_2_2', id: 7, items: [] },
-            { name: 'SubDao_2_3', id: 8, items: [] },
-        ]
-    },
-    {
-        name: 'subDao_3',
-        id: 10,
-        items: []
-    }
-]));
+
+/* DATA */
 
 const useClasses = makeClasses(() => ({
-    root: 'w-[224px] sm:w-[220px] sm:flex sm:justify-center sm:overflow-hidden',
-    inner: 'w-[224px] h-screen bg-surface-200 pb-2 fixed top-0 left-[72px] sm:w-full sm:rounded-[12px] sm:bg-surface-200 sm:py-2.5 sm:static sm:mt-2 sm:mx-2',
-    top: 'w-full mx-auto mb-6 sm:px-3',
-    topMain: 'pb-[100%] relative bg-black overflow-hidden sm:rounded-[4px]',
-    topTextSeparator: 'mb-[22px] ml-2.5 hidden sm:flex sm:text-xxs',
+    root: 'w-[224px] sm:w-[220px] md:flex md:justify-center md:overflow-hidden',
+    inner: 'w-[224px] h-screen bg-surface-200 pb-2 fixed top-0 left-[72px] md:w-full md:rounded-[12px] md:bg-surface-200 md:py-2.5 md:static md:mt-2 md:mx-2',
+    top: 'w-full mx-auto mb-6 md:px-3',
+    topMain: 'pb-[100%] relative bg-black overflow-hidden md:rounded-[4px]',
+    topTextSeparator: 'mb-[22px] ml-2.5 hidden md:flex sm:text-xxs',
     logo: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 z-0 opacity-70',
     topInfo: 'absolute left-0 bottom-0 px-2 pb-[10px] w-full flex justify-between items-center',
-    name: 'text-surface-100 text-white font-semibold text-lg',
+    name: 'text-surface-100 text-white font-semibold text-lg overflow-hidden overflow-ellipsis',
     subDaoTitle: 'mb-[13px] mt-9 sm:text-xxs',
     subDaoItems: 'mb-[20px]',
-    subDaoItem: 'pl-2 pr-[11px] text-sm text-gray-500 cursor-pointer relative',
-    subDaoItemInner: 'border-secondary-200 py-2',
-    subDaoItemMain: 'flex justify-between items-center',
-    subDaoItemTitle: 'pr-2',
-    subDaoItemIcon: 'text-gray-500',
-    subDaoItemSublist: 'pl-4 pt-2',
-    subDaoItemSublistItem: 'py-2 border-b border-secondary-200 last:border-none',
     addSubDao: 'text-xs underline-offset-1 underline pl-2 font-bold text-gray-500 cursor-pointer'
 }));
 
-/* DATA */
+
 /* COMPUTED */
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {
@@ -167,15 +99,20 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 
 const currentDao = computed(() => store.state.dao);
 
+const formRootDaoData = computed(() => ({
+    address: currentDao.value.data?.rootDao
+}));
+const formDataSubDao = computed(() => ({
+    parentAddress: currentDao.value.data?.address,
+    limit: 20,
+    offset: 0
+}));
+
+const subDaoItems = useSubDaoItems(formDataSubDao);
+const rootDao = useDao(formRootDaoData);
+
 /* WATCH */
 /* METHODS */
-
-function normalizeItems(items: IItem[]): INormalizedItem[] {
-    return items.map(item => ({
-        ...item,
-        isHovered: false
-    }));
-}
 
 defineExpose({
     root

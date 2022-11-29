@@ -1,20 +1,24 @@
 import API from '@/helpers/api';
 import { FetchResult, SendResult } from '@/models/api'
+import cutAddress from '@/helpers/cutAddress';
 import parseEventData from '@/helpers/parseEventData';
 import DaoFactoryJSON from '@/abi/DaoFactory.json';
 import {
     IDaoItemsParams,
     IDaoItem,
     IDao,
-    INormalizedDao,
-    INormalizedDaoItem,
+    INormalizedDaoAsDefault,
+    INormalizedDaoItemAsTable,
     IProposalItemsParams,
     IProposal,
     IProposalItem,
-    INormalizedProposalItem
+    INormalizedProposalItem,
+    ISubDaoItem,
+    INormalizedSubDaoItemAsDefault
 } from '@/models/services/DaoFactoryService';
 import { IResponseWithTotal } from '@/models/api';
 import router from '@/router'
+import { store } from '@/store'
 
 
 export default class DaoFactoryService {
@@ -22,7 +26,7 @@ export default class DaoFactoryService {
         const [trxReceipt, error] = await API.send<any>({
             contractName: 'daoFactory',
             methodName: 'deployDao',
-            params: [API.address, 1, 1, API.address],
+            params: [1, 1, store.state.wallet.address],
             needReceipt: true
         });
 
@@ -96,6 +100,10 @@ export default class DaoFactoryService {
         return API.get<IResponseWithTotal<IDaoItem>>('/dao', params);
     }
 
+    static async fetchSubDaoItems(params: object) {
+        return API.get<IResponseWithTotal<ISubDaoItem>>('/' + router.currentRoute.value.params.network + `/subdao`, params);
+    }
+
     static async fetchProposal(id: number | string) {
         return API.get<IProposal>(`/proposal/${ id }`);
     }
@@ -108,7 +116,7 @@ export default class DaoFactoryService {
         const [data, ...rest] = await DaoFactoryService.fetchDao(address);
 
         if (!data) {
-            return [data, ...rest];
+            return [null, ...rest];
         }
 
         return [normalizeDaoAsDefault(data), ...rest];
@@ -118,34 +126,47 @@ export default class DaoFactoryService {
         const [data, ...rest] = await DaoFactoryService.fetchDaoItems(params);
 
         if (!data) {
-            return [data, ...rest];
+            return [null, ...rest];
         }
 
         return [normalizeDaoItemsAsTable(data), ...rest];
+    }
+
+    static async fetchSubDaoItemsAsDefault(params: object): FetchResult<ReturnType<typeof normalizeSubDaoItemsAsTable>> {
+        const [data, ...rest] = await DaoFactoryService.fetchSubDaoItems(params);
+
+        if (!data || !data.items) {
+            return [null, ...rest];
+        }
+
+
+        return [normalizeSubDaoItemsAsTable(data), ...rest];
     }
 
     static async fetchProposalItemsAsTable(params?: IProposalItemsParams): FetchResult<ReturnType<typeof normalizeProposalItemsAsTable>> {
         const [data, ...rest] = await DaoFactoryService.fetchProposalItems(params);
 
         if (!data || !data.items) {
-            return [data, ...rest];
+            return [null, ...rest];
         }
 
         return [normalizeProposalItemsAsTable(data), ...rest];
     }
 }
 
-function normalizeDaoAsDefault(data: IDao): INormalizedDao {
+function normalizeDaoAsDefault(data: IDao): INormalizedDaoAsDefault {
     return {
-        ...data
+        ...data,
+        fullName: data.name || cutAddress(data.address)
     };
 }
 
-function normalizeDaoItemsAsTable(data: IResponseWithTotal<IDaoItem>): IResponseWithTotal<INormalizedDaoItem> {
+function normalizeDaoItemsAsTable(data: IResponseWithTotal<IDaoItem>): IResponseWithTotal<INormalizedDaoItemAsTable> {
     return {
         ...data,
         items: data.items.map(item => ({
-            ...item
+            ...item,
+            fullName: item.name || cutAddress(item.address)
         }))
     };
 }
@@ -155,6 +176,17 @@ function normalizeProposalItemsAsTable(data: IResponseWithTotal<IProposalItem>):
         ...data,
         items: data.items.map(item => ({
             ...item
+        }))
+    };
+}
+
+function normalizeSubDaoItemsAsTable(data: IResponseWithTotal<ISubDaoItem>): IResponseWithTotal<INormalizedSubDaoItemAsDefault> {
+    return {
+        ...data,
+        items: data.items.map(item => ({
+            ...item,
+            fullName: item.name || cutAddress(item.address),
+            isHovered: false
         }))
     };
 }
