@@ -5,8 +5,9 @@
         >
             <BaseAvatar
                 :class="classes.avatar"
-                :src="require('@/assets/images/common/placeholder.jpeg')"
+                :src="`https://hexheads.xyz/image.html?address=${ address }`"
                 alt="DAO"
+                :is-iframe="true"
                 rounded="full"
                 size="tiny"
             >
@@ -121,6 +122,7 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         isHovered: isTooltipShown.value
     });
 });
+const address = computed(() => store.state.wallet.address);
 
 
 /* WATCH */
