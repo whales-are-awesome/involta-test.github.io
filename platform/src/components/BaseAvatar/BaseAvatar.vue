@@ -3,10 +3,17 @@
         :class="classes.root"
     >
         <BaseImage
+            v-if="!isIframe"
             :class="classes.image"
             :src="src"
             :alt="alt"
         />
+        <iframe
+            v-else
+            :class="classes.image"
+            :src="src"
+            frameborder="0">
+        </iframe>
         <slot></slot>
     </div>
 </template>
@@ -25,6 +32,7 @@ import ThemeSettings from '@/models/themeSettings';
 interface IProps {
     src: string
     alt: string
+    isIframe?: boolean
     size: Sizes
     rounded: Rounded
     themeSettings?: ThemeSettings<'root' | 'image'>

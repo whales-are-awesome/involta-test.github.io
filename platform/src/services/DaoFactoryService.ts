@@ -100,8 +100,8 @@ export default class DaoFactoryService {
         return API.get<IResponseWithTotal<IDaoItem>>('/dao', params);
     }
 
-    static async fetchSubDaoItems(params: object) {
-        return API.get<IResponseWithTotal<ISubDaoItem>>('/' + router.currentRoute.value.params.network + `/subdao`, params);
+    static async fetchSubDaoItems(parentAddress: string, params: any) {
+        return API.get<IResponseWithTotal<ISubDaoItem>>('/' + router.currentRoute.value.params.network + `/dao/${ parentAddress }` + `/subdao`, params);
     }
 
     static async fetchProposal(id: number | string) {
@@ -132,8 +132,8 @@ export default class DaoFactoryService {
         return [normalizeDaoItemsAsTable(data), ...rest];
     }
 
-    static async fetchSubDaoItemsAsDefault(params: object): FetchResult<ReturnType<typeof normalizeSubDaoItemsAsTable>> {
-        const [data, ...rest] = await DaoFactoryService.fetchSubDaoItems(params);
+    static async fetchSubDaoItemsAsDefault(parentAddress: string, params: object): FetchResult<ReturnType<typeof normalizeSubDaoItemsAsTable>> {
+        const [data, ...rest] = await DaoFactoryService.fetchSubDaoItems(parentAddress, params);
 
         if (!data || !data.items) {
             return [null, ...rest];

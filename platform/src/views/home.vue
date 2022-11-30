@@ -2,8 +2,9 @@
     <div class="mt-[94px] sm:mt-[62px]">
         <BaseAvatar
             class="mb-[46px] md:mb-[35px] sm:mb-[38px]"
-            :src="require('@/assets/images/common/placeholder.jpeg')"
+            :src="`https://hexheads.xyz/image.html?address=${ address }`"
             alt="image"
+            :is-iframe="true"
             size="xl"
             rounded="xl"
             :theme-settings="{
@@ -13,7 +14,7 @@
             <p class="title-h3 text-gray-800 ml-7 sm:ml-2">
                 Welcome,
                 <br>
-                {{ address }}
+                {{ addressOrName }}
             </p>
         </BaseAvatar>
         <div class="mb-[36px] flex justify-between relative sm:mb-[45px]">
@@ -197,5 +198,6 @@ const daoItemsFiltered = computed(() => {
     return daoItems.value.data?.items;
 });
 
-const address = computed(() => store.getters['wallet/addressOrName']);
+const addressOrName = computed(() => store.getters['wallet/addressOrName']);
+const address = computed(() => store.state.wallet.address);
 </script>

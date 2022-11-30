@@ -20,7 +20,7 @@ function useSubDaoItems(_formData: any) {
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await DaoFactoryService.fetchSubDaoItemsAsDefault(formResult.value);
+        const [data, error, cancel] = await DaoFactoryService.fetchSubDaoItemsAsDefault(formResult.value.parentAddress, { ...formResult.value, parentAddress: null });
 
         if (error) {
             items.value.pending = false;
