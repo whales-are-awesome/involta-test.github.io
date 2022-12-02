@@ -3,7 +3,7 @@
         v-if="pageData"
         class="mb-[33px]"
         :name="pageData?.name"
-        :breadcrumbs="isSubDao ? breadcrumbs : null"
+        :breadcrumbs="breadcrumbs"
         :description="pageData?.description"
     />
     <div v-else class="-preloader -preloader_placeholder"></div>
@@ -162,6 +162,7 @@ import DaoCard from '@/components/DaoCard/DaoCard.vue';
 import useLayer from '@/composables/useLayer';
 import useDao from '@/composables/fetch/useDao';
 import useError from '@/composables/useError';
+import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
 
 import { Statuses } from '@/models/statuses';
 import useProposalItems from '@/composables/views/home/useProposalItems';
@@ -204,12 +205,6 @@ const formInfo = {
     ]
 };
 
-const breadcrumbs = [
-    { title: 'DAO Name', link: { name: 'home' } },
-    { title: 'SubDAO_3', link: { name: 'home' } },
-    { title: 'Sub__1.2' }
-]
-
 const formData = ref({
     voteId: formInfo.voteOptions[0].id,
     statusId: Statuses.Active,
@@ -244,4 +239,16 @@ const pageData = computed(() => page.value.data);
 const daoItemsFiltered = computed(() => {
     return daoItems.value.data?.items;
 });
+const breadcrumbs = computed(() => {
+    if (!pageData.value || !pageData.value?.path.length) return [];
+
+    const data: IBreadcrumb[] = [...pageData.value?.path].reverse().map(item => ({
+        title: item.name,
+        link: { name: 'network-dao-address', params: { network: route.params.network, address: item.address } }
+    }));
+
+    data.push({ title: pageData.value?.fullName });
+
+    return data;
+})
 </script>

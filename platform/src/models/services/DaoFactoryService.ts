@@ -1,20 +1,17 @@
-interface IDaoItemsParams {
-    search: string
-    voteId: number | string
-    statusId: number | string
-}
+import { IWithTotalParams } from '@/models/api'
 
 interface IDao {
     address: string
     network: string
-    parentAddress: string
+    parentDao: string
+    rootDao: string
     creator: string
     block: number,
     name: string
     description: string
     link: string
     image: string
-    rootDao: string
+    path: {name: string, address: string}[]
 }
 
 interface IDaoItem extends IDao {
@@ -28,12 +25,22 @@ interface INormalizedDaoItemAsTable extends IDao {
     fullName: string
 }
 
+interface IDaoItemParams extends IWithTotalParams {
+    search: string
+    voteId: number | string
+    statusId: number | string
+}
+
 interface ISubDaoItem {
     address: string
     network: string
     parent: string
     name: string
     image: string
+}
+
+interface ISubDaoItemParams extends IWithTotalParams {
+
 }
 
 interface INormalizedSubDaoItemAsDefault extends ISubDaoItem {
@@ -64,7 +71,7 @@ interface INormalizedProposalItem extends Pick<IProposal, 'governance'> {
 }
 
 export {
-    IDaoItemsParams,
+    IDaoItemParams,
     IDaoItem,
     INormalizedDaoItemAsTable,
     IDao,
@@ -74,5 +81,6 @@ export {
     INormalizedProposalItem,
     INormalizedDaoAsDefault,
     ISubDaoItem,
-    INormalizedSubDaoItemAsDefault
+    INormalizedSubDaoItemAsDefault,
+    ISubDaoItemParams
 }

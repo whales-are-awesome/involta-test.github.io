@@ -5,7 +5,7 @@ import parseEventData from '@/helpers/parseEventData';
 import daoFactoryABI from '@/abi/daoFactoryABI';
 import web3Abi from 'web3-eth-abi';
 import {
-    IDaoItemsParams,
+    IDaoItemParams,
     IDaoItem,
     IDao,
     INormalizedDaoAsDefault,
@@ -15,7 +15,8 @@ import {
     IProposalItem,
     INormalizedProposalItem,
     ISubDaoItem,
-    INormalizedSubDaoItemAsDefault
+    INormalizedSubDaoItemAsDefault,
+    ISubDaoItemParams
 } from '@/models/services/DaoFactoryService';
 import { IResponseWithTotal } from '@/models/api';
 import router from '@/router'
@@ -98,11 +99,11 @@ export default class DaoFactoryService {
         return API.get<IDao>('/' + router.currentRoute.value.params.network + `/dao/${ address }`);
     }
 
-    static async fetchDaoItems(params?: IDaoItemsParams) {
+    static async fetchDaoItems(params?: IDaoItemParams) {
         return API.get<IResponseWithTotal<IDaoItem>>('/dao', params);
     }
 
-    static async fetchSubDaoItems(parentAddress: string, params: any) {
+    static async fetchSubDaoItems(parentAddress: string, params: ISubDaoItemParams) {
         return API.get<IResponseWithTotal<ISubDaoItem>>('/' + router.currentRoute.value.params.network + `/dao/${ parentAddress }` + `/subdao`, params);
     }
 
@@ -124,7 +125,7 @@ export default class DaoFactoryService {
         return [normalizeDaoAsDefault(data), ...rest];
     }
 
-    static async fetchDaoItemsAsTable(params?: IDaoItemsParams): FetchResult<ReturnType<typeof normalizeDaoItemsAsTable>> {
+    static async fetchDaoItemsAsTable(params?: IDaoItemParams): FetchResult<ReturnType<typeof normalizeDaoItemsAsTable>> {
         const [data, ...rest] = await DaoFactoryService.fetchDaoItems(params);
 
         if (!data) {
@@ -134,7 +135,7 @@ export default class DaoFactoryService {
         return [normalizeDaoItemsAsTable(data), ...rest];
     }
 
-    static async fetchSubDaoItemsAsDefault(parentAddress: string, params: object): FetchResult<ReturnType<typeof normalizeSubDaoItemsAsTable>> {
+    static async fetchSubDaoItemsAsDefault(parentAddress: string, params: ISubDaoItemParams): FetchResult<ReturnType<typeof normalizeSubDaoItemsAsTable>> {
         const [data, ...rest] = await DaoFactoryService.fetchSubDaoItems(parentAddress, params);
 
         if (!data || !data.items) {

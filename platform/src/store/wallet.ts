@@ -48,8 +48,6 @@ const actions: ActionTree<IState, IRootState> = {
     async fetchAndSetEnsName({ commit, state }) {
         const addressName = await API.provider.lookupAddress(state.address);
 
-        console.log(addressName);
-
         commit('setAddressEnsName', addressName);
     }
 

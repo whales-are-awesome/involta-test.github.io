@@ -1,31 +1,46 @@
+import { Ref } from 'vue';
 import { useFetchData } from '@/composables/useFetchData';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import { INormalizedDaoAsDefault } from '@/models/services/DaoFactoryService';
 import { store } from '@/store';
 import { computed, watch } from 'vue';
 
-function useDao(_formData: any, _options?: any) {
+interface IData {
+    address?: string
+}
+
+interface IOptions {
+    saveInStorage: boolean
+}
+
+type Data = Ref<IData> | IData;
+
+function useDao(_data: Data, _options?: IOptions) {
     const info = useFetchData<INormalizedDaoAsDefault>();
-    const formResult = computed(() => {
-        const formData = _formData.value || _formData;
+    const dataResult = computed(() => {
+        const data = 'value' in _data ? _data.value : _data;
 
         return {
-            address: formData.address
+            address: data.address
         }
     });
     const options = {
         saveInStorage: _options?.saveInStorage || false
-    }
+    };
 
 
     fetchDao();
-    watch(formResult, fetchDao);
+    watch(dataResult, fetchDao);
     async function fetchDao() {
+        if (!dataResult.value.address) {
+            info.value = { ...info.value, data: null, pending: false, }
+            return;
+        }
         info.value.pending = true;
         info.value.cancel();
         options.saveInStorage && store.dispatch('dao/setData', { pending: true });
 
-        const [data, error, cancel] = await DaoFactoryService.fetchDaoAsDefault(formResult.value.address);
+        const [data, error, cancel] = await DaoFactoryService.fetchDaoAsDefault(dataResult.value.address);
 
         if (error) {
             info.value.pending = false;

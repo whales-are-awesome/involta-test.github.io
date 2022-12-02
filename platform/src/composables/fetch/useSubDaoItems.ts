@@ -1,26 +1,41 @@
+import { Ref } from 'vue';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { computed, watch } from 'vue';
 import DaoFactoryService from '@/services/DaoFactoryService';
-import { INormalizedSubDaoItemAsDefault } from '@/models/services/DaoFactoryService';
+import { INormalizedSubDaoItemAsDefault, ISubDaoItemParams } from '@/models/services/DaoFactoryService';
+import { pickBy } from 'lodash';
 
-function useSubDaoItems(_formData: any) {
+interface IData extends ISubDaoItemParams {
+    parentAddress?: string
+}
+
+type Data = Ref<IData> | IData;
+
+function useSubDaoItems(_data: Data) {
     const items = useFetchDataWithTotal<INormalizedSubDaoItemAsDefault>();
-    const formResult = computed(() => {
-        const formData = _formData.value || _formData;
+    const dataResult = computed(() => {
+        const data = 'value' in _data ? _data.value : _data;
+        const params: ISubDaoItemParams = pickBy(data, (_: any, key: string) => key !== 'parentAddress')
 
         return {
-            ...(formData),
-            parentAddress: formData.parentAddress
-        }
+            params,
+            parentAddress: data.parentAddress
+        };
     });
 
+
     fetchItems();
-    watch(formResult, fetchItems);
+    watch(dataResult, fetchItems);
     async function fetchItems() {
+        if (!dataResult.value.parentAddress) {
+            items.value = { ...items.value, data: null, pending: false, };
+            return;
+        }
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await DaoFactoryService.fetchSubDaoItemsAsDefault(formResult.value.parentAddress, { ...formResult.value, parentAddress: null });
+        const [data, error, cancel] = await DaoFactoryService
+            .fetchSubDaoItemsAsDefault(dataResult.value.parentAddress, dataResult.value.params);
 
         if (error) {
             items.value.pending = false;
@@ -29,7 +44,6 @@ function useSubDaoItems(_formData: any) {
         }
 
         items.value = { data, cancel, pending: false };
-
     }
 
     return items;

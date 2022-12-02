@@ -4,40 +4,52 @@
         :class="classes.root"
     >
         <div :class="classes.inner">
-            <div v-if="currentDao.pending || subDaoItems.pending" class="-preloader -preloader_cover"></div>
-            <div
-                v-if="!currentDao.pending"
-                :class="classes.top"
-            >
-                <TextSeparator :class="classes.topTextSeparator">
-                    DAO WAY
-                </TextSeparator>
-                <div :class="classes.topMain">
-                    <BaseImage
-                        :class="classes.logo"
-                        :src="currentDao.data?.image"
-                        alt="OuterCircle"
-                    />
-                    <div :class="classes.topInfo">
-                        <div :class="classes.name">
-                            {{ currentDao.data?.fullName }}
+            <div v-if="currentDao.pending || subDaoItems.pending || rootDao.pending || parentDao.pending" class="-preloader -preloader_cover"></div>
+            <template v-else>
+                <div :class="classes.top">
+                    <TextSeparator :class="classes.topTextSeparator">
+                        DAO WAY
+                    </TextSeparator>
+                    <div :class="classes.topMain">
+                        <img
+                            :class="classes.logo"
+                            :src="currentDao.data?.image"
+                            alt="OuterCircle"
+                        />
+                        <div :class="classes.topInfo">
+                            <div :class="classes.name">
+                                {{ currentDao.data?.fullName }}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <SubDaoMenu
-                v-if="rootDao.data"
-                :class="classes.subDaoItems"
-                :items="[rootDao.data]"
-            />
-            <template  v-if="!currentDao.pending && !subDaoItems.pending && subDaoItems.data?.items.length">
-                <TextSeparator :class="classes.subDaoTitle">
-                    subDaoS
-                </TextSeparator>
-                <SubDaoMenu
-                    :class="classes.subDaoItems"
-                    :items="subDaoItems.data?.items"
-                />
+                <template v-if="rootDao.data && parentDao?.data?.address !== rootDao.data?.address">
+                    <TextSeparator :class="classes.subDaoTitle">
+                        ROOT DAO
+                    </TextSeparator>
+                    <SubDaoMenu
+                        :class="classes.subDaoItems"
+                        :items="[rootDao.data]"
+                    />
+                </template>
+                <template v-if="parentDao.data">
+                    <TextSeparator :class="classes.subDaoTitle">
+                        PARENT DAO
+                    </TextSeparator>
+                    <SubDaoMenu
+                        :class="classes.subDaoItems"
+                        :items="[parentDao.data]"
+                    />
+                </template>
+                <template  v-if="subDaoItems.data?.items.length">
+                    <TextSeparator :class="classes.subDaoTitle">
+                        subDaoS
+                    </TextSeparator>
+                    <SubDaoMenu
+                        :class="classes.subDaoItems"
+                        :items="subDaoItems.data?.items"
+                    />
+                </template>
                 <div
                     :class="classes.addSubDao"
                     @click="layer.open('CreateSubDaoLayer')"
@@ -99,9 +111,8 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 
 const currentDao = computed(() => store.state.dao);
 
-const formRootDaoData = computed(() => ({
-    address: currentDao.value.data?.rootDao
-}));
+const formRootDaoData = computed(() => ({ address: currentDao.value.data?.rootDao }));
+const formParentDaoData = computed(() => ({ address: currentDao.value.data?.parentDao }));
 const formDataSubDao = computed(() => ({
     parentAddress: currentDao.value.data?.address,
     limit: 20,
@@ -109,6 +120,7 @@ const formDataSubDao = computed(() => ({
 }));
 
 const subDaoItems = useSubDaoItems(formDataSubDao);
+const parentDao = useDao(formParentDaoData);
 const rootDao = useDao(formRootDaoData);
 
 /* WATCH */
