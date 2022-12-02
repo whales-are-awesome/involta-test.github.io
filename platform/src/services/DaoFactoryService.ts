@@ -16,34 +16,28 @@ import {
     INormalizedProposalItem,
     ISubDaoItem,
     INormalizedSubDaoItemAsDefault,
-    ISubDaoItemParams
+    ISubDaoItemParams,
+    ICreateDaoParams
 } from '@/models/services/DaoFactoryService';
 import { IResponseWithTotal } from '@/models/api';
 import router from '@/router'
-import { store } from '@/store'
-
 
 export default class DaoFactoryService {
-    static async createDao(params: object): SendResult<any> {
+    static async createDao(params: ICreateDaoParams): SendResult<[string|null, Error | null]> {
         const [trxReceipt, error] = await API.sendOnChain<any>({
             contractName: 'daoFactory',
             methodName: 'deployDao',
-            params: [1, 1, store.state.wallet.address],
+            params: [+params.proposalExpirationTime, +params.quorumRequired, '0x' + '0'.repeat(40)],
             needReceipt: true
         });
-        console.error(error);
-        //
-        // if (error) {
-        //     return [null, error];
-        // }
-        //
-        // const result = parseEventData({
-        //     JSON: daoFactoryABI,
-        //     eventName: 'DaoCreated',
-        //     trxReceipt
-        // });
 
-        return [null, null];
+        const address = trxReceipt?.logs[0].address || null;
+
+        if (error) {
+            return [null, error];
+        }
+
+        return [address, null];
     }
 
     static async createSubDao(params: any): Promise<any> {

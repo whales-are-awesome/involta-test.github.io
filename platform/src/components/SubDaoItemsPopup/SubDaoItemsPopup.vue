@@ -6,7 +6,7 @@
             v-for="(item, index) in items"
             :key="index"
             :class="classes.items"
-            @click.stop="router.push({ name : 'network-dao-address-subdao', params: { id: 2, subdao: 3, network: 'goerly' } })"
+            @click.stop="router.push({ name : 'network-dao-address-subdao', params: { id: 2, subdao: 3, network: 'goerli' } })"
         >
             <div
                 :class="classes.item"

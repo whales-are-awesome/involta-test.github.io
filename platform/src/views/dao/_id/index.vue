@@ -222,7 +222,6 @@ const formData = ref({
     }
 });
 
-const isSubDao = computed<boolean>(() => route.name === 'net-dao-address-subdao');
 
 const page = useDao({
     address: route.params.address as string

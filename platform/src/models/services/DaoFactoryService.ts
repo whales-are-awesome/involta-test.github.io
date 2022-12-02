@@ -31,6 +31,11 @@ interface IDaoItemParams extends IWithTotalParams {
     statusId: number | string
 }
 
+interface ICreateDaoParams {
+    proposalExpirationTime: number
+    quorumRequired: number
+}
+
 interface ISubDaoItem {
     address: string
     network: string
@@ -82,5 +87,6 @@ export {
     INormalizedDaoAsDefault,
     ISubDaoItem,
     INormalizedSubDaoItemAsDefault,
-    ISubDaoItemParams
+    ISubDaoItemParams,
+    ICreateDaoParams
 }

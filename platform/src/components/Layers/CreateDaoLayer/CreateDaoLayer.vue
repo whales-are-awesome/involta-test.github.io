@@ -54,23 +54,16 @@
             >
                 <div class="space-y-2">
                     <TextField
-                        v-model="formData.governanceTokens"
-                        title="Amount of Governance tokens"
-                        placeholder="Amount of Governance tokens"
+                        v-model="formData.proposalExpirationTime"
+                        title="Proposal expiration time"
+                        placeholder="Proposal expiration time"
                         :is-wrapped="true"
                         tooltip="Some text"
                     />
                     <TextField
-                        v-model="formData.addressReceiver"
-                        title="Address of tokens receiver"
-                        placeholder="Address of tokens’ receiver"
-                        :is-wrapped="true"
-                        tooltip="Some text"
-                    />
-                    <TextField
-                        v-model="formData.addressRegistry"
-                        title="Address of Proposal Registry"
-                        placeholder="Address of Proposal Registry"
+                        v-model="formData.quorumRequired"
+                        title="Quorum required"
+                        placeholder="Quorum required"
                         :is-wrapped="true"
                         tooltip="Some text"
                     />
@@ -99,10 +92,12 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';
+import DateField from '@/components/Form/DateField/DateField.vue';
 import BaseLayer from '../BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
 import DaoFactoryService from '@/services/DaoFactoryService';
+import API from '@/helpers/api';
 
 /* META */
 
@@ -144,14 +139,11 @@ const [formData, formErrors, checkErrors] = useForm({
         value: '',
         required: 'Empty field'
     },
-    governanceTokens: {
-        value: ''
+    proposalExpirationTime: {
+        value: 1000
     },
-    addressReceiver: {
-        value: ''
-    },
-    addressRegistry: {
-        value: ''
+    quorumRequired: {
+        value: 1000
     },
 });
 
@@ -171,11 +163,16 @@ async function createDAO() {
 
     isSending.value = true;
 
-    const [response, error] = await DaoFactoryService.createDao({
-
+    const [daoAddress, error] = await DaoFactoryService.createDao({
+        quorumRequired: formData.value.quorumRequired,
+        proposalExpirationTime: +new Date(formData.value.proposalExpirationTime)
     });
 
-    if (response) {
+    if (daoAddress) {
+        let network = (await API.provider.getNetwork()).name;
+        network = network === 'homestead' ? 'mainnet' : network;
+        router.push(`/${ network }/dao/${ daoAddress }`);
+
         const isCreate = await alert({
             title: 'All set successfully!',
             text: 'You’ve <strong>successfully created new DAO</strong>. You can add SubDAOs, manage proposals and use Dapps on the page of your DAO any time.',
@@ -183,8 +180,9 @@ async function createDAO() {
             status: 'success'
         });
 
+
         if (isCreate) {
-            open('CreateSubDaoLayer', { parentDaoAddress: response.proposalRegistry })
+            open('CreateSubDaoLayer', { parentDaoAddress: daoAddress })
         }
     } else {
         const isTake = await alert({

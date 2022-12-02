@@ -24,7 +24,6 @@ class API extends Web3 {
     static instance: Web3Types;
     static provider: any;
     static address = '';
-    static ens: any;
 
     static async init(protocol = window.ethereum) {
         if (!API.provider) {
@@ -59,9 +58,12 @@ class API extends Web3 {
 
             const trx = await contractWithSigner[props.methodName](...props.params);
             let trxReceipt;
+            await trx.wait();
 
             if (props.needReceipt) {
-                trxReceipt = await API.provider.getTransactionReceipt(trx.transactionHash);
+                trxReceipt = await API.provider.getTransactionReceipt(trx.hash);
+
+                console.log(trxReceipt);
             }
 
             return [trxReceipt, null];
