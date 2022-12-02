@@ -20,7 +20,7 @@
                     icon="plus"
                     :icon-width="isMobile.sm ? 13 : 17"
                     :active="isCreateDaoOpened"
-                    @click="layer.open('CreateDaoLayer')"
+                    @click="layer.open('CreateDaoActionLayer')"
                 />
                 <TheSidebarButton
                     :active="route.name === 'ui'"

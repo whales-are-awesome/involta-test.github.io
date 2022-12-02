@@ -66,25 +66,25 @@ const isMobile = useIsMobile();
 onMounted(async () => {
     await nextTick();
 
-    daoSidebar.value.root?.addEventListener('transitionstart', addCrop);
-    daoSidebar.value.root?.addEventListener('transitionend', removeCrop);
+    daoSidebar.value?.root?.addEventListener('transitionstart', addCrop);
+    daoSidebar.value?.root?.addEventListener('transitionend', removeCrop);
     watchSidebarChangeOnMobile();
 });
 
 onUnmounted(() => {
-    daoSidebar.value.root?.removeEventListener('transitionstart', addCrop);
-    daoSidebar.value.root?.removeEventListener('transitionend', removeCrop);
+    daoSidebar.value?.root?.removeEventListener('transitionstart', addCrop);
+    daoSidebar.value?.root?.removeEventListener('transitionend', removeCrop);
 });
 
 function addCrop() {
     if (route.name === 'network-dao-address') {
-        daoSidebar.value.root!.classList.add('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
+        daoSidebar.value?.root?.classList.add('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
     }
 }
 
 function removeCrop() {
     if (route.name === 'network-dao-address') {
-        daoSidebar.value.root!.classList.remove('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
+        daoSidebar.value?.root?.classList.remove('[clip-path:polygon(0_0%,100%_0,100%_100%,0%_100%)]');
     }
 }
 

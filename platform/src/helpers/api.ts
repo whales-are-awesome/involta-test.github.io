@@ -2,11 +2,12 @@ import Web3 from 'web3';
 import { default as Web3Types } from 'web3/types';
 import { Eth } from 'web3-eth/types';
 import { Utils } from 'web3-utils/types';
-import DaoFactoryJSON from '@/abi/DaoFactory.json';
+import daoFactoryABI from '@/abi/daoFactoryABI';
 import axios, { Canceler } from '@/plugins/axios';
 import camelize from '@/helpers/camelize';
 import { FetchResult, SendResult } from '@/models/api'
-import { ethers } from 'ethers'
+import { ethers, Signer } from 'ethers'
+import { store } from '@/store'
 
 
 
@@ -21,18 +22,14 @@ interface fetchDataProps {
 
 class API extends Web3 {
     static instance: Web3Types;
-    static ethersProvider: any;
+    static provider: any;
     static address = '';
     static ens: any;
 
     static async init(protocol = window.ethereum) {
-        if (!API.instance) {
-            API.instance = new Web3(protocol);
-
-            API.ethersProvider = new ethers.providers.JsonRpcProvider(process.env.VUE_APP_INFURA_KEY);
+        if (!API.provider) {
+            API.provider = new ethers.providers.Web3Provider(protocol);
         }
-
-        return API.instance;
     }
 
     static get eth(): Eth {
@@ -42,7 +39,7 @@ class API extends Web3 {
     static get contracts() {
         return {
             // @ts-ignore
-            daoFactory: new API.eth.Contract(JSON.parse(JSON.stringify(DaoFactoryJSON)), process.env.VUE_APP_DAO_FACTORY_ADDRESS)
+            daoFactory: new ethers.Contract(process.env.VUE_APP_DAO_FACTORY_ADDRESS, daoFactoryABI, API.provider)
         };
     }
 
@@ -50,17 +47,24 @@ class API extends Web3 {
         return API.instance.utils;
     }
 
-    static async send<T>(props: fetchDataProps): SendResult<T> {
+    static async getSigner(): Promise<Signer>  {
+        return API.provider?.getSigner();
+    }
+
+    static async sendOnChain<T>(props: fetchDataProps): SendResult<T> {
         try {
             const contract = API.contracts[props.contractName];
-            const trx = await contract.methods[props.methodName](...props.params).send({ from: API.address });
+            const signer = await API.getSigner()
+            const contractWithSigner = contract.connect(signer);
+
+            const trx = await contractWithSigner[props.methodName](...props.params);
             let trxReceipt;
 
             if (props.needReceipt) {
-                trxReceipt = await API.eth.getTransactionReceipt(trx.transactionHash);
+                trxReceipt = await API.provider.getTransactionReceipt(trx.transactionHash);
             }
 
-            return [trxReceipt || trx, null];
+            return [trxReceipt, null];
         } catch (e) {
             return [null, e as Error];
         }

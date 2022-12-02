@@ -1,12 +1,12 @@
-import API from '@/helpers/api';
 import camelize from '@/helpers/camelize';
+import web3Abi from 'web3-eth-abi';
 
 function parseEventData({ JSON = [{}], eventName = '', trxReceipt = {} }) {
     //@ts-ignore
     const methodInputs = JSON.find(item => item.name === eventName)!
         //@ts-ignore
         .inputs.map(item => ({ name: item.name, indexed: item.indexed, type: item.type }));
-    const result = API.eth.abi.decodeLog(
+    const result = web3Abi.decodeLog(
         methodInputs,
         //@ts-ignore
         trxReceipt.logs[0].data,

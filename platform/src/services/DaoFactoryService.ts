@@ -2,7 +2,8 @@ import API from '@/helpers/api';
 import { FetchResult, SendResult } from '@/models/api'
 import cutAddress from '@/helpers/cutAddress';
 import parseEventData from '@/helpers/parseEventData';
-import DaoFactoryJSON from '@/abi/DaoFactory.json';
+import daoFactoryABI from '@/abi/daoFactoryABI';
+import web3Abi from 'web3-eth-abi';
 import {
     IDaoItemsParams,
     IDaoItem,
@@ -23,28 +24,29 @@ import { store } from '@/store'
 
 export default class DaoFactoryService {
     static async createDao(params: object): SendResult<any> {
-        const [trxReceipt, error] = await API.send<any>({
+        const [trxReceipt, error] = await API.sendOnChain<any>({
             contractName: 'daoFactory',
             methodName: 'deployDao',
             params: [1, 1, store.state.wallet.address],
             needReceipt: true
         });
+        console.error(error);
+        //
+        // if (error) {
+        //     return [null, error];
+        // }
+        //
+        // const result = parseEventData({
+        //     JSON: daoFactoryABI,
+        //     eventName: 'DaoCreated',
+        //     trxReceipt
+        // });
 
-        if (error) {
-            return [null, error];
-        }
-
-        const result = parseEventData({
-            JSON: DaoFactoryJSON,
-            eventName: 'DaoCreated',
-            trxReceipt
-        });
-
-        return [result, null];
+        return [null, null];
     }
 
     static async createSubDao(params: any): Promise<any> {
-        const [trxReceipt, error] = await API.send<any>({
+        const [trxReceipt, error] = await API.sendOnChain<any>({
             contractName: 'daoFactory',
             methodName: 'deployDao',
             params: [API.address, 1, 1, params.parentDaoAddress],
@@ -56,7 +58,7 @@ export default class DaoFactoryService {
         }
 
         const result = parseEventData({
-            JSON: DaoFactoryJSON,
+            JSON: daoFactoryABI,
             eventName: 'DaoCreated',
             trxReceipt
         });
@@ -65,14 +67,14 @@ export default class DaoFactoryService {
     }
 
     static async createProposal(params: object): SendResult<any> {
-        const [trxReceipt, error] = await API.send<any>({
+        const [trxReceipt, error] = await API.sendOnChain<any>({
             contractName: 'daoFactory',
             methodName: 'createProposal',
             params: [[{
                 address: process.env.VUE_APP_DAO_FACTORY_ADDRESS,
                 value: 0,
                 response: '',
-                data: API.eth.abi.encodeFunctionSignature('func(uint256,string,bytes[])'),
+                data: web3Abi.encodeFunctionSignature('func(uint256,string,bytes[])'),
                 transType: 0
 
             }]],
@@ -84,7 +86,7 @@ export default class DaoFactoryService {
         }
 
         const result = parseEventData({
-            JSON: DaoFactoryJSON,
+            JSON: daoFactoryABI,
             eventName: 'ProposalCreated',
             trxReceipt
         });
