@@ -131,6 +131,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         view === 'filled' && {
             'text-white': ['gray', 'primary', 'primary-400'].includes(theme),
             'text-gray-500 active:text-gray-700': theme === 'surface',
+            'text-gray-600 active:text-gray-700': theme === 'white'
         },
 
 
@@ -141,7 +142,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
         view === 'ghost' && {
             'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme),
-        },
+            'text-gray-600 hover:text-gray-700': theme === 'white'
+        }
     ],
     container: ({themeSettings}) => [themeSettings?.container,
         'flex justify-center items-center transition-fast'
@@ -161,6 +163,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'bg-surface-400 group-hover:bg-gray-300': theme === 'surface',
             'bg-primary-500 group-hover:bg-primary-600 group-active:bg-primary-800': theme === 'primary',
             'border bg-primary-400 group-hover:bg-primary-500 group-active:bg-primary-800': theme === 'primary-400',
+            'bg-white': theme === 'white',
 
             '!bg-disabled-light': disabled
         },
@@ -172,8 +175,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         },
 
         view === 'ghost' && {
-            'group-hover:bg-gray-100 group-active:bg-transparent': theme === 'gray',
-        }
+            'group-hover:bg-gray-100 group-active:bg-transparent': theme === 'gray'
+        },
     ],
     content: '',
     icon: ({ hasContent, icon }) => [

@@ -17,11 +17,11 @@ interface fetchDataProps {
     contractName: ConctactNames
     methodName: string
     params: any[]
-    needReceipt: boolean
+    needReceipt?: boolean
+    needWait?: boolean
 }
 
 class API extends Web3 {
-    static instance: Web3Types;
     static provider: any;
     static address = '';
 
@@ -31,19 +31,11 @@ class API extends Web3 {
         }
     }
 
-    static get eth(): Eth {
-        return API.instance.eth;
-    }
-
     static get contracts() {
         return {
             // @ts-ignore
             daoFactory: new ethers.Contract(process.env.VUE_APP_DAO_FACTORY_ADDRESS, daoFactoryABI, API.provider)
         };
-    }
-
-    static get utils(): Utils  {
-        return API.instance.utils;
     }
 
     static async getSigner(): Promise<Signer>  {
@@ -58,15 +50,16 @@ class API extends Web3 {
 
             const trx = await contractWithSigner[props.methodName](...props.params);
             let trxReceipt;
-            await trx.wait();
+
+            if (props.needWait) {
+                await trx.wait();
+            }
 
             if (props.needReceipt) {
                 trxReceipt = await API.provider.getTransactionReceipt(trx.hash);
-
-                console.log(trxReceipt);
             }
 
-            return [trxReceipt, null];
+            return [trxReceipt || trx, null];
         } catch (e) {
             return [null, e as Error];
         }

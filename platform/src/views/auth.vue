@@ -42,7 +42,7 @@ const router = useRouter();
 
 const wallets = computed(() => {
     const result: IWallet[] = [];
-    const provider = API.instance.currentProvider;
+    const provider = window.ethereum;
 
     if ('isMetaMask' in provider && 'isTrustWallet' in provider) {
         result.push({ id: 'injectedWallet', name: 'Injected', icon: 'injected-wallet', login: () => Wallet.InjectedWallet.login() });

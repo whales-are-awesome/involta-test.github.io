@@ -23,21 +23,12 @@ import { IResponseWithTotal } from '@/models/api';
 import router from '@/router'
 
 export default class DaoFactoryService {
-    static async createDao(params: ICreateDaoParams): SendResult<[string|null, Error | null]> {
-        const [trxReceipt, error] = await API.sendOnChain<any>({
+    static async createDao(params: ICreateDaoParams): SendResult<{hash: string}> {
+        return await API.sendOnChain<any>({
             contractName: 'daoFactory',
             methodName: 'deployDao',
-            params: [+params.proposalExpirationTime, +params.quorumRequired, '0x' + '0'.repeat(40)],
-            needReceipt: true
+            params: [+params.proposalExpirationTime, +params.quorumRequired, '0x' + '0'.repeat(40)]
         });
-
-        const address = trxReceipt?.logs[0].address || null;
-
-        if (error) {
-            return [null, error];
-        }
-
-        return [address, null];
     }
 
     static async createSubDao(params: any): Promise<any> {

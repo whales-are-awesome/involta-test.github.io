@@ -52,7 +52,7 @@ const emit = defineEmits<IEmits>();
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isFocus, isFilled }) => [themeSettings?.root,
-        'h-[40px] bg-surface-300 rounded-[40px] p-[14px] relative overflow-hidden transition-fast',
+        'h-[44px] bg-primary-100 rounded-[5px] py-[16px] px-[18px] relative overflow-hidden transition-fast',
         {
             'md:w-[40px]': !isFocus && !isFilled,
             'md:w-full': isFocus || isFilled
@@ -60,7 +60,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ],
     icon: 'text-300 pointer-events-none',
     input: ({ isFocus, isFilled }) => [
-        'h-full absolute left-0 top-0 w-full bg-transparent placeholder:text-300 text-sm pl-[36px]',
+        'h-full absolute left-0 top-0 w-full bg-transparent placeholder:text-grey-400 pl-[36px] font-500',
         {
             'md:opacity-0': !isFocus && !isFilled
         }

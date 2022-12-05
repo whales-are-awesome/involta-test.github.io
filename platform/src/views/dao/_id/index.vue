@@ -40,13 +40,13 @@
                     v-if="tagList.value === TagStatuses.Proposals"
                     view="outlined"
                     :icon="{
-                            name: 'plus',
-                            width: 14,
-                            prepend: true
-                        }"
+                        name: 'plus',
+                        width: 14,
+                        prepend: true
+                    }"
                     :theme-settings="{
-                            bg: 'bg-white'
-                        }"
+                        bg: 'bg-white'
+                    }"
                     @click="open('CreateProposalLayer')"
                 >
                     New Proposal
@@ -149,7 +149,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref, watchEffect, inject } from 'vue';
 import { useRoute } from 'vue-router';
 import TagsList from '@/components/TagsList/TagsList.vue';
 import BaseCard from '@/components/BaseCard/BaseCard.vue';

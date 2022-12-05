@@ -1,4 +1,5 @@
 import { createApp, h, provide } from 'vue'
+import VueCookies from 'vue-cookies'
 import { DefaultApolloClient } from '@vue/apollo-composable';
 import Maska from 'maska';
 import { svgSpritePlugin } from 'vue-svg-sprite'
@@ -12,7 +13,7 @@ import './assets/styles/global.css';
 
 const app = createApp({
     setup () {
-        provide(DefaultApolloClient, apolloClient)
+        provide(DefaultApolloClient, apolloClient);
     },
     render: () => h(App)
 })
@@ -23,6 +24,7 @@ const app = createApp({
     class: 'base-icon',
 })
 .use(Maska)
+.use(VueCookies, { expires: '7d'})
 .use(router);
 
 app.component('BaseImage', BaseImage);

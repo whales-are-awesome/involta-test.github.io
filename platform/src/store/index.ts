@@ -6,6 +6,7 @@ import wallet, { IState as IWalletState } from './wallet'
 import isMobile, { IState as IIsMobileState } from './isMobile'
 import error, { IState as IErrorState } from './error'
 import dao, { IState as IDaoState } from './dao'
+import app, { IState as IAppState } from './app'
 
 export interface IRootState {
     breadcrumbs: IBreadcrumbsState
@@ -14,6 +15,7 @@ export interface IRootState {
     isMobile: IIsMobileState
     error: IErrorState
     dao: IDaoState
+    app: IAppState
 }
 
 export const key: InjectionKey<Store<IRootState>> = Symbol();
@@ -25,7 +27,8 @@ export const store = createStore<IRootState>({
         isMobile,
         wallet,
         error,
-        dao
+        dao,
+        app
     }
 });
 

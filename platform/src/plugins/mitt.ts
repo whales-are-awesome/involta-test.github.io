@@ -7,6 +7,7 @@ interface ICloseProps {
 
 type Events = {
     layerClose: ICloseProps
+    daoCreated: void
 };
 
 const emitter = mitt<Events>();

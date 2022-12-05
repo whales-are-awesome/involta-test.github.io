@@ -17,33 +17,54 @@
                 {{ addressOrName }}
             </p>
         </BaseAvatar>
-        <div class="mb-[36px] flex justify-between relative sm:mb-[45px]">
-            <TagsList
-                v-model="tagList.value"
-                class="pt-[8px] mr-[42px] md:pt-[14px]"
-                :items="tagList.options"
+        <TagsList
+            v-model="tagList.value"
+            class="pt-[8px] mr-[42px] mb-[36px] sm:mb-[45px] md:pt-[14px]"
+            :items="tagList.options"
+        />
+        <div class="flex space-x-4 sm:space-x-3 relative mb-5">
+            <SelectField
+                v-model="formData.statusId"
+                theme="primary"
+                :options="formInfo.statusesOptions"
             />
-            <div class="max-w-[515px] w-full md:max-w-none sm:hidden">
+            <div class="flex bg-primary-100 p-[2px] rounded-[5px]">
+                <BaseButton
+                    class="shadow-[0px_4px_10px_rgba(48,_47,_121,_0.08)]"
+                    theme="white"
+                >
+                    Need My Vote
+                </BaseButton>
+                <BaseButton
+                    view="ghost"
+                    theme="white"
+                >
+                    Participated
+                </BaseButton>
+            </div>
+            <div class="max-w-[414px] w-full !ml-auto md:max-w-none sm:hidden relative">
                 <BaseSearch
                     class="md:!absolute md:top-0 md:right-0 md:z-1"
                     v-model="formData.search"
                 />
             </div>
+            <BaseButton
+                class="!h-auto"
+                theme="primary-400"
+                :icon="{
+                    name: 'plus',
+                    width: 14,
+                    prepend: true
+                }"
+                @click="createButton.onClick"
+            >
+                {{ createButton.text }}
+            </BaseButton>
         </div>
         <div
             v-if="tagList.value === TagStatuses.Proposals"
             class="space-y-[18px] sm:space-y-[24px]"
         >
-            <div class="flex space-x-4 mb-6 sm:space-x-3">
-                <SelectField
-                    v-model="formData.statusId"
-                    :options="formInfo.statusesOptions"
-                />
-                <SelectField
-                    v-model="formData.voteId"
-                    :options="formInfo.voteOptions"
-                />
-            </div>
             <template v-if="proposalItems.data?.length">
                 <BaseCard
                     v-for="item in 3"
@@ -196,6 +217,24 @@ const daoItems = useDaoItems(formData);
 
 const daoItemsFiltered = computed(() => {
     return daoItems.value.data?.items;
+});
+
+const createButton = computed(() => {
+    return {
+        [TagStatuses.Proposals]: {
+            text: 'Create Proposal',
+            onClick: () => {}
+        },
+        [TagStatuses.DAOs]: {
+            text: 'Create Dao',
+            onClick: () => {}
+        },
+        [TagStatuses.APPs]: {
+            text: 'Create App',
+            onClick: () => {}
+        },
+        [TagStatuses.Statistics]: '',
+    }[tagList.value.value];
 });
 
 const addressOrName = computed(() => store.getters['wallet/addressOrName']);

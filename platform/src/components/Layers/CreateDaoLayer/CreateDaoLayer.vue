@@ -92,17 +92,16 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';
-import DateField from '@/components/Form/DateField/DateField.vue';
 import BaseLayer from '../BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
 import DaoFactoryService from '@/services/DaoFactoryService';
-import API from '@/helpers/api';
+import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 
 /* META */
 
 /* CONSTANTS AND HOOKS */
-
+const watchForCreatedDaos = useWatchForCreatedDaos();
 const { close, alert, closeLast, open } = useLayer();
 const router = useRouter();
 const useClasses = makeClasses(() => ({
@@ -163,34 +162,32 @@ async function createDAO() {
 
     isSending.value = true;
 
-    const [daoAddress, error] = await DaoFactoryService.createDao({
+    const [trx, error] = await DaoFactoryService.createDao({
         quorumRequired: formData.value.quorumRequired,
         proposalExpirationTime: +new Date(formData.value.proposalExpirationTime)
     });
 
-    if (daoAddress) {
-        let network = (await API.provider.getNetwork()).name;
-        network = network === 'homestead' ? 'mainnet' : network;
-        router.push(`/${ network }/dao/${ daoAddress }`);
-
-        const isCreate = await alert({
-            title: 'All set successfully!',
-            text: 'You’ve <strong>successfully created new DAO</strong>. You can add SubDAOs, manage proposals and use Dapps on the page of your DAO any time.',
-            buttonText: 'Create new SubDAO',
+    if (trx) {
+        await alert({
+            title: 'Transaction is being processed!',
+            text: 'We will show you a message when transaction will be done.',
+            buttonText: 'Ok',
             status: 'success'
         });
 
-
-        if (isCreate) {
-            open('CreateSubDaoLayer', { parentDaoAddress: daoAddress })
-        }
+        watchForCreatedDaos.add({
+            hash: trx.hash,
+            description: formData.value.description,
+            name: formData.value.name,
+            externalLink:  formData.value.externalLink
+        });
     } else {
         const isTake = await alert({
             title: 'Warning message!',
             text: 'The <strong>Transaction was cancelled</strong> due current mistake',
             buttonText: 'Take me Home',
             status: 'error'
-        })
+        });
 
         if (isTake) {
             router.push({ name: 'home' });

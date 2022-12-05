@@ -99,7 +99,7 @@ import { computed, ref } from 'vue';
 import VueSelect from 'vue-select';
 import BaseIcon, { IProps as IIconProps } from '@/components/BaseIcon/BaseIcon.vue';
 import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
-import { SelectOption, Sizes, AngleView } from './types';
+import { SelectOption, Sizes, AngleView, Themes } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/models/themeSettings';
 
@@ -113,6 +113,7 @@ interface IProps {
     options: SelectOption[]
     isWrapped?: boolean
     size: Sizes
+    theme: Themes
     angleView: AngleView
     innerLabel?: string
     themeSettings?: ThemeSettings<'root' | 'innerLabel'>
@@ -133,7 +134,7 @@ interface IEmits {
     (e: 'update:modelValue', value: SelectOption): void
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings' | 'size' | 'angleView' | 'searchable' | 'innerLabel'| 'isWrapped'>{
+interface IThemeProps extends Pick<IProps, 'themeSettings' | 'size' | 'angleView' | 'searchable' | 'innerLabel'| 'isWrapped' | 'theme'>{
     isOpen: boolean
     hasValue: boolean
 }
@@ -143,7 +144,8 @@ interface IThemeProps extends Pick<IProps, 'themeSettings' | 'size' | 'angleView
 const props = withDefaults(defineProps<IProps>(), {
     notFound: 'No data',
     size: 'md',
-    angleView: 'primary'
+    angleView: 'primary',
+    theme: 'white'
 });
 const emit = defineEmits<IEmits>();
 
@@ -153,42 +155,57 @@ const select = ref<InstanceType<typeof VueSelect> | null>(null);
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isWrapped }) => [themeSettings?.root,
         {
-            'bg-white px-2 py-3 rounded-[4px]': isWrapped
+            'bg-white px-2 py-3 rounded-[4px]': isWrapped,
         }
     ],
-    main: ({ size, isOpen }) => [
-        'text-gray-500 tracking-[0.04px]',
+    main: ({ size, isOpen, theme }) => [
+        'tracking-[0.04px]',
         {
             'h-[60px]': size === 'xl',
             'h-[38px] sm:h-[30px]': size === 'md',
             'h-[46px]': size === 'lg',
             'h-[30px] text-sm': size === 'sm',
             'h-[30px] text-xxs': size === 'xs',
-            'z-50 relative': isOpen
+            'z-50 relative': isOpen,
+
+            'text-gray-500': theme === 'white',
+            'text-gray-600': theme === 'primary'
         }
     ],
-    select: 'border border-gray-100 rounded-[5px] shadow-[0px_4px_24px_rgba(108,108,125,.08)] overflow-hidden cursor-pointer relative',
+    select: ({ size, theme }) => [
+        'rounded-[5px] overflow-hidden cursor-pointer relative',
+        {
+            'border border-gray-100 shadow-[0px_4px_24px_rgba(108,108,125,.08)]': theme === 'white',
+            'bg-primary-100': theme === 'primary'
+        }
+    ],
     openIndicator: 'hidden',
-    selectedOption: ({ size }) => [
-        'bg-white hover:bg-surface-100 transition-fast flex items-center',
+    selectedOption: ({ size, theme }) => [
+        'transition-fast flex items-center',
         {
             'px-3 h-[60px]': size === 'xl',
             'px-3 h-[46px]': size === 'lg',
             'px-4 h-[38px] sm:h-[30px] sm:px-3': size === 'md',
             'px-3 h-[30px]': size === 'sm',
-            'px-1 h-[30px]': size === 'xs'
+            'px-1 h-[30px]': size === 'xs',
+
+            'bg-white hover:bg-surface-100': theme === 'white',
+            'bg-primary-100 hover:bg-primary-200': theme === 'primary'
         }
     ],
     arrowIcon: ({ angleView }) => ({
         'ml-2.5 text-200': angleView === 'primary',
         'ml-auto text-380': angleView === 'secondary'
     }),
-    option: ({ size }) => [
-        'py-2 bg-white hover:bg-surface-100 transition-fast flex items-center',
+    option: ({ size, theme }) => [
+        'py-2 transition-fast flex items-center',
         {
             'px-4 sm:px-3': size === 'md',
             'px-3': ['lg', 'sm', 'xl'].includes(size),
-            'px-1': size === 'xs'
+            'px-1': size === 'xs',
+
+            'bg-white hover:bg-surface-100': theme === 'white',
+            'bg-primary-100 hover:bg-primary-200': theme === 'primary'
         }
     ],
     search: ({ size, searchable }) => [
@@ -239,7 +256,8 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         angleView: props.angleView,
         innerLabel: props.innerLabel,
         searchable: props.searchable,
-        isWrapped: props.isWrapped
+        isWrapped: props.isWrapped,
+        theme: props.theme,
     });
 });
 

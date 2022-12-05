@@ -44,7 +44,6 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, nextTick, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import Layers from '@/components/Layers/Layers.vue';
 import TheHeader from '@/components/TheHeader/TheHeader.vue';
 import TheMarquee from '@/components/TheMarquee/TheMarquee.vue';
 import TheSidebar from '@/components/TheSidebar/TheSidebar.vue';
