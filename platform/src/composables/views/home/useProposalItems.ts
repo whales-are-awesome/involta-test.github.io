@@ -3,15 +3,19 @@ import { computed, watch } from 'vue';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import { IProposalItem } from '@/models/services/DaoFactoryService';
 
-function useProposalItems(formData: any) {
+function useProposalItems(_formData: any) {
     const items = useFetchDataWithTotal<IProposalItem>();
-    const formResult = computed(() => ({
-        search: formData.value.search,
-        voteId: formData.value.voteId,
-        statusId: formData.value.statusId,
-        limit: formData.value.limits.proposals,
-        offset: formData.value.offsets.proposals
-    }));
+    const formResult = computed(() => {
+        const formData = _formData.value || _formData;
+
+        return {
+            search: formData.search,
+            voteId: formData.voteId,
+            statusId: formData.statusId,
+            limit: formData.limit,
+            offset: formData.offset
+        };
+    });
 
     fetchItems();
     watch(formResult, fetchItems);

@@ -10,7 +10,7 @@
         :disabled="disabled"
         :description="description"
     >
-        <div :class="classes.main">
+        <div :class="[classes.main, classes.height]">
             <VueSelect
                 v-model="value"
                 :class="classes.select"
@@ -31,7 +31,7 @@
                 </template>
                 <template #selected-option="{ id, title, icon }">
                     <slot name="selected-option" v-bind="{ id, title, icon }">
-                        <div :class="classes.selectedOption">
+                        <div :class="[classes.selectedOption, classes.height, classes.padding]">
                             <BaseIcon
                                 v-if="icon"
                                 :class="classes.optionIcon"
@@ -69,7 +69,7 @@
                 </template>
                 <template #option="{ title, id, icon }">
                     <slot name="option" v-bind="{ title, id, icon }">
-                        <div :class="classes.option">
+                        <div :class="[classes.option, classes.padding]">
                             <BaseIcon
                                 v-if="icon"
                                 :class="classes.optionIcon"
@@ -82,7 +82,7 @@
                 </template>
                 <template #search="{ attributes, events }">
                     <input
-                        :class="classes.search"
+                        :class="[classes.search, classes.height, classes.padding]"
                         v-bind="attributes"
                         v-on="events"
                     >
@@ -116,7 +116,7 @@ interface IProps {
     theme: Themes
     angleView: AngleView
     innerLabel?: string
-    themeSettings?: ThemeSettings<'root' | 'innerLabel'>
+    themeSettings?: ThemeSettings<'root' | 'innerLabel' | 'height'>
 
 
     title?: IBlockInfoProps['title']
@@ -161,18 +161,15 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     main: ({ size, isOpen, theme }) => [
         'tracking-[0.04px]',
         {
-            'h-[60px]': size === 'xl',
-            'h-[38px] sm:h-[30px]': size === 'md',
-            'h-[46px]': size === 'lg',
-            'h-[30px] text-sm': size === 'sm',
-            'h-[30px] text-xxs': size === 'xs',
+            'text-sm': size === 'sm',
+            'text-xxs': size === 'xs',
             'z-50 relative': isOpen,
 
             'text-gray-500': theme === 'white',
             'text-gray-600': theme === 'primary'
         }
     ],
-    select: ({ size, theme }) => [
+    select: ({ theme }) => [
         'rounded-[5px] overflow-hidden cursor-pointer relative',
         {
             'border border-gray-100 shadow-[0px_4px_24px_rgba(108,108,125,.08)]': theme === 'white',
@@ -180,15 +177,9 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         }
     ],
     openIndicator: 'hidden',
-    selectedOption: ({ size, theme }) => [
+    selectedOption: ({ theme }) => [
         'transition-fast flex items-center',
         {
-            'px-3 h-[60px]': size === 'xl',
-            'px-3 h-[46px]': size === 'lg',
-            'px-4 h-[38px] sm:h-[30px] sm:px-3': size === 'md',
-            'px-3 h-[30px]': size === 'sm',
-            'px-1 h-[30px]': size === 'xs',
-
             'bg-white hover:bg-surface-100': theme === 'white',
             'bg-primary-100 hover:bg-primary-200': theme === 'primary'
         }
@@ -197,25 +188,16 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         'ml-2.5 text-200': angleView === 'primary',
         'ml-auto text-380': angleView === 'secondary'
     }),
-    option: ({ size, theme }) => [
+    option: ({ theme }) => [
         'py-2 transition-fast flex items-center',
         {
-            'px-4 sm:px-3': size === 'md',
-            'px-3': ['lg', 'sm', 'xl'].includes(size),
-            'px-1': size === 'xs',
-
             'bg-white hover:bg-surface-100': theme === 'white',
             'bg-primary-100 hover:bg-primary-200': theme === 'primary'
         }
     ],
-    search: ({ size, searchable }) => [
+    search: ({ searchable }) => [
         'absolute top-0 left-0 w-10/12 opacity-0 focus:opacity-100',
         {
-            'px-3 h-[60px]': size === 'xl',
-            'px-3 h-[46px]': size === 'lg',
-            'px-4 h-[38px] sm:h-[30px]': size === 'md',
-            'px-3 h-[30px]': size === 'sm',
-            'px-1 h-[30px]': size === 'xs',
             '!hidden': !searchable
         }
     ],
@@ -231,7 +213,22 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ],
     title: ({ innerLabel }) => ({
         'translate-y-[7px]': !!innerLabel
-    })
+    }),
+    height: ({ size, themeSettings }) => [themeSettings?.height,
+        {
+            'h-[60px]': size === 'xl',
+            'h-[38px] sm:h-[30px]': size === 'md',
+            'h-[46px]': size === 'lg',
+            'h-[30px]': ['xs', 'sm'].includes(size)
+        }
+    ],
+    padding: ({ size }) => [
+        {
+            'px-4 sm:px-3': size === 'md',
+            'px-3': ['lg', 'sm', 'xl'].includes(size),
+            'px-1': size === 'xs',
+        }
+    ],
 }));
 
 

@@ -12,8 +12,8 @@ function useDaoItems(_formData: any) {
             ...(formData),
             search: formData.search,
             categoryId: formData.categoryId,
-            limit: formData.limits?.daos || 20,
-            offset: formData.offsets?.daos || 0
+            limit: formData.limit || 20,
+            offset: formData.offset || 0
         }
     });
 

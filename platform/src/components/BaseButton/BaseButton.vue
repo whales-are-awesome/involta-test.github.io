@@ -42,7 +42,7 @@
 <script setup lang="ts">
 /* IMPORTS */
 
-import { computed, useSlots } from 'vue';
+import { computed, useSlots, defineExpose, ref } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import {
     IHTMLButtonAttributes,
@@ -188,6 +188,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
+/* DATA */
+
+const root = ref<HTMLElement | null>(null);
+
 /* COMPUTED */
 
 const componentName = computed<IBaseButtonData['componentName']>(() => {
@@ -241,5 +245,9 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         icon: props.icon,
         themeSettings: props.themeSettings
     });
+});
+
+defineExpose({
+    root
 });
 </script>

@@ -1,0 +1,127 @@
+<template>
+    <div
+        ref="root"
+        :class="classes.root"
+    >
+        <div :class="classes.inner">
+            <div :class="classes.items">
+                <BaseButton
+                    v-for="item in items"
+                    :key="item.id"
+                    ref="itemRefs"
+                    view="ghost"
+                    theme="white"
+                    @click="value = item.id"
+                >
+                    {{ item.title }}
+                </BaseButton>
+            </div>
+            <div ref="bg" :class="classes.bg"></div>
+        </div>
+    </div>
+</template>
+
+
+<script lang="ts" setup>
+/* IMPORTS */
+
+import { computed, defineProps, defineEmits, ref, onMounted, watch, nextTick, onUnmounted } from 'vue';
+import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import { IItem } from './types';
+import makeClasses from '@/helpers/makeClasses';
+import ThemeSettings from '@/models/themeSettings';
+import Popper from 'vue3-popper';
+
+
+/* INTERFACES */
+
+interface IProps {
+    modelValue: IItem['id']
+    items: IItem[]
+    themeSettings?: ThemeSettings<'root'>
+}
+
+interface IEmits {
+    (e: 'update:modelValue', value: IProps['modelValue']): void
+}
+
+interface ThemeProps extends Pick<IProps, 'themeSettings'>{
+}
+
+/* META */
+
+const props = withDefaults(defineProps<IProps>(), {
+});
+const emit = defineEmits<IEmits>();
+
+/* VARS AND CUSTOM HOOKS */
+
+const useClasses = makeClasses<ThemeProps>(() => ({
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'bg-primary-100 p-[2px] rounded-[5px]'
+    ],
+    inner: 'relative z-1',
+    items: 'flex',
+    bg: 'absolute bg-white top-0 h-full -z-1 transition-fast shadow-[0px_4px_10px_rgba(48,_47,_121,_0.08)] rounded-[5px]'
+}));
+
+/* DATA */
+
+const root = ref<HTMLElement | null>(null);
+const itemRefs = ref<InstanceType<typeof BaseButton>[]>([]);
+const bg = ref<HTMLElement | null>(null);
+
+/* COMPUTED */
+
+const value = computed({
+    get() {
+        return props.modelValue;
+    },
+    set(value: IProps['modelValue']) {
+        emit('update:modelValue', value);
+    }
+})
+
+/* WATCH */
+
+watch(value, setBg);
+
+/* LIFECYCLE */
+
+onMounted(async() => {
+    await nextTick(setBg);
+
+    window.addEventListener('resize', setBgWithDelay);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', setBgWithDelay);
+
+});
+
+/* METHODS */
+
+function setBg() {
+    const activeIndex = props.items.findIndex(item => item.id === value.value);
+    const activeEl = itemRefs.value[activeIndex].root;
+    const cords = activeEl.getBoundingClientRect();
+    const rootCords = root.value?.getBoundingClientRect();
+
+    if (bg.value && rootCords) {
+        bg.value.style.width = activeEl.offsetWidth + 'px';
+        bg.value.style.left =  cords.x - rootCords.x - 2 + 'px';
+    }
+}
+
+async function setBgWithDelay(): Promise<void> {
+    setTimeout(() => {
+        setBg();
+    }, 150);
+}
+
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+        themeSettings: props.themeSettings
+    });
+});
+</script>

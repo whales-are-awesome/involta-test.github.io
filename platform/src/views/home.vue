@@ -24,31 +24,44 @@
         />
         <div class="flex space-x-4 sm:space-x-3 relative mb-5">
             <SelectField
-                v-model="formData.statusId"
+                v-if="tagList.value === TagStatuses.Proposals"
+                v-model="formData.value.statusId"
                 theme="primary"
                 :options="formInfo.statusesOptions"
+                :theme-settings="{
+                    height: '!h-[44px]'
+                }"
             />
-            <div class="flex bg-primary-100 p-[2px] rounded-[5px]">
-                <BaseButton
-                    class="shadow-[0px_4px_10px_rgba(48,_47,_121,_0.08)]"
-                    theme="white"
-                >
-                    Need My Vote
-                </BaseButton>
-                <BaseButton
-                    view="ghost"
-                    theme="white"
-                >
-                    Participated
-                </BaseButton>
-            </div>
-            <div class="max-w-[414px] w-full !ml-auto md:max-w-none sm:hidden relative">
+            <SelectField
+                v-if="tagList.value === TagStatuses.DAOs"
+                v-model="formData.value.chainId"
+                theme="primary"
+                :options="formInfo.chainOptions"
+                :theme-settings="{
+                    height: '!h-[44px]'
+                }"
+            />
+            <TagsButtonList
+                v-if="tagList.value === TagStatuses.Proposals"
+                v-model="formData.value.voteId"
+                :items="formInfo.voteOptions"
+            />
+            <TagsButtonList
+                v-if="tagList.value === TagStatuses.DAOs"
+                v-model="formData.value.daosId"
+                :items="formInfo.daosOptions"
+            />
+            <div
+                v-if="tagList.value !== TagStatuses.Statistics"
+                class="max-w-[414px] w-full !ml-auto md:max-w-none sm:hidden relative"
+            >
                 <BaseSearch
                     class="md:!absolute md:top-0 md:right-0 md:z-1"
-                    v-model="formData.search"
+                    v-model="formData.value.search"
                 />
             </div>
             <BaseButton
+                v-if="tagList.value !== TagStatuses.Statistics"
                 class="!h-auto"
                 theme="primary-400"
                 :icon="{
@@ -157,6 +170,7 @@
 import { ref, computed } from 'vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
+import TagsButtonList from '@/components/TagsButtonList/TagsButtonList.vue';
 import DaoCard from '@/components/DaoCard/DaoCard.vue';
 import BaseCard from '@/components/BaseCard/BaseCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -179,7 +193,19 @@ enum TagStatuses {
 const formInfo = {
     voteOptions: [
         { id: 0, title: 'Need my vote' },
-        { id: 1, title: 'All' }
+        { id: 1, title: 'Participated' }
+    ],
+    daosOptions: [
+        { id: 0, title: 'All DAOs' },
+        { id: 1, title: 'My DAOs' }
+    ],
+    chainOptions: [
+        { id: 0, title: 'Chain 1' },
+        { id: 1, title: 'Chain 2' }
+    ],
+    categoryOptions: [
+        { id: 0, title: 'Category 1' },
+        { id: 1, title: 'Category 2' }
     ],
     statusesOptions: [
         { id: Statuses.Active, title: Statuses[Statuses.Active] },
@@ -198,22 +224,30 @@ const tagList = ref({
     value: TagStatuses.Proposals
 })
 
-const formData = ref({
+
+const formDataProposals = ref({
     voteId: formInfo.voteOptions[0].id,
     statusId: Statuses.Active,
     search: '',
-    limits: {
-        proposals: 20,
-        daos: 20
-    },
-    offsets: {
-        proposals: 0,
-        daos: 0
-    }
+    limit: 20,
+    offset: 0
+});
+const formDataDaos = ref({
+    chainId: formInfo.chainOptions[0].id,
+    daosId: Statuses.Active,
+    search: '',
+    limit: 20,
+    offset: 0
+});
+const formDataApps = ref({
+    categoryId: formInfo.voteOptions[0].id,
+    search: '',
+    limit: 20,
+    offset: 0
 });
 
-const proposalItems = useProposalItems(formData);
-const daoItems = useDaoItems(formData);
+const proposalItems = useProposalItems(formDataProposals);
+const daoItems = useDaoItems(formDataDaos);
 
 const daoItemsFiltered = computed(() => {
     return daoItems.value.data?.items;
@@ -233,6 +267,15 @@ const createButton = computed(() => {
             text: 'Create App',
             onClick: () => {}
         },
+        [TagStatuses.Statistics]: '',
+    }[tagList.value.value];
+});
+
+const formData = computed(() => {
+    return {
+        [TagStatuses.Proposals]: formDataProposals,
+        [TagStatuses.DAOs]: formDataDaos,
+        [TagStatuses.APPs]: formDataApps,
         [TagStatuses.Statistics]: '',
     }[tagList.value.value];
 });
