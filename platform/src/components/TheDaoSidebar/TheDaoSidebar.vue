@@ -44,31 +44,26 @@
                             </BaseTooltip>
                         </div>
                     </div>
-                    <template v-if="rootDao.data && parentDao?.data?.address !== rootDao.data?.address">
+                    <TextSeparator :class="classes.subDaoTitle">
+                        PARENT DAOS
+                    </TextSeparator>
+                    <SubDaoMenu
+                        :class="classes.subDaoItems"
+                        :total-items="currentDao.data?.path.length"
+                        :items="currentDao.data?.path.reverse()"
+                    />
+                    <template v-if="subDaoItems.data?.items.length">
                         <TextSeparator :class="classes.subDaoTitle">
-                            ROOT DAO
+                            current DAO
                         </TextSeparator>
+                        <div :class="classes.subDaoDaoTitle">
+                            {{ currentDao.data?.fullName }}
+                        </div>
                         <SubDaoMenu
                             :class="classes.subDaoItems"
-                            :items="[rootDao.data]"
-                        />
-                    </template>
-                    <template v-if="parentDao.data">
-                        <TextSeparator :class="classes.subDaoTitle">
-                            PARENT DAO
-                        </TextSeparator>
-                        <SubDaoMenu
-                            :class="classes.subDaoItems"
-                            :items="[parentDao.data]"
-                        />
-                    </template>
-                    <template  v-if="subDaoItems.data?.items.length">
-                        <TextSeparator :class="classes.subDaoTitle">
-                            subDaoS
-                        </TextSeparator>
-                        <SubDaoMenu
-                            :class="classes.subDaoItems"
+                            :total-items="subDaoItems.data?.total"
                             :items="subDaoItems.data?.items"
+                            @more-dao="formDataSubDao.limit = formDataSubDao.limit + DEFAILT_ADD_LIMIT"
                         />
                     </template>
                     <div
@@ -87,7 +82,7 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed, ref, defineExpose } from 'vue';
+import { computed, ref, defineExpose, watch } from 'vue';
 import SubDaoMenu from '@/components/SubDaoMenu/SubDaoMenu.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -97,6 +92,7 @@ import useLayer from '@//composables/useLayer';
 import { store } from '@/store';
 import useSubDaoItems from '@/composables/fetch/useSubDaoItems';
 import useDao from '@/composables/fetch/useDao';
+import { DEFAULT_LIMIT, DEFAILT_ADD_LIMIT } from './types';
 
 /* INTERFACES */
 
@@ -122,8 +118,14 @@ const useClasses = makeClasses(() => ({
     logo: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 z-0 opacity-70',
     subDaoTitle: 'mb-[13px] mt-9 sm:text-xxs',
     subDaoItems: 'mb-[20px]',
-    addSubDao: 'text-xs underline-offset-1 underline pl-2 font-bold text-gray-500 cursor-pointer'
+    addSubDao: 'text-xs underline-offset-1 underline pl-2 font-bold text-gray-500 cursor-pointer',
+    subDaoDaoTitle: 'text-sm font-semibold mb-2 text-gray-600'
 }));
+
+const formDataSubDao = ref({
+    limit: DEFAULT_LIMIT,
+    offset: 0
+});
 
 
 /* COMPUTED */
@@ -138,17 +140,25 @@ const currentDao = computed(() => store.state.dao);
 
 const formRootDaoData = computed(() => ({ address: currentDao.value.data?.rootDao }));
 const formParentDaoData = computed(() => ({ address: currentDao.value.data?.parentDao }));
-const formDataSubDao = computed(() => ({
+const formDataSubDaoParams = computed(() => ({
     parentAddress: currentDao.value.data?.address,
-    limit: 20,
-    offset: 0
+    ...formDataSubDao.value
 }));
 
-const subDaoItems = useSubDaoItems(formDataSubDao);
+const subDaoItems = useSubDaoItems(formDataSubDaoParams);
 const parentDao = useDao(formParentDaoData);
 const rootDao = useDao(formRootDaoData);
 
 /* WATCH */
+
+watch(currentDao.value, (val) => {
+    if (val.pending) {
+        return;
+    }
+
+    formDataSubDao.value.limit = DEFAULT_LIMIT;
+});
+
 /* METHODS */
 
 defineExpose({

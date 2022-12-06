@@ -1,52 +1,77 @@
 <template>
     <div :class="classes.root">
-        <div
+        <template
             v-for="(item, index) in items"
             :key="index"
-            :class="classes.item"
-            @mouseenter="item.isHovered = true"
-            @mouseleave="item.isHovered = false"
         >
             <div
-                :class="[classes.itemInner, {
-                    'border-b': index !== items.length - 1
-                }]"
+                :class="classes.item"
+                @mouseenter="item.isHovered = true"
+                @mouseleave="item.isHovered = false"
             >
                 <div
-                    :class="classes.itemMain"
-                    @click="$router.push(`/${ item.network }/dao/${ item.address }`)"
+                    :class="[classes.itemInner, {
+                        'border-b': (index !== items.length - 1) || (totalItems === 1)
+                    }]"
                 >
-                    <p :class="classes.itemTitle">
-                        {{ item.fullName }}
-                    </p>
-                    <BaseIcon
-                        v-if="false"
-                        :class="classes.itemIcon"
-                        name="triangle-right"
-                        width="6"
-                        height="4.5"
-                    />
-                    <!--                                <SubDaoItemsPopup-->
-                    <!--                                    v-if="item.isHovered"-->
-                    <!--                                    :items="item.items"-->
-                    <!--                                />-->
-                </div>
-                <div
-                    v-if="false"
-                    :class="classes.itemSublist"
-                >
-                    <SubDaoItemsPopup :items="items" />
                     <div
-                        v-for="(subDao, subDaoIndex) in items"
-                        :key="subDaoIndex"
-                        :class="classes.itemSublistItem"
-                        @click="$router.push(`/${ subDao.network }/dao/${ subDao.address }`)"
+                        :class="classes.itemMain"
+                        @click="$router.push(`/${ item.network }/dao/${ item.address }`)"
                     >
-                        {{ subDao.fullName }}
+                        <p :class="classes.itemTitle">
+                            {{ item.fullName }}
+                        </p>
+                        <BaseIcon
+                            v-if="false"
+                            :class="classes.itemIcon"
+                            name="triangle-right"
+                            width="6"
+                            height="4.5"
+                        />
+                        <!--                                <SubDaoItemsPopup-->
+                        <!--                                    v-if="item.isHovered"-->
+                        <!--                                    :items="item.items"-->
+                        <!--                                />-->
+                    </div>
+                    <div
+                        v-if="false"
+                        :class="classes.itemSublist"
+                    >
+                        <SubDaoItemsPopup :items="items" />
+                        <div
+                            v-for="(subDao, subDaoIndex) in items"
+                            :key="subDaoIndex"
+                            :class="classes.itemSublistItem"
+                            @click="$router.push(`/${ subDao.network }/dao/${ subDao.address }`)"
+                        >
+                            {{ subDao.fullName }}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div
+                v-if="index === 0 && totalItems !== items.length"
+                :class="classes.moreDaos"
+                @click="emit('more-dao')"
+            >
+                <div :class="classes.moreDaosLine"></div>
+                <div :class="classes.moreDaosLine"></div>
+                <div :class="classes.moreDaosLine"></div>
+                <div :class="classes.moreDaosLine"></div>
+                <div :class="classes.moreDaosInner">
+                    {{ totalItems - items.length }} more DAOs
+                    <BaseIcon
+                        :class="classes.moreDaosIcon"
+                        name="more-dao-angle"
+                        width="6"
+                    />
+                </div>
+                <div :class="classes.moreDaosLine"></div>
+                <div :class="classes.moreDaosLine"></div>
+                <div :class="classes.moreDaosLine"></div>
+                <div :class="classes.moreDaosLine"></div>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -54,7 +79,7 @@
 <script lang="ts" setup>
 /* IMPORTS */
 
-import { computed } from 'vue';
+import { computed, defineEmits } from 'vue';
 import SubDaoItemsPopup from '@/components/SubDaoItemsPopup/SubDaoItemsPopup.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
@@ -65,7 +90,12 @@ import { INormalizedSubDaoItemAsDefault } from '@/models/services/DaoFactoryServ
 
 interface IProps {
     themeSettings?: ThemeSettings<'root'>
+    totalItems?: number
     items: INormalizedSubDaoItemAsDefault[]
+}
+
+interface IEmits {
+    (e: 'more-dao'): void
 }
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
@@ -77,6 +107,7 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 /* META */
 
 const props = withDefaults(defineProps<IProps>(), {});
+const emit = defineEmits<IEmits>()
 
 /* VARS AND CUSTOM HOOKS */
 
@@ -91,6 +122,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     itemIcon: 'text-gray-500 flex-shrink-0',
     itemSublist: 'pl-4 pt-2',
     itemSublistItem: 'py-2 border-b border-secondary-200 last:border-none overflow-hidden overflow-ellipsis',
+    moreDaos: 'flex justify-center text-tiny font-semibold items-center space-x-[2px] px-2 cursor-pointer',
+    moreDaosInner: 'bg-gray-500 rounded-[20px] text-gray-100 flex px-1.5 py-[2px] items-center',
+    moreDaosIcon: 'ml-[3px] text-gray-300',
+    moreDaosLine: 'bg-gray-300 rounded-[1px] first:flex-grow last:flex-grow h-px w-[2px]',
 }));
 
 /* DATA */

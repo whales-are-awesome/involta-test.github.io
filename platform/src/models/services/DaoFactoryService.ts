@@ -19,6 +19,7 @@ interface IDaoItem extends IDao {
 
 interface INormalizedDaoAsDefault extends IDao {
     fullName: string
+    path: {name: string, address: string, fullName: string}[]
 }
 
 interface INormalizedDaoItemAsTable extends IDao {

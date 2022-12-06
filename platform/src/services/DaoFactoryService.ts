@@ -145,7 +145,11 @@ export default class DaoFactoryService {
 function normalizeDaoAsDefault(data: IDao): INormalizedDaoAsDefault {
     return {
         ...data,
-        fullName: data.name || cutAddress(data.address)
+        fullName: data.name || cutAddress(data.address),
+        path: data.path?.map(item => ({
+            ...item,
+            fullName: item.name || cutAddress(item.address),
+        }))
     };
 }
 
