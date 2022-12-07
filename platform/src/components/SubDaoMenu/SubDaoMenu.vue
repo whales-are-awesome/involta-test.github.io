@@ -77,16 +77,15 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, defineEmits } from 'vue';
 import SubDaoItemsPopup from '@/components/SubDaoItemsPopup/SubDaoItemsPopup.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
-import { INormalizedSubDaoItemAsDefault } from '@/models/services/DaoFactoryService';
+import ThemeSettings from '@/types/themeSettings';
+import { INormalizedSubDaoItemAsDefault } from '@/types/services/DaoFactoryService';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     themeSettings?: ThemeSettings<'root'>
@@ -98,18 +97,14 @@ interface IEmits {
     (e: 'more-dao'): void
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{
-
-}
-
-
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {});
+
 const emit = defineEmits<IEmits>()
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -128,15 +123,9 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     moreDaosLine: 'bg-gray-300 rounded-[1px] first:flex-grow last:flex-grow h-px w-[2px]',
 }));
 
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });
 });
-
-/* WATCH */
-/* METHODS */
 </script>

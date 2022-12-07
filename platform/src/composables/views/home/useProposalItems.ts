@@ -1,7 +1,7 @@
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { computed, watch } from 'vue';
 import DaoFactoryService from '@/services/DaoFactoryService';
-import { IProposalItem } from '@/models/services/DaoFactoryService';
+import { IProposalItem } from '@/types/services/DaoFactoryService';
 
 function useProposalItems(_formData: any) {
     const items = useFetchDataWithTotal<IProposalItem>();
@@ -17,24 +17,26 @@ function useProposalItems(_formData: any) {
         };
     });
 
-    fetchItems();
-    watch(formResult, fetchItems);
-    async function fetchItems(val?: any, prevVal?: any) {
-        items.value.pending = true;
-        items.value.cancel();
+    // fetchItems();
+    // watch(formResult, fetchItems);
+    // async function fetchItems(val?: any, prevVal?: any) {
+    //     items.value.pending = true;
+    //     items.value.cancel();
+    //
+    //     const [data, error, cancel] = await DaoFactoryService.fetchProposalItemsAsTable(formResult.value);
+    //
+    //     if (error) {
+    //         items.value.pending = false;
+    //
+    //         return;
+    //     }
+    //
+    //     items.value = { data, cancel, pending: false };
+    // }
 
-        const [data, error, cancel] = await DaoFactoryService.fetchProposalItemsAsTable(formResult.value);
+    items.value.pending = false;
 
-        if (error) {
-            items.value.pending = false;
-
-            return;
-        }
-
-        items.value = { data, cancel, pending: false };
-    }
-
-    return items;
+    return [items] as const;
 }
 
 export default useProposalItems;

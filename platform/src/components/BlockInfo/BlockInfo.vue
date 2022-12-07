@@ -86,15 +86,14 @@
 </template>
 
 <script setup lang="ts">
-/* IMPORTS */
-
 import { computed, useSlots } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseTooltip from '@/components/BaseTooltip/BaseTooltip.vue';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 export interface IProps {
     title?: string
@@ -110,21 +109,22 @@ export interface IProps {
     themeSettings?: ThemeSettings<'root' | 'description'>
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings' | 'disabled'>{
-    hasContent: boolean
-}
-
 interface IEmits {
 }
 
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
 });
+
 const emit = defineEmits<IEmits>();
+
 const slots = useSlots();
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings' | 'disabled' | 'error'>{
+    hasContent: boolean
+}
 
 const useClasses = makeClasses<IThemeProps>(() => {
     return {
@@ -188,21 +188,14 @@ const useClasses = makeClasses<IThemeProps>(() => {
     };
 });
 
-/* DATA */
-
-/* COMPUTED */
-
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         disabled: props.disabled,
+        error: props.error,
         hasContent: !!slots.default,
         themeSettings: props.themeSettings
     });
 });
-
-/* WATCH */
-/* METHODS */
 </script>
 
 <style scoped>

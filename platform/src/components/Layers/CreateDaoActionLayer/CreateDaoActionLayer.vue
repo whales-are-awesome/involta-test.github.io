@@ -28,10 +28,13 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import useLayer from '@//composables/useLayer';
+import useLayer from '@/composables/useLayer';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
-import BaseLayer from '../BaseLayer/BaseLayer.vue';
+import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
+
+
+// META
 
 interface IProps {
     title: string
@@ -44,10 +47,14 @@ const props = withDefaults(defineProps<IProps>(), {
     acceptButtonCaption: 'Yes',
     declineButtonCaption: 'No'
 });
+
 const router = useRouter();
 
-
 const { close, open } = useLayer();
+
+
+// CLASSES
+
 const useClasses = makeClasses(() => ({
     title: () => [
         'title-h4 mb-4'
@@ -62,10 +69,16 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
     });
 });
 
+
+// LAYER
+
 function openCreateLayer() {
     close('CreateDaoActionLayer');
     open('CreateDaoLayer');
 }
+
+
+// JOIN
 
 function join() {
     close('CreateDaoActionLayer');

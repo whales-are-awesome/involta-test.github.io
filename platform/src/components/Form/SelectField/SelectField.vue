@@ -93,17 +93,16 @@
 </template>
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, ref } from 'vue';
 import VueSelect from 'vue-select';
 import BaseIcon, { IProps as IIconProps } from '@/components/BaseIcon/BaseIcon.vue';
 import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
 import { SelectOption, Sizes, AngleView, Themes } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     modelValue: string
@@ -134,24 +133,33 @@ interface IEmits {
     (e: 'update:modelValue', value: SelectOption): void
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings' | 'size' | 'angleView' | 'searchable' | 'innerLabel'| 'isWrapped' | 'theme'>{
-    isOpen: boolean
-    hasValue: boolean
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     notFound: 'No data',
     size: 'md',
     angleView: 'primary',
     theme: 'white'
 });
+
 const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
+
+// COMMON:select
 
 const select = ref<InstanceType<typeof VueSelect> | null>(null);
+
+function close(): void {
+    select.value.open = false;
+}
+
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings' | 'size' | 'angleView' | 'searchable' | 'innerLabel'| 'isWrapped' | 'theme'>{
+    isOpen: boolean
+    hasValue: boolean
+}
+
+
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isWrapped }) => [themeSettings?.root,
         {
@@ -231,19 +239,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ],
 }));
 
-
-/* DATA */
-/* COMPUTED */
-
-const value = computed({
-    get() {
-        return props.modelValue;
-    },
-    set(value: SelectOption) {
-        emit('update:modelValue', value)
-    }
-});
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
@@ -257,6 +252,21 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         theme: props.theme,
     });
 });
+
+
+// VALUE
+
+const value = computed({
+    get() {
+        return props.modelValue;
+    },
+    set(value: SelectOption) {
+        emit('update:modelValue', value)
+    }
+});
+
+
+// ANGLE_ICON
 
 const angleIcon = computed<IIconProps | ''>(() => {
     switch (props.angleView) {
@@ -276,14 +286,6 @@ const angleIcon = computed<IIconProps | ''>(() => {
 
     return '';
 });
-
-/* WATCH */
-/* METHODS */
-
-function close(): void {
-    select.value.open = false;
-}
-
 </script>
 <style lang="postcss">
 

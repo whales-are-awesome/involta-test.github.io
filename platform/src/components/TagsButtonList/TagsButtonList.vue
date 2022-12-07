@@ -23,17 +23,14 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, defineProps, defineEmits, ref, onMounted, watch, nextTick, onUnmounted } from 'vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import { IItem } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
-import Popper from 'vue3-popper';
+import ThemeSettings from '@/types/themeSettings';
 
 
-/* INTERFACES */
+// META
 
 interface IProps {
     modelValue: IItem['id']
@@ -45,16 +42,15 @@ interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
-interface ThemeProps extends Pick<IProps, 'themeSettings'>{
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
 });
+
 const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface ThemeProps extends Pick<IProps, 'themeSettings'>{}
 
 const useClasses = makeClasses<ThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -65,13 +61,14 @@ const useClasses = makeClasses<ThemeProps>(() => ({
     bg: 'absolute bg-white top-0 h-full -z-1 transition-fast shadow-[0px_4px_10px_rgba(48,_47,_121,_0.08)] rounded-[5px]'
 }));
 
-/* DATA */
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+        themeSettings: props.themeSettings
+    });
+});
 
-const root = ref<HTMLElement | null>(null);
-const itemRefs = ref<InstanceType<typeof BaseButton>[]>([]);
-const bg = ref<HTMLElement | null>(null);
 
-/* COMPUTED */
+// VALUE
 
 const value = computed({
     get() {
@@ -82,24 +79,14 @@ const value = computed({
     }
 })
 
-/* WATCH */
 
-watch(value, setBg);
+// BACKGROUND
 
-/* LIFECYCLE */
+const root = ref<HTMLElement | null>(null);
 
-onMounted(async() => {
-    await nextTick(setBg);
+const itemRefs = ref<InstanceType<typeof BaseButton>[]>([]);
 
-    window.addEventListener('resize', setBgWithDelay);
-});
-
-onUnmounted(() => {
-    window.removeEventListener('resize', setBgWithDelay);
-
-});
-
-/* METHODS */
+const bg = ref<HTMLElement | null>(null);
 
 function setBg() {
     const activeIndex = props.items.findIndex(item => item.id === value.value);
@@ -119,9 +106,13 @@ async function setBgWithDelay(): Promise<void> {
     }, 150);
 }
 
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-        themeSettings: props.themeSettings
-    });
+watch(value, setBg);
+
+onMounted(async() => {
+    await nextTick(setBg);
+
+    window.addEventListener('resize', setBgWithDelay);
 });
+
+onUnmounted(() => window.removeEventListener('resize', setBgWithDelay));
 </script>

@@ -2,8 +2,7 @@ import { useRouter } from  'vue-router';
 import API from  '@/helpers/api';
 import useCookies from  '@/composables/useCookies';
 import useLayer from  '@/composables/useLayer';
-import { IDaoTransactionCookie } from  '@/models/dao';
-import { store } from  '@/store';
+import { IDaoTransactionCookie } from  '@/types/dao';
 import emitter from '@/plugins/mitt';
 
 function useWatchForCreatedDaos() {

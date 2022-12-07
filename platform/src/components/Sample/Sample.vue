@@ -7,15 +7,13 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 //import  from '@/components/';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+// META
 
 interface IProps {
     modelValue: string
@@ -26,16 +24,14 @@ interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{
-
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {});
+
 const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -43,8 +39,14 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-/* COMPUTED */
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+        themeSettings: props.themeSettings
+    });
+});
+
+
+// VALUE
 
 const value = computed({
     get() {
@@ -54,13 +56,4 @@ const value = computed({
         emit('update:modelValue', value)
     }
 });
-
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-        themeSettings: props.themeSettings
-    });
-});
-
-/* WATCH */
-/* METHODS */
 </script>

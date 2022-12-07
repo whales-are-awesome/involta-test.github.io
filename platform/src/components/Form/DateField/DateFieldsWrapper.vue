@@ -20,14 +20,13 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     title?: IBlockInfoProps['title']
@@ -46,15 +45,14 @@ interface IProps {
 interface IEmits {
 }
 
-interface ThemeProps extends Pick<IProps, 'error' | 'themeSettings'> {
-}
-
-/* META */
-
 const props = defineProps<IProps>();
+
 const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface ThemeProps extends Pick<IProps, 'error' | 'themeSettings'> {}
 
 const useClasses = makeClasses<ThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -65,16 +63,10 @@ const useClasses = makeClasses<ThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         error: props.error,
         themeSettings: props.themeSettings
     });
 });
-
-/* WATCH */
-/* METHODS */
 </script>

@@ -1,4 +1,14 @@
-import { IWithTotalParams } from '@/models/api'
+import { IPaginationParams } from '@/types/api'
+
+
+interface ICreateDaoParams {
+    proposalExpirationTime: number
+    quorumRequired: number
+}
+
+interface ICreateDaoResponse {
+    hash: string
+}
 
 interface IDao {
     address: string
@@ -14,7 +24,8 @@ interface IDao {
     path: {name: string, address: string}[]
 }
 
-interface IDaoItem extends IDao {
+interface IDaoParams {
+    address: string
 }
 
 interface INormalizedDaoAsDefault extends IDao {
@@ -22,20 +33,19 @@ interface INormalizedDaoAsDefault extends IDao {
     path: {name: string, address: string, fullName: string}[]
 }
 
-interface INormalizedDaoItemAsTable extends IDao {
-    fullName: string
+interface IDaoItem extends IDao {
 }
 
-interface IDaoItemParams extends IWithTotalParams {
+interface IDaoItemParams extends IPaginationParams {
     search: string
     voteId: number | string
     statusId: number | string
 }
 
-interface ICreateDaoParams {
-    proposalExpirationTime: number
-    quorumRequired: number
+interface INormalizedDaoItemAsTable extends IDao {
+    fullName: string
 }
+
 
 interface ISubDaoItem {
     address: string
@@ -45,7 +55,11 @@ interface ISubDaoItem {
     image: string
 }
 
-interface ISubDaoItemParams extends IWithTotalParams {
+interface ISubDaoItemParams {
+    address: string
+}
+
+interface ISubDaoItemQuery extends IPaginationParams {
 
 }
 
@@ -54,40 +68,50 @@ interface INormalizedSubDaoItemAsDefault extends ISubDaoItem {
     isHovered: boolean
 }
 
-// interface IDaoCreateParams {
-//     _proposalExpirationTime
-//     _quorumRequired
-//     _parentRegistry
-// }
-
-interface IProposalItemsParams {
-    search: string
-    voteId: number | string
-    statusId: number | string
-}
 
 interface IProposal {
     governance: string
 }
 
+interface IProposalParams {
+    id: string
+}
+
 interface IProposalItem extends Pick<IProposal, 'governance'> {
+}
+
+interface IProposalItemQuery {
+    search: string
+    voteId: number | string
+    statusId: number | string
 }
 
 interface INormalizedProposalItem extends Pick<IProposal, 'governance'> {
 }
 
+
 export {
-    IDaoItemParams,
-    IDaoItem,
-    INormalizedDaoItemAsTable,
+    ICreateDaoParams,
+    ICreateDaoResponse,
     IDao,
-    IProposalItemsParams,
-    IProposal,
-    IProposalItem,
-    INormalizedProposalItem,
+    IDaoParams,
     INormalizedDaoAsDefault,
+
+    IDaoItem,
+    IDaoItemParams,
+    INormalizedDaoItemAsTable,
+
+
     ISubDaoItem,
-    INormalizedSubDaoItemAsDefault,
     ISubDaoItemParams,
-    ICreateDaoParams
+    ISubDaoItemQuery,
+    INormalizedSubDaoItemAsDefault,
+
+
+    IProposal,
+    IProposalParams,
+
+    IProposalItem,
+    IProposalItemQuery,
+    INormalizedProposalItem,
 }

@@ -17,15 +17,14 @@
 </script>
 
 <script lang="ts" setup>
-/* IMPORTS */
 import { computed } from 'vue';
-import useLayer from '@//composables/useLayer';
+import useLayer from '@/composables/useLayer';
 import makeClasses from '@/helpers/makeClasses';
 import { Position } from './types';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
 
-/* INTERFACES */
+// META
 
 interface IProps {
     id?: string
@@ -34,19 +33,18 @@ interface IProps {
     themeSettings?: ThemeSettings<'root' | 'container'>
 }
 
-interface IThemeProps extends Pick<IProps, 'position'> {
-    themeSettings?: ThemeSettings<'container'>
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     position: 'center'
 });
 
-/* CONSTANTS AND HOOKS */
-
 const { close } = useLayer();
+
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'position'> {
+    themeSettings?: ThemeSettings<'container'>
+}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: () => [

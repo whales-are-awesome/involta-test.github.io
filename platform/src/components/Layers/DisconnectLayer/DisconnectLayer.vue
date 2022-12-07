@@ -29,22 +29,19 @@
 </template>
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import useLayer from '@/composables/useLayer';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import { store } from '@/store';
 
+
+// META
+
 const { close } = useLayer();
 
-/* INTERFACES */
 
-/* META */
-
-/* COMPUTED */
+// ADDRESS
 
 const address = computed(() => store.state.wallet.address);
-
 </script>

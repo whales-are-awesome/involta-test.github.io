@@ -477,7 +477,7 @@ import TextField from '@/components/Form/TextField/TextField.vue';
 import DateField from '@/components/Form/DateField/DateField.vue';
 import DateFieldsWrapper from '@/components/Form/DateField/DateFieldsWrapper.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
-import useLayer from '@//composables/useLayer';
+import useLayer from '@/composables/useLayer';
 
 const tagList = [
     { title: 'Proposals', id: 0 },

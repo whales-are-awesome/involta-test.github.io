@@ -71,8 +71,6 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, ref } from 'vue';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -81,9 +79,10 @@ import { IFile } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import getBase64 from '@/helpers/getBase64';
 import { createId } from '@/helpers/uuid';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     modelValue: string
@@ -94,16 +93,16 @@ interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
+const props = withDefaults(defineProps<IProps>(), {});
+
+const emit = defineEmits<IEmits>();
+
+
+// CLASSES
+
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
     hasFiles: boolean
 }
-
-/* META */
-
-const props = withDefaults(defineProps<IProps>(), {});
-const emit = defineEmits<IEmits>();
-
-/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, hasFiles }) => [themeSettings?.root,
@@ -124,22 +123,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     hidden: 'hidden'
 }));
 
-/* DATA */
-
-const fileRef = ref<HTMLElement | null>(null);
-const files = ref<IFile[]>([]);
-
-/* COMPUTED */
-
-const value = computed({
-    get() {
-        return props.modelValue;
-    },
-    set(value: IProps['modelValue']) {
-        emit('update:modelValue', value)
-    }
-});
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
@@ -147,8 +130,12 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
     });
 });
 
-/* WATCH */
-/* METHODS */
+
+// FILES
+
+const fileRef = ref<HTMLElement | null>(null);
+
+const files = ref<IFile[]>([]);
 
 function onDrop(event: DragEvent): void {
     if (event.dataTransfer?.files.length) {
@@ -181,4 +168,15 @@ function uploadFile(event: InputEvent): void {
     }
 }
 
+
+// VALUE
+
+const value = computed({
+    get() {
+        return props.modelValue;
+    },
+    set(value: IProps['modelValue']) {
+        emit('update:modelValue', value)
+    }
+});
 </script>

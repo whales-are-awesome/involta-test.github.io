@@ -1,7 +1,7 @@
 import { Ref } from 'vue';
 import { useFetchData } from '@/composables/useFetchData';
 import DaoFactoryService from '@/services/DaoFactoryService';
-import { INormalizedDaoAsDefault } from '@/models/services/DaoFactoryService';
+import { INormalizedDaoAsDefault } from '@/types/services/DaoFactoryService';
 import { store } from '@/store';
 import { computed, watch } from 'vue';
 
@@ -10,7 +10,8 @@ interface IData {
 }
 
 interface IOptions {
-    saveInStorage: boolean
+    saveInStorage?: boolean
+    watch?: boolean
 }
 
 type Data = Ref<IData> | IData;
@@ -25,12 +26,16 @@ function useDao(_data: Data, _options?: IOptions) {
         }
     });
     const options = {
-        saveInStorage: _options?.saveInStorage || false
+        saveInStorage: _options?.saveInStorage || false,
+        watch: _options?.watch ?? true
     };
+
+    if (options.watch) {
+        watch(dataResult, fetchDao);
+    }
 
 
     fetchDao();
-    watch(dataResult, fetchDao);
     async function fetchDao() {
         if (!dataResult.value.address) {
             info.value = { ...info.value, data: null, pending: false, }
@@ -58,7 +63,7 @@ function useDao(_data: Data, _options?: IOptions) {
 
     }
 
-    return info;
+    return [info, () => fetchDao()] as const;
 }
 
 export default useDao;

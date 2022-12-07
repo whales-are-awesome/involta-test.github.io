@@ -48,16 +48,15 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
 import { IBreadcrumb  } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     name?: string
@@ -66,15 +65,14 @@ interface IProps {
     themeSettings?: ThemeSettings<'root'>
 }
 
+const props = withDefaults(defineProps<IProps>(), {});
+
+
+// CLASSES
+
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
     hasBreadcrumbs: boolean
 }
-
-/* META */
-
-const props = withDefaults(defineProps<IProps>(), {});
-
-/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -95,19 +93,12 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     description: 'max-w-[659px] text-xs text-gray-500 line-clamp-2 sm:line-clamp-3'
 }));
 
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
         hasBreadcrumbs: !!props.breadcrumbs?.length
     });
 });
-
-/* WATCH */
-/* METHODS */
-
 </script>
 
 <style scoped>

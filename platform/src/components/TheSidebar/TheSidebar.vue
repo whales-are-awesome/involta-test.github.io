@@ -45,25 +45,26 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import TheSidebarButton from './TheSidebarButton.vue';
 import makeClasses from '@/helpers/makeClasses';
-import useLayer from '@//composables/useLayer';
+import useLayer from '@/composables/useLayer';
 import { IProps } from '@/components/BlockInfo/BlockInfo.vue';
 import useDaoItems from '@/composables/fetch/useDaoItems';
 import useIsMobile from '@/composables/useIsMobile';
 
-/* META */
+
+// META
 
 const route = useRoute();
 
-/* VARS AND CUSTOM HOOKS */
-
 const layer = useLayer();
+
 const isMobile = useIsMobile();
+
+
+// CLASSES
 
 interface IThemeProps {
     isHome: boolean
@@ -79,11 +80,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     }),
     menuItems: 'space-y-5 sm:space-y-4'
 }));
-const daoItems = useDaoItems({});
-
-/* DATA */
-
-/* COMPUTED */
+const [daoItems] = useDaoItems({});
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
@@ -91,10 +88,10 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
     });
 });
 
+
+// CREATE DAO LAYER
+
 const isCreateDaoOpened = computed(() => {
     return !!layer.openedItems.value.find(item => item.id === 'CreateDaoLayer');
 });
-
-/* WATCH */
-/* METHODS */
 </script>

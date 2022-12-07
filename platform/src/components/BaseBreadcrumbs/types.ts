@@ -1,4 +1,4 @@
-import IRouterLink from '@/models/routerLink';
+import IRouterLink from '@/types/routerLink';
 
 interface IBreadcrumb {
     title?: string

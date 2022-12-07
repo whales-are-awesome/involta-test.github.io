@@ -9,14 +9,13 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, defineEmits } from 'vue';
 import { Rounded, Themes, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     view: Views
@@ -29,16 +28,15 @@ interface IEmits {
     (e: 'click'): void
 }
 
-interface IThemeProps extends Pick<IProps, 'view' | 'theme' | 'rounded' | 'themeSettings'>{}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     rounded: 'base'
 });
+
 const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'view' | 'theme' | 'rounded' | 'themeSettings'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, theme, view, rounded }) => {
@@ -105,9 +103,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     },
 }));
 
-
-/* DATA */
-/* COMPUTED */
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         view: props.view,
@@ -116,7 +111,4 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         themeSettings: props.themeSettings
     });
 });
-
-/* WATCH */
-/* METHODS */
 </script>

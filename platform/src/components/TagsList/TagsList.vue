@@ -26,15 +26,13 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, defineProps, defineEmits, ref, onMounted, watch, nextTick, onUnmounted } from 'vue';
 import { IItem, Sizes } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
 
-/* INTERFACES */
+// META
 
 interface IProps {
     modelValue: IItem['id']
@@ -47,17 +45,16 @@ interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
-interface ThemeProps extends Pick<IProps, 'size' | 'themeSettings'>{
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     size: 'md'
 });
+
 const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface ThemeProps extends Pick<IProps, 'size' | 'themeSettings'>{}
 
 const useClasses = makeClasses<ThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -86,13 +83,14 @@ const useClasses = makeClasses<ThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+        size: props.size,
+        themeSettings: props.themeSettings
+    });
+});
 
-const root = ref<HTMLElement | null>(null);
-const itemRefs = ref<HTMLElement[]>([]);
-const line = ref<HTMLElement | null>(null);
-
-/* COMPUTED */
+// VALUE
 
 const value = computed({
     get() {
@@ -101,26 +99,14 @@ const value = computed({
     set(value: IProps['modelValue']) {
         emit('update:modelValue', value);
     }
-})
-
-/* WATCH */
-
-watch(value, setLine);
-
-/* LIFECYCLE */
-
-onMounted(async() => {
-    await nextTick(setLine);
-
-    window.addEventListener('resize', setLineWithDelay);
 });
 
-onUnmounted(() => {
-    window.removeEventListener('resize', setLineWithDelay);
 
-});
+// LINE
 
-/* METHODS */
+const root = ref<HTMLElement | null>(null);
+const itemRefs = ref<HTMLElement[]>([]);
+const line = ref<HTMLElement | null>(null);
 
 function setLine() {
     const activeIndex = props.items.findIndex(item => item.id === value.value);
@@ -138,10 +124,16 @@ async function setLineWithDelay(): Promise<void> {
     }, 150);
 }
 
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-        size: props.size,
-        themeSettings: props.themeSettings
-    });
+watch(value, setLine);
+
+onMounted(async() => {
+    await nextTick(setLine);
+
+    window.addEventListener('resize', setLineWithDelay);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', setLineWithDelay);
+
 });
 </script>

@@ -14,34 +14,30 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { useAttrs, computed, ref, onMounted } from 'vue';
 //@ts-ignore
 import { until } from '@vueuse/core';
 import VLazyImage from 'v-lazy-image';
 import makeClasses from '@/helpers/makeClasses';
 import wait from '@/helpers/wait';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     themeSettings?: ThemeSettings<'root'>
 }
 
-
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{
-
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {});
-const attrs = useAttrs();
-// const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
+const attrs = useAttrs();
+
+
+// CLASSES
+
+
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -49,20 +45,16 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-
-const show = ref(false);
-
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });
 });
 
-/* WATCH */
-/* METHODS */
+
+// SHOW
+
+const show = ref(false);
 
 onMounted(async () => {
     await wait(() => document.readyState === 'complete');

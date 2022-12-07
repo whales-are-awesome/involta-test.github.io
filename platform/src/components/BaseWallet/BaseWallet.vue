@@ -12,7 +12,7 @@
                 size="tiny"
             >
                 <span :class="classes.value">
-                    {{ cutAddress(value) }}
+                    {{ addressOrName }}
                 </span>
             </BaseAvatar>
             <BaseIcon
@@ -60,8 +60,6 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, ref } from 'vue';
 import BaseAvatar  from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseTooltip  from '@/components/BaseTooltip/BaseTooltip.vue';
@@ -71,29 +69,28 @@ import {  } from './types';
 import Wallet from '@/wallets';
 import useLayer from '@/composables/useLayer';
 import makeClasses from '@/helpers/makeClasses';
-import cutAddress from '@/helpers/cutAddress';
 import copy from '@/helpers/copy';
 import { store } from '@/store';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
 
-/* INTERFACES */
+// META
 
 interface IProps {
     value: string
     themeSettings?: ThemeSettings<'root'>
 }
 
+const props = withDefaults(defineProps<IProps>(), {});
+
+const { open } = useLayer();
+
+
+// CLASSES
+
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
     isHovered: boolean
 }
-
-/* META */
-
-const props = withDefaults(defineProps<IProps>(), {});
-
-/* VARS AND CUSTOM HOOKS */
-const { open } = useLayer();
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isHovered }) => [themeSettings?.root,
@@ -110,28 +107,41 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     })
 }));
 
-/* DATA */
-
-const tooltip= ref(null);
-
-/* COMPUTED */
-const wallet = computed(() => store.state.wallet.wallet);
-const isTooltipShown = computed(() => tooltip.value?.isShown);
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         isHovered: isTooltipShown.value
     });
 });
+
+
+// TOOLTIP
+
+const tooltip= ref(null);
+
+const isTooltipShown = computed(() => tooltip.value?.isShown);
+
+
+// WALLET
+
+const wallet = computed(() => store.state.wallet.wallet);
+
+
+// ADDRESS
+
 const address = computed(() => store.state.wallet.address);
 
+const addressOrName = computed(() => store.getters['wallet/addressOrName']);
 
-/* WATCH */
-/* METHODS */
+
+// VALUE
 
 function copyAddress(callback: () => void) {
     copy(props.value);
     callback();
 }
+
+
+// DISCONNECT
 
 async function disconnect(callback: () => void) {
     callback();

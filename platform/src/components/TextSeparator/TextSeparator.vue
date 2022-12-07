@@ -6,25 +6,26 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, defineProps } from 'vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     themeSettings?: ThemeSettings<'root'>
 }
-interface ThemeProps extends Pick<IProps, 'themeSettings'>{}
 
-/* META */
 const props = withDefaults(defineProps<IProps>(), {
 
 });
-/* VARS AND CUSTOM HOOKS */
+
+
+// CLASSES
+
+interface ThemeProps extends Pick<IProps, 'themeSettings'>{}
 
 const useClasses = makeClasses<ThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -32,15 +33,9 @@ const useClasses = makeClasses<ThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });
 });
-
-/* WATCH */
-/* METHODS */
 </script>

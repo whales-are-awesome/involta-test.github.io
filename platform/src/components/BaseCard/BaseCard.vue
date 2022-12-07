@@ -84,8 +84,6 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -95,9 +93,10 @@ import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
 import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
 import { IUsers } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     avatar: string
@@ -111,22 +110,12 @@ interface IProps {
     themeSettings?: ThemeSettings<'root'>
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{
-
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {});
 
-/* VARS AND CUSTOM HOOKS */
 
-const breadcrumbs: IBreadcrumb[] = [
-    { title: 'EarlyBirds', link: { name: 'home' } },
-    { dots: true },
-    { title: 'EarlyBirds', link: { name: 'home' } },
-    { title: 'EarlyBirds' }
-]
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -149,15 +138,19 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     timerMobile: 'mb-8 mr-auto hidden sm:block',
 }));
 
-/* DATA */
-
-
-
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });
 });
+
+
+// BREADCRUMBS
+
+const breadcrumbs: IBreadcrumb[] = [
+    { title: 'EarlyBirds', link: { name: 'home' } },
+    { dots: true },
+    { title: 'EarlyBirds', link: { name: 'home' } },
+    { title: 'EarlyBirds' }
+]
 </script>

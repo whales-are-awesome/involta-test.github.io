@@ -12,15 +12,14 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import { Themes }  from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     theme: Themes
@@ -31,18 +30,16 @@ interface IEmits {
     (e: 'click'): void
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings' | 'theme'>{
-
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     theme: 'surface-200'
 });
+
 const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings' | 'theme'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, theme }) => [themeSettings?.root,
@@ -54,16 +51,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         theme: props.theme,
         themeSettings: props.themeSettings,
     });
 });
-
-/* WATCH */
-/* METHODS */
 </script>

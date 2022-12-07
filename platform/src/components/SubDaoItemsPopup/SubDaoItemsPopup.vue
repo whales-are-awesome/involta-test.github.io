@@ -21,37 +21,29 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 //import  from '@/components/';
-import {  } from './types';
+import { IItem } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
 
-interface IItem {
-    name: string
-    id: number | string
-}
+// META
 
 interface IProps {
     items: IItem[]
     themeSettings?: ThemeSettings<'root'>
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{
-
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {});
+
 const router = useRouter();
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -61,16 +53,9 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     itemInner: 'py-2 text-gray-500 text-sm border-b border-secondary-300'
 }));
 
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });
 });
-
-/* WATCH */
-/* METHODS */
-
 </script>

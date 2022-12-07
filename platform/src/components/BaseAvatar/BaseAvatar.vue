@@ -20,14 +20,13 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, useSlots } from 'vue';
 import { Rounded, Sizes } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     src: string
@@ -38,21 +37,20 @@ interface IProps {
     themeSettings?: ThemeSettings<'root' | 'image'>
 }
 
-
-interface IThemeProps extends Pick<IProps, 'size' | 'rounded' | 'themeSettings'>{
-    hasContent: boolean
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     size: 'base',
     rounded: 'sm'
 });
 
-/* VARS AND CUSTOM HOOKS */
-
 const slots = useSlots();
+
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'size' | 'rounded' | 'themeSettings'>{
+    hasContent: boolean
+}
+
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
         'flex items-center'
@@ -81,13 +79,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-
 const hasContent = computed<IThemeProps['hasContent']>(() => {
     return !!slots.default;
 });
 
-/* COMPUTED */
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         size: props.size,
@@ -96,8 +91,4 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         themeSettings: props.themeSettings,
     });
 });
-
-/* WATCH */
-/* METHODS */
-
 </script>

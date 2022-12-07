@@ -149,7 +149,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watchEffect, inject } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import TagsList from '@/components/TagsList/TagsList.vue';
 import BaseCard from '@/components/BaseCard/BaseCard.vue';
@@ -163,10 +163,16 @@ import useLayer from '@/composables/useLayer';
 import useDao from '@/composables/fetch/useDao';
 import useError from '@/composables/useError';
 import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
-
-import { Statuses } from '@/models/statuses';
+import { Statuses } from '@/types/statuses';
 import useProposalItems from '@/composables/views/home/useProposalItems';
 import useDaoItems from '@/composables/fetch/useDaoItems';
+
+
+// META
+
+const { open } = useLayer();
+
+const route = useRoute();
 
 enum TagStatuses {
     Proposals,
@@ -174,9 +180,6 @@ enum TagStatuses {
     DAOs,
     APPs
 }
-
-const { open } = useLayer();
-const route = useRoute();
 
 const tagList = ref({
     options: [
@@ -186,7 +189,8 @@ const tagList = ref({
         { id: TagStatuses.APPs, title: TagStatuses[TagStatuses.APPs] },
     ],
     value: TagStatuses.Proposals
-})
+});
+
 
 const formInfo = {
     voteOptions: [
@@ -223,21 +227,37 @@ const formData = ref({
 });
 
 
-const page = useDao({
+// META:PAGE
+
+const [ page ] = useDao({
     address: route.params.address as string
 }, {
     saveInStorage: true
 });
-const proposalItems = useProposalItems(formData);
-const daoItems = useDaoItems(formData);
+
+const pageData = computed(() => page.value.data);
 
 watchEffect(() => {
     page.value.error && useError(404)
 });
-const pageData = computed(() => page.value.data);
+
+
+// PROPOSALS ITEMS
+
+const [proposalItems] = useProposalItems(formData);
+
+
+// DAO ITEMS
+
+const [daoItems] = useDaoItems(formData);
+
 const daoItemsFiltered = computed(() => {
     return daoItems.value.data?.items;
 });
+
+
+// BREADCRUMBS
+
 const breadcrumbs = computed(() => {
     if (!pageData.value || !pageData.value?.path.length) return [];
 

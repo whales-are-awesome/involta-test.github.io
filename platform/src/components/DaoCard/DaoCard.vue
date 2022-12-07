@@ -64,17 +64,16 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     avatar: string
@@ -85,16 +84,12 @@ interface IProps {
     themeSettings?: ThemeSettings<'root'>
 }
 
-
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{
-
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {});
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -113,16 +108,9 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     categoryHash: 'mr-[2px] text-gray-400'
 }));
 
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });
 });
-
-/* WATCH */
-/* METHODS */
-
 </script>

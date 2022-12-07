@@ -16,10 +16,16 @@
 </template>
 
 <script lang="ts" setup>
-import useLayer from '@//composables/useLayer';
+import useLayer from '@/composables/useLayer';
 import { computed } from 'vue';
 
+
+// META
+
 const { isBlackoutShown, openedItems } = useLayer();
+
+
+// LAST ITEM
 
 const lastItem = computed(() => openedItems.value.at(-1));
 </script>

@@ -40,8 +40,6 @@
 </template>
 
 <script setup lang="ts">
-/* IMPORTS */
-
 import { computed, useSlots, defineExpose, ref } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import {
@@ -58,10 +56,11 @@ import {
     Themes
 } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import IRouterLink from '@/models/routerLink';
-import ThemeSettings from '@/models/themeSettings';
+import IRouterLink from '@/types/routerLink';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     href?: IRouterLink
@@ -87,14 +86,6 @@ interface IEmit {
     (e: 'click'): void
 }
 
-interface IThemeProps extends Pick<IProps, 'theme' | 'size' | 'disabled' | 'view' | 'rounded' | 'themeSettings' | 'icon' | 'justify'> {
-    hasContent: boolean
-    hasIcon?: boolean
-    isFocused?: boolean
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     disabled: false,
     type: 'button',
@@ -105,10 +96,19 @@ const props = withDefaults(defineProps<IProps>(), {
     justify: 'center',
     wrapContent: true
 });
+
 const slots = useSlots();
+
 const emit = defineEmits<IEmit>();
 
-/* CONSTANTS AND HOOKS */
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'theme' | 'size' | 'disabled' | 'view' | 'rounded' | 'themeSettings' | 'icon' | 'justify'> {
+    hasContent: boolean
+    hasIcon?: boolean
+    isFocused?: boolean
+}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({size, themeSettings, view, theme, disabled, rounded, justify}) => [themeSettings?.root,
@@ -188,11 +188,27 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
+const hasContent = computed<IBaseButtonData['hasContent']>(() => {
+    return !!slots.default;
+});
 
-const root = ref<HTMLElement | null>(null);
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+        size: props.size,
+        theme: props.theme,
+        view: props.view,
+        justify: props.justify,
+        disabled: props.disabled,
+        rounded: props.rounded,
+        hasContent: !!hasContent.value,
+        hasIcon: !!props.icon,
+        icon: props.icon,
+        themeSettings: props.themeSettings
+    });
+});
 
-/* COMPUTED */
+
+// COMPONENT NAME
 
 const componentName = computed<IBaseButtonData['componentName']>(() => {
     if (typeof props.href === 'object' || (typeof props.href === 'string' && /^\//.test(props.href))) {
@@ -205,6 +221,9 @@ const componentName = computed<IBaseButtonData['componentName']>(() => {
 
     return 'button';
 });
+
+
+// BUTTON ATTRS
 
 const buttonAttrs = computed<IBaseButtonData['buttonAttrs']>(() => {
     if (componentName.value === 'button' && (props.type === 'button' || props.type === 'submit')) {
@@ -228,24 +247,10 @@ const buttonAttrs = computed<IBaseButtonData['buttonAttrs']>(() => {
     return null;
 });
 
-const hasContent = computed<IBaseButtonData['hasContent']>(() => {
-    return !!slots.default;
-});
 
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-        size: props.size,
-        theme: props.theme,
-        view: props.view,
-        justify: props.justify,
-        disabled: props.disabled,
-        rounded: props.rounded,
-        hasContent: !!hasContent.value,
-        hasIcon: !!props.icon,
-        icon: props.icon,
-        themeSettings: props.themeSettings
-    });
-});
+// ROOT
+
+const root = ref<HTMLElement | null>(null);
 
 defineExpose({
     root

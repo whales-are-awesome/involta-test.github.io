@@ -85,11 +85,9 @@
 </template>
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, defineProps, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import useLayer from '@//composables/useLayer';
+import useLayer from '@/composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
@@ -100,20 +98,27 @@ import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
 import DaoFactoryService from '@/services/DaoFactoryService';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     parentDaoAddress: string
 }
 
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {});
+
 const router = useRouter();
 
-/* CONSTANTS AND HOOKS */
-
 const { close, alert, closeLast, open } = useLayer();
+
+
+// CLASSES
+
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+    });
+});
+
 const useClasses = makeClasses(() => ({
     top: () => [
         'flex items-center justify-between mb-11'
@@ -131,9 +136,11 @@ const useClasses = makeClasses(() => ({
     button: 'font-semibold w-full mt-auto flex-shrink-0',
 }));
 
-/* DATA */
+
+// CREATE SUBDAO
 
 const isSending = ref(false);
+
 const [formData, formErrors, checkErrors] = useForm({
     name: {
         value: '',
@@ -157,17 +164,6 @@ const [formData, formErrors, checkErrors] = useForm({
         value: ''
     },
 });
-
-/* COMPUTED */
-
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-    });
-});
-
-/* WATCH */
-
-/* METHODS */
 
 async function createSubDao() {
     if (checkErrors() || isSending.value) return;

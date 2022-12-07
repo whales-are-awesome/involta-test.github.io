@@ -33,7 +33,7 @@
                 }"
             />
             <SelectField
-                v-if="tagList.value === TagStatuses.DAOs"
+                v-if="tagList.value === TagStatuses.Daos"
                 v-model="formData.value.chainId"
                 theme="primary"
                 :options="formInfo.chainOptions"
@@ -47,9 +47,9 @@
                 :items="formInfo.voteOptions"
             />
             <TagsButtonList
-                v-if="tagList.value === TagStatuses.DAOs"
+                v-if="tagList.value === TagStatuses.Daos"
                 v-model="formData.value.daosId"
-                :items="formInfo.daosOptions"
+                :items="formInfo.DaosOptions"
             />
             <div
                 v-if="tagList.value !== TagStatuses.Statistics"
@@ -99,7 +99,7 @@
                 text="We couldn't find any proposals matching your query. Try another query"
             />
         </div>
-        <div v-if="tagList.value === TagStatuses.DAOs">
+        <div v-if="tagList.value === TagStatuses.Daos">
             <div
                 v-if="daoItemsFiltered.length"
                 class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
@@ -133,12 +133,12 @@
                 view="outlined"
                 size="sm"
                 rounded="lg"
-                @click="formData.offsets.daos += 1"
+                @click="formData.offsets.Daos += 1"
             >
-                Show more DAOs
+                Show more Daos
             </BaseButton>
         </div>
-        <div v-if="tagList.value === TagStatuses.APPs">
+        <div v-if="tagList.value === TagStatuses.Apps">
             <div class="flex flex-wrap -mx-3 -mt-6 mb-8">
                 <div
                     class="w-1/4 px-3 mt-6 md:w-1/3"
@@ -160,7 +160,7 @@
                 size="sm"
                 rounded="lg"
             >
-                Show more DAOs
+                Show more Daos
             </BaseButton>
         </div>
     </div>
@@ -168,6 +168,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
 import TagsButtonList from '@/components/TagsButtonList/TagsButtonList.vue';
@@ -178,26 +179,25 @@ import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import NotFound from '@/components/NotFound/NotFound.vue';
 import { store } from '@/store';
-
-import { Statuses } from '@/models/statuses';
+import { Statuses } from '@/types/statuses';
+import capitalize from '@/helpers/capitalize';
 import useDaoItems from '@/composables/fetch/useDaoItems';
 import useProposalItems from '@/composables/views/home/useProposalItems';
+import useQueryUpdates from '@/composables/useQueryUpdates';
+import { TagStatuses } from './types'
 
-enum TagStatuses {
-    Proposals,
-    Statistics,
-    DAOs,
-    APPs
-}
+// META
+
+const route = useRoute();
 
 const formInfo = {
     voteOptions: [
         { id: 0, title: 'Need my vote' },
         { id: 1, title: 'Participated' }
     ],
-    daosOptions: [
-        { id: 0, title: 'All DAOs' },
-        { id: 1, title: 'My DAOs' }
+    DaosOptions: [
+        { id: 0, title: 'All Daos' },
+        { id: 1, title: 'My Daos' }
     ],
     chainOptions: [
         { id: 0, title: 'Chain 1' },
@@ -217,28 +217,47 @@ const formInfo = {
 const tagList = ref({
     options: [
         { id: TagStatuses.Proposals, title: TagStatuses[TagStatuses.Proposals] },
-        { id: TagStatuses.Statistics, title: TagStatuses[TagStatuses.Statistics] },
-        { id: TagStatuses.DAOs, title: TagStatuses[TagStatuses.DAOs] },
-        { id: TagStatuses.APPs, title: TagStatuses[TagStatuses.APPs] }
+        { id: TagStatuses.Statistics, title: TagStatuses.Statistics },
+        { id: TagStatuses.Daos, title: TagStatuses.Daos },
+        { id: TagStatuses.Apps, title: TagStatuses.Apps }
     ],
-    value: TagStatuses.Proposals
-})
+    value: Object.keys(TagStatuses).includes(capitalize(route.query.section as string)) ? capitalize(route.query.section as string):  TagStatuses.Proposals
+});
 
+// PROPOSALS
 
 const formDataProposals = ref({
-    voteId: formInfo.voteOptions[0].id,
-    statusId: Statuses.Active,
-    search: '',
+    voteId: route.query.voteId || formInfo.voteOptions[0].id,
+    statusId: route.query.statusId || Statuses.Active,
+    search: route.query.search || '',
     limit: 20,
     offset: 0
 });
+
+const [proposalItems] = useProposalItems(formDataProposals);
+
+useQueryUpdates(formDataProposals);
+
+
+// DAOS
+
 const formDataDaos = ref({
     chainId: formInfo.chainOptions[0].id,
-    daosId: Statuses.Active,
-    search: '',
+    daosId: route.query.daosId || Statuses.Active,
+    search: route.query.search || '',
     limit: 20,
     offset: 0
 });
+
+const [daoItems] = useDaoItems(formDataDaos);
+
+const daoItemsFiltered = computed(() => {
+    return daoItems.value.data?.items;
+});
+
+
+// APPS
+
 const formDataApps = ref({
     categoryId: formInfo.voteOptions[0].id,
     search: '',
@@ -246,12 +265,8 @@ const formDataApps = ref({
     offset: 0
 });
 
-const proposalItems = useProposalItems(formDataProposals);
-const daoItems = useDaoItems(formDataDaos);
 
-const daoItemsFiltered = computed(() => {
-    return daoItems.value.data?.items;
-});
+// CREATE BUTTON
 
 const createButton = computed(() => {
     return {
@@ -259,11 +274,11 @@ const createButton = computed(() => {
             text: 'Create Proposal',
             onClick: () => {}
         },
-        [TagStatuses.DAOs]: {
+        [TagStatuses.Daos]: {
             text: 'Create Dao',
             onClick: () => {}
         },
-        [TagStatuses.APPs]: {
+        [TagStatuses.Apps]: {
             text: 'Create App',
             onClick: () => {}
         },
@@ -271,14 +286,20 @@ const createButton = computed(() => {
     }[tagList.value.value];
 });
 
+
+// FORM DATA
+
 const formData = computed(() => {
     return {
         [TagStatuses.Proposals]: formDataProposals,
-        [TagStatuses.DAOs]: formDataDaos,
-        [TagStatuses.APPs]: formDataApps,
+        [TagStatuses.Daos]: formDataDaos,
+        [TagStatuses.Apps]: formDataApps,
         [TagStatuses.Statistics]: '',
     }[tagList.value.value];
 });
+
+
+// ADDRESS
 
 const addressOrName = computed(() => store.getters['wallet/addressOrName']);
 const address = computed(() => store.state.wallet.address);

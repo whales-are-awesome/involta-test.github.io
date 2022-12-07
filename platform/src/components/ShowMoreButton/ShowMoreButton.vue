@@ -15,17 +15,15 @@
     </div>
 </template>
 
-
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     modelValue: boolean
@@ -36,16 +34,15 @@ interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
+const props = withDefaults(defineProps<IProps>(), {});
+
+const emit = defineEmits<IEmits>();
+
+// CLASSES
+
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
     isOpen: IProps['modelValue']
 }
-
-/* META */
-
-const props = withDefaults(defineProps<IProps>(), {});
-const emit = defineEmits<IEmits>();
-
-/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -60,8 +57,15 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-/* COMPUTED */
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+        themeSettings: props.themeSettings,
+        isOpen: value.value
+    });
+});
+
+
+// VALUE
 
 const value = computed({
     get() {
@@ -71,14 +75,4 @@ const value = computed({
         emit('update:modelValue', value)
     }
 });
-
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-        themeSettings: props.themeSettings,
-        isOpen: value.value
-    });
-});
-
-/* WATCH */
-/* METHODS */
 </script>

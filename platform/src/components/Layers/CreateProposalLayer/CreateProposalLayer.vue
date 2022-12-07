@@ -273,11 +273,9 @@
 </template>
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, defineProps, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import useLayer from '@//composables/useLayer';
+import useLayer from '@/composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
@@ -290,7 +288,7 @@ import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseAdd from '@/components/BaseAdd/BaseAdd.vue';
 import BaseBlock from '@/components/BaseBlock/BaseBlock.vue';
 import DeleteButton from '@/components/DeleteButton/DeleteButton.vue';
-import { solidityTypes } from '@/models/solidityTypes';
+import { solidityTypes } from '@/types/solidityTypes';
 import DropdownSearch from '@/components/DropdownSearch/DropdownSearch.vue';
 import DateField from '@/components/Form/DateField/DateField.vue';
 import DateFieldsWrapper from '@/components/Form/DateField/DateFieldsWrapper.vue';
@@ -299,24 +297,25 @@ import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import { createId } from '@/helpers/uuid';
-import API from '@/helpers/api';
 import useIsMobile from '@/composables/useIsMobile';
 
-/* INTERFACES */
+// META
 
 interface IProps {
     parentDaoAddress: string
 }
 
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {});
+
 const router = useRouter();
 
-/* CONSTANTS AND HOOKS */
-
 const { close, alert, closeLast } = useLayer();
+
 const isMobile = useIsMobile();
+
+
+// CLASSES
+
 const useClasses = makeClasses(() => ({
     top: () => [
         'flex items-center justify-between mb-11 sm:items-start'
@@ -335,9 +334,17 @@ const useClasses = makeClasses(() => ({
     button: 'font-semibold w-full mt-auto flex-shrink-0',
 }));
 
-/* DATA */
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+    });
+});
+
+
+
+// CREATE PROPOSAL
 
 const isSending = ref(false);
+
 const formInfo = {
     subDao: [
         { id: 1, title: 'DAO 1' },
@@ -347,7 +354,8 @@ const formInfo = {
         title: item,
         id: item
     }))
-}
+};
+
 const [formData, formErrors, checkErrors] = useForm({
     name: {
         value: '',
@@ -374,14 +382,6 @@ const [formData, formErrors, checkErrors] = useForm({
     }
 });
 
-
-/* COMPUTED */
-
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-    });
-});
-
 const formResult = computed(() => {
     return {
         transactions: formData.value.transactions.map((item: any) => ({
@@ -393,11 +393,6 @@ const formResult = computed(() => {
         }))
     }
 });
-
-
-/* WATCH */
-
-/* METHODS */
 
 async function createProposal() {
     if (checkErrors() || isSending.value) return;

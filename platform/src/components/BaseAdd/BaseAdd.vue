@@ -16,15 +16,14 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import BaseBlock  from '@/components/BaseBlock/BaseBlock.vue';
 import BaseButton  from '@/components/BaseButton/BaseButton.vue';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     themeSettings?: ThemeSettings<'root'>
@@ -33,16 +32,16 @@ interface IProps {
 interface IEmits {
 }
 
+const props = withDefaults(defineProps<IProps>(), {});
+
+const emit = defineEmits<IEmits>();
+
+
+// CLASSES
+
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 
 }
-
-/* META */
-
-const props = withDefaults(defineProps<IProps>(), {});
-const emit = defineEmits<IEmits>();
-
-/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -50,15 +49,9 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });
 });
-
-/* WATCH */
-/* METHODS */
 </script>

@@ -64,17 +64,16 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, ref } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue'
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue'
 import BaseCollapse from '@/components/BaseCollapse/BaseCollapse.vue'
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     modelValue: string
@@ -85,17 +84,17 @@ interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
+const props = withDefaults(defineProps<IProps>(), {});
+
+const emit = defineEmits<IEmits>();
+
+
+// CLASSES
+
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
     isFocus: boolean
     isFilled: boolean
 }
-
-/* META */
-
-const props = withDefaults(defineProps<IProps>(), {});
-const emit = defineEmits<IEmits>();
-
-/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -120,11 +119,29 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     dropdownItemCoincidence: 'text-400'
 }));
 
-/* DATA */
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+        themeSettings: props.themeSettings,
+        isFocus: isFocus.value,
+        isFilled: !!value.value
+    });
+});
+
+
+// FOCUS
 
 const isFocus = ref(false);
 
-/* COMPUTED */
+function onFocus(): void {
+    isFocus.value = true;
+}
+
+function onBlur(): void {
+    isFocus.value = false;
+}
+
+
+// VALUE
 
 const value = computed({
     get() {
@@ -134,23 +151,4 @@ const value = computed({
         emit('update:modelValue', value)
     }
 });
-
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-        themeSettings: props.themeSettings,
-        isFocus: isFocus.value,
-        isFilled: !!value.value
-    });
-});
-
-/* WATCH */
-/* METHODS */
-
-function onFocus(): void {
-    isFocus.value = true;
-}
-
-function onBlur(): void {
-    isFocus.value = false;
-}
 </script>

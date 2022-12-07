@@ -86,8 +86,6 @@
 </template>
 
 <script setup lang="ts">
-/* IMPORTS */
-
 import { computed, ref } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
@@ -95,9 +93,10 @@ import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/Blo
 import { Icons } from '@/components/BaseIcon/types';
 import { Sizes, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     modelValue: string
@@ -135,6 +134,16 @@ interface IEmits {
     (e: 'button-click'): void
 }
 
+const props = withDefaults(defineProps<IProps>(), {
+    size: 'md',
+    view: 'default'
+});
+
+const emit = defineEmits<IEmits>();
+
+
+// CLASSES
+
 interface IThemeProps extends Pick<IProps, 'size' | 'view' | 'disabled' | 'isBold' | 'isWrapped' | 'themeSettings'> {
     isFocus: boolean
     hasError: boolean
@@ -143,17 +152,6 @@ interface IThemeProps extends Pick<IProps, 'size' | 'view' | 'disabled' | 'isBol
     hasRightIcon: boolean
     hasInsetLeftLabel: boolean
 }
-
-/* META */
-
-const props = withDefaults(defineProps<IProps>(), {
-    size: 'md',
-    view: 'default'
-});
-const emit = defineEmits<IEmits>();
-const input = ref(null);
-
-/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => {
     return {
@@ -302,24 +300,6 @@ const useClasses = makeClasses<IThemeProps>(() => {
     };
 });
 
-/* DATA */
-
-const isFocus = ref(false);
-
-/* COMPUTED */
-
-const value = computed({
-    get() {
-        return props.modelValue;
-    },
-    set(value: IProps['modelValue']) {
-        if (!props.maxlength || value.length <= +props.maxlength ) {
-            emit('update:modelValue', value)
-        }
-    }
-});
-
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         isFocus: isFocus.value,
@@ -338,8 +318,10 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
     });
 });
 
-/* WATCH */
-/* METHODS */
+
+// FOCUS
+
+const isFocus = ref(false);
 
 function onFocus(): void {
     isFocus.value = true;
@@ -349,11 +331,26 @@ function onBlur(): void {
     isFocus.value = false;
 }
 
+
+// VALUE
+
+const value = computed({
+    get() {
+        return props.modelValue;
+    },
+    set(value: IProps['modelValue']) {
+        if (!props.maxlength || value.length <= +props.maxlength ) {
+            emit('update:modelValue', value)
+        }
+    }
+});
+
+
+// INPUT
+
+const input = ref<HTMLElement | null>(null);
+
 function onClick(): void {
-    input.value.focus();
+    input.value?.focus();
 }
 </script>
-
-<style scoped>
-
-</style>

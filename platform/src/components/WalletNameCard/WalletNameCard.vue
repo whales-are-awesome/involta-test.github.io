@@ -23,16 +23,15 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import { Icons } from '@/components/BaseIcon/types';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+// META
+
 interface IProps {
     icon: Extract<Icons, 'ledger' | 'injected-wallet' | 'connect-wallet' | 'trust-wallet'>
     name: string
@@ -45,15 +44,14 @@ interface IEmits {
     (e: 'click'): void
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings' | 'isSelected' | 'isDisabled'>{
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {});
+
 const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings' | 'isSelected' | 'isDisabled'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isSelected, isDisabled }) => [themeSettings?.root,
@@ -68,9 +66,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     iconMobile: 'mr-1 flex-shrink-0 hidden sm:block',
 }));
 
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
@@ -78,7 +73,4 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         isDisabled: props.isDisabled,
     });
 });
-
-/* WATCH */
-/* METHODS */
 </script>

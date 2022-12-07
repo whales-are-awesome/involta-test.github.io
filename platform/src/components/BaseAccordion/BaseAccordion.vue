@@ -45,15 +45,14 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, ref } from 'vue';
 import BaseCollapse  from '@/components/BaseCollapse/BaseCollapse.vue';
 import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     title?: string
@@ -63,17 +62,18 @@ interface IProps {
     themeSettings?: ThemeSettings<'root'>
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{
-    isVisibleLocal: boolean
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     isVisible: false
 });
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{
+    isVisibleLocal: boolean
+}
+
+const isVisibleLocal = ref(props.isVisible);
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isVisibleLocal }) => [themeSettings?.root,
@@ -96,11 +96,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-
-const isVisibleLocal = ref(props.isVisible);
-
-/* COMPUTED */
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
@@ -109,11 +104,7 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
     });
 });
 
-/* WATCH */
-/* METHODS */
-
 function toggleVisibility() {
     isVisibleLocal.value = !isVisibleLocal.value;
 }
-
 </script>

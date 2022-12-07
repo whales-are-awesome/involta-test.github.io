@@ -11,7 +11,7 @@
 import { computed } from 'vue';
 import Layers from '@/components/Layers/Layers.vue';
 import Layout from './layouts/index.vue';
-import ErrorPage from '@/views/error.vue';
+import ErrorPage from '@/views/error/index.vue';
 import { store } from '@/store';
 
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';

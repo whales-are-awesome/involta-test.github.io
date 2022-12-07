@@ -5,8 +5,7 @@ import scrollIntoView from '@/helpers/scrollIntoView';
 import authMiddleware from '@/middleware/auth';
 import walletsInitMiddleware from '@/middleware/wallets-init';
 
-// @ts-ignore
-import Home from '@/views/home.vue'
+import Home from '@/views/home/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -61,7 +60,7 @@ const routes: Array<RouteRecordRaw> = [
             title: 'Connect wallet',
             middleware: [walletsInitMiddleware, authMiddleware]
         },
-        component: () => import(/* webpackChunkName: "auth" */ '../views/auth.vue'),
+        component: () => import(/* webpackChunkName: "auth" */ '../views/auth/index.vue'),
     },
     {
         path: '/test',
@@ -70,12 +69,12 @@ const routes: Array<RouteRecordRaw> = [
             title: 'Test',
             middleware: [walletsInitMiddleware]
         },
-        component: () => import(/* webpackChunkName: "test" */ '../views/test.vue'),
+        component: () => import(/* webpackChunkName: "test" */ '../views/test/index.vue'),
     },
     {
         path: "/:catchAll(.*)",
         name: "error",
-        component: () => import(/* webpackChunkName: "error" */ '../views/error.vue'),
+        component: () => import(/* webpackChunkName: "error" */ '../views/error/index.vue'),
         meta: {
             middleware: [walletsInitMiddleware]
         }

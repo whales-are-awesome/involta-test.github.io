@@ -25,11 +25,14 @@
 </template>
 
 <script lang="ts" setup>
-import {computed} from 'vue';
-import useLayer from '@//composables/useLayer';
+import { computed } from 'vue';
+import useLayer from '@/composables/useLayer';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
-import BaseLayer from '../BaseLayer/BaseLayer.vue';
+import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
+
+
+// META
 
 interface IProps {
     title: string
@@ -43,8 +46,11 @@ const props = withDefaults(defineProps<IProps>(), {
     declineButtonCaption: 'No'
 });
 
-
 const { close } = useLayer();
+
+
+// CLASSES
+
 const useClasses = makeClasses(() => ({
     title: () => [
         'title-h4 mb-4'

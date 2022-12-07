@@ -28,17 +28,16 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, ref } from 'vue';
 import {  } from './types';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useIsMobile from '@/composables/useIsMobile';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     icon?: string
@@ -59,14 +58,13 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
     hasImage: boolean
 }
 
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {});
+
 const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
-
 const isMobile = useIsMobile();
+
+// CLASSES
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isHovered, isActive }) => [themeSettings?.root,
@@ -95,12 +93,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-
-const isHovered = ref(false);
-
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
@@ -110,6 +102,8 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
     });
 });
 
-/* WATCH */
-/* METHODS */
+
+// HOVER
+
+const isHovered = ref(false);
 </script>

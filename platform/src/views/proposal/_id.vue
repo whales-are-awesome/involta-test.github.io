@@ -421,8 +421,11 @@ import BaseCollapse from '@/components/BaseCollapse/BaseCollapse.vue';
 import BlockInfo from '@/components/BlockInfo/BlockInfo.vue';
 import useIsMobile from '@/composables/useIsMobile';
 import useError from '@/composables/useError';
-import { currenyItems } from '@/models/currency';
-import { Statuses } from '@/models/statuses';
+import { currenyItems } from '@/types/currency';
+import { Statuses } from '@/types/statuses';
+
+
+// META
 
 enum TagStatuses {
     Proposals,
@@ -447,6 +450,7 @@ const formData = ref({
     search: 5,
     currencyId: currenyItems[0]['id']
 });
+
 
 const showMore = ref(false);
 

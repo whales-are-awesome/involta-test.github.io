@@ -62,17 +62,16 @@
 </template>
 
 <script setup lang="ts">
-/* IMPORTS */
-
 import { computed, defineProps } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import { store } from '@/store';
 import { IBreadcrumb, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     items?: IBreadcrumb[]
@@ -82,19 +81,16 @@ interface IProps {
     themeSettings?: ThemeSettings<'root'>
 }
 
-interface IThemeProps extends Pick<IProps, 'view' | 'themeSettings'> {
-
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     hash: true,
     firstAngle: true,
     view : 'secondary'
 });
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'view' | 'themeSettings'> {}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -127,16 +123,17 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
-/* COMPUTED */
-
-const items = computed(() => store.state.breadcrumbs.items);
-
-const resultItems = computed(() => props.items || items.value);
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         view: props.view,
         themeSettings: props.themeSettings
     });
 });
+
+
+// ITEMS
+
+const items = computed(() => store.state.breadcrumbs.items);
+
+const resultItems = computed(() => props.items || items.value);
 </script>

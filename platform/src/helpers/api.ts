@@ -1,13 +1,9 @@
 import Web3 from 'web3';
-import { default as Web3Types } from 'web3/types';
-import { Eth } from 'web3-eth/types';
-import { Utils } from 'web3-utils/types';
 import daoFactoryABI from '@/abi/daoFactoryABI';
 import axios, { Canceler } from '@/plugins/axios';
 import camelize from '@/helpers/camelize';
-import { FetchResult, SendResult } from '@/models/api'
+import { FetchResult, SendResult } from '@/types/api'
 import { ethers, Signer } from 'ethers'
-import { store } from '@/store'
 
 
 
@@ -69,13 +65,12 @@ class API extends Web3 {
         try {
             let cancel: Canceler | (() => void) = () => {};
 
-            const data = await axios.get<T>(path, {
+            const data: { data: T } = await axios.get<T>(path, {
                 params,
                 cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel)
             });
 
-            //@ts-ignore
-            return [data.data ? camelize(data.data) : data.data, null, cancel];
+            return [camelize(data.data), null, cancel];
         } catch (e) {
             return [null, e as Error, () => {}];
         }

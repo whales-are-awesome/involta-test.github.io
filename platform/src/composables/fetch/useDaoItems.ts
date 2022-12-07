@@ -1,31 +1,31 @@
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { computed, watch } from 'vue';
 import DaoFactoryService from '@/services/DaoFactoryService';
-import { INormalizedDaoItemAsTable } from '@/models/services/DaoFactoryService';
+import { INormalizedDaoItemAsTable } from '@/types/services/DaoFactoryService';
 
-function useDaoItems(_formData: any) {
+function useDaoItems(_data: any) {
     const items = useFetchDataWithTotal<INormalizedDaoItemAsTable>();
-    const formResult = computed(() => {
-        const formData = _formData.value || _formData;
+    const dataResult = computed(() => {
+        const data = _data.value || _data;
 
         return {
-            ...(formData),
-            search: formData.search,
-            categoryId: formData.categoryId,
-            limit: formData.limit || 20,
-            offset: formData.offset || 0
+            ...(data),
+            search: data.search,
+            categoryId: data.categoryId,
+            limit: data.limit || 20,
+            offset: data.offset || 0
         }
     });
 
     fetchItems();
-    watch(formResult, fetchItems);
+    watch(dataResult, fetchItems);
     async function fetchItems(val?: any, prevVal?: any) {
         const isAddMore = val?.offset !== prevVal?.offset && val?.offset !== 0;
 
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await DaoFactoryService.fetchDaoItemsAsTable(formResult.value);
+        const [data, error, cancel] = await DaoFactoryService.fetchDaoItemsAsTable(dataResult.value);
 
         if (error) {
             items.value.pending = false;
@@ -43,7 +43,7 @@ function useDaoItems(_formData: any) {
 
     }
 
-    return items;
+    return [items, fetchItems] as const;
 }
 
 export default useDaoItems;

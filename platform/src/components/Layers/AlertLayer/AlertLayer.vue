@@ -41,8 +41,6 @@
 </template>
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { defineProps, computed } from 'vue';
 import useLayer from '@/composables/useLayer';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
@@ -50,9 +48,8 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import { Statuses } from './types';
 
-const { close } = useLayer();
 
-/* INTERFACES */
+// META
 
 interface IProps {
     title: string
@@ -61,13 +58,17 @@ interface IProps {
     status: Statuses
 }
 
-/* META */
-
 const props =withDefaults(defineProps<IProps>(), {
 
 });
 
-/* COMPUTED */
+const { close } = useLayer();
+
+
+// CLASSES
+
+
+// ICON_NAME
 
 const iconName = computed(() => {
     switch(props.status) {

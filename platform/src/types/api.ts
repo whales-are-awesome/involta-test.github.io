@@ -1,14 +1,16 @@
 import { Canceler } from '@/plugins/axios';
 
+// returns data or error
 type FetchResult<T> = Promise<[T | null, Error|null, Canceler]>;
+
 type SendResult<T> = Promise<[T|null, Error|null, Canceler?]>;
 
-interface IWithTotalParams {
+interface IPaginationParams {
     limit: number
     offset: number
 }
 
-interface IResponseWithTotal<T> {
+interface IResponsePagination<T> {
     items: T[]
     total: number
     limit: number
@@ -18,6 +20,6 @@ interface IResponseWithTotal<T> {
 export {
     FetchResult,
     SendResult,
-    IResponseWithTotal,
-    IWithTotalParams
+    IResponsePagination,
+    IPaginationParams
 }

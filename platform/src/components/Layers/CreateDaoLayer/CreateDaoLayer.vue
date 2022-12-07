@@ -82,28 +82,30 @@
 </template>
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import useLayer from '@//composables/useLayer';
+import useLayer from '@/composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';
-import BaseLayer from '../BaseLayer/BaseLayer.vue';
+import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 
-/* META */
 
-/* CONSTANTS AND HOOKS */
-const watchForCreatedDaos = useWatchForCreatedDaos();
-const { close, alert, closeLast, open } = useLayer();
+// META
+
 const router = useRouter();
+
+const { close, alert, closeLast, open } = useLayer();
+
+
+// CLASSES
+
 const useClasses = makeClasses(() => ({
     top: () => [
         'flex items-center justify-between mb-11'
@@ -118,9 +120,18 @@ const useClasses = makeClasses(() => ({
     button: 'font-semibold w-full mt-auto flex-shrink-0',
 }));
 
-/* DATA */
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+    });
+});
+
+
+// CREATE DAO
+
+const watchForCreatedDaos = useWatchForCreatedDaos();
 
 const isSending = ref(false);
+
 const [formData, formErrors, checkErrors] = useForm({
     name: {
         value: '',
@@ -145,17 +156,6 @@ const [formData, formErrors, checkErrors] = useForm({
         value: 1000
     },
 });
-
-/* COMPUTED */
-
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-    });
-});
-
-/* WATCH */
-
-/* METHODS */
 
 async function createDAO() {
     if (checkErrors() || isSending.value) return;

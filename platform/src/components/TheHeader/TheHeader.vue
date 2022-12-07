@@ -101,8 +101,6 @@
 </template>
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, defineEmits } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseWallet from '@/components/BaseWallet/BaseWallet.vue';
@@ -111,24 +109,20 @@ import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import makeClasses from '@/helpers/makeClasses';
 import { store } from '@/store';
 
-/* INTERFACES */
 
-interface IThemeProps {
-
-}
+// META
 
 interface IEmits {
     (e: 'burger-click'): void
 }
-/* META */
 
 const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
-const nav = [
-    { title: 'Documentation', href: '//docs.outercircle.io', target: '_blank' },
-    { title: 'Explore', to: { name: '' } }
-];
+
+// CLASSES
+
+interface IThemeProps {}
+
 const useClasses = makeClasses<IThemeProps>(() => ({
     inner: 'px-8 pt-[14px] pb-5 flex items-center sm:py-3 sm:px-6',
     title: 'text-gray-800 title-h5 mr-auto sm:!text-xs',
@@ -143,20 +137,22 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     preloader: 'w-[120px] h-[40px] -preloader -preloader_sm'
 }));
 
-/* DATA */
-
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
 
     });
 });
+
+
+// NAV
+
+const nav = [
+    { title: 'Documentation', href: '//docs.outercircle.io', target: '_blank' },
+    { title: 'Explore', to: { name: '' } }
+];
+
+
+// ADDRESS
+
 const address = computed(() => store.state.wallet.address);
-
-/* LIFECYCLE */
-
-
-/* WATCH */
-/* METHODS */
 </script>

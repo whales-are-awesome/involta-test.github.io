@@ -8,11 +8,11 @@
 </template>
 
 <script setup lang="ts">
-/* IMPORTS */
-
 import { computed } from 'vue';
 import { SvgSprite } from 'vue-svg-sprite';
 import { Icons } from './types';
+
+// META
 
 export interface IProps {
     name: Icons
@@ -22,8 +22,12 @@ export interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
     width: 16
-})
+});
+
 const emit = defineEmits(['click']);
+
+
+// SIZE
 
 const size = computed(() => `${ +props.width } ${ (props.height && +props.height) || +props.width }`);
 </script>

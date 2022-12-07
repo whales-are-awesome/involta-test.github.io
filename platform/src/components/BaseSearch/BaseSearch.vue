@@ -20,14 +20,13 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, ref } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue'
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     modelValue: string
@@ -38,17 +37,17 @@ interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
+const props = withDefaults(defineProps<IProps>(), {});
+
+const emit = defineEmits<IEmits>();
+
+
+// CLASSES
+
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
     isFocus: boolean
     isFilled: boolean
 }
-
-/* META */
-
-const props = withDefaults(defineProps<IProps>(), {});
-const emit = defineEmits<IEmits>();
-
-/* VARS AND CUSTOM HOOKS */
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isFocus, isFilled }) => [themeSettings?.root,
@@ -67,17 +66,6 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-
-const isFocus = ref(false);
-
-/* COMPUTED */
-
-const value = computed({
-    get: () => props.modelValue,
-    set: (value: string) => emit('update:modelValue', value)
-});
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
@@ -86,8 +74,10 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
     });
 });
 
-/* WATCH */
-/* METHODS */
+
+/* FOCUS */
+
+const isFocus = ref(false);
 
 function onFocus(): void {
     isFocus.value = true;
@@ -96,4 +86,12 @@ function onFocus(): void {
 function onBlur(): void {
     isFocus.value = false;
 }
+
+
+/* VALUE */
+
+const value = computed({
+    get: () => props.modelValue,
+    set: (value: string) => emit('update:modelValue', value)
+});
 </script>

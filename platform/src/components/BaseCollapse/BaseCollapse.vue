@@ -14,15 +14,7 @@
 </template>
 
 <script setup lang="ts">
-/* IMPORTS */
-/* INTERFACES */
-/* META */
-/* VARS AND CUSTOM HOOKS */
-/* DATA */
-/* COMPUTED */
-/* WATCH */
-
-/* METHODS */
+// HOOKS
 
 function beforeEnter(element: HTMLElement) {
     requestAnimationFrame(() => {

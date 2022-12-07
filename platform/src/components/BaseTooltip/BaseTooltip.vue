@@ -22,14 +22,13 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, useSlots, ref, defineExpose } from 'vue';
 import Popper from 'vue3-popper';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     hover?: boolean
@@ -38,22 +37,21 @@ interface IProps {
     themeSettings?: ThemeSettings<'root'>
 }
 
-interface ThemeProps extends Pick<IProps, 'themeSettings'> {
-    hasContent: boolean
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     hover: true,
     placement: 'top'
 });
+
 const slots = useSlots();
+
 const root = ref<InstanceType<typeof Popper> | null>(null);
 
-/* VARS AND CUSTOM HOOKS */
 
-const isShown = ref(false)
+// CLASSES
+
+interface ThemeProps extends Pick<IProps, 'themeSettings'> {
+    hasContent: boolean
+}
 
 const useClasses = makeClasses<ThemeProps>(() => ({
     root: ({ hasContent, themeSettings }) => [themeSettings?.root,
@@ -64,9 +62,6 @@ const useClasses = makeClasses<ThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         hasContent: !!slots.content,
@@ -74,13 +69,14 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
     });
 });
 
-/* WATCH */
-/* METHODS */
+
+// SHOWN
+
+const isShown = ref(false)
 
 defineExpose({
     isShown
 });
-
 </script>
 
 <style>

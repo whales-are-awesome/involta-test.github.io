@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { Canceler } from '@/plugins/axios';
-import { IResponseWithTotal } from '@/models/api'
+import { IResponsePagination } from '@/types/api'
 
 
 interface IData<T> {
@@ -19,7 +19,7 @@ function useFetchData<T>() {
 }
 
 function useFetchDataWithTotal<T>() {
-    return ref<IData<IResponseWithTotal<T>>>({
+    return ref<IData<IResponsePagination<T>>>({
         pending: true,
         data: null,
         cancel: () => {}

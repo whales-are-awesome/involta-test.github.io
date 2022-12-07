@@ -20,15 +20,14 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, useAttrs } from 'vue';
 import { RouterLinkProps, RouterLink } from 'vue-router';
 import { Themes } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     to?: RouterLinkProps['to']
@@ -40,17 +39,16 @@ interface IEmits {
     (e: 'click'): void
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings' | 'theme'>{}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     theme: 'primary'
 });
 const emit = defineEmits<IEmits>();
 const attrs = useAttrs();
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings' | 'theme'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, theme }) => [themeSettings?.root,
@@ -63,17 +61,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ],
 }));
 
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
         theme: props.theme
     });
 });
-
-/* WATCH */
-/* METHODS */
-
 </script>

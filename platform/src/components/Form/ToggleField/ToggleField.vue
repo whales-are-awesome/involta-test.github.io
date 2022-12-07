@@ -25,15 +25,14 @@
 </template>
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import { Sizes, Views, Types, Themes, Align, Wrappers } from './types';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     theme?: Themes
@@ -56,12 +55,6 @@ interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
-interface ThemeProps extends Pick<IProps, 'theme' | 'type' | 'align' | 'view' | 'disabled' | 'wrapper' | 'size' | 'themeSettings'> {
-    checked: boolean
-}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {
     theme: 'primary',
     align: 'center',
@@ -71,9 +64,15 @@ const props = withDefaults(defineProps<IProps>(), {
     disabled: false,
     reverse: false,
 });
+
 const emit = defineEmits<IEmits>();
 
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
+
+interface ThemeProps extends Pick<IProps, 'theme' | 'type' | 'align' | 'view' | 'disabled' | 'wrapper' | 'size' | 'themeSettings'> {
+    checked: boolean
+}
 
 const useClasses = makeClasses<ThemeProps>(
     () => ({
@@ -166,18 +165,6 @@ const useClasses = makeClasses<ThemeProps>(
     })
 );
 
-/* DATA */
-/* COMPUTED */
-
-const value = computed({
-    get(): IProps['modelValue'] {
-        return props.modelValue;
-    },
-    set(modelValue: IProps['modelValue']) {
-        emit('update:modelValue', modelValue);
-    }
-});
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     const checked = props.fieldValue
         ? Array.isArray(props.modelValue)
@@ -196,5 +183,17 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         themeSettings: props.themeSettings,
         checked: props.reverse ? !checked : checked
     });
+});
+
+
+// VALUE
+
+const value = computed({
+    get(): IProps['modelValue'] {
+        return props.modelValue;
+    },
+    set(modelValue: IProps['modelValue']) {
+        emit('update:modelValue', modelValue);
+    }
 });
 </script>

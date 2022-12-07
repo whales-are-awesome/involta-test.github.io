@@ -20,12 +20,14 @@
 </template>
 
 <script lang="ts" setup>
-import {computed} from 'vue';
+import { computed } from 'vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
-import BaseLayer from '../BaseLayer/BaseLayer.vue';
-import { Sizes } from './types';
-import useLayer from '@//composables/useLayer';
+import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
+import useLayer from '@/composables/useLayer';
 import makeClasses from '@/helpers/makeClasses';
+
+
+// META
 
 interface IProps {
     title: string
@@ -40,6 +42,10 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 
 const { close } = useLayer();
+
+
+// CLASSES
+
 const useClasses = makeClasses(() => ({
     title: () => [
         'title-h4 mb-4'

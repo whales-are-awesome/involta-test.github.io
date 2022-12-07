@@ -20,15 +20,13 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import MarqueeText from 'vue-marquee-text-component'
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
-/* META */
-/* VARS AND CUSTOM HOOKS */
+
+// CLASSES
 
 const useClasses = makeClasses(() => ({
     root: 'h-[36px] border-b-[2px] border-t-[2px] border-[#F5F5F7] overflow-hidden relative sm:h-[24px] sm:border-b sm:border-t',
@@ -36,16 +34,9 @@ const useClasses = makeClasses(() => ({
     item: 'text-gray-500 text-xs uppercase tracking-[0.12em] font-bold px-[30px] sm:!text-tiny sm:px-[18px]'
 }));
 
-
-/* DATA */
-/* COMPUTED */
-
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
 
     });
 });
-
-/* WATCH */
-/* METHODS */
 </script>

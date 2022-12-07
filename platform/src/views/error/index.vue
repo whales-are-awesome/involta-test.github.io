@@ -39,8 +39,10 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
-
 import useIsMobile from '@/composables/useIsMobile';
+
+
+// META
 
 const route = useRoute();
 const isMobile = useIsMobile();

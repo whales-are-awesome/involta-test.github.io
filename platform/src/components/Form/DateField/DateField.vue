@@ -28,15 +28,13 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed, ref } from 'vue';
 import Datepicker, { VueDatePicker } from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+// META
 
 interface IProps {
     modelValue: Date
@@ -48,23 +46,18 @@ interface IEmits {
     (e: 'update:modelValue', value: IProps['modelValue']): void
 }
 
-interface ThemeProps {
+const props = defineProps<IProps>();
+
+const emit = defineEmits<IEmits>();
+
+
+// CLASSES
+
+interface IThemeProps {
     isPickerShown: boolean
 }
 
-/* META */
-
-const props = defineProps<IProps>();
-const emit = defineEmits<IEmits>();
-
-/* VARS AND CUSTOM HOOKS */
-
-const pickerOptions: VueDatePicker = {
-    enableTimePicker: false,
-    autoApply: true,
-    inline: true
-};
-const useClasses = makeClasses<ThemeProps>(() => ({
+const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ isPickerShown }) => [
         'bg-white px-4 pt-[10px] pb-[6px] date-field relative border-2 rounded-lg transition-fast hover:bg-primary-100',
         {
@@ -83,11 +76,36 @@ const useClasses = makeClasses<ThemeProps>(() => ({
     ]
 }));
 
-/* DATA */
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+        isPickerShown: isPickerShown.value
+    });
+});
+
+
+
+// OPTIONS
+
+const pickerOptions: VueDatePicker = {
+    enableTimePicker: false,
+    autoApply: true,
+    inline: true
+};
+
+
+// PICKER_SHOWN
 
 const isPickerShown = ref(false);
 
-/* COMPUTED */
+function showPicker(): void {
+    isPickerShown.value = true;
+}
+function hidePicker(): void {
+    isPickerShown.value = false;
+}
+
+
+// VALUE
 
 const value = computed({
     get() {
@@ -98,21 +116,6 @@ const value = computed({
     }
 });
 
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-        isPickerShown: isPickerShown.value
-    });
-});
-
-/* WATCH */
-/* METHODS */
-
-function showPicker(): void {
-    isPickerShown.value = true;
-}
-function hidePicker(): void {
-    isPickerShown.value = false;
-}
 function formatValue(_date: Date): string {
     const date = new Date(_date);
 

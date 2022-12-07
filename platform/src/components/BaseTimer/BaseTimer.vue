@@ -14,46 +14,42 @@
 
 
 <script lang="ts" setup>
-/* IMPORTS */
-
 import { computed } from 'vue';
 import {  } from './types';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
-import { useTimer } from '@//composables/useTimer';
+import { useTimer } from '@/composables/useTimer';
 import makeClasses from '@/helpers/makeClasses';
-import ThemeSettings from '@/models/themeSettings';
+import ThemeSettings from '@/types/themeSettings';
 
-/* INTERFACES */
+
+// META
 
 interface IProps {
     endDate: Date
     themeSettings?: ThemeSettings<'root'>
 }
 
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
-
-/* META */
-
 const props = withDefaults(defineProps<IProps>(), {});
 
-/* VARS AND CUSTOM HOOKS */
 
-const timer = useTimer(props.endDate);
+// CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
+
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root],
     inner: 'flex items-center text-400 text-sm',
     icon: 'mr-2'
 }));
 
-/* DATA */
-/* COMPUTED */
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings
     });
 });
 
-/* WATCH */
-/* METHODS */
 
+// TIMER
+
+const timer = useTimer(props.endDate);
 </script>
