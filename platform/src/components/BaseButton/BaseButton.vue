@@ -132,7 +132,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         },
 
         view === 'filled' && {
-            'text-white': ['gray', 'primary', 'primary-400'].includes(theme),
+            'text-white': ['gray', 'primary', 'primary-400', 'alert'].includes(theme),
             'text-gray-500 active:text-gray-700': theme === 'surface',
             'text-gray-600 active:text-gray-700': theme === 'white'
         },
@@ -167,6 +167,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'bg-primary-500 group-hover:bg-primary-600 group-active:bg-primary-800': theme === 'primary',
             'border bg-primary-400 group-hover:bg-primary-500 group-active:bg-primary-800': theme === 'primary-400',
             'bg-white': theme === 'white',
+            'bg-[#CB101D]': theme === 'alert',
 
             '!bg-disabled-light': disabled
         },

@@ -1,24 +1,35 @@
 <template>
     <BaseLayer
         :theme-settings="{
-            container: 'max-w-[664px] p-11 rounded-[20px]'
+            container: 'max-w-[480px] p-6 rounded-[8px]'
         }"
         id="ConfirmLayer"
     >
-        <h4 :class="classes.title" v-html="title"></h4>
+        <div :class="classes.top">
+            <BaseIcon
+                name="alert-error"
+                width="36"
+            />
+            <div :class="classes.title" v-html="title"></div>
+            <BaseCross/>
+        </div>
         <div :class="classes.message" v-html="message"></div>
-        <div class="flex justify-end">
+        <div :class="classes.buttons">
             <BaseButton
-                @click="close('ConfirmLayer')"
-                class="w-[200px]"
-                view="outlined"
-            >
-                {{ declineButtonCaption }}
-            </BaseButton>
-            <BaseButton
-                class="ml-2 w-[200px]"
+                :class="classes.button"
+                size="lg"
+                theme="alert"
+                @click="close('ConfirmLayer', true)"
             >
                 {{ acceptButtonCaption }}
+            </BaseButton>
+            <BaseButton
+                :class="classes.button"
+                view="ghost"
+                size="lg"
+                @click="close('ConfirmLayer')"
+            >
+                {{ declineButtonCaption }}
             </BaseButton>
         </div>
     </BaseLayer>
@@ -28,15 +39,19 @@
 import { computed } from 'vue';
 import useLayer from '@/composables/useLayer';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
+import { Themes } from './types';
 
 
 // META
 
-interface IProps {
+export interface IProps {
     title: string
     message: string
+    theme: Themes
     acceptButtonCaption?: string
     declineButtonCaption?: string
 }
@@ -52,12 +67,16 @@ const { close } = useLayer();
 // CLASSES
 
 const useClasses = makeClasses(() => ({
+    top: 'flex items-center mb-[28px]',
+    icon: 'flex-shrink-0',
     title: () => [
-        'title-h4 mb-4'
+        'text-xl font-semibold text-600 ml-4 mr-auto'
     ],
     message: () => [
-        'mb-11 text-lg'
-    ]
+        'mb-[28px] text-md text-500'
+    ],
+    buttons: 'flex space-x-3',
+    button: 'w-[120px]'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

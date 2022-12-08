@@ -51,7 +51,7 @@ import { Statuses } from './types';
 
 // META
 
-interface IProps {
+export interface IProps {
     title: string
     text: string
     buttonText: string

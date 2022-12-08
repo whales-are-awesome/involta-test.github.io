@@ -11,7 +11,7 @@
             >
                 <div
                     :class="[classes.itemInner, {
-                        'border-b': ((index !== items.length - 1) || (totalItems === 1)) && !(index === 0 && totalItems !== items.length)
+                        'border-b': (totalItems !== 1) && (index !== items.length - 1) && !(index === 0 && totalItems !== items.length)
                     }]"
                 >
                     <div

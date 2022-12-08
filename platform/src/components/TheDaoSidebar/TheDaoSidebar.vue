@@ -148,6 +148,44 @@ async function joinDao() {
     isJoining.value = false;
 }
 
+async function leaveDao() {
+    const isLeave = layer.confirm({
+        title: 'Leave DAO?',
+        message: 'All tokens, memberships of DAO and its SubDAOs will be lost.',
+        theme: 'alert',
+        acceptButtonCaption: 'Leave',
+        declineButtonCaption: 'Cancel',
+    });
+
+    if (!isLeave) {
+        return;
+    }
+
+    isJoining.value = true;
+
+    const { address, network } = currentDao.value.data!;
+
+    const [response, error] = await DaoFactoryService.joinDao({
+        address,
+        network
+    }, {
+        headers: {
+            account_address: store.state.wallet.address as string
+        }
+    });
+
+    if (error) {
+        layer.alert({
+            title: 'Warning message!',
+            text: 'Something go wrong',
+            buttonText: 'OK',
+            status: 'error'
+        })
+    }
+
+    isJoining.value = false;
+}
+
 
 // PARENT DAO
 

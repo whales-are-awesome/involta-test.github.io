@@ -105,7 +105,7 @@ import ThemeSettings from '@/types/themeSettings';
 // META
 
 interface IProps {
-    modelValue: string
+    modelValue: string | number
     placeholder?: string
     notFound?: string
     searchable?: boolean

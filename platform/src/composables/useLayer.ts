@@ -2,6 +2,11 @@ import { computed, watch }  from 'vue';
 import { store }  from '@/store';
 import emitter from '@/plugins/mitt';
 
+// @ts-ignore
+import { IProps as IConfirmLayerProps } from '@/components/Layers/ConfirmLayer/ConfirmLayer.vue';
+// @ts-ignore
+import { IProps as IAlertLayerProps } from '@/components/Layers/AlertLayer/AlertLayer.vue';
+
 const appElement = document.querySelector<HTMLElement>('html')!;
 
 async function open(name: string, props?: object) {
@@ -22,11 +27,11 @@ async function open(name: string, props?: object) {
     });
 }
 
-async function confirm(params: object): Promise<any> {
+async function confirm(params: IConfirmLayerProps): Promise<any> {
     return await open('ConfirmLayer', params);
 }
 
-async function alert(params: object): Promise<any> {
+async function alert(params: IAlertLayerProps): Promise<any> {
     return await open('AlertLayer', params);
 }
 

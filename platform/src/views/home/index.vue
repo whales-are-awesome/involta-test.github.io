@@ -49,7 +49,7 @@
             <TagsButtonList
                 v-if="tagList.value === TagStatuses.Daos"
                 v-model="formData.value.daosId"
-                :items="formInfo.DaosOptions"
+                :items="formInfo.daosOptions"
             />
             <div
                 v-if="tagList.value !== TagStatuses.Statistics"
@@ -195,13 +195,13 @@ const formInfo = {
         { id: 0, title: 'Need my vote' },
         { id: 1, title: 'Participated' }
     ],
-    DaosOptions: [
+    daosOptions: [
         { id: 0, title: 'All Daos' },
         { id: 1, title: 'My Daos' }
     ],
     chainOptions: [
-        { id: 0, title: 'Chain 1' },
-        { id: 1, title: 'Chain 2' }
+        { id: 'all', title: 'All chains' },
+        { id: 'goerli', title: 'Goerli' }
     ],
     categoryOptions: [
         { id: 0, title: 'Category 1' },
@@ -227,8 +227,8 @@ const tagList = ref({
 // PROPOSALS
 
 const formDataProposals = ref({
-    voteId: route.query.voteId || formInfo.voteOptions[0].id,
-    statusId: route.query.statusId || Statuses.Active,
+    voteId: +(route.query.voteId as string) || formInfo.voteOptions[0].id,
+    statusId: +(route.query.statusId as string) || Statuses.Active,
     search: route.query.search || '',
     limit: 20,
     offset: 0
