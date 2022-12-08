@@ -7,7 +7,7 @@
             border-left: 2px solid rgba(255, 255, 255, 0);
         }
         &::before {
-            @apply block absolute inset-0 bg-white bg-opacity-50;
+            @apply block absolute inset-0 bg-white bg-opacity-80;
             z-index: 2;
             content: '';
         }
@@ -16,6 +16,7 @@
     .-preloader.-preloader_cover {
         @apply absolute inset-0;
     }
+
     .-preloader_top {
         &::after {
             @apply top-0;
@@ -45,5 +46,11 @@
         &::after {
             @apply w-6 h-6 -mt-3 -ml-3;
         }
+    }
+
+    .-preloader_xs {
+        &::after {
+             @apply w-4 h-4 -mt-2 -ml-2;
+         }
     }
 }

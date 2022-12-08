@@ -1,25 +1,12 @@
-import Web3 from 'web3';
 import daoFactoryABI from '@/abi/daoFactoryABI';
 import axios, { Canceler } from '@/plugins/axios';
 import camelize from '@/helpers/camelize';
-import { FetchResult, SendResult } from '@/types/api'
+import { FetchResult, SendResult, sendDataOnChainProps, Config } from '@/types/api'
 import { ethers, Signer } from 'ethers'
 
 
-
-type ConctactNames = 'daoFactory';
-
-interface fetchDataProps {
-    contractName: ConctactNames
-    methodName: string
-    params: any[]
-    needReceipt?: boolean
-    needWait?: boolean
-}
-
-class API extends Web3 {
+class API {
     static provider: any;
-    static address = '';
 
     static async init(protocol = window.ethereum) {
         if (!API.provider) {
@@ -29,8 +16,7 @@ class API extends Web3 {
 
     static get contracts() {
         return {
-            // @ts-ignore
-            daoFactory: new ethers.Contract(process.env.VUE_APP_DAO_FACTORY_ADDRESS, daoFactoryABI, API.provider)
+            daoFactory: new ethers.Contract(process.env.VUE_APP_DAO_FACTORY_ADDRESS!, daoFactoryABI, API.provider)
         };
     }
 
@@ -38,7 +24,7 @@ class API extends Web3 {
         return API.provider?.getSigner();
     }
 
-    static async sendOnChain<T>(props: fetchDataProps): SendResult<T> {
+    static async sendOnChain<T>(props: sendDataOnChainProps): SendResult<T> {
         try {
             const contract = API.contracts[props.contractName];
             const signer = await API.getSigner()
@@ -71,6 +57,36 @@ class API extends Web3 {
             });
 
             return [camelize(data.data), null, cancel];
+        } catch (e) {
+            return [null, e as Error, () => {}];
+        }
+    }
+
+    static async post<T>(path: string, data?: {[key: string]: any}, config?: Config): SendResult<T> {
+        try {
+            let cancel: Canceler | (() => void) = () => {};
+
+            const response: { data: T } = await axios.post<T>(path, data, {
+                cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
+                ...{config}
+            });
+
+            return [camelize(response.data), null, cancel];
+        } catch (e) {
+            return [null, e as Error, () => {}];
+        }
+    }
+
+    static async put<T>(path: string, data?: {[key: string]: any}, config?: Config): SendResult<T> {
+        try {
+            let cancel: Canceler | (() => void) = () => {};
+
+            const response: { data: T } = await axios.put<T>(path, data, {
+                cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
+                ...{config}
+            });
+
+            return [camelize(response.data), null, cancel];
         } catch (e) {
             return [null, e as Error, () => {}];
         }

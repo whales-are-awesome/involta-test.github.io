@@ -1,4 +1,5 @@
 import { Ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { useFetchData } from '@/composables/useFetchData';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import { INormalizedDaoAsDefault } from '@/types/services/DaoFactoryService';
@@ -17,6 +18,7 @@ interface IOptions {
 type Data = Ref<IData> | IData;
 
 function useDao(_data: Data, _options?: IOptions) {
+    const route = useRoute();
     const info = useFetchData<INormalizedDaoAsDefault>();
     const dataResult = computed(() => {
         const data = 'value' in _data ? _data.value : _data;
@@ -45,7 +47,10 @@ function useDao(_data: Data, _options?: IOptions) {
         info.value.cancel();
         options.saveInStorage && store.dispatch('dao/setData', { pending: true });
 
-        const [data, error, cancel] = await DaoFactoryService.fetchDaoAsDefault(dataResult.value.address);
+        const [data, error, cancel] = await DaoFactoryService.fetchDaoAsDefault({
+            address: dataResult.value.address,
+            network: route.params.network as string
+        });
 
         if (error) {
             info.value.pending = false;

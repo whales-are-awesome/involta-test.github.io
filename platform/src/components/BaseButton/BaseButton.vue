@@ -7,6 +7,7 @@
         v-on="$attrs"
         @click="emit('click')"
     >
+        <div v-if="loading" class="-preloader -preloader_cover -preloader_xs"></div>
         <span :class="classes.container">
             <span :class="classes.bg"></span>
             <slot name="prepend"></slot>
@@ -80,6 +81,7 @@ interface IProps {
     justify: Justify
     wrapContent: boolean
     themeSettings?: ThemeSettings<'root' | 'container' | 'bg'>
+    loading?: boolean
 }
 
 interface IEmit {
@@ -104,14 +106,14 @@ const emit = defineEmits<IEmit>();
 
 // CLASSES
 
-interface IThemeProps extends Pick<IProps, 'theme' | 'size' | 'disabled' | 'view' | 'rounded' | 'themeSettings' | 'icon' | 'justify'> {
+interface IThemeProps extends Pick<IProps, 'theme' | 'size' | 'disabled' | 'view' | 'rounded' | 'themeSettings' | 'icon' | 'justify' | 'loading'> {
     hasContent: boolean
     hasIcon?: boolean
     isFocused?: boolean
 }
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({size, themeSettings, view, theme, disabled, rounded, justify}) => [themeSettings?.root,
+    root: ({size, themeSettings, view, theme, disabled, rounded, justify, loading}) => [themeSettings?.root,
         'group inline-flex items-center relative z-1 [background-position-y:0] tracking-[0.4px]',
         {
             'px-5 h-[52px] text-lg': size === 'lg',
@@ -125,7 +127,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'justify-center': justify === 'center',
             'justify-start': justify === 'start',
 
-            '!text-disabled-text pointer-events-none': disabled
+            '!text-disabled-text pointer-events-none': disabled,
+            'pointer-events-none': loading
         },
 
         view === 'filled' && {
@@ -203,6 +206,7 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         hasContent: !!hasContent.value,
         hasIcon: !!props.icon,
         icon: props.icon,
+        loading: props.loading,
         themeSettings: props.themeSettings
     });
 });

@@ -23,6 +23,8 @@
                                 :class="classes.topInfoJoin"
                                 theme="primary-400"
                                 size="sm"
+                                :loading="isJoining"
+                                @click="joinDao"
                             >
                                 Join DAO
                             </BaseButton>
@@ -69,13 +71,14 @@ import SubDaoMenu from '@/components/SubDaoMenu/SubDaoMenu.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import makeClasses from '@/helpers/makeClasses';
+import DaoFactoryService from '@/services/DaoFactoryService';
 import useLayer from '@/composables/useLayer';
 import { store } from '@/store';
 import useSubDaoItems from '@/composables/fetch/useSubDaoItems';
 import useDao from '@/composables/fetch/useDao';
 import { DEFAULT_LIMIT, DEFAILT_ADD_LIMIT } from './types';
 
-// META
+// METAstore
 
 const layer = useLayer();
 
@@ -108,6 +111,34 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 // CURRENT DAO
 
 const currentDao = computed(() => store.state.dao);
+
+const isJoining = ref(false);
+
+async function joinDao() {
+    isJoining.value = true;
+
+    const { address, network } = currentDao.value.data!;
+
+    const [response, error] = await DaoFactoryService.joinDao({
+        address,
+        network
+    }, {
+        headers: {
+            account_address: store.state.wallet.address as string
+        }
+    });
+
+    if (error) {
+        layer.alert({
+            title: 'Warning message!',
+            text: 'Something go wrong',
+            buttonText: 'OK',
+            status: 'error'
+        })
+    }
+
+    isJoining.value = false;
+}
 
 
 // PARENT DAO

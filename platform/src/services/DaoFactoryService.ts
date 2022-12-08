@@ -4,7 +4,7 @@ import API from '@/helpers/api';
 import cutAddress from '@/helpers/cutAddress';
 import parseEventData from '@/helpers/parseEventData';
 import daoFactoryABI from '@/abi/daoFactoryABI';
-import { IResponsePagination } from '@/types/api';
+import { IResponsePagination, Config } from '@/types/api';
 import {
     ICreateDaoParams,
     ICreateDaoResponse,
@@ -42,14 +42,22 @@ export default class DaoFactoryService {
         });
     }
 
-    static async fetchDao(address: IDaoParams['address']) {
-        return API.get<IDao>('/' + router.currentRoute.value.params.network + `/dao/${ address }`);
+    static async fetchDao(params: IDaoParams) {
+        return API.get<IDao>(`/${ params.network }/dao/${ params.address }`);
     }
 
-    static async fetchDaoAsDefault(address: IDaoParams['address']) {
-        const [data, ...rest] = await DaoFactoryService.fetchDao(address);
+    static async fetchDaoAsDefault(params: IDaoParams) {
+        const [data, ...rest] = await DaoFactoryService.fetchDao(params);
 
         return [data && normalizeDaoAsDefault(data), ...rest] as const;
+    }
+
+    static async joinDao(params: IDaoParams, config: Config) {
+        return API.post<any>(`/${ params.network }/dao/${ params.address }/join`, {}, config);
+    }
+
+    static async changeDao(params: IDaoParams, config: Config) {
+        return API.put<any>(`/${ params.network }/dao/${ params.address }/join`, {}, config);
     }
 
 
@@ -68,7 +76,7 @@ export default class DaoFactoryService {
         const [trxReceipt, error] = await API.sendOnChain<any>({
             contractName: 'daoFactory',
             methodName: 'deployDao',
-            params: [API.address, 1, 1, params.parentDaoAddress],
+            params: ['address', 1, 1, params.parentDaoAddress],
             needReceipt: true
         });
 

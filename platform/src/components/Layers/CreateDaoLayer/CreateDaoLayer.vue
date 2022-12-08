@@ -138,7 +138,7 @@ const [formData, formErrors, checkErrors] = useForm({
         required: 'Empty field',
         pattern: {
             text: 'Minimum 2 symbols',
-            value: /[a-zA-Z]{2,}/
+            value: /[a-zA-Zа-яА-Я]{2,}/
         }
     },
     description: {
@@ -171,7 +171,7 @@ async function createDAO() {
         await alert({
             title: 'Transaction is being processed!',
             text: 'We will show you a message when transaction will be done.',
-            buttonText: 'Ok',
+            buttonText: 'OK',
             status: 'success'
         });
 
@@ -182,6 +182,7 @@ async function createDAO() {
             externalLink:  formData.value.externalLink
         });
     } else {
+
         const isTake = await alert({
             title: 'Warning message!',
             text: 'The <strong>Transaction was cancelled</strong> due current mistake',

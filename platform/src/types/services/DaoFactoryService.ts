@@ -26,6 +26,7 @@ interface IDao {
 
 interface IDaoParams {
     address: string
+    network: string
 }
 
 interface INormalizedDaoAsDefault extends IDao {
