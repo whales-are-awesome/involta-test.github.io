@@ -68,7 +68,7 @@ function useDao(_data: Data, _options?: IOptions) {
 
     }
 
-    return [info, () => fetchDao()] as const;
+    return [info, fetchDao] as const;
 }
 
 export default useDao;

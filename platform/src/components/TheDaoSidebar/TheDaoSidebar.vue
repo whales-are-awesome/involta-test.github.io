@@ -5,8 +5,8 @@
     >
         <div :class="classes.inner">
             <div :class="classes.content">
-                <div v-if="currentDao.pending || subDaoItems.pending || parentDao.pending" class="-preloader -preloader_cover"></div>
-                <template v-else>
+                <div v-if="currentDao.pending || subDaoItems.pending || isPendingParentDaos" class="-preloader -preloader_cover"></div>
+                <template v-if="!currentDao.pending && !subDaoItems.pending">
                     <div :class="classes.top">
                         <TextSeparator :class="classes.currentDaoTitle">
                             {{ currentDao.data?.fullName }}
@@ -30,14 +30,19 @@
                             </BaseButton>
                         </div>
                     </div>
-                    <TextSeparator :class="classes.subDaoTitle">
-                        PARENT DAOS
-                    </TextSeparator>
-                    <SubDaoMenu
-                        :class="classes.subDaoItems"
-                        :total-items="currentDao.data?.path.length"
-                        :items="currentDao.data?.path"
-                    />
+                    <template v-if="parentDaos.length">
+                        <TextSeparator
+                            :class="classes.subDaoTitle"
+                        >
+                            PARENT DAOS
+                        </TextSeparator>
+                        <SubDaoMenu
+                            :class="classes.subDaoItems"
+                            :total-items="currentDao.data?.path.length"
+                            :items="parentDaos"
+                            @more-dao="addParentDaos"
+                        />
+                    </template>
                     <template v-if="subDaoItems.data?.items.length">
                         <TextSeparator :class="classes.subDaoTitle">
                             current DAO
@@ -67,6 +72,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, defineExpose, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import SubDaoMenu from '@/components/SubDaoMenu/SubDaoMenu.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -75,12 +81,15 @@ import DaoFactoryService from '@/services/DaoFactoryService';
 import useLayer from '@/composables/useLayer';
 import { store } from '@/store';
 import useSubDaoItems from '@/composables/fetch/useSubDaoItems';
-import useDao from '@/composables/fetch/useDao';
 import { DEFAULT_LIMIT, DEFAILT_ADD_LIMIT } from './types';
 
-// METAstore
+// META
+
+const route = useRoute();
 
 const layer = useLayer();
+
+const currentDao = computed(() => store.state.dao);
 
 
 // CLASSES
@@ -108,11 +117,10 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 });
 
 
-// CURRENT DAO
-
-const currentDao = computed(() => store.state.dao);
+// JOIN
 
 const isJoining = ref(false);
+
 
 async function joinDao() {
     isJoining.value = true;
@@ -143,9 +151,32 @@ async function joinDao() {
 
 // PARENT DAO
 
-const formParentDaoData = computed(() => ({ address: currentDao.value.data?.parentDao }));
+const moreParentDaos = ref<any[]>([]);
 
-const [parentDao] = useDao(formParentDaoData);
+const isPendingParentDaos = ref(false);
+
+const parentDaos = computed(() => {
+    const items = currentDao.value.data?.path || [];
+
+    return [...items, ...moreParentDaos.value].reverse()
+});
+
+async function addParentDaos() {
+    const lastParentAddress = currentDao.value.data!.path.slice(-1)[0].address;
+
+    isPendingParentDaos.value = true;
+
+    const [data] = await DaoFactoryService.fetchDaoAsDefault({
+        address: lastParentAddress,
+        network: route.params.network as string
+    });
+
+    if (data) {
+        moreParentDaos.value.push(...data.path);
+    }
+
+    isPendingParentDaos.value = false;
+}
 
 
 // SUBDAO DAO
@@ -161,9 +192,6 @@ const formDataSubDaoParams = computed(() => ({
 }));
 
 const [subDaoItems] = useSubDaoItems(formDataSubDaoParams);
-
-
-/* COMMON:[currentDao, formDataSubDao] */
 
 watch(currentDao.value, (val) => {
     if (val.pending) {
