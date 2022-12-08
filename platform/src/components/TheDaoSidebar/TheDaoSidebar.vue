@@ -81,7 +81,7 @@ import DaoFactoryService from '@/services/DaoFactoryService';
 import useLayer from '@/composables/useLayer';
 import { store } from '@/store';
 import useSubDaoItems from '@/composables/fetch/useSubDaoItems';
-import { DEFAULT_LIMIT, DEFAILT_ADD_LIMIT } from './types';
+import { DEFAULT_LIMIT, DEFAILT_ADD_LIMIT, INormalizedDaoAsDefault } from './types';
 
 // META
 
@@ -189,7 +189,7 @@ async function leaveDao() {
 
 // PARENT DAO
 
-const moreParentDaos = ref<any[]>([]);
+const moreParentDaos = ref<INormalizedDaoAsDefault['path']>([]);
 
 const isPendingParentDaos = ref(false);
 
