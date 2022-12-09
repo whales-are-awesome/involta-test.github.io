@@ -56,7 +56,7 @@ const useClasses = makeClasses<ThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
         'bg-primary-100 p-[2px] rounded-[5px]'
     ],
-    inner: 'relative z-1',
+    inner: 'relative z-1 h-full',
     items: 'flex',
     bg: 'absolute bg-white top-0 h-full -z-1 transition-fast shadow-[0px_4px_10px_rgba(48,_47,_121,_0.08)] rounded-[5px]'
 }));

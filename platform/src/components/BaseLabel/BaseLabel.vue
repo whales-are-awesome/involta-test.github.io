@@ -21,6 +21,7 @@ interface IProps {
     view: Views
     theme: Themes
     rounded: Rounded
+    uppercase: boolean
     themeSettings?: ThemeSettings<'root'>
 }
 
@@ -29,24 +30,25 @@ interface IEmits {
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-    rounded: 'base'
+    rounded: 'base',
+    uppercase: true
 });
 
 const emit = defineEmits<IEmits>();
 
 // CLASSES
 
-interface IThemeProps extends Pick<IProps, 'view' | 'theme' | 'rounded' | 'themeSettings'>{}
+interface IThemeProps extends Pick<IProps, 'view' | 'theme' | 'rounded' | 'themeSettings' | 'uppercase'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings, theme, view, rounded }) => {
-        const notViewSimple = 'uppercase text-xs font-bold tracking-[.08em] sm:!text-xs';
+    root: ({ themeSettings, theme, view, rounded, uppercase }) => {
+        const notViewSimple = 'text-xs font-bold tracking-[.08em] sm:!text-xs' + (uppercase ? ' uppercase' : '');
         const notViewRoundedOrSimple = 'px-4 py-[6px]';
 
         return [themeSettings?.root, [
             'inline-flex items-center justify-center',
             {
-                'uppercase text-xs font-bold tracking-[.08em] sm:!text-xs': view !== 'simple',
+                'text-xs font-bold tracking-[.08em] sm:!text-xs': view !== 'simple',
 
                 'rounded-[5px]': rounded === 'base',
                 'rounded-[20px]': rounded === 'lg' && view !== 'rounded'
@@ -107,6 +109,7 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         view: props.view,
         theme: props.theme,
+        uppercase: props.uppercase,
         rounded: props.rounded,
         themeSettings: props.themeSettings
     });

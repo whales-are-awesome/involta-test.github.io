@@ -6,7 +6,7 @@
         <div :class="classes.inner">
             <div :class="classes.content">
                 <div v-if="currentDao.pending || subDaoItems.pending || isPendingParentDaos" class="-preloader -preloader_cover"></div>
-                <template v-if="!currentDao.pending && !subDaoItems.pending">
+                <template v-if="currentDao.data && subDaoItems.data">
                     <div :class="classes.top">
                         <TextSeparator :class="classes.currentDaoTitle">
                             {{ currentDao.data?.fullName }}

@@ -12,7 +12,9 @@
                     view="primary"
                 />
                 <div :class="classes.info">
-                    <div :class="classes.infoItem">
+                    <div
+                        :class="classes.infoItem"
+                        @click="$router.push({ name: 'network-dao-address-members', params: $route.params  })">
                         <BaseIcon
                             :class="classes.infoItemIcon"
                             name="users"
@@ -88,7 +90,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         }
     ],
     info: 'flex space-x-[18px] text-gray-400 text-xs sm:hidden',
-    infoItem: 'flex items-center',
+    infoItem: 'flex items-center cursor-pointer',
     infoItemIcon: 'mr-1',
     description: 'max-w-[659px] text-xs text-gray-500 line-clamp-2 sm:line-clamp-3'
 }));

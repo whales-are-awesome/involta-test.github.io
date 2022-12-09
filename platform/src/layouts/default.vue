@@ -52,7 +52,7 @@ import { store } from '@/store';
 import useIsMobile from '@/composables/useIsMobile';
 
 const route = useRoute();
-const showDaoSidebar = computed(() => ['network-dao-address', 'network-dao-address-subdao', 'proposal-id'].includes(route.name?.toString()))
+const showDaoSidebar = computed(() => ['network-dao-address', 'network-dao-address-members', 'network-dao-address-subdao', 'proposal-id'].includes(route.name as string))
 const daoSidebar = ref<InstanceType<typeof TheDaoSidebar> | null>(null);
 const sidebar = ref(null);
 const showMobileSidebar = ref(false);

@@ -39,16 +39,9 @@
             </div>
         </div>
         <div :class="classes.buttonWrapper">
-            <div
-                v-if="category"
-                :class="classes.category"
-            >
-                <BaseIcon
-                    :class="classes.categoryHash"
-                    name="hash"
-                    width="12"
-                />{{ category }}
-            </div>
+            <CategoryLabel v-if="category">
+                {{ category }}
+            </CategoryLabel>
             <BaseButton
                 v-else
                 :class="classes.button"
@@ -68,6 +61,7 @@ import { computed } from 'vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import CategoryLabel from '@/components/CategoryLabel/CategoryLabel.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
@@ -103,9 +97,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     infoItemBottom: 'text-center text-xxs text-gray-600 font-semibold',
     infoDelimiter: 'bg-gray-100 flex-shrink-0 w-px h-[26px] mx-7 md:mx-2',
     buttonWrapper: 'flex justify-center',
-    button: 'mx-auto w-[117px] sm:w-[64px]',
-    category: 'py-[2px] px-1 flex items-center border border-surface-400 rounded-[2px] text-gray-500 text-xxs sm:!text-xxs leading-none uppercase tracking-[0.04px]',
-    categoryHash: 'mr-[2px] text-gray-400'
+    button: 'mx-auto w-[117px] sm:w-[64px]'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

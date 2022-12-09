@@ -66,6 +66,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'w-[44px] h-[44px] md:w-[20px] md:h-[20px]': size === 'base',
             'w-[64px] h-[64px]': size === 'lg',
             'w-[96px] h-[96px] sm:w-16 sm:h-16': size === 'xl',
+            'w-[192px] h-[192px]': size === 'xxl',
 
             'rounded-[5px]': rounded === 'xs',
             'rounded-[8px]': rounded === 'sm',
