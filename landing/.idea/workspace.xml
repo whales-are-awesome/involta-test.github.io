@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bacf8bc1-3a05-481f-865c-3ffb092f8174" name="Changes" comment="links in team" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2ByXMPdZcpbtEJUoDQhoQv8KkBD" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/nikita/Desktop/work_local/outer-circle-land/src/assets/images/home/team&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/nikita/Desktop/work_local/outer-circle-land/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets/images/home/team" />
+      <recent name="$PROJECT_DIR$/src/assets/images/common" />
+      <recent name="$PROJECT_DIR$/src/assets/sprite/svg" />
+      <recent name="$PROJECT_DIR$/src/assets" />
+      <recent name="$PROJECT_DIR$/src/views/home" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets/images/no-avatar" />
+      <recent name="$PROJECT_DIR$/src/assets/images/common" />
+      <recent name="$PROJECT_DIR$/src/assets/images/сommon" />
+      <recent name="$PROJECT_DIR$/public" />
+      <recent name="$PROJECT_DIR$/frontend" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bacf8bc1-3a05-481f-865c-3ffb092f8174" name="Changes" comment="" />
+      <created>1657879249592</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1657879249592</updated>
+      <workItem from="1657879250765" duration="29859000" />
+      <workItem from="1658043347262" duration="47286000" />
+      <workItem from="1658157579058" duration="74228000" />
+      <workItem from="1658660568968" duration="1520000" />
+      <workItem from="1658737260602" duration="8431000" />
+      <workItem from="1658772003332" duration="2345000" />
+      <workItem from="1658776962361" duration="1602000" />
+      <workItem from="1658960586460" duration="4539000" />
+      <workItem from="1658967452011" duration="5048000" />
+      <workItem from="1658973421801" duration="159977000" />
+      <workItem from="1660084969457" duration="684000" />
+      <workItem from="1660125379520" duration="35000" />
+      <workItem from="1660133968208" duration="158000" />
+      <workItem from="1660137727553" duration="4581000" />
+      <workItem from="1662026731842" duration="11323000" />
+      <workItem from="1662474064753" duration="2170000" />
+      <workItem from="1662476248055" duration="11167000" />
+      <workItem from="1662557070833" duration="15759000" />
+      <workItem from="1662625334603" duration="6564000" />
+      <workItem from="1662646166569" duration="8882000" />
+      <workItem from="1662897287673" duration="20662000" />
+      <workItem from="1662969487439" duration="36673000" />
+      <workItem from="1663080968887" duration="11430000" />
+      <workItem from="1663312833443" duration="10178000" />
+      <workItem from="1663371347587" duration="4292000" />
+      <workItem from="1663423113017" duration="599000" />
+      <workItem from="1663610686762" duration="14000" />
+      <workItem from="1663628074597" duration="1525000" />
+      <workItem from="1663673914049" duration="605000" />
+      <workItem from="1664011810016" duration="3307000" />
+      <workItem from="1664858187793" duration="615000" />
+      <workItem from="1664866052976" duration="601000" />
+      <workItem from="1664872115348" duration="10000" />
+      <workItem from="1665036022958" duration="313000" />
+    </task>
+    <task id="LOCAL-00001" summary="фронт пошел">
+      <created>1657918205495</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1657918205495</updated>
+    </task>
+    <task id="LOCAL-00002" summary="фронт">
+      <created>1658094188502</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1658094188502</updated>
+    </task>
+    <task id="LOCAL-00003" summary="фронт">
+      <created>1658191590626</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1658191590626</updated>
+    </task>
+    <task id="LOCAL-00004" summary="фронт">
+      <created>1658285650523</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1658285650523</updated>
+    </task>
+    <task id="LOCAL-00005" summary="фронт">
+      <created>1658365257530</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1658365257530</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix focus">
+      <created>1658367386728</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1658367386728</updated>
+    </task>
+    <task id="LOCAL-00007" summary="тянем контракт">
+      <created>1658459787673</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1658459787673</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Вывод данных компаний. Начало">
+      <created>1658486807898</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1658486807898</updated>
+    </task>
+    <task id="LOCAL-00009" summary="страницы проекта">
+      <created>1658746995777</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1658746995777</updated>
+    </task>
+    <task id="LOCAL-00010" summary="тоглы">
+      <created>1658975088240</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1658975088240</updated>
+    </task>
+    <task id="LOCAL-00011" summary="верстка">
+      <created>1659037525921</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1659037525921</updated>
+    </task>
+    <task id="LOCAL-00012" summary="верстка">
+      <created>1659061365482</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1659061365482</updated>
+    </task>
+    <task id="LOCAL-00013" summary="верстка">
+      <created>1659189637492</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1659189637492</updated>
+    </task>
+    <task id="LOCAL-00014" summary="верстка">
+      <created>1659195416587</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1659195416587</updated>
+    </task>
+    <task id="LOCAL-00015" summary="верстка">
+      <created>1659205369260</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1659205369260</updated>
+    </task>
+    <task id="LOCAL-00016" summary="верстка">
+      <created>1659207519306</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1659207519306</updated>
+    </task>
+    <task id="LOCAL-00017" summary="верстка">
+      <created>1659391371293</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1659391371293</updated>
+    </task>
+    <task id="LOCAL-00018" summary="верстка">
+      <created>1659571981373</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1659571981373</updated>
+    </task>
+    <task id="LOCAL-00019" summary="верстка">
+      <created>1659673861748</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1659673861748</updated>
+    </task>
+    <task id="LOCAL-00020" summary="верстка">
+      <created>1659674105523</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1659674105523</updated>
+    </task>
+    <task id="LOCAL-00021" summary="адреса">
+      <created>1659675034547</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1659675034547</updated>
+    </task>
+    <task id="LOCAL-00022" summary="first commit">
+      <created>1663082016991</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1663082016991</updated>
+    </task>
+    <task id="LOCAL-00023" summary="PP, доработки адаптива">
+      <created>1663109336810</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1663109336810</updated>
+    </task>
+    <task id="LOCAL-00024" summary="favicon, debug after deploy">
+      <created>1663316004105</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1663316004105</updated>
+    </task>
+    <task id="LOCAL-00025" summary="join Private Beta waitlist button">
+      <created>1663322370127</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1663322370127</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Follow us in Telegram to know about updates">
+      <created>1663329568789</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1663329568789</updated>
+    </task>
+    <task id="LOCAL-00027" summary="contacts us link">
+      <created>1663331959779</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1663331959779</updated>
+    </task>
+    <task id="LOCAL-00028" summary="add our team section&#10;add join telegram button">
+      <created>1663375317167</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1663375317167</updated>
+    </task>
+    <task id="LOCAL-00029" summary="add no-avatar to team section">
+      <created>1663629039385</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1663629039385</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Front dev to Frontend Developer in team section">
+      <created>1663629109337</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1663629109337</updated>
+    </task>
+    <task id="LOCAL-00031" summary="trying to fix angle-right">
+      <created>1664012278002</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1664012278002</updated>
+    </task>
+    <task id="LOCAL-00032" summary="trying to fix angle-right">
+      <created>1664012385234</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1664012385234</updated>
+    </task>
+    <task id="LOCAL-00033" summary="add nick photo to team, update no-avatar">
+      <created>1664014122075</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1664014122075</updated>
+    </task>
+    <task id="LOCAL-00034" summary="fix box-shadow">
+      <created>1664017838454</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1664017838454</updated>
+    </task>
+    <task id="LOCAL-00035" summary="links in team">
+      <created>1665036234137</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1665036234137</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="фронт пошел" />
+    <MESSAGE value="фронт" />
+    <MESSAGE value="fix focus" />
+    <MESSAGE value="тянем контракт" />
+    <MESSAGE value="Вывод данных компаний. Начало" />
+    <MESSAGE value="страницы проекта" />
+    <MESSAGE value="тоглы" />
+    <MESSAGE value="верстка" />
+    <MESSAGE value="адреса" />
+    <MESSAGE value="first commit" />
+    <MESSAGE value="PP, доработки адаптива" />
+    <MESSAGE value="favicon, debug after deploy" />
+    <MESSAGE value="join Private Beta waitlist button" />
+    <MESSAGE value="Follow us in Telegram to know about updates" />
+    <MESSAGE value="contacts us link" />
+    <MESSAGE value="add our team section&#10;add join telegram button" />
+    <MESSAGE value="add no-avatar to team section" />
+    <MESSAGE value="Front dev to Frontend Developer in team section" />
+    <MESSAGE value="trying to fix angle-right" />
+    <MESSAGE value="add nick photo to team, update no-avatar" />
+    <MESSAGE value="fix box-shadow" />
+    <MESSAGE value="links in team" />
+    <option name="LAST_COMMIT_MESSAGE" value="links in team" />
+  </component>
+</project>
