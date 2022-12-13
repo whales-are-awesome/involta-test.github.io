@@ -104,7 +104,7 @@ import DaoFactoryService from '@/services/DaoFactoryService';
 import copy from '@/helpers/copy';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { IFollower } from '@/types/services/DaoFactoryService';
-import { cutAddress } from '@/helpers/cutAddress';
+import cutAddress from '@/helpers/cutAddress';
 
 // META
 

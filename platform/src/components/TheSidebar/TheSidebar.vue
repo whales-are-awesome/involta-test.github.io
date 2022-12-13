@@ -81,15 +81,21 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     }),
     menuItems: 'space-y-5 sm:space-y-4'
 }));
-const [daoItems] = useDaoItems({
-    account: store.state.wallet.address
-});
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         isHome: route.name === 'home'
     });
 });
+
+
+// DAO ITEMS
+
+const daoItemsForm = computed(() => ({
+    account: store.state.wallet.address
+}));
+
+const [daoItems] = useDaoItems(daoItemsForm);
 
 
 // CREATE DAO LAYER

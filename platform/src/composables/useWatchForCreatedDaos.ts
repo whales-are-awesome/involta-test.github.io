@@ -13,31 +13,20 @@ function useWatchForCreatedDaos() {
 
     function watch() {
         setInterval(() => {
-            //const transactions: IDaoTransactionCookie[] = cookies.get('pendingTransactions') || [];
+            const transactions: IDaoTransactionCookie[] = cookies.get('pendingTransactions') || [];
 
-            // const transactions: IDaoTransactionCookie[] = [
-            //     {
-            //         hash: '0xb59e9d44f6366e38ab9d3be61137223e79241a32ead349e5a03e90f92f19c4cb',
-            //         name: 'Superdao',
-            //         description: 'superdao description',
-            //         link: 'https://superdao.org'
-            //     }
-            // ];
-            //
-            //
-            //
-            // transactions.forEach(async item => {
-            //     const receipt = await API.provider.getTransactionReceipt(item.hash);
-            //
-            //     if (!receipt) return;
-            //
-            //     const address = receipt.logs[0].address as string;
-            //
-            //     deleteTransaction(item.hash);
-            //
-            //     await showMessage(address, item);
-            // })
-        }, 1000);
+            transactions.forEach(async item => {
+                const receipt = await API.provider.getTransactionReceipt(item.hash);
+
+                if (!receipt) return;
+
+                const address = receipt.logs[0].address as string;
+
+                deleteTransaction(item.hash);
+
+                await showMessage(address, item);
+            })
+        }, 5000);
     }
 
     function add(dao: IDaoTransactionCookie) {
@@ -74,15 +63,7 @@ function useWatchForCreatedDaos() {
     }
 
     function deleteTransaction(hash: string) {
-        //const transactions: IDaoTransactionCookie[] = cookies.get('pendingTransactions');
-        const transactions: IDaoTransactionCookie[] = [
-            {
-                hash: '0xb59e9d44f6366e38ab9d3be61137223e79241a32ead349e5a03e90f92f19c4cb',
-                name: 'Superdao',
-                description: 'superdao description',
-                link: 'https://superdao.org'
-            }
-        ];
+        const transactions: IDaoTransactionCookie[] = cookies.get('pendingTransactions');
         const transactionIndex = transactions.findIndex(item => item.hash === hash);
 
         transactions.splice(transactionIndex, 1);
