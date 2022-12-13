@@ -1,0 +1,19 @@
+@layer components {
+    .container {
+        @apply mx-auto box-border px-8;
+
+        max-width: calc(var(--container-max-width) + 64px);
+    }
+
+    .container-sm {
+        @apply mx-auto box-border px-8;
+
+        max-width: calc(var(--container-sm-max-width) + 64px);
+    }
+}
+
+@screen sm {
+    .container {
+        @apply px-6;
+    }
+}

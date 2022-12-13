@@ -51,7 +51,7 @@
                         <SubDaoMenu
                             :class="classes.subDaoItems"
                             :total-items="subDaoItems.data?.total"
-                            :items="[...subDaoItems.data?.items]"
+                            :items="subDaoItems.data?.items"
                             @more-dao="formDataSubDao.limit = formDataSubDao.limit + DEFAILT_ADD_LIMIT"
                         />
                     </template>
@@ -89,6 +89,7 @@ const route = useRoute();
 const layer = useLayer();
 
 const currentDao = computed(() => store.state.dao);
+
 
 // CLASSES
 
