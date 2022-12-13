@@ -6,7 +6,7 @@
         >
             <div
                 ref="sidebar"
-                class="flex md:z-[100] md:fixed md:top-0 md:left-0 md:bg-surface-300 md:overflow-hidden md:transition-main md:max-w-full"
+                class="flex bg-surface-300 md:z-[100] md:fixed md:top-0 md:left-0 md:overflow-hidden md:transition-main md:max-w-full"
                 :class="{
                     'md:!max-w-0': !showMobileSidebar
                 }"
@@ -52,7 +52,7 @@ import { store } from '@/store';
 import useIsMobile from '@/composables/useIsMobile';
 
 const route = useRoute();
-const showDaoSidebar = computed(() => ['network-dao-address', 'network-dao-address-subdao', 'proposal-id'].includes(route.name?.toString()))
+const showDaoSidebar = computed(() => ['network-dao-address', 'network-dao-address-followers', 'network-dao-address-subdao', 'proposal-id'].includes(route.name as string))
 const daoSidebar = ref<InstanceType<typeof TheDaoSidebar> | null>(null);
 const sidebar = ref(null);
 const showMobileSidebar = ref(false);

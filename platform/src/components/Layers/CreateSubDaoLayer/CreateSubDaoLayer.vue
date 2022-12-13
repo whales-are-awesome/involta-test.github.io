@@ -5,11 +5,11 @@
             container: [
                 'p-10 w-[455px] flex flex-col create-dao-layer sm:w-full',
                 {
-                    '-preloader': isSending
+                    '-preloader -preloader_cover': isSending
                 }
             ]
         }"
-        id="CreateSubDaoLayer"
+        :id="id"
     >
         <div :class="classes.top">
             <div :class="classes.topLeft">
@@ -20,7 +20,7 @@
                     Read the doc <ActionLink href="#">”How to create a new DAO?”</ActionLink>.
                 </p>
             </div>
-            <BaseCross @click="close('CreateSubDaoLayer')" />
+            <BaseCross @click="close(id)" />
         </div>
         <div :class="classes.fields">
             <TextField
@@ -102,6 +102,7 @@ import DaoFactoryService from '@/services/DaoFactoryService';
 // META
 
 interface IProps {
+    id: string
     parentDaoAddress: string
 }
 

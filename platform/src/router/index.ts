@@ -33,7 +33,16 @@ const routes: Array<RouteRecordRaw> = [
             title: 'DAO',
             middleware: [walletsInitMiddleware, authMiddleware]
         },
-        component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/index.vue'),
+        component: () => import(/* webpackChunkName: "dao" */ '../views/_network/dao/_id/index.vue'),
+    },
+    {
+        path: '/:network/dao/:address/followers',
+        name: 'network-dao-address-followers',
+        meta: {
+            title: 'DAO followers',
+            middleware: [walletsInitMiddleware, authMiddleware]
+        },
+        component: () => import(/* webpackChunkName: "followers" */ '../views/_network/dao/_id/followers.vue'),
     },
     {
         path: '/:network/dao/:address/:subdao',
@@ -42,7 +51,7 @@ const routes: Array<RouteRecordRaw> = [
             title: 'SubDAO',
             middleware: [walletsInitMiddleware, authMiddleware]
         },
-        component: () => import(/* webpackChunkName: "ui" */ '../views/dao/_id/index.vue'),
+        component: () => import(/* webpackChunkName: "subdao" */ '../views/_network/dao/_id/index.vue'),
     },
     {
         path: '/proposal/:id/',
@@ -52,6 +61,15 @@ const routes: Array<RouteRecordRaw> = [
             middleware: [walletsInitMiddleware, authMiddleware]
         },
         component: () => import(/* webpackChunkName: "proposal" */ '../views/proposal/_id.vue'),
+    },
+    {
+        path: '/app',
+        name: 'app',
+        meta: {
+            title: 'App',
+            middleware: [walletsInitMiddleware, authMiddleware]
+        },
+        component: () => import(/* webpackChunkName: "apps" */ '../views/app/index.vue'),
     },
     {
         path: '/auth',

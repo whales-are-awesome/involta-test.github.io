@@ -3,7 +3,7 @@
         :theme-settings="{
             container: 'max-w-[664px] p-11 rounded-[20px]'
         }"
-        id="CreateDaoActionLayer"
+        :id="id"
     >
         <div class="flex justify-end">
             <BaseButton
@@ -37,15 +37,10 @@ import makeClasses from '@/helpers/makeClasses';
 // META
 
 interface IProps {
-    title: string
-    message: string
-    acceptButtonCaption?: string
-    declineButtonCaption?: string
+    id: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-    acceptButtonCaption: 'Yes',
-    declineButtonCaption: 'No'
 });
 
 const router = useRouter();
@@ -73,7 +68,7 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 // LAYER
 
 function openCreateLayer() {
-    close('CreateDaoActionLayer');
+    close(props.id);
     open('CreateDaoLayer');
 }
 

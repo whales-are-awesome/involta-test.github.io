@@ -27,11 +27,11 @@ async function open(name: string, props?: object) {
     });
 }
 
-async function confirm(params: IConfirmLayerProps): Promise<any> {
+async function confirm(params: Omit<IConfirmLayerProps, 'id'>): Promise<any> {
     return await open('ConfirmLayer', params);
 }
 
-async function alert(params: IAlertLayerProps): Promise<any> {
+async function alert(params: Omit<IAlertLayerProps, 'id'>): Promise<any> {
     return await open('AlertLayer', params);
 }
 

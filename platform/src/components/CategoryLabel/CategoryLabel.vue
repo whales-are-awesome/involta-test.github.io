@@ -1,12 +1,12 @@
 <template>
     <div :class="classes.root">
         <div :class="classes.inner">
-            <p :class="classes.title">
-                {{ title }}
-            </p>
-            <p :class="classes.text">
-                {{ text }}
-            </p>
+            <BaseIcon
+                :class="classes.hash"
+                name="hash"
+                width="12"
+            />
+            <slot></slot>
         </div>
     </div>
 </template>
@@ -14,22 +14,17 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import BaseButton from '@/components/BaseButton/BaseButton.vue';
-import {  } from './types';
+import  BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
-
 
 // META
 
 interface IProps {
-    title: string
-    text: string
     themeSettings?: ThemeSettings<'root'>
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
-
 
 // CLASSES
 
@@ -37,11 +32,9 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
-
     ],
-    inner: 'flex flex-col items-center text-center',
-    title: 'title-h4 text-500 mb-3',
-    text: 'text-400 max-w-[440px] text-lg mb-11'
+    inner: 'py-[2px] px-1 flex items-center border border-surface-400 rounded-[2px] text-gray-500 text-xxs sm:!text-xxs leading-none uppercase tracking-[0.04px]',
+    hash: 'mr-[2px] text-gray-400'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

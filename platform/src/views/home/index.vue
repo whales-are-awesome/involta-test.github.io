@@ -2,9 +2,8 @@
     <div class="mt-[94px] sm:mt-[62px]">
         <BaseAvatar
             class="mb-[46px] md:mb-[35px] sm:mb-[38px]"
-            :src="`https://hexheads.xyz/image.html?address=${ address }`"
             alt="image"
-            :is-iframe="true"
+            :hexheads="address"
             size="xl"
             rounded="xl"
             :theme-settings="{
@@ -104,7 +103,7 @@
                 v-if="daoItemsFiltered.length"
                 class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
                 :class="{
-                    '-preloader': daoItems.pending
+                    '-preloader -preloader_cover': daoItems.pending
                 }"
             >
                 <div
@@ -115,7 +114,7 @@
                     <DaoCard
                         :avatar="item.image"
                         :name="item.fullName"
-                        members="232"
+                        followers="232"
                         proposals="232"
                     />
                 </div>
@@ -148,7 +147,7 @@
                     <DaoCard
                         :avatar="require('@/assets/images/common/placeholder.jpeg')"
                         name="DAO Name"
-                        members="232"
+                        followers="232"
                         proposals="232"
                         category="category"
                     />

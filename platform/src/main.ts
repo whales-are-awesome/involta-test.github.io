@@ -1,6 +1,7 @@
 import { createApp, h, provide } from 'vue'
 import VueCookies from 'vue-cookies'
 import { DefaultApolloClient } from '@vue/apollo-composable';
+import Notifications from '@kyvg/vue3-notification'
 import Maska from 'maska';
 import { svgSpritePlugin } from 'vue-svg-sprite'
 import App from './App.vue'
@@ -24,6 +25,7 @@ const app = createApp({
     class: 'base-icon',
 })
 .use(Maska)
+.use(Notifications)
 .use(VueCookies, { expires: '7d'})
 .use(router);
 

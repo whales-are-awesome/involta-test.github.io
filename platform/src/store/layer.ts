@@ -2,8 +2,10 @@ import { markRaw  } from 'vue';
 import { GetterTree, MutationTree, ActionTree  } from 'vuex';
 import { Component } from '@vue/runtime-core';
 import { IRootState } from './index';
+import { createId } from '@/helpers/uuid';
 
 interface ILayer {
+    name: string
     id: string
     component: Component
     isOpened?: boolean
@@ -63,6 +65,7 @@ const mutations: MutationTree<IState> = {
 const actions: ActionTree<IState, IRootState> = {
     async add({ commit, getters }, payload: string) {
         const find = getters['layerById'](payload);
+        const id = payload + '-' + createId();
         let component: Component;
 
 
@@ -70,13 +73,14 @@ const actions: ActionTree<IState, IRootState> = {
             component = await import('@/components/Layers/' + `${ payload }/${ payload }.vue`);
 
             commit('add', {
-                id: payload,
+                id,
+                name: payload,
                 // @ts-ignore
                 component: markRaw(component.default)
             });
         }
 
-        return getters['layerById'](payload);
+        return getters['layerById'](id);
     },
     async update({ commit }, payload: ILayer) {
         commit('update', payload);

@@ -16,7 +16,7 @@
                 >
                     <div
                         :class="classes.itemMain"
-                        @click="$router.push(`/${ item.network }/dao/${ item.address }`)"
+                        @click="$router.push(`/${ item.network || network }/dao/${ item.address }`)"
                     >
                         <p :class="classes.itemTitle">
                             {{ item.fullName }}
@@ -82,7 +82,7 @@ import SubDaoItemsPopup from '@/components/SubDaoItemsPopup/SubDaoItemsPopup.vue
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
-import { INormalizedSubDaoItemAsDefault } from '@/types/services/DaoFactoryService';
+import { INormalizedSubDaoItemAsDefault, IDao } from '@/types/services/DaoFactoryService';
 
 
 // META
@@ -90,6 +90,7 @@ import { INormalizedSubDaoItemAsDefault } from '@/types/services/DaoFactoryServi
 interface IProps {
     themeSettings?: ThemeSettings<'root'>
     totalItems?: number
+    network?: IDao['network']
     items: INormalizedSubDaoItemAsDefault[]
 }
 

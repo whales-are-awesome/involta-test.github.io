@@ -1,12 +1,12 @@
 <template>
     <BaseLayer
-        id="CreateDaoLayer"
+        :id="id"
         position="right"
         :theme-settings="{
             container: [
                 'create-dao-layer w-[455px] p-10 flex flex-col sm:w-full',
                 {
-                    '-preloader': isSending
+                    '-preloader -preloader_cover': isSending
                 }
             ]
         }"
@@ -15,7 +15,7 @@
             <p :class="classes.title">
                 Create new DAO
             </p>
-            <BaseCross @click="close('CreateDaoLayer')" />
+            <BaseCross @click="close(id)" />
         </div>
         <div :class="classes.fields">
             <TextField
@@ -39,11 +39,11 @@
                 :error="formErrors.description"
             />
             <TextField
-                v-model="formData.externalLink"
+                v-model="formData.link"
                 title="External link"
                 placeholder="External link"
                 :required="true"
-                :error="formErrors.externalLink"
+                :error="formErrors.link"
             />
             <DropField
                 class="max-w-[400px]"
@@ -82,8 +82,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, defineProps, ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import useLayer from '@/composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -99,7 +99,16 @@ import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 
 // META
 
+export interface IProps {
+    id: string
+}
+
+const props =withDefaults(defineProps<IProps>(), {
+
+});
+
 const router = useRouter();
+const route = useRoute();
 
 const { close, alert, closeLast, open } = useLayer();
 
@@ -145,7 +154,7 @@ const [formData, formErrors, checkErrors] = useForm({
         value: '',
         required: 'Empty field'
     },
-    externalLink: {
+    link: {
         value: '',
         required: 'Empty field'
     },
@@ -167,6 +176,8 @@ async function createDAO() {
         proposalExpirationTime: +new Date(formData.value.proposalExpirationTime)
     });
 
+    console.log(trx!.hash);
+
     if (trx) {
         await alert({
             title: 'Transaction is being processed!',
@@ -179,7 +190,7 @@ async function createDAO() {
             hash: trx.hash,
             description: formData.value.description,
             name: formData.value.name,
-            externalLink:  formData.value.externalLink
+            link:  formData.value.link
         });
     } else {
 

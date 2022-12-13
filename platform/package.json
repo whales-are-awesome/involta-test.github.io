@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@apollo/client": "^3.6.9",
+        "@kyvg/vue3-notification": "^2.7.0",
         "@metamask/detect-provider": "^2.0.0",
         "@pixi/filter-kawase-blur": "^4.1.5",
         "@tailwindcss/line-clamp": "^0.4.2",

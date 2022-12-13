@@ -68,7 +68,7 @@ class API {
 
             const response: { data: T } = await axios.post<T>(path, data, {
                 cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
-                ...{config}
+                ...config
             });
 
             return [camelize(response.data), null, cancel];

@@ -3,7 +3,7 @@
         :theme-settings="{
             container: 'max-w-[480px] p-6 rounded-[8px]'
         }"
-        id="ConfirmLayer"
+        :id="id"
     >
         <div :class="classes.top">
             <BaseIcon
@@ -19,7 +19,7 @@
                 :class="classes.button"
                 size="lg"
                 theme="alert"
-                @click="close('ConfirmLayer', true)"
+                @click="close(id, true)"
             >
                 {{ acceptButtonCaption }}
             </BaseButton>
@@ -27,7 +27,7 @@
                 :class="classes.button"
                 view="ghost"
                 size="lg"
-                @click="close('ConfirmLayer')"
+                @click="close(id)"
             >
                 {{ declineButtonCaption }}
             </BaseButton>
@@ -49,6 +49,7 @@ import { Themes } from './types';
 // META
 
 export interface IProps {
+    id: string
     title: string
     message: string
     theme: Themes

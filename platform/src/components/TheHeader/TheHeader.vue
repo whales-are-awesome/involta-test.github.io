@@ -29,7 +29,7 @@
                 @click="$router.push({ name: 'home' })"
             />
             <p :class="classes.title">
-                OuterCircle.
+                OuterCircle α.
             </p>
             <div :class="classes.burgerWrapperMobile">
                 <BaseButton
@@ -87,10 +87,7 @@
             >
                 Connect Wallet
             </BaseButton>
-            <BaseWallet
-                v-if="address"
-                :value="address"
-            />
+            <BaseWallet v-if="address" />
             <div
                 v-if="address === null"
                 :class="classes.preloader"

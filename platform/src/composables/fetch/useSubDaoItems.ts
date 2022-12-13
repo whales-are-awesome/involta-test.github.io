@@ -4,9 +4,11 @@ import { computed, watch } from 'vue';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import { INormalizedSubDaoItemAsDefault, ISubDaoItemQuery } from '@/types/services/DaoFactoryService';
 import { pickBy } from 'lodash';
+import router from '@/router';
 
 interface IData extends ISubDaoItemQuery {
     parentAddress?: string
+    network: string
 }
 
 interface IOptions {
@@ -23,7 +25,8 @@ function useSubDaoItems(_data: Data, _options?: IOptions) {
 
         return {
             params,
-            parentAddress: data.parentAddress
+            parentAddress: data.parentAddress,
+            network: data.network
         };
     });
 
@@ -45,7 +48,7 @@ function useSubDaoItems(_data: Data, _options?: IOptions) {
         items.value.cancel();
 
         const [data, error, cancel] = await DaoFactoryService
-            .fetchSubDaoItemsAsDefault(dataResult.value.parentAddress, dataResult.value.params);
+            .fetchSubDaoItemsAsDefault({ address: dataResult.value.parentAddress, network: dataResult.value.network }, dataResult.value.params);
 
         if (error) {
             items.value.pending = false;

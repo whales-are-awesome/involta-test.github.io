@@ -1,15 +1,5 @@
 import { IPaginationParams } from '@/types/api'
 
-
-interface ICreateDaoParams {
-    proposalExpirationTime: number
-    quorumRequired: number
-}
-
-interface ICreateDaoResponse {
-    hash: string
-}
-
 interface IDao {
     address: string
     network: string
@@ -24,7 +14,7 @@ interface IDao {
     path: {name: string, address: string}[]
 }
 
-interface IDaoParams {
+interface IDaoPath {
     address: string
     network: string
 }
@@ -32,6 +22,22 @@ interface IDaoParams {
 interface INormalizedDaoAsDefault extends IDao {
     fullName: string
     path: {name: string, address: string, fullName: string}[]
+}
+
+interface ICreateDaoParams {
+    proposalExpirationTime: number
+    quorumRequired: number
+}
+
+interface ICreateDaoResponse {
+    hash: string
+}
+
+interface IChangeDaoParams {
+    name: string
+    description: string
+    link: string
+    image?: string
 }
 
 interface IDaoItem extends IDao {
@@ -56,9 +62,24 @@ interface ISubDaoItem {
     image: string
 }
 
-interface ISubDaoItemParams {
+interface ISubDaoItemQuery extends IPaginationParams {
+
+}
+
+interface INormalizedSubDaoItemAsDefault extends ISubDaoItem {
+    fullName: string
+    isHovered: boolean
+}
+
+
+interface IFollowDaoParams {
+    account: string
+}
+
+interface IFollower {
     address: string
 }
+
 
 interface ISubDaoItemQuery extends IPaginationParams {
 
@@ -92,11 +113,12 @@ interface INormalizedProposalItem extends Pick<IProposal, 'governance'> {
 
 
 export {
+    IDao,
+    IDaoPath,
+    INormalizedDaoAsDefault,
     ICreateDaoParams,
     ICreateDaoResponse,
-    IDao,
-    IDaoParams,
-    INormalizedDaoAsDefault,
+    IChangeDaoParams,
 
     IDaoItem,
     IDaoItemParams,
@@ -104,10 +126,11 @@ export {
 
 
     ISubDaoItem,
-    ISubDaoItemParams,
     ISubDaoItemQuery,
     INormalizedSubDaoItemAsDefault,
 
+    IFollowDaoParams,
+    IFollower,
 
     IProposal,
     IProposalParams,
@@ -115,4 +138,6 @@ export {
     IProposalItem,
     IProposalItemQuery,
     INormalizedProposalItem,
+
+    IPaginationParams
 }

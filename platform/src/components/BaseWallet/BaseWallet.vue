@@ -5,9 +5,8 @@
         >
             <BaseAvatar
                 :class="classes.avatar"
-                :src="`https://hexheads.xyz/image.html?address=${ address }`"
                 alt="DAO"
-                :is-iframe="true"
+                :hexheads="address"
                 rounded="full"
                 size="tiny"
             >
@@ -61,6 +60,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { notify } from "@kyvg/vue3-notification";
 import BaseAvatar  from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseTooltip  from '@/components/BaseTooltip/BaseTooltip.vue';
 import BaseButton  from '@/components/BaseButton/BaseButton.vue';
@@ -77,7 +77,6 @@ import ThemeSettings from '@/types/themeSettings';
 // META
 
 interface IProps {
-    value: string
     themeSettings?: ThemeSettings<'root'>
 }
 
@@ -132,11 +131,11 @@ const address = computed(() => store.state.wallet.address);
 
 const addressOrName = computed(() => store.getters['wallet/addressOrName']);
 
-
-// VALUE
-
 function copyAddress(callback: () => void) {
-    copy(props.value);
+    copy(address.value);
+    notify({
+        title: 'Address copied',
+    });
     callback();
 }
 

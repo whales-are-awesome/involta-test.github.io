@@ -84,7 +84,7 @@
                     v-if="daoItemsFiltered.length"
                     class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
                     :class="{
-                        '-preloader': daoItems.pending
+                        '-preloader -preloader_cover': daoItems.pending
                     }"
                 >
                     <div
@@ -95,7 +95,7 @@
                         <DaoCard
                             :avatar="item.image"
                             :name="item.name"
-                            members="232"
+                            followers="232"
                             proposals="232"
                         />
                     </div>
@@ -128,7 +128,7 @@
                         <DaoCard
                             :avatar="require('@/assets/images/common/placeholder.jpeg')"
                             name="DAO Name"
-                            members="232"
+                            followers="232"
                             proposals="232"
                             category="category"
                         />

@@ -7,7 +7,7 @@
         v-on="$attrs"
         @click="emit('click')"
     >
-        <div v-if="loading" class="-preloader -preloader_cover -preloader_xs"></div>
+        <div v-if="loading" class="-preloader -preloader_xs"></div>
         <span :class="classes.container">
             <span :class="classes.bg"></span>
             <slot name="prepend"></slot>
@@ -139,7 +139,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
 
         view === 'outlined' && {
-            'text-primary-500': view === 'outlined' && theme === 'primary-200',
+            'text-primary-500 active:text-primary-600': view === 'outlined' && theme === 'primary-200',
             'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme),
         },
 
@@ -165,7 +165,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'bg-gray-700 group-hover:bg-gray-800 group-active:bg-600': theme === 'gray',
             'bg-surface-400 group-hover:bg-gray-300': theme === 'surface',
             'bg-primary-500 group-hover:bg-primary-600 group-active:bg-primary-800': theme === 'primary',
-            'border bg-primary-400 group-hover:bg-primary-500 group-active:bg-primary-800': theme === 'primary-400',
+            'bg-primary-400 group-hover:bg-primary-500 group-active:bg-primary-800': theme === 'primary-400',
             'bg-white': theme === 'white',
             'bg-[#CB101D]': theme === 'alert',
 
@@ -175,7 +175,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         view === 'outlined' && {
             'border-gray-200 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray',
             'border-gray-500 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray-500',
-            'border border-primary-200 group-hover:bg-primary-300 group-active:bg-primary-800': theme === 'primary-200',
+            'border border-primary-200 group-hover:bg-primary-200 group-active:bg-primary-100': theme === 'primary-200',
         },
 
         view === 'ghost' && {

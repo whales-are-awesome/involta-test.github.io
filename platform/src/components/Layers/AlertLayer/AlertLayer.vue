@@ -1,11 +1,13 @@
 <template>
     <BaseLayer
         class="p-8"
-        id="AlertLayer"
+        :class="id"
+        :id="id"
         :theme-settings="{
             container: 'p-[54px] w-[534px] flex flex-col base-animation-layer rounded-[4px] text-center'
         }"
     >
+        <div v-if="pending" class="-preloader"></div>
         <div
             v-if="iconName"
             class="mb-11 flex justify-center"
@@ -26,13 +28,13 @@
         <div class="flex justify-center space-x-4">
             <BaseButton
                 theme="surface"
-                @click="close('AlertLayer')"
+                @click="close(id)"
             >
                 Cancel
             </BaseButton>
             <BaseButton
                 theme="primary"
-                @click="close('AlertLayer', true)"
+                @click="accept"
             >
                 {{ buttonText }}
             </BaseButton>
@@ -41,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, computed } from 'vue';
+import { defineProps, computed, ref } from 'vue';
 import useLayer from '@/composables/useLayer';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -52,10 +54,12 @@ import { Statuses } from './types';
 // META
 
 export interface IProps {
+    id: string
     title: string
     text: string
     buttonText: string
     status: Statuses
+    callback?: () => void
 }
 
 const props =withDefaults(defineProps<IProps>(), {
@@ -82,4 +86,26 @@ const iconName = computed(() => {
 
     return '';
 });
+
+
+// ACCEPT
+const pending = ref(false);
+
+async function accept() {
+    if (props.callback) {
+        pending.value = true;
+
+        try {
+            await props.callback();
+        } catch (e) {
+            console.log(e);
+        }
+
+        pending.value = false;
+
+    }
+
+
+    close(props.id, true);
+}
 </script>

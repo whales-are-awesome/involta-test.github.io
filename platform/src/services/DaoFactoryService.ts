@@ -6,11 +6,12 @@ import parseEventData from '@/helpers/parseEventData';
 import daoFactoryABI from '@/abi/daoFactoryABI';
 import { IResponsePagination, Config } from '@/types/api';
 import {
+    IDao,
+    IDaoPath,
+    INormalizedDaoAsDefault,
     ICreateDaoParams,
     ICreateDaoResponse,
-    IDao,
-    IDaoParams,
-    INormalizedDaoAsDefault,
+    IChangeDaoParams,
 
     IDaoItem,
     IDaoItemParams,
@@ -18,10 +19,11 @@ import {
 
 
     ISubDaoItem,
-    ISubDaoItemParams,
     ISubDaoItemQuery,
     INormalizedSubDaoItemAsDefault,
 
+    IFollowDaoParams,
+    IFollower,
 
     IProposal,
     IProposalParams,
@@ -29,6 +31,8 @@ import {
     IProposalItem,
     IProposalItemQuery,
     INormalizedProposalItem,
+
+    IPaginationParams
 } from '@/types/services/DaoFactoryService';
 
 
@@ -42,22 +46,28 @@ export default class DaoFactoryService {
         });
     }
 
-    static async fetchDao(params: IDaoParams) {
-        return API.get<IDao>(`/${ params.network }/dao/${ params.address }`);
+    static async fetchDao(path: IDaoPath) {
+        return API.get<IDao>(`/${ path.network }/dao/${ path.address }`);
     }
 
-    static async fetchDaoAsDefault(params: IDaoParams) {
+    static async fetchDaoAsDefault(params: IDaoPath) {
         const [data, ...rest] = await DaoFactoryService.fetchDao(params);
 
         return [data && normalizeDaoAsDefault(data), ...rest] as const;
     }
 
-    static async joinDao(params: IDaoParams, config: Config) {
-        return API.post<any>(`/${ params.network }/dao/${ params.address }/join`, {}, config);
+    static async changeDao(path: IDaoPath, params: IChangeDaoParams, config: Config) {
+        return API.put<never>(`/${ path.network }/dao/${ path.address }`, params, config);
     }
 
-    static async changeDao(params: IDaoParams, config: Config) {
-        return API.put<any>(`/${ params.network }/dao/${ params.address }/join`, {}, config);
+
+    static async fetchFollowers(path: IDaoPath, params: IPaginationParams) {
+        return API.get<IFollower>(`/${ path.network }/dao/${ path.address }/followers`, params);
+    }
+
+    static async followDao(path: IDaoPath, params: IFollowDaoParams, config: Config) {
+        console.log(path, params, config);
+        return API.post<never>(`/${ path.network }/dao/${ path.address }/follow`, params, config);
     }
 
 
@@ -93,12 +103,12 @@ export default class DaoFactoryService {
         return [result, null];
     }
 
-    static async fetchSubDaoItems(address: ISubDaoItemParams['address'], params: ISubDaoItemQuery) {
-        return API.get<IResponsePagination<ISubDaoItem>>('/' + router.currentRoute.value.params.network + `/dao/${ address }` + `/subdao`, params);
+    static async fetchSubDaoItems(path: IDaoPath, params: ISubDaoItemQuery) {
+        return API.get<IResponsePagination<ISubDaoItem>>('/' + path.network + `/dao/${ path.address }` + `/subdao`, params);
     }
 
-    static async fetchSubDaoItemsAsDefault(address: ISubDaoItemParams['address'], params: ISubDaoItemQuery) {
-        const [data, ...rest] = await DaoFactoryService.fetchSubDaoItems(address, params);
+    static async fetchSubDaoItemsAsDefault(path: IDaoPath, params: ISubDaoItemQuery) {
+        const [data, ...rest] = await DaoFactoryService.fetchSubDaoItems(path, params);
 
         return [data && normalizeSubDaoItemsAsTable(data), ...rest] as const;
     }

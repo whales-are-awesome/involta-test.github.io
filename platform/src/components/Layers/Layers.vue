@@ -10,7 +10,11 @@
         <Component
             v-if="lastItem"
             :is="lastItem.component"
-            v-bind="lastItem.props"
+            v-bind="{
+                ...lastItem.props,
+                id: lastItem.id
+            }"
+
         />
     </Transition>
 </template>

@@ -5,12 +5,9 @@
     >
         <div :class="classes.inner">
             <div :class="classes.content">
-                <div v-if="currentDao.pending || subDaoItems.pending || isPendingParentDaos" class="-preloader -preloader_cover"></div>
-                <template v-if="!currentDao.pending && !subDaoItems.pending">
+                <div v-if="currentDao.pending || subDaoItems.pending || isPendingParentDaos" class="-preloader"></div>
+                <template v-if="currentDao.data && subDaoItems.data">
                     <div :class="classes.top">
-                        <TextSeparator :class="classes.currentDaoTitle">
-                            {{ currentDao.data?.fullName }}
-                        </TextSeparator>
                         <div :class="classes.logoWrapper">
                             <img
                                 :class="classes.logo"
@@ -23,10 +20,10 @@
                                 :class="classes.topInfoJoin"
                                 theme="primary-400"
                                 size="sm"
-                                :loading="isJoining"
-                                @click="joinDao"
+                                :loading="isFollowing"
+                                @click="followDao"
                             >
-                                Join DAO
+                                Follow DAO
                             </BaseButton>
                         </div>
                     </div>
@@ -40,6 +37,7 @@
                             :class="classes.subDaoItems"
                             :total-items="currentDao.data?.path.length"
                             :items="parentDaos"
+                            :network="currentDao.data?.network"
                             @more-dao="addParentDaos"
                         />
                     </template>
@@ -53,7 +51,7 @@
                         <SubDaoMenu
                             :class="classes.subDaoItems"
                             :total-items="subDaoItems.data?.total"
-                            :items="subDaoItems.data?.items"
+                            :items="[...subDaoItems.data?.items]"
                             @more-dao="formDataSubDao.limit = formDataSubDao.limit + DEFAILT_ADD_LIMIT"
                         />
                     </template>
@@ -77,6 +75,7 @@ import SubDaoMenu from '@/components/SubDaoMenu/SubDaoMenu.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import makeClasses from '@/helpers/makeClasses';
+import sign from '@/helpers/sign';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import useLayer from '@/composables/useLayer';
 import { store } from '@/store';
@@ -91,18 +90,16 @@ const layer = useLayer();
 
 const currentDao = computed(() => store.state.dao);
 
-
 // CLASSES
 
 const useClasses = makeClasses(() => ({
-    root: 'w-[224px] sm:w-[220px] md:flex md:justify-center md:overflow-hidden',
-    inner: 'w-[224px] h-screen bg-surface-200 fixed top-0 left-[72px] p-2 pb-0 md:w-full md:static',
-    content: 'w-full pb-2 rounded-[12px]',
-    top: 'bg-surface-300 rounded-[20px] p-2 pb-4 mb-6 md:px-3',
+    root: 'w-[224px] sm:w-[180px] md:flex md:justify-center md:overflow-hidden',
+    inner: 'inner w-[224px] h-screen overflow-auto [scrollbar-width:none] fixed top-0 left-[72px] p-2 pr-4 md:w-full md:static',
+    content: 'w-full min-h-full relative overflow-hidden p-2 rounded-[18px] bg-surface-200',
+    top: 'rounded-[20px] mb-9 md:px-3',
     topInfo: 'flex',
     topInfoJoin: 'flex-grow mr-2',
-    currentDaoTitle: 'mb-[12px] ml-2 sm:text-xxs',
-    logoWrapper: 'pb-[100%] relative bg-black overflow-hidden mb-3 rounded-[16px] md:rounded-[4px]',
+    logoWrapper: 'pb-[100%] relative bg-black overflow-hidden mb-3 rounded-[10px] md:rounded-[4px]',
     logo: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 z-0 opacity-70',
     subDaoTitle: 'mb-[13px] mt-9 sm:text-xxs',
     subDaoItems: 'mb-[20px]',
@@ -117,24 +114,38 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 });
 
 
-// JOIN
+// FOLLOW
 
-const isJoining = ref(false);
+const isFollowing = ref(false);
 
 
-async function joinDao() {
-    isJoining.value = true;
+async function followDao() {
+    isFollowing.value = true;
 
     const { address, network } = currentDao.value.data!;
+    const [signInfo, err] = await sign('Hello World');
 
-    const [response, error] = await DaoFactoryService.joinDao({
-        address,
-        network
-    }, {
-        headers: {
-            account_address: store.state.wallet.address as string
+    if (err) {
+        isFollowing.value = false;
+
+        return;
+    }
+
+    const [response, error] = await DaoFactoryService.followDao(
+    {
+            address,
+            network
+        },
+        {
+            account: store.state.wallet.address as string
+        },
+    {
+            headers: {
+                'Auth-Hash': signInfo!.hash,
+                'Auth-Signature': signInfo!.sign
+            }
         }
-    });
+    );
 
     if (error) {
         layer.alert({
@@ -145,13 +156,13 @@ async function joinDao() {
         })
     }
 
-    isJoining.value = false;
+    isFollowing.value = false;
 }
 
 async function leaveDao() {
     const isLeave = layer.confirm({
         title: 'Leave DAO?',
-        message: 'All tokens, memberships of DAO and its SubDAOs will be lost.',
+        message: 'All tokens, followerships of DAO and its SubDAOs will be lost.',
         theme: 'alert',
         acceptButtonCaption: 'Leave',
         declineButtonCaption: 'Cancel',
@@ -161,11 +172,11 @@ async function leaveDao() {
         return;
     }
 
-    isJoining.value = true;
+    isFollowing.value = true;
 
     const { address, network } = currentDao.value.data!;
 
-    const [response, error] = await DaoFactoryService.joinDao({
+    const [response, error] = await DaoFactoryService.followDao({
         address,
         network
     }, {
@@ -183,7 +194,7 @@ async function leaveDao() {
         })
     }
 
-    isJoining.value = false;
+    isFollowing.value = false;
 }
 
 
@@ -226,6 +237,7 @@ const formDataSubDao = ref({
 
 const formDataSubDaoParams = computed(() => ({
     parentAddress: currentDao.value.data?.address,
+    network: currentDao.value.data?.network,
     ...formDataSubDao.value
 }));
 
@@ -246,3 +258,10 @@ defineExpose({
     root
 });
 </script>
+
+<style scoped>
+.inner::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+</style>

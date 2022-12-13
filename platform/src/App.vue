@@ -2,14 +2,16 @@
     <Layout>
         <ErrorPage v-show="hasError" />
         <RouterView v-if="$route.name" :key="$route.path" v-show="!hasError" />
-        <div v-if="!$route.name" class="-preloader !absolute inset-0 -z-1"></div>
+        <div v-if="!$route.name" class="-preloader inset-0 -z-1"></div>
     </Layout>
     <Layers />
+    <BaseNotifications />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import Layers from '@/components/Layers/Layers.vue';
+import BaseNotifications from '@/components/BaseNotifications/BaseNotifications.vue';
 import Layout from './layouts/index.vue';
 import ErrorPage from '@/views/error/index.vue';
 import { store } from '@/store';
