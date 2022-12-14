@@ -66,7 +66,6 @@ export default class DaoFactoryService {
     }
 
     static async followDao(path: IDaoPath, params: IFollowDaoParams, config: Config) {
-        console.log(path, params, config);
         return API.post<never>(`/${ path.network }/dao/${ path.address }/follow`, params, config);
     }
 

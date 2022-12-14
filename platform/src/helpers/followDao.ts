@@ -1,6 +1,7 @@
 import sign from '@/helpers/sign';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import { store } from '@/store';
+import emitter from '@/plugins/mitt';
 
 async function followDao(address: string, network: string, alert: any) {
     const [signInfo, err] = await sign('Do you want to follow this dao?');
@@ -31,7 +32,9 @@ async function followDao(address: string, network: string, alert: any) {
             text: 'You have successfully followed the dao',
             buttonText: 'OK',
             status: 'success'
-        })
+        });
+
+        emitter.emit('daoFollowed');
     } else {
         alert({
             title: 'Warning message!',

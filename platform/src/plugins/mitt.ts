@@ -7,6 +7,7 @@ interface ICloseProps {
 
 type Events = {
     layerClose: ICloseProps
+    daoFollowed: void
     daoCreated: void
 };
 

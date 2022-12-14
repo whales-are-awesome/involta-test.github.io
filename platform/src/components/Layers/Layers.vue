@@ -10,6 +10,7 @@
         <Component
             v-if="lastItem"
             :is="lastItem.component"
+            :key="lastItem.id"
             v-bind="{
                 ...lastItem.props,
                 id: lastItem.id

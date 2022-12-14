@@ -12,7 +12,7 @@ function useWatchForCreatedDaos() {
     const layer = useLayer();
 
     function watch() {
-        setInterval(() => {
+        setTimeout(() => {
             const transactions: IDaoTransactionCookie[] = cookies.get('pendingTransactions') || [];
 
             transactions.forEach(async item => {
@@ -26,7 +26,7 @@ function useWatchForCreatedDaos() {
 
                 await showMessage(address, item);
             })
-        }, 5000);
+        }, 2000);
     }
 
     function add(dao: IDaoTransactionCookie) {
@@ -98,40 +98,38 @@ function useWatchForCreatedDaos() {
             return;
         }
 
-        const [response, error] = await putData(address, data, signInfo);
+        const [_, error] = await putData(address, data, signInfo);
 
-        if (error) {
+        if (!error) {
             await layer.alert({
-                title: 'Dao is not indexed yet.',
-                text: 'Please wait some time for dao to be indexed',
+                title: 'Success',
+                text: `Your ${ address } dao was created`,
                 buttonText: 'OK',
-                status: 'error'
+                status: 'success'
             });
-
-            const int = setInterval(async() => {
-                const [response, error] = await putData(address, data, signInfo);
-
-                if (response) {
-                    clearInterval(int);
-
-                    await layer.alert({
-                        title: 'Dao was successfuly indexed',
-                        text: `Index process of ${ address } dao was success`,
-                        buttonText: 'OK',
-                        status: 'success'
-                    });
-                }
-            }, 5000);
         }
 
-        await layer.alert({
-            title: 'Success',
-            text: `Your ${ address } dao was created`,
+        layer.alert({
+            title: 'Dao is not indexed yet.',
+            text: 'Please wait some time for dao to be indexed',
             buttonText: 'OK',
-            status: 'success'
+            status: 'error'
         });
 
-        return;
+        const int = setInterval(async() => {
+            const [response, error] = await putData(address, data, signInfo);
+
+            if (response) {
+                clearInterval(int);
+
+                await layer.alert({
+                    title: 'Dao was successfuly indexed',
+                    text: `Index process of ${ address } dao was success`,
+                    buttonText: 'OK',
+                    status: 'success'
+                });
+            }
+        }, 5000);
     }
 
     return {

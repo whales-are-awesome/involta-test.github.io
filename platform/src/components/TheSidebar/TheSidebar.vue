@@ -54,6 +54,7 @@ import { IProps } from '@/components/BlockInfo/BlockInfo.vue';
 import useDaoItems from '@/composables/fetch/useDaoItems';
 import useIsMobile from '@/composables/useIsMobile';
 import { store } from '@/store';
+import emitter from '@/plugins/mitt';
 
 
 // META
@@ -98,7 +99,11 @@ const daoItemsForm = computed(() => ({
     account: store.state.wallet.address
 }));
 
-const [daoItems] = useDaoItems(daoItemsForm);
+const [daoItems, fetchDaoItems] = useDaoItems(daoItemsForm);
+
+emitter.on('daoFollowed', () => {
+    fetchDaoItems();
+});
 
 
 // CREATE DAO LAYER
