@@ -144,9 +144,13 @@ function goToPage() {
 const isFollowing = ref(false);
 
 async function follow() {
+    if (!props.address || !props.network) {
+        return;
+    }
+
     isFollowing.value = true;
 
-    const [_, error] = await followDao(props.address!, props.network!, alert);
+    const [_, error] = await followDao(props.address, props.network, alert);
 
     isFollowing.value = false;
 }

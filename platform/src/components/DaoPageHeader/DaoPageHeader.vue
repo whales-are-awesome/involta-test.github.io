@@ -12,31 +12,43 @@
                     view="primary"
                 />
                 <div :class="classes.info">
-                    <ActionLink
-                        :class="classes.infoItem"
-                        :to="{ name: 'network-dao-address-followers', params: $route.params  }"
-                        theme="secondary-dark"
-                    >
-                        <BaseIcon
-                            :class="classes.infoItemIcon"
-                            name="users"
-                            width="20"
-                        />
-                        <span>
+                    <div :class="classes.infoTop">
+                        <ActionLink
+                            :class="classes.infoItem"
+                            :to="{ name: 'network-dao-address-followers', params: $route.params  }"
+                            theme="secondary-dark"
+                        >
+                            <BaseIcon
+                                :class="classes.infoItemIcon"
+                                name="users"
+                                width="20"
+                            />
+                            <span>
                             Followers <strong>2 687</strong>
                         </span>
-                    </ActionLink>
-                    <ActionLink
-                        :class="classes.infoItem"
-                        theme="secondary-dark"
-                    >
-                        <BaseIcon
-                            :class="classes.infoItemIcon"
-                            name="settings"
-                            width="20"
+                        </ActionLink>
+                        <ActionLink
+                            :class="classes.infoItem"
+                            theme="secondary-dark"
+                        >
+                            <BaseIcon
+                                :class="classes.infoItemIcon"
+                                name="settings"
+                                width="20"
+                            />
+                            Params
+                        </ActionLink>
+                    </div>
+                    <div :class="classes.links">
+                        <LinkButton
+                            v-for="link in links"
+                            :key="link.icon"
+                            :class="link.class"
+                            :href="link.href"
+                            :icon-name="link.icon"
+                            icon-width="24"
                         />
-                        Params
-                    </ActionLink>
+                    </div>
                 </div>
             </div>
             <div
@@ -60,6 +72,7 @@
 import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
+import LinkButton from '@/components/LinkButton/LinkButton.vue';
 import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
 import { IBreadcrumb  } from './types';
 import makeClasses from '@/helpers/makeClasses';
@@ -97,10 +110,11 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             '-mt-[3px]': !hasBreadcrumbs
         }
     ],
-    info: 'flex space-x-[18px] text-xs sm:hidden',
+    infoTop: 'flex space-x-[18px] text-xs sm:hidden',
     infoItem: 'flex items-center',
     infoItemIcon: 'mr-1',
-    description: 'max-w-[659px] text-xs text-gray-500 line-clamp-2 sm:line-clamp-3'
+    description: 'max-w-[659px] text-xs text-gray-500 line-clamp-2 sm:line-clamp-3',
+    links: 'flex justify-end space-x-2 mt-[18px]'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {
@@ -109,6 +123,32 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         hasBreadcrumbs: !!props.breadcrumbs?.length
     });
 });
+
+
+// LINKS
+
+const links = [
+    {
+        icon: 'discord',
+        href: '//google.com',
+        class: 'hover:text-[#7289da]'
+    },
+    {
+        icon: 'twitter',
+        href: '//google.com',
+        class: 'hover:text-[#1DA1F2]'
+    },
+    {
+        icon: 'website',
+        href: '//google.com',
+        class: 'hover:text-black'
+    },
+    {
+        icon: 'geo',
+        href: '//google.com',
+        class: 'hover:text-black'
+    },
+]
 </script>
 
 <style scoped>

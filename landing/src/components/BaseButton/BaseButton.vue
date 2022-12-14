@@ -53,7 +53,7 @@ import makeClasses from '@/helpers/makeClasses';
 interface IProps {
     href?: string
     icon?: {
-        name: keyof typeof Icons
+        name: Icons
         width?: string
         height?: string
         class?: string
