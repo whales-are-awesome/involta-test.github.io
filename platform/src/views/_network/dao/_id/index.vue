@@ -17,7 +17,7 @@
         <div class="p-4 bg-surface-200 rounded-[10px]">
             <div class="flex justify-between mb-[30px]">
                 <div
-                    v-if="[TagStatuses.Proposals, TagStatuses.DAOs].includes(tagList.value)"
+                    v-if="[TagStatuses.Proposals, TagStatuses.SubDAOs].includes(tagList.value)"
                     class="flex space-x-4"
                 >
                     <template v-if="tagList.value === TagStatuses.Proposals">
@@ -31,7 +31,7 @@
                         />
                     </template>
                     <SelectField
-                        v-if="tagList.value === TagStatuses.DAOs"
+                        v-if="tagList.value === TagStatuses.SubDAOs"
                         v-model="formData.categoryId"
                         :options="formInfo.categoryOptions"
                     />
@@ -79,7 +79,7 @@
                     />
                 </div>
             </template>
-            <div v-if="tagList.value === TagStatuses.DAOs">
+            <div v-if="tagList.value === TagStatuses.SubDAOs">
                 <div
                     v-if="daoItemsFiltered.length"
                     class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
@@ -94,7 +94,10 @@
                     >
                         <DaoCard
                             :avatar="item.image"
-                            :name="item.name"
+                            :to="{ name: 'network-dao-address', params: { network: item.network, address: item.address } }"
+                            :name="item.fullName"
+                            :network="item.network"
+                            :address="item.address"
                             followers="232"
                             proposals="232"
                         />
@@ -127,6 +130,7 @@
                     >
                         <DaoCard
                             :avatar="require('@/assets/images/common/placeholder.jpeg')"
+                            :to="{ name: 'app' }"
                             name="DAO Name"
                             followers="232"
                             proposals="232"
@@ -177,7 +181,7 @@ const route = useRoute();
 enum TagStatuses {
     Proposals,
     Statistics,
-    DAOs,
+    SubDAOs,
     APPs
 }
 
@@ -185,7 +189,7 @@ const tagList = ref({
     options: [
         { id: TagStatuses.Proposals, title: TagStatuses[TagStatuses.Proposals] },
         { id: TagStatuses.Statistics, title: TagStatuses[TagStatuses.Statistics] },
-        { id: TagStatuses.DAOs, title: TagStatuses[TagStatuses.DAOs] },
+        { id: TagStatuses.SubDAOs, title: TagStatuses[TagStatuses.SubDAOs] },
         { id: TagStatuses.APPs, title: TagStatuses[TagStatuses.APPs] },
     ],
     value: TagStatuses.Proposals

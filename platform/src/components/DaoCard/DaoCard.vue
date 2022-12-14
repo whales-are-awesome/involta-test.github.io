@@ -41,7 +41,10 @@
                 </div>
             </div>
         </div>
-        <div :class="classes.buttonWrapper">
+        <div
+            :class="classes.buttonWrapper"
+            @click.stop
+        >
             <CategoryLabel v-if="category">
                 {{ category }}
             </CategoryLabel>
@@ -51,8 +54,10 @@
                 view="outlined"
                 size="sm"
                 rounded="lg"
+                :loading="isFollowing"
+                @click="follow"
             >
-                Join
+                Follow
             </BaseButton>
         </div>
     </div>
@@ -60,7 +65,7 @@
 
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
@@ -69,6 +74,8 @@ import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
 import IRouterLink from '@/types/routerLink';
+import followDao from '@/helpers/followDao';
+import useLayer from '@/composables/useLayer';
 
 
 // META
@@ -77,6 +84,8 @@ interface IProps {
     to?: IRouterLink
     avatar: string
     name: string
+    address?: string
+    network?: string
     category?: string
     followers: string
     proposals: string
@@ -86,6 +95,8 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {});
 
 const router = useRouter();
+
+const { alert } = useLayer();
 
 
 // CLASSES
@@ -121,9 +132,22 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 
 
 // LINK
+
 function goToPage() {
     if (props.to) {
         router.push(props.to);
     }
+}
+
+
+// FOLLOW
+const isFollowing = ref(false);
+
+async function follow() {
+    isFollowing.value = true;
+
+    const [_, error] = await followDao(props.address!, props.network!, alert);
+
+    isFollowing.value = false;
 }
 </script>

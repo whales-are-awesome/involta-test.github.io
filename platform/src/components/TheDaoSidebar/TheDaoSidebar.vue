@@ -21,7 +21,12 @@
                                 theme="primary-400"
                                 size="sm"
                                 :loading="isFollowing"
-                                @click="followDao"
+                                :icon="{
+                                    name: 'pin',
+                                    width: 14,
+                                    prepend: true
+                                }"
+                                @click="follow"
                             >
                                 Follow DAO
                             </BaseButton>
@@ -71,14 +76,15 @@
 <script lang="ts" setup>
 import { computed, ref, defineExpose, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { store } from '@/store';
 import SubDaoMenu from '@/components/SubDaoMenu/SubDaoMenu.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import makeClasses from '@/helpers/makeClasses';
 import sign from '@/helpers/sign';
+import followDao from '@/helpers/followDao';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import useLayer from '@/composables/useLayer';
-import { store } from '@/store';
 import useSubDaoItems from '@/composables/fetch/useSubDaoItems';
 import { DEFAULT_LIMIT, DEFAILT_ADD_LIMIT, INormalizedDaoAsDefault } from './types';
 
@@ -122,42 +128,12 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 const isFollowing = ref(false);
 
 
-async function followDao() {
+async function follow() {
     isFollowing.value = true;
 
     const { address, network } = currentDao.value.data!;
-    const [signInfo, err] = await sign('Hello World');
 
-    if (err) {
-        isFollowing.value = false;
-
-        return;
-    }
-
-    const [response, error] = await DaoFactoryService.followDao(
-    {
-            address,
-            network
-        },
-        {
-            account: store.state.wallet.address as string
-        },
-    {
-            headers: {
-                'Auth-Hash': signInfo!.hash,
-                'Auth-Signature': signInfo!.sign
-            }
-        }
-    );
-
-    if (error) {
-        layer.alert({
-            title: 'Warning message!',
-            text: 'Something go wrong',
-            buttonText: 'OK',
-            status: 'error'
-        })
-    }
+    const [_, error] = await followDao(address, network);
 
     isFollowing.value = false;
 }

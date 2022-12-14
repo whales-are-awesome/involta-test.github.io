@@ -120,6 +120,8 @@
                         :to="{ name: 'network-dao-address', params: { network: item.network, address: item.address } }"
                         :avatar="item.image"
                         :name="item.fullName"
+                        :network="item.network"
+                        :address="item.address"
                         followers="232"
                         proposals="232"
                     />

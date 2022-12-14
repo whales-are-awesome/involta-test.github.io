@@ -12,24 +12,31 @@
                     view="primary"
                 />
                 <div :class="classes.info">
-                    <div
+                    <ActionLink
                         :class="classes.infoItem"
-                        @click="$router.push({ name: 'network-dao-address-followers', params: $route.params  })">
+                        :to="{ name: 'network-dao-address-followers', params: $route.params  }"
+                        theme="secondary-dark"
+                    >
                         <BaseIcon
                             :class="classes.infoItemIcon"
                             name="users"
                             width="20"
                         />
-                        Followers (158)
-                    </div>
-                    <div :class="classes.infoItem">
+                        <span>
+                            Followers <strong>2 687</strong>
+                        </span>
+                    </ActionLink>
+                    <ActionLink
+                        :class="classes.infoItem"
+                        theme="secondary-dark"
+                    >
                         <BaseIcon
                             :class="classes.infoItemIcon"
                             name="settings"
                             width="20"
                         />
                         Params
-                    </div>
+                    </ActionLink>
                 </div>
             </div>
             <div
@@ -52,6 +59,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
 import { IBreadcrumb  } from './types';
 import makeClasses from '@/helpers/makeClasses';
@@ -89,8 +97,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             '-mt-[3px]': !hasBreadcrumbs
         }
     ],
-    info: 'flex space-x-[18px] text-gray-400 text-xs sm:hidden',
-    infoItem: 'flex items-center cursor-pointer',
+    info: 'flex space-x-[18px] text-xs sm:hidden',
+    infoItem: 'flex items-center',
     infoItemIcon: 'mr-1',
     description: 'max-w-[659px] text-xs text-gray-500 line-clamp-2 sm:line-clamp-3'
 }));
