@@ -39,10 +39,10 @@ import {
 
 export default class DaoFactoryService {
     static async createDao(params: ICreateDaoParams) {
-        return await API.sendOnChain<ICreateDaoResponse>({
+        return API.sendOnChain<ICreateDaoResponse>({
             contractName: 'daoFactory',
             methodName: 'deployDao',
-            params: [+params.proposalExpirationTime, +params.quorumRequired, '0x' + '0'.repeat(40)]
+            params: [+params.proposalExpirationTime, +params.quorumRequired, params.parentRegistry]
         });
     }
 

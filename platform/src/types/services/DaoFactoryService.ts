@@ -27,6 +27,7 @@ interface INormalizedDaoAsDefault extends IDao {
 interface ICreateDaoParams {
     proposalExpirationTime: number
     quorumRequired: number
+    parentRegistry?: string
 }
 
 interface ICreateDaoResponse {

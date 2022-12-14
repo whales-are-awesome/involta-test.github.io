@@ -12,16 +12,21 @@
         }"
     >
         <div :class="classes.top">
-            <p :class="classes.title">
-                Create new DAO
-            </p>
+            <div :class="classes.topLeft">
+                <p :class="classes.title">
+                    Create new {{ name }}
+                </p>
+                <p :class="classes.topText">
+                    Read the doc <ActionLink href="#">”How to create a new {{ name }}?”</ActionLink>.
+                </p>
+            </div>
             <BaseCross @click="close(id)" />
         </div>
         <div :class="classes.fields">
             <TextField
                 v-model="formData.name"
-                title="Name of DAO"
-                placeholder="Name of DAO"
+                :title="`Name of ${ name }`"
+                :placeholder="`Name of ${ name }`"
                 :required="true"
                 :maxlength="50"
                 :tip="`${ formData.name.length }/50`"
@@ -29,9 +34,9 @@
             />
             <TextField
                 v-model="formData.description"
-                title="DAO description"
-                placeholder="DAO description"
-                tooltip="DAO description"
+                :title="`${ name } description`"
+                :placeholder="`${ name } description`"
+                :tooltip="`${ name } description`"
                 :required="true"
                 view="textarea"
                 :maxlength="150"
@@ -76,7 +81,7 @@
             theme="primary"
             @click="createDAO"
         >
-            Create DAO
+            Create {{ name }}
         </BaseButton>
     </BaseLayer>
 </template>
@@ -90,6 +95,7 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';
+import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
@@ -101,6 +107,7 @@ import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 
 export interface IProps {
     id: string
+    parentAddress?: string
 }
 
 const props =withDefaults(defineProps<IProps>(), {
@@ -116,15 +123,10 @@ const { close, alert, closeLast, open } = useLayer();
 // CLASSES
 
 const useClasses = makeClasses(() => ({
-    top: () => [
-        'flex items-center justify-between mb-11'
-    ],
-    title: () => [
-        'title-h5 !text-600'
-    ],
-    cross: () => [
-        'text-[#B6B6BE] cursor-pointer'
-    ],
+    top: 'flex items-center justify-between mb-11',
+    title: 'title-h5 !text-600 mb-2',
+    topText: 'text-sm font-medium text-400',
+    cross: 'text-[#B6B6BE] cursor-pointer',
     fields: 'pb-6 space-y-6',
     button: 'font-semibold w-full mt-auto flex-shrink-0',
 }));
@@ -173,10 +175,9 @@ async function createDAO() {
 
     const [trx, error] = await DaoFactoryService.createDao({
         quorumRequired: formData.value.quorumRequired,
-        proposalExpirationTime: +new Date(formData.value.proposalExpirationTime)
+        proposalExpirationTime: +new Date(formData.value.proposalExpirationTime),
+        parentRegistry: props.parentAddress || '0x' + '0'.repeat(40)
     });
-
-    console.log(trx!.hash);
 
     if (trx) {
         await alert({
@@ -193,7 +194,6 @@ async function createDAO() {
             link:  formData.value.link
         });
     } else {
-
         const isTake = await alert({
             title: 'Warning message!',
             text: 'The <strong>Transaction was cancelled</strong> due current mistake',
@@ -211,6 +211,12 @@ async function createDAO() {
 
     isSending.value = false;
 }
+
+
+// IS SUBDAO
+const isSubDao = computed(() => !!props.parentAddress);
+
+const name = computed(() => isSubDao.value ? 'SubDAO' : 'DAO');
 </script>
 
 <style>

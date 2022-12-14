@@ -27,7 +27,7 @@ class API {
     static async sendOnChain<T>(props: sendDataOnChainProps): SendResult<T> {
         try {
             const contract = API.contracts[props.contractName];
-            const signer = await API.getSigner()
+            const signer = await API.getSigner();
             const contractWithSigner = contract.connect(signer);
 
             const trx = await contractWithSigner[props.methodName](...props.params);
@@ -43,6 +43,7 @@ class API {
 
             return [trxReceipt || trx, null];
         } catch (e) {
+            console.log(e);
             return [null, e as Error];
         }
     }
