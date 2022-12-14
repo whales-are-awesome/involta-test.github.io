@@ -170,6 +170,7 @@ import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
 import { Statuses } from '@/types/statuses';
 import useProposalItems from '@/composables/views/home/useProposalItems';
 import useDaoItems from '@/composables/fetch/useDaoItems';
+import emitter from '@/plugins/mitt';
 
 
 // META
@@ -253,11 +254,13 @@ const [proposalItems] = useProposalItems(formData);
 
 // DAO ITEMS
 
-const [daoItems] = useDaoItems(formData);
+const [daoItems, fetchDaoItems] = useDaoItems(formData);
 
 const daoItemsFiltered = computed(() => {
     return daoItems.value.data?.items;
 });
+
+emitter.on('daoCreated', fetchDaoItems);
 
 
 // BREADCRUMBS

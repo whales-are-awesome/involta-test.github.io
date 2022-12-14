@@ -193,6 +193,7 @@ import useDaoItems from '@/composables/fetch/useDaoItems';
 import useProposalItems from '@/composables/views/home/useProposalItems';
 import useQueryUpdates from '@/composables/useQueryUpdates';
 import { TagStatuses } from './types'
+import emitter from '@/plugins/mitt';
 
 // META
 
@@ -257,11 +258,13 @@ const formDataDaos = ref({
     offset: 0
 });
 
-const [daoItems] = useDaoItems(formDataDaos);
+const [daoItems, fetchDaoItems] = useDaoItems(formDataDaos);
 
 const daoItemsFiltered = computed(() => {
     return daoItems.value.data?.items;
 });
+
+emitter.on('daoCreated', fetchDaoItems);
 
 
 // APPS

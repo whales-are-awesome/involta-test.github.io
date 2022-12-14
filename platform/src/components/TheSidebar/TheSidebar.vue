@@ -101,9 +101,7 @@ const daoItemsForm = computed(() => ({
 
 const [daoItems, fetchDaoItems] = useDaoItems(daoItemsForm);
 
-emitter.on('daoFollowed', () => {
-    fetchDaoItems();
-});
+emitter.on('daoFollowed', fetchDaoItems);
 
 
 // CREATE DAO LAYER
