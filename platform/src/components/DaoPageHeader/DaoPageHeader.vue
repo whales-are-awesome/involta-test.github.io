@@ -12,56 +12,58 @@
                     view="primary"
                 />
                 <div :class="classes.info">
-                    <div :class="classes.infoTop">
-                        <ActionLink
-                            :class="classes.infoItem"
-                            :to="{ name: 'network-dao-address-followers', params: $route.params  }"
-                            theme="secondary-dark"
-                        >
-                            <BaseIcon
-                                :class="classes.infoItemIcon"
-                                name="users"
-                                width="20"
-                            />
-                            <span>
-                            Followers <strong>2 687</strong>
-                        </span>
-                        </ActionLink>
-                        <ActionLink
-                            :class="classes.infoItem"
-                            theme="secondary-dark"
-                        >
-                            <BaseIcon
-                                :class="classes.infoItemIcon"
-                                name="settings"
-                                width="20"
-                            />
-                            Params
-                        </ActionLink>
-                    </div>
-                    <div :class="classes.links">
-                        <LinkButton
-                            v-for="link in links"
-                            :key="link.icon"
-                            :class="link.class"
-                            :href="link.href"
-                            :icon-name="link.icon"
-                            icon-width="24"
+                    <ActionLink
+                        :class="classes.infoItem"
+                        :to="{ name: 'network-dao-address-followers', params: $route.params  }"
+                        theme="secondary-dark"
+                    >
+                        <BaseIcon
+                            :class="classes.infoItemIcon"
+                            name="users"
+                            width="20"
                         />
-                    </div>
+                        <span>
+                        Followers <strong>2 687</strong>
+                    </span>
+                    </ActionLink>
+                    <ActionLink
+                        :class="classes.infoItem"
+                        theme="secondary-dark"
+                    >
+                        <BaseIcon
+                            :class="classes.infoItemIcon"
+                            name="settings"
+                            width="20"
+                        />
+                        Params
+                    </ActionLink>
                 </div>
             </div>
-            <div
-                v-if="name"
-                :class="classes.name"
-            >
-                {{ name }}
-            </div>
-            <div
-                v-if="description"
-                :class="classes.description"
-            >
-                {{ description }}
+            <div :class="classes.bottom">
+                <div>
+                    <div
+                        v-if="name"
+                        :class="classes.name"
+                    >
+                        {{ name }}
+                    </div>
+                    <div
+                        v-if="description"
+                        :class="classes.description"
+                    >
+                        {{ description }}
+                    </div>
+                </div>
+                <div :class="classes.links">
+                    <LinkButton
+                        v-for="link in links"
+                        :key="link.icon"
+                        :class="link.class"
+                        :href="link.href"
+                        :icon-name="link.icon"
+                        icon-width="24"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -110,9 +112,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             '-mt-[3px]': !hasBreadcrumbs
         }
     ],
-    infoTop: 'flex space-x-[18px] text-xs sm:hidden',
+    info: 'flex space-x-[18px] text-xs sm:hidden',
     infoItem: 'flex items-center',
     infoItemIcon: 'mr-1',
+    bottom: 'flex justify-between',
     description: 'max-w-[659px] text-xs text-gray-500 line-clamp-2 sm:line-clamp-3',
     links: 'flex justify-end space-x-2 mt-[18px]'
 }));
