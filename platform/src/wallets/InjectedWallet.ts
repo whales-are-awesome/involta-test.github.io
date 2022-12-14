@@ -15,7 +15,9 @@ class InjectedWallet {
 
     @init
     static async login(): Promise<string> {
-        const address = (await API.provider.send('eth_requestAccounts', []))[0];
+        await API.provider.send('eth_requestAccounts', []);
+        const address = (await API.provider.listAccounts())[0];
+
         store.dispatch('wallet/setAddress', address);
         store.dispatch('wallet/setWallet', 'injectedWallet');
 
@@ -39,12 +41,14 @@ class InjectedWallet {
     }
 
     static networkAccountsChange(): void {
-        window.ethereum.on('accountsChanged', async ([address]: string[]) => {
+        window.ethereum.on('accountsChanged', async () => {
             if (store.state.wallet.wallet === 'connectWallet') {
                 return;
             } else if (!store.state.wallet.wallet) {
                 store.dispatch('wallet/setWallet', 'injectedWallet');
             }
+
+            const address = (await API.provider.listAccounts())[0];
 
             store.dispatch('wallet/setAddress', address);
             redirectAfterLogin();

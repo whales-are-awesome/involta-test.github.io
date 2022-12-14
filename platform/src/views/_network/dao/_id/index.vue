@@ -53,7 +53,10 @@
                 </BaseButton>
             </div>
             <template v-if="tagList.value === TagStatuses.Proposals">
-                <TextSeparator class="mb-[10px]">
+                <TextSeparator
+                    v-if="proposalItems.data?.length"
+                    class="mb-[10px]"
+                >
                     {{ proposalItems.data?.length }} active proposals
                 </TextSeparator>
                 <div class="space-y-[18px]">

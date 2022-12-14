@@ -29,7 +29,7 @@
                     <div class="-translate-x-2">UI</div>
                 </TheSidebarButton>
                 <div v-if="daoItems.pending" class="-preloader -preloader_sm -preloader_placeholder z-10"></div>
-                <template v-else>
+                <template v-else-if="walletAddress">
                     <TheSidebarButton
                         v-for="item in daoItems.data?.items"
                         :key="item.address"
@@ -93,10 +93,15 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 });
 
 
+// ADDRESS
+
+const walletAddress = computed(() => store.state.wallet.address);
+
+
 // DAO ITEMS
 
 const daoItemsForm = computed(() => ({
-    account: store.state.wallet.address
+    account: walletAddress.value
 }));
 
 const [daoItems, fetchDaoItems] = useDaoItems(daoItemsForm);
