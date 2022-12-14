@@ -131,7 +131,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     burger: 'w-[36px] h-[36px] sm:w-[24px] sm:h-[24px]',
     burgerRow: 'w-[12px] h-[2px] bg-gray-500 rounded-[4px] block -translate-y-[1px] sm:w-2 sm:h-px',
     logo: 'hidden w-[24px] sm:inline-block mr-1',
-    preloader: 'w-[120px] h-[40px] -preloader -preloader_sm'
+    preloader: 'w-[120px] h-[40px] -preloader -preloader_sm -preloader_placeholder'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

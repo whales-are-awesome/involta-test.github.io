@@ -25,6 +25,7 @@
             <SelectField
                 v-if="tagList.value === TagStatuses.Proposals"
                 v-model="formData.value.statusId"
+                class="flex-shrink-0"
                 theme="primary"
                 :options="formInfo.statusesOptions"
                 :theme-settings="{
@@ -34,6 +35,7 @@
             <SelectField
                 v-if="tagList.value === TagStatuses.Daos"
                 v-model="formData.value.chainId"
+                class="flex-shrink-0"
                 theme="primary"
                 :options="formInfo.chainOptions"
                 :theme-settings="{
@@ -42,17 +44,20 @@
             />
             <TagsButtonList
                 v-if="tagList.value === TagStatuses.Proposals"
+                class="flex-shrink-0"
                 v-model="formData.value.voteId"
                 :items="formInfo.voteOptions"
             />
             <TagsButtonList
                 v-if="tagList.value === TagStatuses.Daos"
+                class="flex-shrink-0"
                 v-model="formData.value.daosId"
                 :items="formInfo.daosOptions"
             />
+            <div class="!ml-auto"></div>
             <div
                 v-if="tagList.value !== TagStatuses.Statistics"
-                class="max-w-[414px] w-full !ml-auto md:max-w-none sm:hidden relative"
+                class="max-w-[414px] w-full md:max-w-none sm:hidden relative"
             >
                 <BaseSearch
                     class="md:!absolute md:top-0 md:right-0 md:z-1"
@@ -61,7 +66,7 @@
             </div>
             <BaseButton
                 v-if="tagList.value !== TagStatuses.Statistics"
-                class="!h-auto"
+                class="!h-auto flex-shrink-0"
                 theme="primary-400"
                 :icon="{
                     name: 'plus',
@@ -112,6 +117,7 @@
                     :key="item"
                 >
                     <DaoCard
+                        :to="{ name: 'network-dao-address', params: { network: item.network, address: item.address } }"
                         :avatar="item.image"
                         :name="item.fullName"
                         followers="232"
@@ -145,6 +151,7 @@
                     :key="item"
                 >
                     <DaoCard
+                        :to="{ name: 'app' }"
                         :avatar="require('@/assets/images/common/placeholder.jpeg')"
                         name="DAO Name"
                         followers="232"

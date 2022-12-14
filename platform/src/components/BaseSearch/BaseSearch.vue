@@ -4,8 +4,8 @@
     >
         <BaseIcon
             :class="classes.icon"
-            name="search"
-            width="13"
+            name="search-base"
+            width="16"
         />
         <input
             v-model="value"
@@ -57,9 +57,9 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'md:w-full': isFocus || isFilled
         }
     ],
-    icon: 'text-300 pointer-events-none',
+    icon: 'text-300 pointer-events-none -translate-y-[2px]',
     input: ({ isFocus, isFilled }) => [
-        'h-full absolute left-0 top-0 w-full bg-transparent placeholder:text-grey-400 pl-[36px] font-500',
+        'h-full absolute left-0 top-0 w-full bg-transparent font-medium placeholder:text-grey-400 pl-[42px] font-500',
         {
             'md:opacity-0': !isFocus && !isFilled
         }

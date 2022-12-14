@@ -7,10 +7,11 @@
                     :size="!isMobile.sm  ? 'sm' : 'mobile'"
                     view="ghost"
                     :icon="{
-                    name: 'arrow-left',
-                    width: 10,
-                    prepend: true
-                }"
+                        name: 'arrow-left',
+                        width: 10,
+                        prepend: true
+                    }"
+                    @click="$router.push({ name: 'home' })"
                 >
                     Back
                 </BaseButton>

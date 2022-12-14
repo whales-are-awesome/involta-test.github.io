@@ -4,15 +4,15 @@
     >
         <div :class="classes.inner">
             <MarqueeText :repeat="4">
-            <span :class="classes.item">
-                ОЛЯ РАБОТАТЬ
-            </span>
                 <span :class="classes.item">
-                ДРИСТПАНК РАБОТАТЬ
-            </span>
-                <span :class="classes.item">
-                ВСЕ РАБОТАТЬ
-            </span>
+                    Total projects: 124
+                </span>
+                    <span :class="classes.item">
+                    Total projects: 112
+                </span>
+                    <span :class="classes.item">
+                    Total projects: 101
+                </span>
             </MarqueeText>
         </div>
     </div>

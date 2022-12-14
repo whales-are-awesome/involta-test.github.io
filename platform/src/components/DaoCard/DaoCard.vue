@@ -1,5 +1,8 @@
 <template>
-    <div :class="classes.root">
+    <div
+        :class="classes.root"
+        @click="goToPage"
+    >
         <div :class="classes.avatarWrapper">
             <BaseAvatar
                 :class="classes.avatar"
@@ -58,21 +61,23 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
-import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import CategoryLabel from '@/components/CategoryLabel/CategoryLabel.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
+import IRouterLink from '@/types/routerLink';
 
 
 // META
 
 interface IProps {
+    to?: IRouterLink
     avatar: string
     name: string
-    category: string
+    category?: string
     followers: string
     proposals: string
     themeSettings?: ThemeSettings<'root'>
@@ -80,14 +85,21 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {});
 
+const router = useRouter();
+
 
 // CLASSES
 
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{
+    isLink: boolean
+}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => [themeSettings?.root,
-        'border border-gray-100 rounded-[12px] px-8 py-6 md:py-6 md:px-5 md:px-2.5 sm:px-2'
+    root: ({ themeSettings, isLink }) => [themeSettings?.root,
+        'border border-gray-100 rounded-[12px] px-8 py-6 md:py-6 md:px-5 md:px-2.5 sm:px-2',
+        {
+            'cursor-pointer': isLink
+        }
     ],
     avatarWrapper: 'flex justify-center mb-4',
     title: 'text-sm font-semibold text-gray-600 mb-4 text-center overflow-ellipsis overflow-hidden',
@@ -102,7 +114,16 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
-        themeSettings: props.themeSettings
+        themeSettings: props.themeSettings,
+        isLink: !!props.to
     });
 });
+
+
+// LINK
+function goToPage() {
+    if (props.to) {
+        router.push(props.to);
+    }
+}
 </script>

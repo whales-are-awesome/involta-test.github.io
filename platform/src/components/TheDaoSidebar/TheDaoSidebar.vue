@@ -29,12 +29,12 @@
                     </div>
                     <template v-if="parentDaos.length">
                         <TextSeparator
-                            :class="classes.subDaoTitle"
+                            :class="classes.parentDaoTitle"
                         >
                             PARENT DAOS
                         </TextSeparator>
                         <SubDaoMenu
-                            :class="classes.subDaoItems"
+                            :class="classes.parentDaoItems"
                             :total-items="currentDao.data?.path.length"
                             :items="parentDaos"
                             :network="currentDao.data?.network"
@@ -45,7 +45,7 @@
                         <TextSeparator :class="classes.subDaoTitle">
                             current DAO
                         </TextSeparator>
-                        <div :class="classes.subDaoDaoTitle">
+                        <div :class="classes.subDaoItemsTitle">
                             {{ currentDao.data?.fullName }}
                         </div>
                         <SubDaoMenu
@@ -102,10 +102,12 @@ const useClasses = makeClasses(() => ({
     topInfoJoin: 'flex-grow mr-2',
     logoWrapper: 'pb-[100%] relative bg-black overflow-hidden mb-3 rounded-[10px] md:rounded-[4px]',
     logo: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 z-0 opacity-70',
-    subDaoTitle: 'mb-[13px] mt-9 sm:text-xxs',
-    subDaoItems: 'mb-[20px]',
+    parentDaoTitle: 'sm:text-xxs',
+    parentDaoItems: 'mb-[24px]',
+    subDaoTitle: 'mb-[20px] sm:text-xxs',
+    subDaoItemsTitle: 'pl-2 text-sm font-semibold mb-2 text-gray-600',
+    subDaoItems: 'mb-[20px] pl-4',
     addSubDao: 'text-xs underline-offset-1 underline pl-2 font-bold text-gray-500 cursor-pointer',
-    subDaoDaoTitle: 'text-sm font-semibold mb-2 text-gray-600'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

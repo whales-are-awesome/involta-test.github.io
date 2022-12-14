@@ -1,9 +1,9 @@
 <template>
-    <Layout>
+    <Layout v-if="$route.name">
         <ErrorPage v-show="hasError" />
-        <RouterView v-if="$route.name" :key="$route.path" v-show="!hasError" />
-        <div v-if="!$route.name" class="-preloader inset-0 -z-1"></div>
+        <RouterView :key="$route.path" v-show="!hasError" />
     </Layout>
+    <div v-if="!$route.name" class="-preloader inset-0 -z-1"></div>
     <Layers />
     <BaseNotifications />
 </template>

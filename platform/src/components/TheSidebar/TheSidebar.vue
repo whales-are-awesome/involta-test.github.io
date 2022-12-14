@@ -76,9 +76,12 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     inner: 'inner w-[72px] h-screen overflow-auto py-2 fixed top-0 left-0 md:w-full md:static',
     logoWrapper: `w-11 mx-auto pb-[18px] mb-[18px] relative sm:hidden
                   after:border-b-2 after:border-gray-200 after:top-full after:left-1/2 after:-translate-x-1/2 after:w-[28px] after:h-[2px] after:bg-gray-300 after:block after:absolute`,
-    logo: ({ isHome }) => ({
-        'cursor-pointer': !isHome
-    }),
+    logo: ({ isHome }) => [
+        'h-11 w-11',
+        {
+            'cursor-pointer': !isHome,
+        }
+    ],
     menuItems: 'space-y-5 sm:space-y-4'
 }));
 
