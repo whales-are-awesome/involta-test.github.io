@@ -3,7 +3,10 @@
         ref="root"
         :class="classes.root"
     >
-        <div :class="classes.inner">
+        <div
+            ref="inner"
+            :class="classes.inner"
+        >
             <div :class="classes.content">
                 <div v-if="currentDao.pending || subDaoItems.pending || isPendingParentDaos" class="-preloader"></div>
                 <template v-if="currentDao.data && subDaoItems.data">
@@ -81,7 +84,6 @@ import SubDaoMenu from '@/components/SubDaoMenu/SubDaoMenu.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import makeClasses from '@/helpers/makeClasses';
-import sign from '@/helpers/sign';
 import followDao from '@/helpers/followDao';
 import DaoFactoryService from '@/services/DaoFactoryService';
 import useLayer from '@/composables/useLayer';
@@ -100,8 +102,8 @@ const currentDao = computed(() => store.state.dao);
 // CLASSES
 
 const useClasses = makeClasses(() => ({
-    root: 'w-[224px] sm:w-[180px] md:flex md:justify-center md:overflow-hidden',
-    inner: 'inner w-[224px] h-screen overflow-auto [scrollbar-width:none] fixed top-0 left-[72px] p-2 pr-4 md:w-full md:static',
+    root: 'w-[224px] no-scrollbar transition-main bg-surface-300 md:flex md:justify-center md:overflow-hidden sm:w-[180px]',
+    inner: 'min-w-[224px] sm:min-w-[180px] p-2 pr-4 h-screen',
     content: 'w-full min-h-full relative overflow-hidden p-2 rounded-[18px] bg-surface-200',
     top: 'rounded-[20px] mb-9 md:px-3',
     topInfo: 'flex',
@@ -232,14 +234,16 @@ watch(currentDao.value, (val) => {
 // ROOT
 
 const root = ref<HTMLElement | null>(null);
+const inner = ref<HTMLElement | null>(null);
 
 defineExpose({
-    root
+    root,
+    inner
 });
 </script>
 
 <style scoped>
-.inner::-webkit-scrollbar {
+.no-scrollbar::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }

@@ -1,51 +1,52 @@
 <template>
-    <div :class="classes.root">
-        <div :class="classes.inner">
-            <div :class="classes.logoWrapper">
-                <BaseImage
-                    :class="classes.logo"
-                    :src="require('@/assets/images/common/logo.png')"
-                    alt="OuterCircle"
-                    @click="$router.push({ name: 'home' })"
-                />
-            </div>
-            <div :class="classes.menuItems">
+    <div
+        ref="root"
+        :class="classes.root"
+    >
+        <div :class="classes.logoWrapper">
+            <BaseImage
+                :class="classes.logo"
+                :src="require('@/assets/images/common/logo.png')"
+                alt="OuterCircle"
+                @click="$router.push({ name: 'home' })"
+            />
+        </div>
+        <div :class="classes.menuItems">
+            <TheSidebarButton
+                icon="home"
+                :icon-width="isMobile.sm ? 13 : 17"
+                :active="route.name === 'home'"
+                @click="$router.push({ name: 'home' })"
+            />
+            <TheSidebarButton
+                icon="plus"
+                :icon-width="isMobile.sm ? 13 : 17"
+                :active="isCreateDaoOpened"
+                @click="layer.open('CreateDaoActionLayer')"
+            />
+            <TheSidebarButton
+                :active="route.name === 'ui'"
+                @click="$router.push({ name: 'ui' })"
+            >
+                <div class="-translate-x-2">UI</div>
+            </TheSidebarButton>
+            <div v-if="daoItems.pending" class="-preloader -preloader_sm -preloader_placeholder z-10"></div>
+            <template v-else-if="walletAddress">
                 <TheSidebarButton
-                    icon="home"
-                    :icon-width="isMobile.sm ? 13 : 17"
-                    :active="route.name === 'home'"
-                    @click="$router.push({ name: 'home' })"
+                    v-for="item in daoItems.data?.items"
+                    :key="item.address"
+                    :image="item.image"
+                    :active="route.params.address === item.address && route.params.network === item.network"
+                    @click="$router.push({ name: 'network-dao-address', params: { address: item.address, network: item.network } })"
                 />
-                <TheSidebarButton
-                    icon="plus"
-                    :icon-width="isMobile.sm ? 13 : 17"
-                    :active="isCreateDaoOpened"
-                    @click="layer.open('CreateDaoActionLayer')"
-                />
-                <TheSidebarButton
-                    :active="route.name === 'ui'"
-                    @click="$router.push({ name: 'ui' })"
-                >
-                    <div class="-translate-x-2">UI</div>
-                </TheSidebarButton>
-                <div v-if="daoItems.pending" class="-preloader -preloader_sm -preloader_placeholder z-10"></div>
-                <template v-else-if="walletAddress">
-                    <TheSidebarButton
-                        v-for="item in daoItems.data?.items"
-                        :key="item.address"
-                        :image="item.image"
-                        :active="route.params.address === item.address && route.params.network === item.network"
-                        @click="$router.push({ name: 'network-dao-address', params: { address: item.address, network: item.network } })"
-                    />
-                </template>
-            </div>
+            </template>
         </div>
     </div>
 </template>
 
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, defineExpose, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import TheSidebarButton from './TheSidebarButton.vue';
 import makeClasses from '@/helpers/makeClasses';
@@ -73,8 +74,7 @@ interface IThemeProps {
 }
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: 'w-[72px] sm:w-[44px]',
-    inner: 'inner w-[72px] h-screen overflow-auto py-2 fixed top-0 left-0 md:w-full md:static',
+    root: 'no-scrollbar w-[72px] h-screen overflow-auto py-2 sm:w-[44px] bg-surface-300',
     logoWrapper: `w-11 mx-auto pb-[18px] mb-[18px] relative sm:hidden
                   after:border-b-2 after:border-gray-200 after:top-full after:left-1/2 after:-translate-x-1/2 after:w-[28px] after:h-[2px] after:bg-gray-300 after:block after:absolute`,
     logo: ({ isHome }) => [
@@ -114,10 +114,19 @@ emitter.on('daoFollowed', fetchDaoItems);
 const isCreateDaoOpened = computed(() => {
     return !!layer.openedItems.value.find(item => item.id === 'CreateDaoLayer');
 });
+
+
+// ROOT
+
+const root = ref<HTMLElement | null>(null);
+
+defineExpose({
+    root
+});
 </script>
 
 <style scoped>
-.inner::-webkit-scrollbar {
+.no-scrollbar::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }

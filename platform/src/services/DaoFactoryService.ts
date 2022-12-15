@@ -1,5 +1,4 @@
 import web3Abi from 'web3-eth-abi';
-import router from '@/router';
 import API from '@/helpers/api';
 import cutAddress from '@/helpers/cutAddress';
 import parseEventData from '@/helpers/parseEventData';
