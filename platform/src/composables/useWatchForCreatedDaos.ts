@@ -12,7 +12,7 @@ function useWatchForCreatedDaos() {
     const layer = useLayer();
 
     function watch() {
-        setTimeout(() => {
+        setInterval(() => {
             const transactions: IDaoTransactionCookie[] = cookies.get('pendingTransactions') || [];
 
             transactions.forEach(async item => {

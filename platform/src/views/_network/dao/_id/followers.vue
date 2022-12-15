@@ -66,7 +66,7 @@
                         size="xxs"
                     >
                         <span class="text-600 font-medium text-xxs">
-                            {{ cutAddress(item.address) }}
+                            {{ item.name || cutAddress(item.address) }}
                         </span>
                     </BaseAvatar>
                 </div>
@@ -105,6 +105,7 @@ import copy from '@/helpers/copy';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { IFollower } from '@/types/services/DaoFactoryService';
 import cutAddress from '@/helpers/cutAddress';
+import API from '@/helpers/api';
 
 // META
 
@@ -187,7 +188,6 @@ async function fetchFollowers() {
     );
 
     followers.value = { data, cancel, pending: false };
-
-    console.log(data);
 }
+
 </script>

@@ -4,6 +4,7 @@
         class="mb-[33px]"
         :name="pageData?.name"
         :breadcrumbs="breadcrumbs"
+        :followers="pageData?.followersAmountFormatted"
         :description="pageData?.description"
     />
     <div v-else class="-preloader -preloader_placeholder"></div>
@@ -101,7 +102,7 @@
                             :name="item.fullName"
                             :network="item.network"
                             :address="item.address"
-                            followers="232"
+                            :followers="item.followersAmountFormatted"
                             proposals="232"
                         />
                     </div>

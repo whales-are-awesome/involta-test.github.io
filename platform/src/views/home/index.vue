@@ -122,7 +122,7 @@
                         :name="item.fullName"
                         :network="item.network"
                         :address="item.address"
-                        followers="232"
+                        :followers="item.followersAmountFormatted"
                         proposals="232"
                     />
                 </div>

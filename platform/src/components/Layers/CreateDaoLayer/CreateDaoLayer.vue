@@ -180,6 +180,7 @@ async function createDAO() {
     });
 
     if (trx) {
+        console.log(trx.hash);
         await alert({
             title: 'Transaction is being processed!',
             text: 'We will show you a message when transaction will be done.',

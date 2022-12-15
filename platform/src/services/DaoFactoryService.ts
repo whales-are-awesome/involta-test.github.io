@@ -3,6 +3,7 @@ import router from '@/router';
 import API from '@/helpers/api';
 import cutAddress from '@/helpers/cutAddress';
 import parseEventData from '@/helpers/parseEventData';
+import addSpacesToNumber from '@/helpers/addSpacesToNumber';
 import daoFactoryABI from '@/abi/daoFactoryABI';
 import { IResponsePagination, Config } from '@/types/api';
 import {
@@ -62,7 +63,13 @@ export default class DaoFactoryService {
 
 
     static async fetchFollowers(path: IDaoPath, params: IPaginationParams) {
-        return API.get<IFollower>(`/${ path.network }/dao/${ path.address }/followers`, params);
+        const [data, ...rest] = await API.get<IResponsePagination<IFollower>>(`/${ path.network }/dao/${ path.address }/followers`, params);
+
+        await Promise.all(data?.items.map(async item => {
+            item.name = await API.provider.lookupAddress(item.address);
+        }) || []);
+
+        return [data, ...rest] as const;
     }
 
     static async followDao(path: IDaoPath, params: IFollowDaoParams, config: Config) {
@@ -162,6 +169,7 @@ function normalizeDaoAsDefault(data: IDao): INormalizedDaoAsDefault {
     return {
         ...data,
         fullName: data.name || cutAddress(data.address),
+        followersAmountFormatted: addSpacesToNumber(data.followersAmount),
         path: data.path?.map(item => ({
             ...item,
             fullName: item.name || cutAddress(item.address),
@@ -174,6 +182,7 @@ function normalizeDaoItemsAsTable(data: IResponsePagination<IDaoItem>): IRespons
         ...data,
         items: data.items.map(item => ({
             ...item,
+            followersAmountFormatted: addSpacesToNumber(item.followersAmount),
             fullName: item.name || cutAddress(item.address)
         }))
     };

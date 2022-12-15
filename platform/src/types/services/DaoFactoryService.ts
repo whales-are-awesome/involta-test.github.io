@@ -2,11 +2,12 @@ import { IPaginationParams } from '@/types/api'
 
 interface IDao {
     address: string
+    creationTx: string
+    followersAmount: number
     network: string
     parentDao: string
     rootDao: string
     creator: string
-    block: number,
     name: string
     description: string
     link: string
@@ -21,6 +22,7 @@ interface IDaoPath {
 
 interface INormalizedDaoAsDefault extends IDao {
     fullName: string
+    followersAmountFormatted: string
     path: {name: string, address: string, fullName: string}[]
 }
 
@@ -52,6 +54,7 @@ interface IDaoItemParams extends IPaginationParams {
 
 interface INormalizedDaoItemAsTable extends IDao {
     fullName: string
+    followersAmountFormatted: string
 }
 
 
@@ -79,6 +82,7 @@ interface IFollowDaoParams {
 
 interface IFollower {
     address: string
+    name?: string
 }
 
 
