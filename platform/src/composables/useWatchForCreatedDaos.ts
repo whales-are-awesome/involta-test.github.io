@@ -117,7 +117,7 @@ function useWatchForCreatedDaos() {
         });
 
         const int = setInterval(async() => {
-            const [response, error] = await putData(address, data, signInfo);
+            const [response] = await putData(address, data, signInfo);
 
             if (response) {
                 clearInterval(int);

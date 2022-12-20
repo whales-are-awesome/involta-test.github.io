@@ -17,7 +17,7 @@
             <BaseIcon
                 :class="classes.icon"
                 name="wallet-angle-down"
-                width="16"
+                :width="!isMobile.sm ? 16 : 12"
             />
         </div>
         <template #content="{ close }">
@@ -68,6 +68,7 @@ import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import {  } from './types';
 import Wallet from '@/wallets';
 import useLayer from '@/composables/useLayer';
+import useIsMobile from '@/composables/useIsMobile';
 import makeClasses from '@/helpers/makeClasses';
 import copy from '@/helpers/copy';
 import { store } from '@/store';
@@ -83,6 +84,8 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {});
 
 const { open } = useLayer();
+
+const isMobile = useIsMobile();
 
 
 // CLASSES
@@ -100,7 +103,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ],
     circle: 'w-7 h-7 ml-3 bg-surface-500 rounded-full shrink-0',
     popup: 'bg-surface-200 rounded-[5px] p-1.5 flex flex-col',
-    value: 'pl-[2px] mr-3',
+    value: 'pl-[2px] mr-3 sm:text-xxs sm:mr-1.5',
     icon: ({ isHovered }) => ({
         'rotate-180': isHovered
     })

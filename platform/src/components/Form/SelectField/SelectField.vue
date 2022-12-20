@@ -169,6 +169,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     main: ({ size, isOpen, theme }) => [
         'tracking-[0.04px]',
         {
+            'md:text-xxs': size === 'md',
             'text-sm': size === 'sm',
             'text-xxs': size === 'xs',
             'z-50 relative': isOpen,

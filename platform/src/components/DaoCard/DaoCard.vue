@@ -107,7 +107,7 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isLink }) => [themeSettings?.root,
-        'border border-gray-100 rounded-[12px] px-8 py-6 md:py-6 md:px-5 md:px-2.5 sm:px-2',
+        'flex flex-col border border-gray-100 rounded-[12px] px-8 py-6 md:py-6 md:px-5 md:px-2.5 sm:px-2',
         {
             'cursor-pointer': isLink
         }
@@ -119,7 +119,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     infoItemTop: 'text-gray-400 text-tiny whitespace-nowrap',
     infoItemBottom: 'text-center text-xxs text-gray-600 font-semibold',
     infoDelimiter: 'bg-gray-100 flex-shrink-0 w-px h-[26px] mx-7 md:mx-2',
-    buttonWrapper: 'flex justify-center',
+    buttonWrapper: 'flex justify-center mt-auto',
     button: 'mx-auto w-[117px] sm:w-[64px]'
 }));
 

@@ -118,8 +118,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         {
             'px-5 h-[52px] text-lg': size === 'lg',
             'px-5 h-[40px] text-base': size === 'md',
-            'px-[18px] text-sm sm:text-xxs sm:h-[28px]': size === 'sm',
-            'px-[24px] sm:text-xxs': size === 'mobile',
+            'px-[18px] text-sm md:text-xxs md:h-[28px]': size === 'sm',
+            'px-[24px] md:text-xxs sm:px-2': size === 'mobile',
             'w-[36px] h-[36px]': size === 'icon',
             'h-[36px] sm:h-[24px] sm:!text-xxs': size === 'sm' && rounded === 'lg',
             'h-[32px]': size === 'sm' && rounded !== 'lg',

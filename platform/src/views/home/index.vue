@@ -21,62 +21,80 @@
             class="pt-[8px] mr-[42px] mb-[36px] sm:mb-[45px] md:pt-[14px]"
             :items="tagList.options"
         />
-        <div class="flex space-x-4 sm:space-x-3 relative mb-5">
-            <SelectField
-                v-if="tagList.value === TagStatuses.Proposals"
-                v-model="formData.value.statusId"
-                class="flex-shrink-0"
-                theme="primary"
-                :options="formInfo.statusesOptions"
-                :theme-settings="{
-                    height: '!h-[44px]'
-                }"
-            />
-            <SelectField
-                v-if="tagList.value === TagStatuses.Daos"
-                v-model="formData.value.chainId"
-                class="flex-shrink-0"
-                theme="primary"
-                :options="formInfo.chainOptions"
-                :theme-settings="{
-                    height: '!h-[44px]'
-                }"
-            />
-            <TagsButtonList
-                v-if="tagList.value === TagStatuses.Proposals"
-                class="flex-shrink-0"
-                v-model="formData.value.voteId"
-                :items="formInfo.voteOptions"
-            />
-            <TagsButtonList
-                v-if="tagList.value === TagStatuses.Daos"
-                class="flex-shrink-0"
-                v-model="formData.value.daosId"
-                :items="formInfo.daosOptions"
-            />
-            <div class="!ml-auto"></div>
+        <div class="flex -mx-2 -mt-2.5 relative mb-5 sm:flex-wrap">
             <div
-                v-if="tagList.value !== TagStatuses.Statistics"
-                class="max-w-[414px] w-full md:max-w-none sm:hidden relative"
+                v-if="tagList.value === TagStatuses.Proposals"
+                class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
             >
-                <BaseSearch
-                    class="md:!absolute md:top-0 md:right-0 md:z-1"
-                    v-model="formData.value.search"
+                <SelectField
+                    v-model="formData.value.statusId"
+                    theme="primary"
+                    :options="formInfo.statusesOptions"
+                    :theme-settings="{
+                        height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
+                    }"
                 />
             </div>
-            <BaseButton
-                v-if="tagList.value !== TagStatuses.Statistics"
-                class="!h-auto flex-shrink-0"
-                theme="primary-400"
-                :icon="{
-                    name: 'plus',
-                    width: 14,
-                    prepend: true
-                }"
-                @click="createButton.onClick"
+            <div
+                v-if="tagList.value === TagStatuses.Daos"
+                class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
             >
-                {{ createButton.text }}
-            </BaseButton>
+                <SelectField
+                    v-model="formData.value.chainId"
+                    theme="primary"
+                    :options="formInfo.chainOptions"
+                    :theme-settings="{
+                        height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
+                    }"
+                />
+            </div>
+            <div
+                v-if="tagList.value === TagStatuses.Proposals"
+                class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
+            >
+                <TagsButtonList
+                    class="h-full"
+                    v-model="formData.value.voteId"
+                    :items="formInfo.voteOptions"
+                />
+            </div>
+            <div
+                v-if="tagList.value === TagStatuses.Daos"
+                class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
+            >
+                <TagsButtonList
+                    class="h-full"
+                    v-model="formData.value.daosId"
+                    :items="formInfo.daosOptions"
+                />
+            </div>
+            <div class="!ml-auto"></div>
+            <BaseSearch
+                v-if="tagList.value !== TagStatuses.Statistics"
+                class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"
+                v-model="formData.value.search"
+            />
+            <div
+                v-if="tagList.value !== TagStatuses.Statistics"
+                class="px-2 mt-2.5 flex-shrink-0 sm:order-[-1] sm:w-1/2 md:px-1.5 sm:px-[5px]"
+            >
+                <BaseButton
+                    class="w-full"
+                    :class="(isMobile.xl || isMobile.lg) && '!h-full'"
+                    theme="primary-400"
+                    :icon="{
+                        name: 'plus',
+                        width: (isMobile.xl || isMobile.lg) ? 14 : 8,
+                        prepend: true
+                    }"
+                    :size="(isMobile.xl || isMobile.lg) ? 'md' : 'sm'"
+                    @click="createButton.onClick"
+                >
+                    <span class="whitespace-nowrap">
+                        {{ createButton.text }}
+                    </span>
+                </BaseButton>
+            </div>
         </div>
         <div
             v-if="tagList.value === TagStatuses.Proposals"
@@ -117,6 +135,7 @@
                     :key="item"
                 >
                     <DaoCard
+                        class="h-full"
                         :to="{ name: 'network-dao-address', params: { network: item.network, address: item.address } }"
                         :avatar="item.image"
                         :name="item.fullName"
@@ -153,6 +172,7 @@
                     :key="item"
                 >
                     <DaoCard
+                        class="h-full"
                         :to="{ name: 'app' }"
                         :avatar="require('@/assets/images/common/placeholder.jpeg')"
                         name="DAO Name"
@@ -189,6 +209,7 @@ import NotFound from '@/components/NotFound/NotFound.vue';
 import { store } from '@/store';
 import { Statuses } from '@/types/statuses';
 import capitalize from '@/helpers/capitalize';
+import useIsMobile from '@/composables/useIsMobile';
 import useDaoItems from '@/composables/fetch/useDaoItems';
 import useProposalItems from '@/composables/views/home/useProposalItems';
 import useQueryUpdates from '@/composables/useQueryUpdates';
@@ -199,9 +220,11 @@ import emitter from '@/plugins/mitt';
 
 const route = useRoute();
 
+const isMobile = useIsMobile();
+
 const formInfo = {
     voteOptions: [
-        { id: 0, title: 'Need my vote' },
+        { id: 0, title: 'Need My Vote' },
         { id: 1, title: 'Participated' }
     ],
     daosOptions: [

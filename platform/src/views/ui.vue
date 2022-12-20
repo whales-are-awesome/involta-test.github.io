@@ -248,6 +248,7 @@
                     :key="item"
                 >
                     <DaoCard
+                        class="h-full"
                         :avatar="require('@/assets/images/common/placeholder.jpeg')"
                         name="Dapp Name"
                         followers="232"

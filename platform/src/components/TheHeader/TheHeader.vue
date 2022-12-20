@@ -1,7 +1,7 @@
 <template>
     <header :class="classes.root">
         <div :class="classes.inner">
-            <div :class="classes.burgerWrapper">
+            <div :class="classes.burgerWrapperMobile">
                 <BaseButton
                     :class="classes.burger"
                     theme="surface"
@@ -31,7 +31,7 @@
             <p :class="classes.title">
                 OuterCircle α.
             </p>
-            <div :class="classes.burgerWrapperMobile">
+            <div :class="classes.burgerWrapper">
                 <BaseButton
                     :class="classes.burger"
                     theme="surface"

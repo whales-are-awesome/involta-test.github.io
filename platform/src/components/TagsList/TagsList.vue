@@ -70,7 +70,7 @@ const useClasses = makeClasses<ThemeProps>(() => ({
     item: ({ size }) => [
         'cursor-pointer font-bold transition-fast hover:text-[#7A78F3]',
         {
-            'pb-[30px] px-2.5 md:text-xs md:pb-[25px] sm:pb-[6px] sm:px-0': size === 'md',
+            'pb-[33px] px-2.5 md:text-xs md:pb-[25px] sm:pb-[6px] sm:px-0': size === 'md',
             'pb-[6px] text-xs': size === 'sm'
         }
     ],

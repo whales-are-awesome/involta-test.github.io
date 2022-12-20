@@ -58,7 +58,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     image: ({ hasContent, size, rounded, themeSettings }) => [themeSettings?.image,
         'object-cover w-full h-full transition-fast',
         {
-            'w-[16px] h-[16px]': size === 'tiny',
+            'w-[16px] h-[16px] sm:w-3 sm:h-3': size === 'tiny',
             'w-[20px] h-[20px]': size === 'xxs',
             'w-[24px] h-[24px] sm:w-4 sm:h-4': size === 'xs',
             'w-[28px] h-[28px] sm:w-[16px] sm:h-[16px]': size === 'sm',

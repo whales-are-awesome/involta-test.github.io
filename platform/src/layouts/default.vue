@@ -1,12 +1,12 @@
 <template>
     <div class="default">
         <div
-            class="flex items-start"
+            class="flex"
             @click="showMobileSidebar = false"
         >
             <div
                 ref="sidebars"
-                class="flex bg-surface-300 min-h-screen sticky top-[0] min-h-screen overflow-hidden transition-main flex-shrink-0 md:z-[100] md:fixed md:left-0"
+                class="flex bg-surface-300 min-h-screen sticky top-[0] min-h-screen overflow-hidden transition-main flex-shrink-0 md:z-[100] md:fixed md:left-0 self-start"
                 @click.stop
                 :class="{
                     'md:-translate-x-full': !showMobileSidebar
@@ -59,22 +59,26 @@ const route = useRoute();
 
 const isMobile = useIsMobile();
 
-const showDaoSidebar = computed(() => ['network-dao-address', 'network-dao-address-followers', 'network-dao-address-subdao', 'proposal-id'].includes(route.name as string));
+const currentDao = computed(() => store.state.dao.data);
+
+
+
+// SIDEBARS
 
 const daoSidebar = ref<InstanceType<typeof TheDaoSidebar> | null>(null);
 const sidebar = ref<InstanceType<typeof TheSidebar> | null>(null);
 
-const showMobileSidebar = ref(false);
-
 const sidebarWidth = ref(0);
 const daoSidebarWidth = ref(0);
 
-const currentDao = computed(() => store.state.dao.data);
+const showMobileSidebar = ref(false);
 
-
-onMounted(async () => {
-    await nextTick();
-});
+const showDaoSidebar = computed(() => [
+    'network-dao-address',
+    'network-dao-address-followers',
+    'network-dao-address-subdao',
+    'proposal-id'
+].includes(route.name as string));
 
 watch([showMobileSidebar, showDaoSidebar], () => {
     let width = sidebar.value?.root.offsetWidth || 0;

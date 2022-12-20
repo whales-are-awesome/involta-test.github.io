@@ -8,9 +8,11 @@
                 <BaseButton
                     v-for="item in items"
                     :key="item.id"
+                    class="h-full"
                     ref="itemRefs"
                     view="ghost"
                     theme="white"
+                    :size="(isMobile.xl || isMobile.lg) ? 'md' : 'mobile'"
                     @click="value = item.id"
                 >
                     {{ item.title }}
@@ -25,6 +27,7 @@
 <script lang="ts" setup>
 import { computed, defineProps, defineEmits, ref, onMounted, watch, nextTick, onUnmounted } from 'vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import useIsMobile from '@/composables/useIsMobile';
 import { IItem } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
@@ -47,6 +50,8 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const emit = defineEmits<IEmits>();
 
+const isMobile = useIsMobile();
+
 
 // CLASSES
 
@@ -57,7 +62,7 @@ const useClasses = makeClasses<ThemeProps>(() => ({
         'bg-primary-100 p-[2px] rounded-[5px]'
     ],
     inner: 'relative z-1 h-full',
-    items: 'flex',
+    items: 'flex h-full',
     bg: 'absolute bg-white top-0 h-full -z-1 transition-fast shadow-[0px_4px_10px_rgba(48,_47,_121,_0.08)] rounded-[5px]'
 }));
 

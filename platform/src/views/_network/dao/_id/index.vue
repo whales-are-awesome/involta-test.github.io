@@ -97,6 +97,7 @@
                         :key="item"
                     >
                         <DaoCard
+                            class="h-full"
                             :avatar="item.image"
                             :to="{ name: 'network-dao-address', params: { network: item.network, address: item.address } }"
                             :name="item.fullName"
@@ -133,6 +134,7 @@
                         :key="item"
                     >
                         <DaoCard
+                            class="h-full"
                             :avatar="require('@/assets/images/common/placeholder.jpeg')"
                             :to="{ name: 'app' }"
                             name="DAO Name"
@@ -203,7 +205,7 @@ const tagList = ref({
 
 const formInfo = {
     voteOptions: [
-        { id: 0, title: 'Need my vote' },
+        { id: 0, title: 'Need My Vote' },
         { id: 1, title: 'All' }
     ],
     statusesOptions: [

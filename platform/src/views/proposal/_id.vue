@@ -456,7 +456,7 @@ const showMore = ref(false);
 
 const formInfo = {
     voteOptions: [
-        {id: 0, title: 'Need my vote'},
+        {id: 0, title: 'Need My Vote'},
         {id: 1, title: 'All'}
     ],
     statusesOptions: [
