@@ -109,6 +109,8 @@ export default class DaoFactoryService {
             contractAddress: params.contractAddress,
             contractABI: daoControllerABI,
             methodName: 'createProposal',
+            needWait: true,
+            needReceipt: true,
             params: [params.actions]
         });
     }

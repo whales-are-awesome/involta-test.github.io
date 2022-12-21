@@ -30,8 +30,6 @@ class API {
             const signer = await API.getSigner();
             const contractWithSigner = contract.connect(signer);
 
-            console.log(...props.params);
-
             const trx = await contractWithSigner[props.methodName](...props.params);
             let trxReceipt;
 
@@ -41,6 +39,7 @@ class API {
 
             if (props.needReceipt) {
                 trxReceipt = await API.provider.getTransactionReceipt(trx.hash);
+                console.log(trxReceipt);
             }
 
             return [trxReceipt || trx, null];

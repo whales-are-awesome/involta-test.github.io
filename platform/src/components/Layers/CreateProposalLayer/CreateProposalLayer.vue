@@ -223,6 +223,7 @@
 <script lang="ts" setup>
 import { computed, defineProps, ref } from 'vue';
 import { omit } from 'lodash';
+import { ethers } from 'ethers';
 import { useRouter, useRoute } from 'vue-router';
 import useLayer from '@/composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
@@ -354,7 +355,11 @@ async function createProposal() {
     const [response, error] = await DaoFactoryService.createProposal({
         contractAddress: route.params.address as string,
         actions: formData.value.transactions
-            .map((item: any) => ({ ...item, value: +item.value }))
+            .map((item: any) => ({
+                ...item,
+                data: ethers.utils.toUtf8Bytes(item.data),
+                value: +item.value
+            }))
             .map((item: any) => omit(item, ['id']))
     });
 
