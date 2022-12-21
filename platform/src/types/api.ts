@@ -23,7 +23,9 @@ interface IResponsePagination<T> {
 
 
 interface sendDataOnChainProps {
-    contractName: ConctactNames
+    contractAddress?: string
+    contractABI?: any
+    contractName?: ConctactNames
     methodName: string
     params: any[]
     needReceipt?: boolean

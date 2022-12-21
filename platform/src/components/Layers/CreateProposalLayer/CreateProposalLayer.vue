@@ -157,8 +157,8 @@
             <BaseAccordion
                 v-for="transaction in formData.transactions"
                 :key="transaction.id"
-                :title="transaction.funcName || 'Custom Transaction'"
-                :description="transaction.address || 'Create custom transaction description'"
+                title="Custom Transaction"
+                description="Create custom transaction description"
                 :is-visible="true"
                 :no-chevron="true"
             >
@@ -170,80 +170,28 @@
                 </template>
                 <div class="space-y-3">
                     <TextField
-                        v-model="transaction.address"
+                        v-model="transaction.to"
                         title="Contract address"
                         placeholder="0x2c934...a180"
                         :required="true"
                         :is-wrapped="true"
-                        :error="formErrors.name"
                     />
                     <TextField
-                        v-model="transaction.funcName"
-                        title="Function Name"
-                        placeholder="Value"
+                        v-model="transaction.data"
+                        title="Data"
+                        placeholder="Data"
                         :required="true"
                         :maxlength="50"
-                        :tip="`${ formData.name.length }/50`"
+                        :tip="`${ transaction.data.length }/50`"
                         :is-wrapped="true"
-                        :error="formErrors.name"
                     />
-                    <TextSeparator
-                        v-if="transaction.parameters.length"
-                        class="!my-8"
-                    >
-                        Parameters
-                    </TextSeparator>
-                    <div
-                        v-for="(parameter, index) in transaction.parameters"
-                        :key="index"
-                        class="bg-white rounded-[4px] py-3 px-3"
-                    >
-                        <div class="flex justify-between items-center mb-2">
-                            <BlockInfo
-                                :title="(index + 1) + '. Parameter'"
-                                tooltip="Use Custom transaction for personal data?"
-                            />
-                            <DeleteButton
-                                @click="deleteTransactionParameter(transaction.id, index)"
-                            />
-                        </div>
-                        <div class="flex space-x-3">
-                            <SelectField
-                                class="w-1/2"
-                                v-model="parameter.type"
-                                size="xl"
-                                inner-label="Type"
-                                :options="formInfo.solidityTypes"
-                                placeholder="Text"
-                                :searchable="true"
-                                angle-view="secondary"
-                                :error="formErrors.name"
-                            />
-                            <TextField
-                                class="w-1/2"
-                                v-model="parameter.value"
-                                inset-left-label="Value"
-                                placeholder="Text"
-                                size="xl"
-                                :error="formErrors.name"
-                            />
-                        </div>
-                    </div>
-                    <div class="flex justify-end">
-                        <BaseButton
-                            size="sm"
-                            theme="primary-200"
-                            view="outlined"
-                            :icon="{
-                                name: 'plus',
-                                width: 10,
-                                prepend: true
-                            }"
-                            @click="addTransactionParameter(transaction.id)"
-                        >
-                            Add Parameter
-                        </BaseButton>
-                    </div>
+                    <TextField
+                        v-model="transaction.value"
+                        title="Value"
+                        placeholder="Value"
+                        :required="true"
+                        :is-wrapped="true"
+                    />
                 </div>
             </BaseAccordion>
             <BaseAdd
@@ -274,7 +222,8 @@
 
 <script lang="ts" setup>
 import { computed, defineProps, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { omit } from 'lodash';
+import { useRouter, useRoute } from 'vue-router';
 import useLayer from '@/composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -310,7 +259,9 @@ const props = withDefaults(defineProps<IProps>(), {});
 
 const router = useRouter();
 
-const { close, alert, closeLast } = useLayer();
+const route = useRoute();
+
+const { close, alert } = useLayer();
 
 const isMobile = useIsMobile();
 
@@ -383,24 +334,28 @@ const [formData, formErrors, checkErrors] = useForm({
     }
 });
 
-const formResult = computed(() => {
-    return {
-        transactions: formData.value.transactions.map((item: any) => ({
-            address: item.address,
-            value: 0,
-            response: '',
-            data: `${ item.funcName }(${ item.parameters.map((param: any) => param.type.trim()).join(',') })`,
-            transType: 0
-        }))
-    }
-});
+// const formResult = computed(() => {
+//     return {
+//         transactions: formData.value.transactions.map((item: any) => ({
+//             address: item.address,
+//             value: 0,
+//             response: '',
+//             data: `${ item.funcName }(${ item.parameters.map((param: any) => param.type.trim()).join(',') })`,
+//             transType: 0
+//         }))
+//     }
+// });
 
 async function createProposal() {
-    if (checkErrors() || isSending.value) return;
+    //if (checkErrors() || isSending.value) return;
 
     isSending.value = true;
 
     const [response, error] = await DaoFactoryService.createProposal({
+        contractAddress: route.params.address as string,
+        actions: formData.value.transactions
+            .map((item: any) => ({ ...item, value: +item.value }))
+            .map((item: any) => omit(item, ['id']))
     });
 
 
@@ -429,26 +384,18 @@ async function createProposal() {
     }
 
 
-    await closeLast();
+    await close(props.id);
 
     isSending.value = false;
 }
 
 function addTransaction() {
     formData.value.transactions.push({
-        id: createId('transaction'),
-        address: '',
-        funcName: '',
-        parameters: []
-    });
-}
-
-function addTransactionParameter(id: string) {
-    const transaction = formData.value.transactions.find((item: any) => item.id === id);
-
-    transaction.parameters.push({
-        type: '',
-        value: ''
+        id: createId('transaction-'),
+        actionType: 0,
+        to: '',
+        data: '',
+        value: 0
     });
 }
 
@@ -456,12 +403,6 @@ function deleteTransaction(id: string) {
     const index = formData.value.transactions.findIndex((item: any) => item.id === id);
 
     formData.value.transactions.splice(index, 1);
-}
-
-function deleteTransactionParameter(id: string, index: number) {
-    const transaction = formData.value.transactions.find((item: any) => item.id === id);
-
-    transaction.parameters.splice(index, 1);
 }
 </script>
 

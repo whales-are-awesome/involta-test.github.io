@@ -26,9 +26,11 @@ class API {
 
     static async sendOnChain<T>(props: sendDataOnChainProps): SendResult<T> {
         try {
-            const contract = API.contracts[props.contractName];
+            const contract = props.contractAddress ? new ethers.Contract(props.contractAddress, props.contractABI, API.provider) : API.contracts[props.contractName!];
             const signer = await API.getSigner();
             const contractWithSigner = contract.connect(signer);
+
+            console.log(...props.params);
 
             const trx = await contractWithSigner[props.methodName](...props.params);
             let trxReceipt;

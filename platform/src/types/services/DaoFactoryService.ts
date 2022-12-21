@@ -104,6 +104,16 @@ interface IProposalParams {
     id: string
 }
 
+interface ICreateProposalParams {
+    contractAddress: string
+    actions: Array<{
+        actionType: number
+        to: string
+        data: string
+        value: number
+    }>
+}
+
 interface IProposalItem extends Pick<IProposal, 'governance'> {
 }
 
@@ -139,6 +149,7 @@ export {
 
     IProposal,
     IProposalParams,
+    ICreateProposalParams,
 
     IProposalItem,
     IProposalItemQuery,

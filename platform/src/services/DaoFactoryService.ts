@@ -1,9 +1,7 @@
-import web3Abi from 'web3-eth-abi';
 import API from '@/helpers/api';
 import cutAddress from '@/helpers/cutAddress';
-import parseEventData from '@/helpers/parseEventData';
 import addSpacesToNumber from '@/helpers/addSpacesToNumber';
-import daoFactoryABI from '@/abi/daoFactoryABI';
+import daoControllerABI from '@/abi/daoControllerABI';
 import { IResponsePagination, Config } from '@/types/api';
 import {
     IDao,
@@ -27,6 +25,7 @@ import {
 
     IProposal,
     IProposalParams,
+    ICreateProposalParams,
 
     IProposalItem,
     IProposalItemQuery,
@@ -87,27 +86,6 @@ export default class DaoFactoryService {
     }
 
 
-    static async createSubDao(params: any): Promise<any> {
-        const [trxReceipt, error] = await API.sendOnChain<any>({
-            contractName: 'daoFactory',
-            methodName: 'deployDao',
-            params: ['address', 1, 1, params.parentDaoAddress],
-            needReceipt: true
-        });
-
-        if (error) {
-            return [null, error];
-        }
-
-        const result = parseEventData({
-            JSON: daoFactoryABI,
-            eventName: 'DaoCreated',
-            trxReceipt
-        });
-
-        return [result, null];
-    }
-
     static async fetchSubDaoItems(path: IDaoPath, params: ISubDaoItemQuery) {
         return API.get<IResponsePagination<ISubDaoItem>>('/' + path.network + `/dao/${ path.address }` + `/subdao`, params);
     }
@@ -119,32 +97,20 @@ export default class DaoFactoryService {
     }
 
 
-    static async createProposal(params: object) {
-        const [trxReceipt, error] = await API.sendOnChain<any>({
-            contractName: 'daoFactory',
+    static async createProposal(params: ICreateProposalParams) {
+        console.log({
+            contractAddress: params.contractAddress,
+            contractABI: daoControllerABI,
             methodName: 'createProposal',
-            params: [[{
-                address: process.env.VUE_APP_DAO_FACTORY_ADDRESS,
-                value: 0,
-                response: '',
-                data: web3Abi.encodeFunctionSignature('func(uint256,string,bytes[])'),
-                transType: 0
-
-            }]],
-            needReceipt: true
+            params: [params.actions]
         });
 
-        if (error) {
-            return [null, error];
-        }
-
-        const result = parseEventData({
-            JSON: daoFactoryABI,
-            eventName: 'ProposalCreated',
-            trxReceipt
+        return API.sendOnChain<ICreateDaoResponse>({
+            contractAddress: params.contractAddress,
+            contractABI: daoControllerABI,
+            methodName: 'createProposal',
+            params: [params.actions]
         });
-
-        return [result, null];
     }
 
     static async fetchProposal(id: IProposalParams['id']) {
