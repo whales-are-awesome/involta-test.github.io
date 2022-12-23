@@ -53,6 +53,8 @@
                         ref="input"
                         v-model="value"
                         :class="classes.field"
+                        v-maska:[maskTokens]
+                        :data-maska="mask"
                         type="text"
                         :maxlength="maxlength"
                         @focus="onFocus"
@@ -63,6 +65,8 @@
                         ref="input"
                         v-model="value"
                         :class="classes.field"
+                        v-maska:[maskTokens]
+                        :data-maska="mask"
                         type="text"
                         :maxlength="maxlength"
                         @focus="onFocus"
@@ -103,6 +107,7 @@ interface IProps {
     placeholder?: string
     insetLabel?: string
     insetLeftLabel?: string
+    mask?: 'N' | 'C'
     isBold?: boolean
     isWrapped?: boolean
     icon?: {
@@ -307,7 +312,7 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         size: props.size,
         view: props.view,
         disabled: props.disabled,
-        isFilled: !!value.value,
+        isFilled: !!value.value.toString(),
         hasLeftIcon: !!props.icon && !!props.icon.prepend,
         hasRightIcon: !!props.icon && !props.icon.prepend,
         hasInsetLeftLabel: !!props.insetLeftLabel,
@@ -353,4 +358,20 @@ const input = ref<HTMLElement | null>(null);
 function onClick(): void {
     input.value?.focus();
 }
+
+
+// MASKA
+
+const maskTokens = {
+    tokens: {
+        N: {
+            pattern: /[\d]/,
+            multiple: true
+        },
+        L: {
+            pattern: /[a-zA-Zа-яА-Я]/,
+            multiple: true
+        }
+    }
+};
 </script>

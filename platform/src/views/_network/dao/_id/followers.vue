@@ -36,7 +36,7 @@
             />
             <BaseButton
                 class="!h-auto ml-auto"
-                theme="primary-400"
+                theme="primary"
                 :icon="{
                     name: 'share',
                     width: 20,
@@ -100,12 +100,11 @@ import useDao from '@/composables/fetch/useDao';
 import useError from '@/composables/useError';
 import useIsMobile from '@/composables/useIsMobile';
 import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
-import DaoFactoryService from '@/services/DaoFactoryService';
+import FollowerService from '@/services/FollowerService';
 import copy from '@/helpers/copy';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
-import { IFollower } from '@/types/services/DaoFactoryService';
+import { IFollower } from '@/types/services/FollowerService';
 import cutAddress from '@/helpers/cutAddress';
-import API from '@/helpers/api';
 
 // META
 
@@ -168,6 +167,7 @@ function invite() {
 
 
 // FOLLOWERS
+
 const followers = useFetchDataWithTotal<IFollower>();
 
 fetchFollowers();
@@ -176,7 +176,7 @@ async function fetchFollowers() {
     followers.value.pending = true;
     followers.value.cancel();
 
-    const [data, error, cancel] = await DaoFactoryService.fetchFollowers(
+    const [data, error, cancel] = await FollowerService.fetchFollowers(
         {
             network: route.params.network as string,
             address: route.params.address as string

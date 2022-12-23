@@ -1,6 +1,6 @@
 import { MutationTree, ActionTree  } from 'vuex';
 import { IRootState } from './index';
-import { IDao } from '@/types/services/DaoFactoryService';
+import { IDao } from '@/types/services/DaoService';
 
 interface IState {
     data: IDao | null

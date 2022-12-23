@@ -5,7 +5,8 @@ import useLayer from  '@/composables/useLayer';
 import { IDaoTransactionCookie } from  '@/types/dao';
 import emitter from '@/plugins/mitt';
 import sign from '@/helpers/sign';
-import DaoFactoryService from '@/services/DaoFactoryService';
+import DaoService from '@/services/DaoService';
+import { store } from '@/store';
 
 function useWatchForCreatedDaos() {
     const cookies = useCookies();
@@ -72,7 +73,7 @@ function useWatchForCreatedDaos() {
     }
 
     async function putData(address: string, data: IDaoTransactionCookie, signInfo: Awaited<ReturnType<typeof sign>>[0]) {
-        return DaoFactoryService.changeDao(
+        return DaoService.changeDao(
             {
                 address,
                 network: 'goerli'
@@ -85,7 +86,8 @@ function useWatchForCreatedDaos() {
         {
                 headers: {
                     'Auth-Hash': signInfo!.hash,
-                    'Auth-Signature': signInfo!.sign
+                    'Auth-Signature': signInfo!.sign,
+                    'Auth-Address': store.state.wallet.address as string
                 }
             }
         );

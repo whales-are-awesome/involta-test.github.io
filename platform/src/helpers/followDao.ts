@@ -1,5 +1,5 @@
 import sign from '@/helpers/sign';
-import DaoFactoryService from '@/services/DaoFactoryService';
+import FollowerService from '@/services/FollowerService';
 import { store } from '@/store';
 import emitter from '@/plugins/mitt';
 
@@ -10,18 +10,16 @@ async function followDao(address: string, network: string, alert: any) {
         return [null, err] as const;
     }
 
-    const [response, error] = await DaoFactoryService.followDao(
+    const [response, error] = await FollowerService.followDao(
         {
             address,
             network
         },
         {
-            account: store.state.wallet.address as string
-        },
-        {
             headers: {
                 'Auth-Hash': signInfo!.hash,
-                'Auth-Signature': signInfo!.sign
+                'Auth-Signature': signInfo!.sign,
+                'Auth-Address': store.state.wallet.address as string
             }
         }
     );

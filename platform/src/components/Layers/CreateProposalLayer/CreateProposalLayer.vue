@@ -43,14 +43,14 @@
                 :tip="`${ formData.description.length }/150`"
                 :error="formErrors.description"
             />
-            <SelectField
-                v-model="formData.subDaoId"
-                :options="formInfo.subDao"
-                title="Select relative SubDAO"
-                tooltip="Select relative SubDAO"
-                size="lg"
-                angle-view="secondary"
-            />
+<!--            <SelectField-->
+<!--                v-model="formData.subDaoId"-->
+<!--                :options="formInfo.subDao"-->
+<!--                title="Select relative SubDAO"-->
+<!--                tooltip="Select relative SubDAO"-->
+<!--                size="lg"-->
+<!--                angle-view="secondary"-->
+<!--            />-->
             <DateFieldsWrapper
                 title="Choose Dates"
                 tooltip="About SubDAO"
@@ -72,88 +72,88 @@
             <TextSeparator>
                 Advanced Pipeline tasks
             </TextSeparator>
-            <BaseBlock>
-                <BlockInfo
-                    title="To add App search for it’s Name"
-                    tooltip="To add App search for it’s Name"
-                >
-                    <DropdownSearch
-                        v-model="formData.name"
-                    />
-                </BlockInfo>
-            </BaseBlock>
-            <BaseAccordion :no-chevron="true">
-                <template #top>
-                    <BaseAvatar
-                        :src="require('@/assets/images/common/placeholder.jpeg')"
-                        alt="DAO"
-                        rounded="sm"
-                        size="md"
-                    >
-                        <BlockInfo
-                            title="Add Dapp"
-                            tooltip="Add Dapp"
-                            description="Use APPs for your advanced proposal"
-                            :theme-settings="{
-                                description: '!text-gray-500'
-                            }"
-                        />
-                    </BaseAvatar>
-                    <DeleteButton
-                        theme="surface-300"
-                    />
-                </template>
-                <div class="space-y-3">
-                    <SelectField
-                        v-model="formData.name"
-                        size="xl"
-                        inner-label="Type"
-                        :options="formInfo.solidityTypes"
-                        placeholder="Text"
-                        :searchable="true"
-                        angle-view="secondary"
-                        :error="formErrors.name"
-                        value="Function to do"
-                        :required="true"
-                        tooltip="lool"
-                        :is-wrapped="true"
-                        title="Function to do"
-                        :theme-settings="{
-                            innerLabel: '!text-300'
-                        }"
-                    />
-                    <TextField
-                        v-model="formData.name"
-                        title="Name of the task"
-                        placeholder="Task Name"
-                        :maxlength="50"
-                        :tip="`${ formData.name.length }/50`"
-                        :is-wrapped="true"
-                        :error="formErrors.name"
-                    />
-                    <TextField
-                        v-model="formData.name"
-                        title="Task Description"
-                        placeholder="Task Description"
-                        :maxlength="150"
-                        :tip="`${ formData.name.length }/150`"
-                        :is-wrapped="true"
-                        view="textarea"
-                        :error="formErrors.name"
-                    />
-                </div>
-            </BaseAccordion>
-            <BaseAdd class="items-center !mb-8">
-                <BlockInfo
-                    class="ml-4"
-                    title="Add Dapp"
-                    tooltip="Add Dapp"
-                    description="Use APPs for your advanced proposal"
-                    :theme-settings="{
-                        description: '!text-gray-500'
-                    }"
-                />
-            </BaseAdd>
+<!--            <BaseBlock>-->
+<!--                <BlockInfo-->
+<!--                    title="To add App search for it’s Name"-->
+<!--                    tooltip="To add App search for it’s Name"-->
+<!--                >-->
+<!--                    <DropdownSearch-->
+<!--                        v-model="formData.name"-->
+<!--                    />-->
+<!--                </BlockInfo>-->
+<!--            </BaseBlock>-->
+<!--            <BaseAccordion :no-chevron="true">-->
+<!--                <template #top>-->
+<!--                    <BaseAvatar-->
+<!--                        :src="require('@/assets/images/common/placeholder.jpeg')"-->
+<!--                        alt="DAO"-->
+<!--                        rounded="sm"-->
+<!--                        size="md"-->
+<!--                    >-->
+<!--                        <BlockInfo-->
+<!--                            title="Add Dapp"-->
+<!--                            tooltip="Add Dapp"-->
+<!--                            description="Use APPs for your advanced proposal"-->
+<!--                            :theme-settings="{-->
+<!--                                description: '!text-gray-500'-->
+<!--                            }"-->
+<!--                        />-->
+<!--                    </BaseAvatar>-->
+<!--                    <DeleteButton-->
+<!--                        theme="surface-300"-->
+<!--                    />-->
+<!--                </template>-->
+<!--                <div class="space-y-3">-->
+<!--                    <SelectField-->
+<!--                        v-model="formData.name"-->
+<!--                        size="xl"-->
+<!--                        inner-label="Type"-->
+<!--                        :options="formInfo.solidityTypes"-->
+<!--                        placeholder="Text"-->
+<!--                        :searchable="true"-->
+<!--                        angle-view="secondary"-->
+<!--                        :error="formErrors.name"-->
+<!--                        value="Function to do"-->
+<!--                        :required="true"-->
+<!--                        tooltip="lool"-->
+<!--                        :is-wrapped="true"-->
+<!--                        title="Function to do"-->
+<!--                        :theme-settings="{-->
+<!--                            innerLabel: '!text-300'-->
+<!--                        }"-->
+<!--                    />-->
+<!--                    <TextField-->
+<!--                        v-model="formData.name"-->
+<!--                        title="Name of the task"-->
+<!--                        placeholder="Task Name"-->
+<!--                        :maxlength="50"-->
+<!--                        :tip="`${ formData.name.length }/50`"-->
+<!--                        :is-wrapped="true"-->
+<!--                        :error="formErrors.name"-->
+<!--                    />-->
+<!--                    <TextField-->
+<!--                        v-model="formData.name"-->
+<!--                        title="Task Description"-->
+<!--                        placeholder="Task Description"-->
+<!--                        :maxlength="150"-->
+<!--                        :tip="`${ formData.name.length }/150`"-->
+<!--                        :is-wrapped="true"-->
+<!--                        view="textarea"-->
+<!--                        :error="formErrors.name"-->
+<!--                    />-->
+<!--                </div>-->
+<!--            </BaseAccordion>-->
+<!--            <BaseAdd class="items-center !mb-8">-->
+<!--                <BlockInfo-->
+<!--                    class="ml-4"-->
+<!--                    title="Add Dapp"-->
+<!--                    tooltip="Add Dapp"-->
+<!--                    description="Use APPs for your advanced proposal"-->
+<!--                    :theme-settings="{-->
+<!--                        description: '!text-gray-500'-->
+<!--                    }"-->
+<!--                />-->
+<!--            </BaseAdd>-->
             <BaseAccordion
                 v-for="transaction in formData.transactions"
                 :key="transaction.id"
@@ -188,7 +188,8 @@
                     <TextField
                         v-model="transaction.value"
                         title="Value"
-                        placeholder="Value"
+                        placeholder="0"
+                        mask="N"
                         :required="true"
                         :is-wrapped="true"
                     />
@@ -245,9 +246,11 @@ import DateFieldsWrapper from '@/components/Form/DateField/DateFieldsWrapper.vue
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
-import DaoFactoryService from '@/services/DaoFactoryService';
+import ProposalService from '@/services/ProposalService';
 import { createId } from '@/helpers/uuid';
 import useIsMobile from '@/composables/useIsMobile';
+import sign from '@/helpers/sign';
+import { store } from '@/store';
 
 // META
 
@@ -352,7 +355,14 @@ async function createProposal() {
 
     isSending.value = true;
 
-    const [response, error] = await DaoFactoryService.createProposal({
+    const [signInfo, err] = await sign('Do you want to follow this dao?');
+
+    if (err) {
+        return [null, err] as const;
+    }
+
+
+    const [response, error] = await ProposalService.createProposalOnChain({
         contractAddress: route.params.address as string,
         actions: formData.value.transactions
             .map((item: any) => ({
@@ -362,6 +372,26 @@ async function createProposal() {
             }))
             .map((item: any) => omit(item, ['id']))
     });
+
+    if (response?.trx) {
+        await ProposalService.createProposal(
+            {
+                address: route.params.address as string,
+                network: route.params.network as string
+            },
+            {
+                creationTx: response?.trx.hash,
+                name: formData.value.name,
+                description: formData.value.description,
+            },
+            {
+                headers: {
+                    'Auth-Hash': signInfo!.hash,
+                    'Auth-Signature': signInfo!.sign,
+                    'Auth-Address': store.state.wallet.address as string
+                }
+            });
+    }
 
 
     if (response) {
@@ -400,7 +430,7 @@ function addTransaction() {
         actionType: 0,
         to: '',
         data: '',
-        value: 0
+        value: ''
     });
 }
 

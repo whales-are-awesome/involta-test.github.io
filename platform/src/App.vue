@@ -1,5 +1,7 @@
 <template>
-    <Layout v-if="$route.name">
+    <Layout
+        v-if="$route.name"
+    >
         <ErrorPage v-show="hasError" />
         <RouterView :key="$route.path" v-show="!hasError" />
     </Layout>

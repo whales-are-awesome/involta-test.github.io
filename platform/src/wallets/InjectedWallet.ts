@@ -58,7 +58,7 @@ class InjectedWallet {
 
     static handleNetworkChange(): void {
         window.ethereum.on('networkChanged', async () => {
-            console.log('networkChanged')
+            window.location.reload();
         });
     }
 }

@@ -21,7 +21,7 @@
                         <div :class="classes.topInfo">
                             <BaseButton
                                 :class="classes.topInfoJoin"
-                                theme="primary-400"
+                                theme="primary"
                                 size="sm"
                                 :loading="isFollowing"
                                 :icon="{
@@ -85,7 +85,7 @@ import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import makeClasses from '@/helpers/makeClasses';
 import followDao from '@/helpers/followDao';
-import DaoFactoryService from '@/services/DaoFactoryService';
+import DaoService from '@/services/DaoService';
 import useLayer from '@/composables/useLayer';
 import useSubDaoItems from '@/composables/fetch/useSubDaoItems';
 import { DEFAULT_LIMIT, DEFAILT_ADD_LIMIT, INormalizedDaoAsDefault } from './types';
@@ -140,44 +140,6 @@ async function follow() {
     isFollowing.value = false;
 }
 
-async function leaveDao() {
-    const isLeave = layer.confirm({
-        title: 'Leave DAO?',
-        message: 'All tokens, followerships of DAO and its SubDAOs will be lost.',
-        theme: 'alert',
-        acceptButtonCaption: 'Leave',
-        declineButtonCaption: 'Cancel',
-    });
-
-    if (!isLeave) {
-        return;
-    }
-
-    isFollowing.value = true;
-
-    const { address, network } = currentDao.value.data!;
-
-    const [response, error] = await DaoFactoryService.followDao({
-        address,
-        network
-    }, {
-        headers: {
-            account_address: store.state.wallet.address as string
-        }
-    });
-
-    if (error) {
-        layer.alert({
-            title: 'Warning message!',
-            text: 'Something go wrong',
-            buttonText: 'OK',
-            status: 'error'
-        })
-    }
-
-    isFollowing.value = false;
-}
-
 
 // PARENT DAO
 
@@ -196,7 +158,7 @@ async function addParentDaos() {
 
     isPendingParentDaos.value = true;
 
-    const [data] = await DaoFactoryService.fetchDaoAsDefault({
+    const [data] = await DaoService.fetchDaoAsDefault({
         address: lastParentAddress,
         network: route.params.network as string
     });

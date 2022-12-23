@@ -43,7 +43,7 @@
         </div>
         <BaseButton
             class="w-full"
-            theme="primary-400"
+            theme="primary"
             size="lg"
         >
             Transfer tokens

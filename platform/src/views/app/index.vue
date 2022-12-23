@@ -88,7 +88,7 @@
                     </div>
                     <BaseButton
                         class="w-full font-semibold mt-auto"
-                        theme="primary-400"
+                        theme="primary"
                         rounded="lg"
                         @click="open('SupportAppLayer')"
                     >

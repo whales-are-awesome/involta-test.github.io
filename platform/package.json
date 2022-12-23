@@ -31,7 +31,7 @@
         "hsl-to-hex": "^1.0.0",
         "ismobilejs": "^1.1.1",
         "lodash": "^4.17.21",
-        "maska": "^1.5.0",
+        "maska": "^2.1.1",
         "mitt": "^3.0.0",
         "pixi.js": "^6.5.1",
         "postcss": "^8",

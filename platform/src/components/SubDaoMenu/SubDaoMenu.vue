@@ -82,7 +82,7 @@ import SubDaoItemsPopup from '@/components/SubDaoItemsPopup/SubDaoItemsPopup.vue
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
-import { INormalizedSubDaoItemAsDefault, IDao } from '@/types/services/DaoFactoryService';
+import { INormalizedSubDaoItemAsDefault, IDao } from '@/types/services/DaoService';
 
 
 // META

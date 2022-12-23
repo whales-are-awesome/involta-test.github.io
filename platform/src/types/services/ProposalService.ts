@@ -76,9 +76,6 @@ interface INormalizedSubDaoItemAsDefault extends ISubDaoItem {
 }
 
 
-interface IFollowDaoParams {
-    account: string
-}
 
 interface IFollower {
     address: string
@@ -104,7 +101,7 @@ interface IProposalParams {
     id: string
 }
 
-interface ICreateProposalParams {
+interface ICreateProposalOnChainParams {
     contractAddress: string
     actions: Array<{
         actionType: number
@@ -112,6 +109,16 @@ interface ICreateProposalParams {
         data: string
         value: number
     }>
+}
+
+interface ICreateProposalOnChainResponse {
+    hash: string
+}
+
+interface ICreateProposalParams {
+    creationTx: string
+    name: string
+    description: string
 }
 
 interface IProposalItem extends Pick<IProposal, 'governance'> {
@@ -144,11 +151,12 @@ export {
     ISubDaoItemQuery,
     INormalizedSubDaoItemAsDefault,
 
-    IFollowDaoParams,
     IFollower,
 
     IProposal,
     IProposalParams,
+    ICreateProposalOnChainParams,
+    ICreateProposalOnChainResponse,
     ICreateProposalParams,
 
     IProposalItem,

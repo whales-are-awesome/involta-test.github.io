@@ -37,12 +37,25 @@
             </div>
             <div
                 v-if="tagList.value === TagStatuses.Daos"
-                class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
+                class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
             >
                 <SelectField
                     v-model="formData.value.chainId"
                     theme="primary"
                     :options="formInfo.chainOptions"
+                    :theme-settings="{
+                        height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
+                    }"
+                />
+            </div>
+            <div
+                v-if="tagList.value === TagStatuses.Apps"
+                class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
+            >
+                <SelectField
+                    v-model="formData.value.categoryId"
+                    theme="primary"
+                    :options="formInfo.categoryOptions"
                     :theme-settings="{
                         height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
                     }"
@@ -81,7 +94,7 @@
                 <BaseButton
                     class="w-full"
                     :class="(isMobile.xl || isMobile.lg) && '!h-full'"
-                    theme="primary-400"
+                    theme="primary"
                     :icon="{
                         name: 'plus',
                         width: (isMobile.xl || isMobile.lg) ? 14 : 8,
@@ -128,6 +141,7 @@
                 :class="{
                     '-preloader -preloader_cover': daoItems.pending
                 }"
+                v-scroll-at.bottom="addMoreDaos"
             >
                 <div
                     class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
@@ -153,21 +167,11 @@
                 title="No Daos found"
                 text="We couldn't find any Daos matching your query. Try another query"
             />
-            <BaseButton
-                v-if="daoItems.data?.total !== daoItemsFiltered?.length"
-                class="w-full mt-8"
-                view="outlined"
-                size="sm"
-                rounded="lg"
-                @click="formData.offsets.Daos += 1"
-            >
-                Show more Daos
-            </BaseButton>
         </div>
         <div v-if="tagList.value === TagStatuses.Apps">
-            <div class="flex flex-wrap -mx-3 -mt-6 mb-8">
+            <div class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]">
                 <div
-                    class="w-1/4 px-3 mt-6 md:w-1/3"
+                    class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
                     v-for="item in 12"
                     :key="item"
                 >
@@ -268,7 +272,7 @@ const formDataProposals = ref({
 
 const [proposalItems] = useProposalItems(formDataProposals);
 
-useQueryUpdates(formDataProposals);
+// useQueryUpdates(formDataProposals);
 
 
 // DAOS
@@ -289,11 +293,17 @@ const daoItemsFiltered = computed(() => {
 
 emitter.on('daoCreated', fetchDaoItems);
 
+function addMoreDaos() {
+    if (daoItems.value.data?.items.length !== daoItems.value.data?.total) {
+        formDataDaos.value.offset += formDataDaos.value.limit;
+    }
+}
+
 
 // APPS
 
 const formDataApps = ref({
-    categoryId: formInfo.voteOptions[0].id,
+    categoryId: formInfo.categoryOptions[0].id,
     search: '',
     limit: 20,
     offset: 0

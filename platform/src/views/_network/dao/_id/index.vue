@@ -171,10 +171,10 @@ import NotFound from '@/components/NotFound/NotFound.vue';
 import DaoCard from '@/components/DaoCard/DaoCard.vue';
 import useLayer from '@/composables/useLayer';
 import useDao from '@/composables/fetch/useDao';
+import useProposalItems from '@/composables/fetch/useProposalItems';
 import useError from '@/composables/useError';
 import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
 import { Statuses } from '@/types/statuses';
-import useProposalItems from '@/composables/views/home/useProposalItems';
 import useDaoItems from '@/composables/fetch/useDaoItems';
 import emitter from '@/plugins/mitt';
 
@@ -253,10 +253,6 @@ watchEffect(() => {
 });
 
 
-// PROPOSALS ITEMS
-
-const [proposalItems] = useProposalItems(formData);
-
 
 // DAO ITEMS
 
@@ -283,4 +279,14 @@ const breadcrumbs = computed(() => {
 
     return data;
 })
+
+
+// PROPOSALS
+
+const formProposalsData = ref({
+    limit: 20,
+    offset: 0
+});
+
+const [proposalItems] = useProposalItems(formProposalsData);
 </script>

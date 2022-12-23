@@ -1,6 +1,7 @@
 import daoFactoryABI from '@/abi/daoFactoryABI';
 import axios, { Canceler } from '@/plugins/axios';
 import camelize from '@/helpers/camelize';
+import snakelize from '@/helpers/snakelize';
 import { FetchResult, SendResult, sendDataOnChainProps, Config } from '@/types/api'
 import { ethers, Signer } from 'ethers'
 
@@ -24,7 +25,7 @@ class API {
         return API.provider?.getSigner();
     }
 
-    static async sendOnChain<T>(props: sendDataOnChainProps): SendResult<T> {
+    static async sendOnChain<T>(props: sendDataOnChainProps): SendResult<{trx: any, trxReceipt: any}> {
         try {
             const contract = props.contractAddress ? new ethers.Contract(props.contractAddress, props.contractABI, API.provider) : API.contracts[props.contractName!];
             const signer = await API.getSigner();
@@ -39,10 +40,9 @@ class API {
 
             if (props.needReceipt) {
                 trxReceipt = await API.provider.getTransactionReceipt(trx.hash);
-                console.log(trxReceipt);
             }
 
-            return [trxReceipt || trx, null];
+            return [{ trx, trxReceipt }, null];
         } catch (e) {
             console.log(e);
             return [null, e as Error];
@@ -73,7 +73,7 @@ class API {
                 ...config
             });
 
-            return [camelize(response.data), null, cancel];
+            return [snakelize(response.data), null, cancel];
         } catch (e) {
             return [null, e as Error, () => {}];
         }

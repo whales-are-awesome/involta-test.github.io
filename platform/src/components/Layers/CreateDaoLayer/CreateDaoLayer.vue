@@ -99,7 +99,7 @@ import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
-import DaoFactoryService from '@/services/DaoFactoryService';
+import DaoService from '@/services/DaoService';
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 
 
@@ -173,14 +173,13 @@ async function createDAO() {
 
     isSending.value = true;
 
-    const [trx, error] = await DaoFactoryService.createDao({
+    const [trx, error] = await DaoService.createDao({
         quorumRequired: formData.value.quorumRequired,
-        proposalExpirationTime: +new Date(formData.value.proposalExpirationTime),
+        proposalExpirationTime: +new Date() + 1000000,//+new Date(formData.value.proposalExpirationTime),
         parentRegistry: props.parentAddress || '0x' + '0'.repeat(40)
     });
 
     if (trx) {
-        console.log(trx.hash);
         await alert({
             title: 'Transaction is being processed!',
             text: 'We will show you a message when transaction will be done.',

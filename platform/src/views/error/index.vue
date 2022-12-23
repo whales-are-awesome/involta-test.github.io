@@ -24,7 +24,7 @@
 <!--                </BaseButton>-->
                 <BaseButton
                     :size="isMobile.sm ? 'sm' : 'lg'"
-                    theme="primary-400"
+                    theme="primary"
                     @click="$router.push({ name: 'home' })"
                 >
                     Take me home
