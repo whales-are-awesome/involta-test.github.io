@@ -40,12 +40,12 @@ export default class DaoService {
     }
 
 
-    static async fetchProposalItems(path: IDaoPath, params: any) {
+    static async fetchDaoProposalItems(path: IDaoPath, params: any) {
         return API.get<IResponsePagination<IProposal>>(`/${ path.network }/dao/${ path.address }/proposal`, params);
     }
 
-    // static async fetchProposalItemsAsTable(params?: IProposalItemQuery) {
-    //     const [data, ...rest] = await DaoService.fetchProposalItems(params);
+    // static async fetchDaoProposalItemsAsTable(params?: IProposalItemQuery) {
+    //     const [data, ...rest] = await DaoService.fetchDaoProposalItems(params);
     //
     //     return [data && normalizeProposalItemsAsTable(data), ...rest] as const;
     // }

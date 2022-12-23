@@ -38,12 +38,11 @@
                 </div>
             </div>
         </div>
-        <Layers />
     </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, nextTick, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import TheHeader from '@/components/TheHeader/TheHeader.vue';
 import TheMarquee from '@/components/TheMarquee/TheMarquee.vue';

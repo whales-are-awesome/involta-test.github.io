@@ -72,14 +72,14 @@ interface IProps {
         class?: string
         prepend?: boolean
     }
-    rounded: Rounded
-    disabled: boolean
-    type: IHTMLButtonAttributes['type'] | IHTMLLabelAttributes['type']
-    theme: Themes
-    size: Sizes
-    view: Views
-    justify: Justify
-    wrapContent: boolean
+    rounded?: Rounded
+    disabled?: boolean
+    type?: IHTMLButtonAttributes['type'] | IHTMLLabelAttributes['type']
+    theme?: Themes
+    size?: Sizes
+    view?: Views
+    justify?: Justify
+    wrapContent?: boolean
     themeSettings?: ThemeSettings<'root' | 'container' | 'bg'>
     loading?: boolean
 }

@@ -256,7 +256,7 @@ import { store } from '@/store';
 
 interface IProps {
     id: string
-    parentDaoAddress: string
+    parentDaoAddress?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {});

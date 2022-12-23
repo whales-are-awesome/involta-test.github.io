@@ -22,7 +22,7 @@ import ThemeSettings from '@/types/themeSettings';
 // META
 
 interface IProps {
-    width: number | string
+    width?: number | string
     themeSettings?: ThemeSettings<'root'>
 }
 

@@ -37,7 +37,7 @@ import ThemeSettings from '@/types/themeSettings';
 interface IProps {
     modelValue: IItem['id']
     items: IItem[]
-    size: Sizes
+    size?: Sizes
     themeSettings?: ThemeSettings<'root'>
 }
 

@@ -16,7 +16,7 @@ import { Icons } from './types';
 
 export interface IProps {
     name: Icons
-    width: number | string
+    width?: number | string
     height?: number | string
 }
 

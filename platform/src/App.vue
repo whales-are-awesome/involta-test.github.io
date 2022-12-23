@@ -3,7 +3,9 @@
         v-if="$route.name"
     >
         <ErrorPage v-show="hasError" />
-        <RouterView :key="$route.path" v-show="!hasError" />
+        <div :key="$route.path" v-show="!hasError">
+            <RouterView />
+        </div>
     </Layout>
     <div v-if="!$route.name" class="-preloader inset-0 -z-1"></div>
     <Layers />

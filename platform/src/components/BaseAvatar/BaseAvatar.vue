@@ -32,8 +32,8 @@ interface IProps {
     src?: string
     alt: string
     hexheads?: string
-    size: Sizes
-    rounded: Rounded
+    size?: Sizes
+    rounded?: Rounded
     themeSettings?: ThemeSettings<'root' | 'image'>
 }
 

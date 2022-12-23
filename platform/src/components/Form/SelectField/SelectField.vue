@@ -111,9 +111,9 @@ interface IProps {
     searchable?: boolean
     options: SelectOption[]
     isWrapped?: boolean
-    size: Sizes
-    theme: Themes
-    angleView: AngleView
+    size?: Sizes
+    theme?: Themes
+    angleView?: AngleView
     innerLabel?: string
     themeSettings?: ThemeSettings<'root' | 'innerLabel' | 'height'>
 

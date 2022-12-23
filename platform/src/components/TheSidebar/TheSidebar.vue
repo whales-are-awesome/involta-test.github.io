@@ -24,12 +24,6 @@
                 :active="isCreateDaoOpened"
                 @click="layer.open('CreateDaoActionLayer')"
             />
-            <TheSidebarButton
-                :active="route.name === 'ui'"
-                @click="$router.push({ name: 'ui' })"
-            >
-                <div class="-translate-x-2">UI</div>
-            </TheSidebarButton>
             <div v-if="daoItems.pending" class="-preloader -preloader_sm -preloader_placeholder z-10"></div>
             <template v-else-if="walletAddress">
                 <TheSidebarButton

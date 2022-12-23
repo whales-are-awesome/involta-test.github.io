@@ -118,8 +118,8 @@ interface IProps {
         prepend?: boolean
     }
     buttonTitle?: string
-    size: Sizes
-    view: Views
+    size?: Sizes
+    view?: Views
     maxlength?: number | string
     themeSettings?: ThemeSettings<'root'>
 

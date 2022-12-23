@@ -31,7 +31,7 @@ import ThemeSettings from '@/types/themeSettings';
 
 interface IProps {
     to?: RouterLinkProps['to']
-    theme: Themes
+    theme?: Themes
     themeSettings?: ThemeSettings<'root'>
 }
 

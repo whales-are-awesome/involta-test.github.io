@@ -7,7 +7,7 @@
     >
         <div :class="classes.inner">
             <BaseIcon
-                v-if="!image"
+                v-if="icon"
                 :class="classes.angle"
                 :width="iconWidth"
                 :height="iconHeight"
@@ -31,6 +31,7 @@
 import { computed, ref } from 'vue';
 import {  } from './types';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import { Icons } from '@/components/BaseIcon/types';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useIsMobile from '@/composables/useIsMobile';
@@ -40,7 +41,7 @@ import ThemeSettings from '@/types/themeSettings';
 // META
 
 interface IProps {
-    icon?: string
+    icon?: Icons
     iconWidth?: string | number
     iconHeight?: string | number
     active: boolean

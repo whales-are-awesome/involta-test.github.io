@@ -23,7 +23,7 @@ function useProposalItems(_formData: any) {
     //     items.value.pending = true;
     //     items.value.cancel();
     //
-    //     const [data, error, cancel] = await ProposalService.fetchProposalItemsAsTable(formResult.value);
+    //     const [data, error, cancel] = await ProposalService.fetchDaoProposalItemsAsTable(formResult.value);
     //
     //     if (error) {
     //         items.value.pending = false;

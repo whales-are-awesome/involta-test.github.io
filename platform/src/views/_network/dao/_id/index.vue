@@ -55,22 +55,22 @@
             </div>
             <template v-if="tagList.value === TagStatuses.Proposals">
                 <TextSeparator
-                    v-if="proposalItems.data?.length"
+                    v-if="proposalItems.data?.items.length"
                     class="mb-[10px]"
                 >
-                    {{ proposalItems.data?.length }} active proposals
+                    {{ proposalItems.data?.items.length }} active proposals
                 </TextSeparator>
                 <div class="space-y-[18px]">
-                    <template v-if="proposalItems.data?.length">
+                    <template v-if="proposalItems.data?.items.length">
                         <BaseCard
-                            v-for="item in 3"
+                            v-for="item in proposalItems.data?.items"
                             :key="item"
                             :avatar="require('@/assets/images/common/placeholder.jpeg')"
                             name="DAO Name"
                             label-title="Active"
-                            title="Proposal Name"
+                            :title="item.name"
+                            :text="item.description"
                             :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpeg') } ]"
-                            text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"
                             :end-date="new Date((new Date).setHours(23))"
                         />
                     </template>
@@ -161,6 +161,7 @@
 <script lang="ts" setup>
 import { computed, ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
+
 import TagsList from '@/components/TagsList/TagsList.vue';
 import BaseCard from '@/components/BaseCard/BaseCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -169,14 +170,18 @@ import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import NotFound from '@/components/NotFound/NotFound.vue';
 import DaoCard from '@/components/DaoCard/DaoCard.vue';
-import useLayer from '@/composables/useLayer';
-import useDao from '@/composables/fetch/useDao';
-import useProposalItems from '@/composables/fetch/useProposalItems';
-import useError from '@/composables/useError';
 import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
-import { Statuses } from '@/types/statuses';
+
+import useLayer from '@/composables/useLayer';
+import useError from '@/composables/useError';
+import useDao from '@/composables/fetch/useDao';
+import useProposalItems from '@/composables/fetch/useProposalItems'
 import useDaoItems from '@/composables/fetch/useDaoItems';
+
 import emitter from '@/plugins/mitt';
+
+import { Statuses } from '@/types/statuses';
+
 
 
 // META

@@ -28,7 +28,7 @@ function useProposalItems(_data: any) {
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await ProposalService.fetchProposalItems( {
+        const [data, error, cancel] = await ProposalService.fetchDaoProposalItems( {
             network: route.params.network as string,
             address: route.params.address as string,
         }, dataResult.value);
