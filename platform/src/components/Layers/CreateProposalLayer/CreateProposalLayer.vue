@@ -355,7 +355,7 @@ async function createProposal() {
 
     isSending.value = true;
 
-    const [signInfo, err] = await sign('Do you want to follow this dao?');
+    const [signInfo, err] = await sign('Do you want create the proposal?');
 
     if (err) {
         return [null, err] as const;

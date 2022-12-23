@@ -293,5 +293,7 @@ const formProposalsData = ref({
     offset: 0
 });
 
-const [proposalItems] = useProposalItems(formProposalsData);
+const [proposalItems, fetchProposalsItems] = useProposalItems(formProposalsData);
+
+emitter.on('proposalCreated', fetchProposalsItems);
 </script>

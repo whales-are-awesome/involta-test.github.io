@@ -9,6 +9,7 @@ type Events = {
     layerClose: ICloseProps
     daoFollowed: void
     daoCreated: void
+    proposalCreated: void
 };
 
 const emitter = mitt<Events>();

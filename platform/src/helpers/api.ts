@@ -68,12 +68,12 @@ class API {
         try {
             let cancel: Canceler | (() => void) = () => {};
 
-            const response: { data: T } = await axios.post<T>(path, data, {
+            const response: { data: T } = await axios.post<T>(path, snakelize(data), {
                 cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
                 ...config
             });
 
-            return [snakelize(response.data), null, cancel];
+            return [camelize(response.data), null, cancel];
         } catch (e) {
             return [null, e as Error, () => {}];
         }
