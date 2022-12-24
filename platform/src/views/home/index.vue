@@ -257,7 +257,7 @@ const tagList = ref({
         { id: TagStatuses.Daos, title: TagStatuses.Daos },
         { id: TagStatuses.Apps, title: TagStatuses.Apps }
     ],
-    value: Object.keys(TagStatuses).includes(capitalize(route.query.section as string)) ? capitalize(route.query.section as string):  TagStatuses.Proposals
+    value: TagStatuses.Proposals
 });
 
 // PROPOSALS

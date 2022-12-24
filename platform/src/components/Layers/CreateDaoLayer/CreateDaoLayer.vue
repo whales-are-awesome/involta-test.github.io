@@ -173,13 +173,13 @@ async function createDAO() {
 
     isSending.value = true;
 
-    const [trx, error] = await DaoService.createDao({
+    const [response, error] = await DaoService.createDao({
         quorumRequired: formData.value.quorumRequired,
         proposalExpirationTime: +new Date() + 1000000,//+new Date(formData.value.proposalExpirationTime),
         parentRegistry: props.parentAddress || '0x' + '0'.repeat(40)
     });
 
-    if (trx) {
+    if (response?.trx) {
         await alert({
             title: 'Transaction is being processed!',
             text: 'We will show you a message when transaction will be done.',
@@ -188,7 +188,7 @@ async function createDAO() {
         });
 
         watchForCreatedDaos.add({
-            hash: trx.hash,
+            hash: response.trx.hash,
             description: formData.value.description,
             name: formData.value.name,
             link:  formData.value.link

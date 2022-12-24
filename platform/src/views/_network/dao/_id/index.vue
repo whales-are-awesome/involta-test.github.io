@@ -273,7 +273,7 @@ emitter.on('daoCreated', fetchDaoItems);
 // BREADCRUMBS
 
 const breadcrumbs = computed(() => {
-    if (!pageData.value || !pageData.value?.path.length) return [];
+    if (!pageData.value?.path.length) return [];
 
     const data: IBreadcrumb[] = [...pageData.value?.path].reverse().map(item => ({
         title: item.name,
