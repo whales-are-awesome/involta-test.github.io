@@ -5,7 +5,7 @@
         :class="classes.root"
         v-bind="buttonAttrs"
         v-on="$attrs"
-        @click="emit('click')"
+        @click="emit('click', $event)"
     >
         <div v-if="loading" class="-preloader -preloader_xs"></div>
         <span :class="classes.container">
@@ -85,7 +85,7 @@ interface IProps {
 }
 
 interface IEmit {
-    (e: 'click'): void
+    (e: 'click'): MouseEvent
 }
 
 const props = withDefaults(defineProps<IProps>(), {

@@ -30,7 +30,7 @@
                 :style="`transform: translateX(${ !isMobile.xl ? sidebarWidth + daoSidebarWidth : 0 }px )`"
             >
                 <TheHeader
-                    @click.stop="showMobileSidebar = !showMobileSidebar"
+                    @burger-click.stop="showMobileSidebar = !showMobileSidebar"
                 />
                 <TheMarquee />
                 <div class="px-8 pb-9 relative flex-grow sm:px-6">

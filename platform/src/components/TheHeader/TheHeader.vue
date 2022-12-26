@@ -12,7 +12,7 @@
                         bg: '!bg-surface-300',
                         container: 'space-y-0.5 flex-col'
                     }"
-                    @click="emit('burger-click')"
+                    @click="emit('burger-click', $event)"
                 >
                     <span
                         v-for="item in 3"
@@ -110,7 +110,7 @@ import { store } from '@/store';
 // META
 
 interface IEmits {
-    (e: 'burger-click'): void
+    (e: 'burger-click'): MouseEvent
 }
 
 const emit = defineEmits<IEmits>();
