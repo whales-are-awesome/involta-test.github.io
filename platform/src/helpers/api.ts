@@ -49,6 +49,21 @@ class API {
         }
     }
 
+    static async getFromChain<T>(props: sendDataOnChainProps): SendResult<T> {
+        try {
+            const contract = props.contractAddress ? new ethers.Contract(props.contractAddress, props.contractABI, API.provider) : API.contracts[props.contractName!];
+
+            const result: T = await contract[props.methodName](...props.params);
+
+            console.log(result);
+
+            return [result, null];
+        } catch (e) {
+            console.log(e);
+            return [null, e as Error];
+        }
+    }
+
     static async get<T>(path: string, params?: {[key: string]: any}): FetchResult<T> {
         try {
             let cancel: Canceler | (() => void) = () => {};

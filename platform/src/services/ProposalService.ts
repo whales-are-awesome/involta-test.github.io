@@ -19,7 +19,7 @@ import { IDaoPath } from '@/types/services/DaoService';
 
 
 
-export default class DaoService {
+export default class ProposalService {
     static async createProposalOnChain(params: ICreateProposalOnChainParams) {
         return API.sendOnChain<ICreateProposalOnChainResponse>({
             contractAddress: params.contractAddress,

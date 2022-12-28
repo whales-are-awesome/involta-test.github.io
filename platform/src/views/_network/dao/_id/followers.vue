@@ -71,7 +71,7 @@
                     </BaseAvatar>
                 </div>
                 <div class="text-gray-500 text-xxs font-medium w-1/3 text-center">
-                    348 Tokens
+                    {{ item.votingPower }} Tokens
                 </div>
             </div>
         </div>
