@@ -1,7 +1,7 @@
 enum Statuses {
-    Active,
-    Stopped,
-    Closed
+    Active = 'active' as any,
+    Stopped = 'stopped' as any,
+    Closed = 'closed' as any
 }
 
 export {
