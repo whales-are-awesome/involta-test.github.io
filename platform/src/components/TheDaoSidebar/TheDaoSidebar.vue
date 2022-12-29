@@ -12,7 +12,7 @@
                 <template v-if="currentDao.data && subDaoItems.data">
                     <div :class="classes.top">
                         <div :class="classes.logoWrapper">
-                            <img
+                            <BaseImage
                                 :class="classes.logo"
                                 :src="currentDao.data?.image"
                                 alt="OuterCircle"

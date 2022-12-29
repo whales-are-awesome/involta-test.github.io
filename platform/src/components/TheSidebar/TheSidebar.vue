@@ -4,7 +4,7 @@
         :class="classes.root"
     >
         <div :class="classes.logoWrapper">
-            <BaseImage
+            <img
                 :class="classes.logo"
                 :src="require('@/assets/images/common/logo.png')"
                 alt="OuterCircle"

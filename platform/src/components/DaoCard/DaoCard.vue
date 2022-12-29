@@ -107,7 +107,7 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isLink }) => [themeSettings?.root,
-        'flex flex-col border border-gray-100 rounded-[12px] px-8 py-6 md:py-6 md:px-5 md:px-2.5 sm:px-2',
+        'flex flex-col border border-gray-100 bg-white rounded-[12px] px-8 py-6 md:py-6 md:px-5 md:px-2.5 sm:px-2',
         {
             'cursor-pointer': isLink
         }

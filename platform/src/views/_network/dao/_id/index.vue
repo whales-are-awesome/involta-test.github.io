@@ -10,50 +10,98 @@
     <div v-else class="-preloader -preloader_placeholder"></div>
     <div v-if="pageData">
         <TagsList
-            v-model="tagList.value"
+            v-model="tagListValue"
             class="pt-[10px] mb-8 pl-[20px]"
-            :items="tagList.options"
+            :items="tagListOptions"
             size="sm"
         />
         <div class="p-4 bg-surface-200 rounded-[10px]">
-            <div class="flex justify-between mb-[30px]">
+            <div class="flex -mx-2 -mt-2.5 relative mb-[30px] sm:flex-wrap">
                 <div
-                    v-if="[TagStatuses.Proposals, TagStatuses.SubDAOs].includes(tagList.value)"
-                    class="flex space-x-4"
+                    v-if="tagListValue === MainSections.Proposals"
+                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
                 >
-                    <template v-if="tagList.value === TagStatuses.Proposals">
-                        <SelectField
-                            v-model="formData.statusId"
-                            :options="formInfo.statusesOptions"
-                        />
-                        <SelectField
-                            v-model="formData.voteId"
-                            :options="formInfo.voteOptions"
-                        />
-                    </template>
                     <SelectField
-                        v-if="tagList.value === TagStatuses.SubDAOs"
-                        v-model="formData.categoryId"
-                        :options="formInfo.categoryOptions"
+                        v-model="formData.value.statusId"
+                        :options="formProposalsInfo.statusesOptions"
+                        :theme-settings="{
+                            height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
+                        }"
                     />
                 </div>
-                <BaseButton
-                    v-if="tagList.value === TagStatuses.Proposals"
-                    view="outlined"
-                    :icon="{
+                <div
+                    v-if="tagListValue === MainSections.Daos"
+                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
+                >
+                    <SelectField
+                        v-model="formData.value.chainId"
+                        :options="formDaosInfo.chainOptions"
+                        :theme-settings="{
+                            height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
+                        }"
+                    />
+                </div>
+                <div
+                    v-if="tagListValue === MainSections.Apps"
+                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
+                >
+                    <SelectField
+                        v-model="formData.value.categoryId"
+                        :options="formAppsInfo.categoryOptions"
+                        :theme-settings="{
+                            height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
+                        }"
+                    />
+                </div>
+                <div
+                    v-if="tagListValue === MainSections.Proposals"
+                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
+                >
+                    <TagsButtonList
+                        class="h-full sm:h-[28px]"
+                        v-model="formData.value.voteId"
+                        :items="formProposalsInfo.voteOptions"
+                    />
+                </div>
+                <div
+                    v-if="tagListValue === MainSections.Daos"
+                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
+                >
+                    <TagsButtonList
+                        class="h-full sm:h-[28px]"
+                        v-model="formData.value.daosId"
+                        :items="formDaosInfo.daosOptions"
+                    />
+                </div>
+                <div class="!ml-auto"></div>
+                <BaseSearch
+                    v-if="tagListValue !== MainSections.Statistics"
+                    class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"
+                    v-model="formData.value.search"
+                />
+                <div
+                    v-if="tagListValue !== MainSections.Statistics"
+                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-1] sm:w-1/2 md:px-1.5 sm:px-[5px]"
+                >
+                    <BaseButton
+                        class="w-full"
+                        :class="(isMobile.xl || isMobile.lg) && '!h-full'"
+                        theme="primary"
+                        :icon="{
                         name: 'plus',
-                        width: 14,
+                        width: (isMobile.xl || isMobile.lg) ? 14 : 8,
                         prepend: true
                     }"
-                    :theme-settings="{
-                        bg: 'bg-white'
-                    }"
-                    @click="open('CreateProposalLayer')"
-                >
-                    New Proposal
-                </BaseButton>
+                        :size="(isMobile.xl || isMobile.lg) ? 'md' : 'sm'"
+                        @click="createButton.onClick"
+                    >
+                    <span class="whitespace-nowrap">
+                        {{ createButton.text }}
+                    </span>
+                    </BaseButton>
+                </div>
             </div>
-            <template v-if="tagList.value === TagStatuses.Proposals">
+            <template v-if="tagListValue === MainSections.Proposals">
                 <TextSeparator
                     v-if="proposalItems.data?.items.length"
                     class="mb-[10px]"
@@ -83,7 +131,7 @@
                     />
                 </div>
             </template>
-            <div v-if="tagList.value === TagStatuses.SubDAOs">
+            <div v-if="tagListValue === MainSections.Daos">
                 <div
                     v-if="daoItemsFiltered.length"
                     class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
@@ -115,18 +163,8 @@
                     title="No Daos found"
                     text="We couldn't find any Daos matching your query. Try another query"
                 />
-                <BaseButton
-                    v-if="daoItems.data?.total !== daoItemsFiltered?.length"
-                    class="w-full mt-8"
-                    view="outlined"
-                    size="sm"
-                    rounded="lg"
-                    @click="formData.offsets.daos += 1"
-                >
-                    Show more DAOs
-                </BaseButton>
             </div>
-            <div v-if="tagList.value === TagStatuses.APPs">
+            <div v-if="tagListValue === MainSections.Apps">
                 <div class="flex flex-wrap -mx-3 -mt-6 mb-8">
                     <div
                         class="w-1/4 px-3 mt-6 md:w-1/3"
@@ -144,14 +182,6 @@
                         />
                     </div>
                 </div>
-                <BaseButton
-                    class="w-full"
-                    view="outlined"
-                    size="sm"
-                    rounded="lg"
-                >
-                    Show more DAOs
-                </BaseButton>
             </div>
         </div>
     </div>
@@ -163,6 +193,7 @@ import { computed, ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 
 import TagsList from '@/components/TagsList/TagsList.vue';
+import TagsButtonList from '@/components/TagsButtonList/TagsButtonList.vue';
 import BaseCard from '@/components/BaseCard/BaseCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
@@ -180,7 +211,10 @@ import useDaoItems from '@/composables/fetch/useDaoItems';
 
 import emitter from '@/plugins/mitt';
 
-import { Statuses } from '@/types/statuses';
+import { Statuses, MainSections } from '@/types/statuses';
+import getQueryParam from '@/helpers/getQueryParam';
+import useQueryUpdates from '@/composables/useQueryUpdates';
+import useIsMobile from '@/composables/useIsMobile';
 
 
 
@@ -189,58 +223,27 @@ import { Statuses } from '@/types/statuses';
 const { open } = useLayer();
 
 const route = useRoute();
+const { query } = route;
 
-enum TagStatuses {
-    Proposals,
-    Statistics,
-    SubDAOs,
-    APPs
-}
-
-const tagList = ref({
-    options: [
-        { id: TagStatuses.Proposals, title: TagStatuses[TagStatuses.Proposals] },
-        { id: TagStatuses.Statistics, title: TagStatuses[TagStatuses.Statistics] },
-        { id: TagStatuses.SubDAOs, title: TagStatuses[TagStatuses.SubDAOs] },
-        { id: TagStatuses.APPs, title: TagStatuses[TagStatuses.APPs] },
-    ],
-    value: TagStatuses.Proposals
-});
+const isMobile = useIsMobile();
 
 
-const formInfo = {
-    voteOptions: [
-        { id: 0, title: 'Need My Vote' },
-        { id: 1, title: 'All' }
-    ],
-    statusesOptions: [
-        { id: Statuses.Active, title: Statuses[Statuses.Active] },
-        { id: Statuses.Stopped, title: Statuses[Statuses.Stopped] },
-        { id: Statuses.Closed, title: Statuses[Statuses.Closed] },
-    ],
-    categoryOptions: [
-        { id: 0, title: 'All categories' },
-        { id: 1, title: 'Category 1' },
-        { id: 2, title: 'Category d' }
-    ]
-};
+// TAG LIST _ COMMON
 
-const formData = ref({
-    voteId: formInfo.voteOptions[0].id,
-    statusId: Statuses.Active,
-    search: '',
-    categoryId: formInfo.categoryOptions[0].id,
-    limits: {
-        proposals: 20,
-        daos: 20,
-        apps: 20
-    },
-    offsets: {
-        proposals: 0,
-        daos: 0,
-        apps: 0
-    }
-});
+const tagListOptions = [
+    { id: MainSections.Proposals, title: 'Proposals' },
+    { id: MainSections.Statistics, title: 'Statistics' },
+    { id: MainSections.Daos, title: 'SubDAOs' },
+    { id: MainSections.Apps, title: 'APPs' }
+];
+
+const tagListValue = ref(getQueryParam<MainSections>(query.section, tagListOptions));
+
+const tagListData = computed(() => ({
+    section: tagListValue.value
+}));
+
+useQueryUpdates(tagListData, ['section']);
 
 
 // META:PAGE
@@ -258,16 +261,122 @@ watchEffect(() => {
 });
 
 
+// PROPOSALS
 
-// DAO ITEMS
+const formProposalsInfo = {
+    voteOptions: [
+        { id: 0, title: 'Need My Vote' },
+        { id: 1, title: 'Participated' }
+    ],
+    statusesOptions: [
+        { id: Statuses.Active, title: Statuses[Statuses.Active] },
+        { id: Statuses.Stopped, title: Statuses[Statuses.Stopped] },
+        { id: Statuses.Closed, title: Statuses[Statuses.Closed] },
+    ]
+};
 
-const [daoItems, fetchDaoItems] = useDaoItems(formData);
+const formDataProposals = ref({
+    voteId: getQueryParam<number>(query.voteId, formProposalsInfo.voteOptions),
+    statusId: getQueryParam<number>(query.statusId, formProposalsInfo.statusesOptions),
+    search: route.query.search || '',
+    limit: 20,
+    offset: 0
+});
+
+const [proposalItems] = useProposalItems(formDataProposals);
+
+useQueryUpdates(formDataProposals, ['section']);
+
+
+// DAOS
+
+const formDaosInfo = {
+    daosOptions: [
+        { id: 0, title: 'All Daos' },
+        { id: 1, title: 'My Daos' }
+    ],
+    chainOptions: [
+        { id: 'all', title: 'All chains' },
+        { id: 'goerli', title: 'Goerli' }
+    ]
+};
+
+const formDataDaos = ref({
+    chainId: getQueryParam<string>(query.chainId, formDaosInfo.chainOptions),
+    daosId: getQueryParam<number>(query.daosId, formDaosInfo.daosOptions),
+    search: query.search || '',
+    limit: 20,
+    offset: 0
+});
+
+const [daoItems, fetchDaoItems] = useDaoItems(formDataDaos);
 
 const daoItemsFiltered = computed(() => {
-    return daoItems.value.data?.items;
+    return daoItems.value.data?.items || [];
 });
 
 emitter.on('daoCreated', fetchDaoItems);
+emitter.on('accountChanged',fetchDaoItems);
+
+useQueryUpdates(formDataDaos, ['section']);
+
+function addMoreDao() {
+    if (daoItems.value.data?.items.length !== daoItems.value.data?.total) {
+        formDataDaos.value.offset += formDataDaos.value.limit;
+    }
+}
+
+
+// APPS
+
+const formAppsInfo = {
+    categoryOptions: [
+        { id: 0, title: 'Category 1' },
+        { id: 1, title: 'Category 2' }
+    ],
+};
+
+const formDataApps = ref({
+    categoryId: getQueryParam<number>(query.categoryId, formAppsInfo.categoryOptions),
+    search: '',
+    limit: 20,
+    offset: 0
+});
+
+useQueryUpdates(formDataApps, ['section']);
+
+
+// CREATE BUTTON
+
+const createButton = computed(() => {
+    return {
+        [MainSections.Proposals]: {
+            text: 'Create Proposal',
+            onClick: () => {}
+        },
+        [MainSections.Daos]: {
+            text: 'Create Dao',
+            onClick: () => {}
+        },
+        [MainSections.Apps]: {
+            text: 'Create App',
+            onClick: () => {}
+        },
+        [MainSections.Statistics]: '',
+    }[tagListValue.value];
+});
+
+
+// FORM DATA
+
+const formData = computed(() => {
+    return {
+        [MainSections.Proposals]: formDataProposals,
+        [MainSections.Daos]: formDataDaos,
+        [MainSections.Apps]: formDataApps,
+        [MainSections.Statistics]: '',
+    }[tagListValue.value];
+});
 
 
 // BREADCRUMBS
@@ -283,17 +392,5 @@ const breadcrumbs = computed(() => {
     data.push({ title: pageData.value?.fullName });
 
     return data;
-})
-
-
-// PROPOSALS
-
-const formProposalsData = ref({
-    limit: 20,
-    offset: 0
 });
-
-const [proposalItems, fetchProposalsItems] = useProposalItems(formProposalsData);
-
-emitter.on('proposalCreated', fetchProposalsItems);
 </script>

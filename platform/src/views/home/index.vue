@@ -23,7 +23,7 @@
         />
         <div class="flex -mx-2 -mt-2.5 relative mb-5 sm:flex-wrap">
             <div
-                v-if="tagListValue === TagStatuses.Proposals"
+                v-if="tagListValue === MainSections.Proposals"
                 class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
             >
                 <SelectField
@@ -36,7 +36,7 @@
                 />
             </div>
             <div
-                v-if="tagListValue === TagStatuses.Daos"
+                v-if="tagListValue === MainSections.Daos"
                 class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
             >
                 <SelectField
@@ -49,7 +49,7 @@
                 />
             </div>
             <div
-                v-if="tagListValue === TagStatuses.Apps"
+                v-if="tagListValue === MainSections.Apps"
                 class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
             >
                 <SelectField
@@ -62,7 +62,7 @@
                 />
             </div>
             <div
-                v-if="tagListValue === TagStatuses.Proposals"
+                v-if="tagListValue === MainSections.Proposals"
                 class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
             >
                 <TagsButtonList
@@ -72,7 +72,7 @@
                 />
             </div>
             <div
-                v-if="tagListValue === TagStatuses.Daos"
+                v-if="tagListValue === MainSections.Daos"
                 class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
             >
                 <TagsButtonList
@@ -83,12 +83,12 @@
             </div>
             <div class="!ml-auto"></div>
             <BaseSearch
-                v-if="tagListValue !== TagStatuses.Statistics"
+                v-if="tagListValue !== MainSections.Statistics"
                 class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"
                 v-model="formData.value.search"
             />
             <div
-                v-if="tagListValue !== TagStatuses.Statistics"
+                v-if="tagListValue !== MainSections.Statistics"
                 class="px-2 mt-2.5 flex-shrink-0 sm:order-[-1] sm:w-1/2 md:px-1.5 sm:px-[5px]"
             >
                 <BaseButton
@@ -110,7 +110,7 @@
             </div>
         </div>
         <div
-            v-if="tagListValue === TagStatuses.Proposals"
+            v-if="tagListValue === MainSections.Proposals"
             class="space-y-[18px] sm:space-y-[24px]"
         >
             <template v-if="proposalItems.data?.length">
@@ -134,7 +134,7 @@
                 text="We couldn't find any proposals matching your query. Try another query"
             />
         </div>
-        <div v-if="tagListValue === TagStatuses.Daos">
+        <div v-if="tagListValue === MainSections.Daos">
             <div
                 v-if="daoItemsFiltered.length"
                 class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
@@ -168,7 +168,7 @@
                 text="We couldn't find any Daos matching your query. Try another query"
             />
         </div>
-        <div v-if="tagListValue === TagStatuses.Apps">
+        <div v-if="tagListValue === MainSections.Apps">
             <div class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]">
                 <div
                     class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
@@ -216,7 +216,7 @@ import useIsMobile from '@/composables/useIsMobile';
 import useDaoItems from '@/composables/fetch/useDaoItems';
 import useProposalItems from '@/composables/views/home/useProposalItems';
 import useQueryUpdates from '@/composables/useQueryUpdates';
-import { TagStatuses } from './types'
+import { MainSections } from '@/types/statuses'
 import emitter from '@/plugins/mitt';
 import getQueryParam from '@/helpers/getQueryParam';
 
@@ -231,13 +231,13 @@ const isMobile = useIsMobile();
 // TAG LIST _ COMMON
 
 const tagListOptions = [
-    { id: TagStatuses.Proposals, title: 'Proposals' },
-    { id: TagStatuses.Statistics, title: 'Statistics' },
-    { id: TagStatuses.Daos, title: 'DAOs' },
-    { id: TagStatuses.Apps, title: 'APPs' }
+    { id: MainSections.Proposals, title: 'Proposals' },
+    { id: MainSections.Statistics, title: 'Statistics' },
+    { id: MainSections.Daos, title: 'DAOs' },
+    { id: MainSections.Apps, title: 'APPs' }
 ];
 
-const tagListValue = ref(getQueryParam<TagStatuses>(query.section, tagListOptions));
+const tagListValue = ref(getQueryParam<MainSections>(query.section, tagListOptions));
 
 const tagListData = computed(() => ({
     section: tagListValue.value
@@ -335,19 +335,19 @@ useQueryUpdates(formDataApps, ['section']);
 
 const createButton = computed(() => {
     return {
-        [TagStatuses.Proposals]: {
+        [MainSections.Proposals]: {
             text: 'Create Proposal',
             onClick: () => {}
         },
-        [TagStatuses.Daos]: {
+        [MainSections.Daos]: {
             text: 'Create Dao',
             onClick: () => {}
         },
-        [TagStatuses.Apps]: {
+        [MainSections.Apps]: {
             text: 'Create App',
             onClick: () => {}
         },
-        [TagStatuses.Statistics]: '',
+        [MainSections.Statistics]: '',
     }[tagListValue.value];
 });
 
@@ -356,10 +356,10 @@ const createButton = computed(() => {
 
 const formData = computed(() => {
     return {
-        [TagStatuses.Proposals]: formDataProposals,
-        [TagStatuses.Daos]: formDataDaos,
-        [TagStatuses.Apps]: formDataApps,
-        [TagStatuses.Statistics]: '',
+        [MainSections.Proposals]: formDataProposals,
+        [MainSections.Daos]: formDataDaos,
+        [MainSections.Apps]: formDataApps,
+        [MainSections.Statistics]: '',
     }[tagListValue.value];
 });
 
