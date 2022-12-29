@@ -230,6 +230,7 @@ import useDaoItems from '@/composables/fetch/useDaoItems';
 import emitter from '@/plugins/mitt';
 
 import { Statuses, MainSections } from '@/types/statuses';
+
 import getQueryParam from '@/helpers/getQueryParam';
 import useQueryUpdates from '@/composables/useQueryUpdates';
 import useIsMobile from '@/composables/useIsMobile';

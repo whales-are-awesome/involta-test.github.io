@@ -1,12 +1,18 @@
+import { cloneDeep } from 'lodash';
 import API from '@/helpers/api';
 import daoControllerABI from '@/abi/daoControllerABI';
+import cutAddress from '@/helpers/cutAddress';
 import { IResponsePagination, Config } from '@/types/api';
 import {
     IProposal,
+    IFetchProposalPath,
     IProposalParams,
     ICreateProposalOnChainParams,
     ICreateProposalOnChainResponse,
     ICreateProposalParams,
+    IProposalCombined,
+    IProposalCombinedDefault,
+    IProposalCombinedDefaultNormalizedAsDefault,
 
     IProposalItem,
     IProposalItemQuery,
@@ -14,10 +20,12 @@ import {
 
     IPaginationParams
 } from '@/types/services/ProposalService';
+import { IProposalOnChain } from '@/types/entries/proposal'
+import isContract from '@/helpers/isContract'
 
 import { IDaoPath } from '@/types/services/DaoService';
 
-
+//toDo: добить интерфейсы
 
 export default class ProposalService {
     static async createProposalOnChain(params: ICreateProposalOnChainParams) {
@@ -33,13 +41,49 @@ export default class ProposalService {
         return API.post<any>(`/${ path.network }/dao/${ path.address }/proposal`, params, config);
     }
 
-    static async fetchProposal(path: IDaoPath) {
-        return API.get<IProposal>(`/${ path.network }/dao/${ path.address }/proposal`);
+    static async fetchProposal(path: IFetchProposalPath) {
+        const [data, ...rest] = await API.get<IProposal>(`/${ path.network }/dao/${ path.address }/proposal/${ path.id }`);
+        const [chainData, ...restChainData] = await API.getFromChain<IProposalOnChain>({
+            contractAddress: path.address,
+            params: [path.id],
+            contractABI: daoControllerABI,
+            methodName: 'getProposal'
+        });
+        let fullData: IProposalCombinedDefault | null = null;
+
+        if (data && chainData) {
+            fullData = cloneDeep({
+                ...data,
+                ...chainData
+            });
+
+            await Promise.all([
+                API.provider.lookupAddress(data.createdBy)
+                    .then((result: string) => fullData!.createdByName = result)
+            ]);
+        }
+
+        return [fullData, ...rest] as const;
+    }
+
+    static async fetchProposalAsDefault(path: IFetchProposalPath) {
+        const [data, ...rest] = await ProposalService.fetchProposal(path);
+
+        return [data && await normalizeProposalAsDefault(data), ...rest] as const;
     }
 
 
     static async fetchDaoProposalItems(path: IDaoPath, params: any) {
         return API.get<IResponsePagination<IProposal>>(`/${ path.network }/dao/${ path.address }/proposal`, params);
+    }
+
+    static async voteProposal(params: any) {
+        return API.sendOnChain<never>({
+            contractAddress: params.contractAddress,
+            contractABI: daoControllerABI,
+            methodName: 'voteProposal',
+            params: [params.proposald, params.decision, []]
+        });
     }
 
     // static async fetchDaoProposalItemsAsTable(params?: IProposalItemQuery) {
@@ -50,11 +94,23 @@ export default class ProposalService {
 }
 
 
-// function normalizeProposalItemsAsTable(data: IResponsePagination<IProposalItem>): IResponsePagination<INormalizedProposalItem> {
-//     return {
-//         ...data,
-//         items: data.items.map(item => ({
-//             ...item
-//         }))
-//     };
-// }
+async function normalizeProposalAsDefault(data: IProposalCombinedDefault): Promise<IProposalCombinedDefaultNormalizedAsDefault> {
+    return {
+        ...data,
+        createdByAddressOrName: data.createdByName || cutAddress(data.createdBy),
+        pipeline: await Promise.all(data.pipeline.map(async item => ({
+            //@ts-ignore
+            actionType: item[0],
+            //@ts-ignore
+            to: item[1],
+            //@ts-ignore
+            data: item[2],
+            //@ts-ignore
+            value: item[3],
+            //@ts-ignore
+            isContract: await isContract(item[1]),
+            //@ts-ignore
+            addressOrName: (await API.provider.lookupAddress(item[1])) || cutAddress(item[1])
+        })))
+    };
+}

@@ -1,10 +1,5 @@
-import { IPaginationParams } from '@/types/api'
-
-interface IFollower {
-    address: string
-    name?: string
-    votingPower?: number
-}
+import { IPaginationParams } from '@/types/api';
+import { IFollower } from '@/types/entries/follower';
 
 export {
     IFollower,

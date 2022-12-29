@@ -1,13 +1,23 @@
 import { IPaginationParams } from '@/types/api'
+import { IDaoPath } from '@/types/services/DaoService'
+import { IProposal, IProposalCombined, IProposalPipeline } from '@/types/entries/proposal'
 
-interface IProposal {
-    id: number
-    name: string
-    description: string
-    network: string
-    daoAddress: string
-    creationTx: string
-    createdBy: string
+interface IProposalPipelineDefault extends IProposalPipeline {
+    isContract: boolean
+    addressOrName: string
+}
+
+interface IProposalCombinedDefault extends IProposalCombined {
+    createdByName?: string
+}
+
+interface IProposalCombinedDefaultNormalizedAsDefault extends Omit<IProposalCombinedDefault, 'pipeline'> {
+    createdByAddressOrName: string
+    pipeline: IProposalPipelineDefault[]
+}
+
+interface IFetchProposalPath extends IDaoPath {
+    id: number | string
 }
 
 interface IProposalParams {
@@ -49,10 +59,14 @@ interface INormalizedProposalItem extends IProposal {
 
 export {
     IProposal,
+    IFetchProposalPath,
     IProposalParams,
     ICreateProposalOnChainParams,
     ICreateProposalOnChainResponse,
     ICreateProposalParams,
+    IProposalCombined,
+    IProposalCombinedDefault,
+    IProposalCombinedDefaultNormalizedAsDefault,
 
     IProposalItem,
     IProposalItemQuery,
