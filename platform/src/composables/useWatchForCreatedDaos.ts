@@ -86,8 +86,7 @@ function useWatchForCreatedDaos() {
         {
                 headers: {
                     'Auth-Hash': signInfo!.hash,
-                    'Auth-Signature': signInfo!.sign,
-                    'Auth-Address': store.state.wallet.address as string
+                    'Auth-Signature': signInfo!.sign
                 }
             }
         );

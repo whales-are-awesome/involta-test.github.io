@@ -30,6 +30,7 @@
                     v-for="item in daoItems.data?.items"
                     :key="item.address"
                     :image="item.image"
+                    :is-dao="true"
                     :active="route.params.address === item.address && route.params.network === item.network"
                     @click="$router.push({ name: 'network-dao-address', params: { address: item.address, network: item.network } })"
                 />

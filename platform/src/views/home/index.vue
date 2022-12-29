@@ -141,7 +141,7 @@
                 :class="{
                     '-preloader -preloader_cover': daoItems.pending
                 }"
-                v-scroll-at.bottom="addMoreDaos"
+                v-scroll-at.bottom="addMoreDao"
             >
                 <div
                     class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
@@ -301,10 +301,11 @@ const daoItemsFiltered = computed(() => {
 });
 
 emitter.on('daoCreated', fetchDaoItems);
+emitter.on('accountChanged',fetchDaoItems);
 
 useQueryUpdates(formDataDaos, ['section']);
 
-function addMoreDaos() {
+function addMoreDao() {
     if (daoItems.value.data?.items.length !== daoItems.value.data?.total) {
         formDataDaos.value.offset += formDataDaos.value.limit;
     }

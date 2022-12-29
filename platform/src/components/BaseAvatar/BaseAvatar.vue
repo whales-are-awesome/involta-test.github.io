@@ -2,18 +2,18 @@
     <div
         :class="classes.root"
     >
-        <BaseImage
-            v-if="!hexheads"
-            :class="classes.image"
-            :src="src"
-            :alt="alt"
-        />
         <iframe
-            v-else
+            v-if="hexheads"
             :class="classes.image"
             :src="`https://hexheads.xyz/image.html?address=${ hexheads }`"
             frameborder="0">
         </iframe>
+        <BaseImage
+            v-else
+            :class="classes.image"
+            :src="src"
+            :alt="alt"
+        />
         <slot></slot>
     </div>
 </template>

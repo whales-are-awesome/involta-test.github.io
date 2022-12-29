@@ -1,6 +1,8 @@
 import API from '@/helpers/api';
 import { store } from '@/store';
 import redirectAfterLogin from '@/helpers/redirectAfterLogin';
+import mitt from '@/plugins/mitt';
+import emitter from '@/plugins/mitt';
 
 function init(target: any, propertyKey: string, propertyDescriptor: PropertyDescriptor) {
     if (!target.instance) {
@@ -51,6 +53,7 @@ class InjectedWallet {
             const address = (await API.provider.listAccounts())[0];
 
             store.dispatch('wallet/setAddress', address);
+            emitter.emit('accountChanged');
             redirectAfterLogin();
             console.log('accountsChanged')
         })

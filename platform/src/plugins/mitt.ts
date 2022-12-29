@@ -10,6 +10,7 @@ type Events = {
     daoFollowed: void
     daoCreated: void
     proposalCreated: void
+    accountChanged: void
 };
 
 const emitter = mitt<Events>();

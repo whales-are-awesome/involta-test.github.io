@@ -4,6 +4,7 @@ import camelize from '@/helpers/camelize';
 import snakelize from '@/helpers/snakelize';
 import { FetchResult, SendResult, sendDataOnChainProps, Config } from '@/types/api'
 import { ethers, Signer } from 'ethers'
+import { store } from '@/store';
 
 
 class API {
@@ -55,8 +56,6 @@ class API {
 
             const result: T = await contract[props.methodName](...props.params);
 
-            console.log(result);
-
             return [result, null];
         } catch (e) {
             console.log(e);
@@ -70,7 +69,10 @@ class API {
 
             const data: { data: T } = await axios.get<T>(path, {
                 params,
-                cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel)
+                cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
+                headers: {
+                    'Auth-Address': store.state.wallet.address as string
+                }
             });
 
             return [camelize(data.data), null, cancel];
@@ -85,7 +87,11 @@ class API {
 
             const response: { data: T } = await axios.post<T>(path, snakelize(data), {
                 cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
-                ...config
+                ...config,
+                headers: {
+                    'Auth-Address': store.state.wallet.address as string,
+                    ...config?.headers
+                }
             });
 
             return [camelize(response.data), null, cancel];
@@ -100,7 +106,11 @@ class API {
 
             const response: { data: T } = await axios.put<T>(path, data, {
                 cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
-                ...config
+                ...config,
+                headers: {
+                    'Auth-Address': store.state.wallet.address as string,
+                    ...config?.headers
+                }
             });
 
             return [camelize(response.data), null, cancel];

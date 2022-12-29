@@ -1,6 +1,7 @@
 <template>
     <v-lazy-image
         v-if="show"
+        :class="classes.root"
         :src-placeholder="require('@/assets/images/common/image-placeholder.jpg')"
         v-bind="attrs"
     />
@@ -37,7 +38,8 @@ const attrs = useAttrs();
 // CLASSES
 
 
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{
+}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
@@ -61,15 +63,3 @@ onMounted(async () => {
     show.value = true;
 });
 </script>
-
-<style>
-.v-lazy-image {
-    opacity: 0.2;
-    transition: opacity 0.4s;
-    will-change: opacity;
-}
-
-.v-lazy-image-loaded {
-    opacity: 1;
-}
-</style>
