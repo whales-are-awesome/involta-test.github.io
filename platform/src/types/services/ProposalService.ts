@@ -1,8 +1,13 @@
 import { IPaginationParams } from '@/types/api'
 
 interface IProposal {
+    id: number
     name: string
     description: string
+    network: string
+    daoAddress: string
+    creationTx: string
+    createdBy: string
 }
 
 interface IProposalParams {

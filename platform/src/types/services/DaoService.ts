@@ -4,6 +4,7 @@ interface IDao {
     address: string
     creationTx: string
     followersAmount: number
+    isFollowed: boolean
     network: string
     parentDao: string
     rootDao: string

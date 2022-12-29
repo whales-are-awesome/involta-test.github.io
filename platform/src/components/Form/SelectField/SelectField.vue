@@ -10,7 +10,10 @@
         :disabled="disabled"
         :description="description"
     >
-        <div :class="[classes.main, classes.height]">
+        <div
+            ref="main"
+            :class="[classes.main, classes.height]"
+        >
             <VueSelect
                 v-model="value"
                 :class="classes.select"
@@ -21,6 +24,7 @@
                 :clearable="false"
                 :close-on-select="true"
                 :searchable="searchable"
+                @open="onOpen"
                 v-click-outside="close"
             >
                 <template #no-options>
@@ -93,7 +97,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import VueSelect from 'vue-select';
 import BaseIcon, { IProps as IIconProps } from '@/components/BaseIcon/BaseIcon.vue';
 import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
@@ -287,10 +291,46 @@ const angleIcon = computed<IIconProps | ''>(() => {
 
     return '';
 });
+
+
+// OPEN
+const main = ref<HTMLElement>();
+
+async function onOpen() {
+    await nextTick();
+    cropHeight();
+}
+
+function cropHeight() {
+    if (!main.value) {
+        return;
+    }
+
+    const list = main.value.querySelector('.vs__dropdown-menu') as HTMLElement;
+
+    if (!list) {
+        return;
+    }
+
+    const listCoords = list.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    const offset = listCoords.bottom - windowHeight;
+    const listHeight = list.offsetHeight;
+    const newListHeight = listHeight - offset - 20;
+
+    if (newListHeight > 0) {
+        list.style.maxHeight = newListHeight + 'px';
+    }
+}
 </script>
 <style lang="postcss">
 
     .v-select {
+
+        .vs__dropdown-menu {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
 
         .vs__dropdown-toggle {
         }

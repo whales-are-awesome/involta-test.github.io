@@ -23,11 +23,6 @@
                     {{ name }}
                 </span>
             </BaseAvatar>
-            <BaseBreadcrumbs
-                :class="classes.breadcrumbs"
-                :items="breadcrumbs"
-                :hash="breadcrumbsHash"
-            />
         </div>
         <div :class="classes.title">
             {{ title }}
@@ -89,8 +84,6 @@ import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseTimer from '@/components/BaseTimer/BaseTimer.vue';
 import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
-import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
-import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
 import { IUsers } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
@@ -104,7 +97,6 @@ interface IProps {
     labelTitle: string
     title: string
     text: string
-    breadcrumbsHash?: boolean
     endDate: Date
     users: IUsers[]
     themeSettings?: ThemeSettings<'root'>
@@ -143,14 +135,4 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         themeSettings: props.themeSettings
     });
 });
-
-
-// BREADCRUMBS
-
-const breadcrumbs: IBreadcrumb[] = [
-    { title: 'EarlyBirds', link: { name: 'home' } },
-    { dots: true },
-    { title: 'EarlyBirds', link: { name: 'home' } },
-    { title: 'EarlyBirds' }
-]
 </script>

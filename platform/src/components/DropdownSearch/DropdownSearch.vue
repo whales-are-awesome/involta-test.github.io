@@ -47,7 +47,7 @@
                     <div :class="classes.dropdownItemLeft">
                         <BaseAvatar
                             class="border border-surface-200 rounded-full"
-                            :src="require('@/assets/images/common/placeholder.jpeg')"
+                            :src="require('@/assets/images/common/placeholder.jpg')"
                             alt="DAO"
                             rounded="full"
                             size="tiny"

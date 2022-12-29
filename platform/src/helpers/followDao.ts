@@ -1,16 +1,16 @@
 import sign from '@/helpers/sign';
 import FollowerService from '@/services/FollowerService';
-import { store } from '@/store';
 import emitter from '@/plugins/mitt';
+import { notify } from '@kyvg/vue3-notification';
 
-async function followDao(address: string, network: string, alert: any) {
-    const [signInfo, err] = await sign('Do you want to follow this dao?');
+async function followDao(address: string, network: string, alert: any, isDelete = false) {
+    const [signInfo, err] = await sign(`Do you want to ${ isDelete ? 'delete' : 'follow' } this dao?`);
 
     if (err) {
         return [null, err] as const;
     }
 
-    const [response, error] = await FollowerService.followDao(
+    const [response, error] = await FollowerService[isDelete ? 'unFollowDao' : 'followDao'](
         {
             address,
             network
@@ -18,18 +18,14 @@ async function followDao(address: string, network: string, alert: any) {
         {
             headers: {
                 'Auth-Hash': signInfo!.hash,
-                'Auth-Signature': signInfo!.sign,
-                'Auth-Address': store.state.wallet.address as string
+                'Auth-Signature': signInfo!.sign
             }
         }
     );
 
     if (!error) {
-        alert({
-            title: 'Success!',
-            text: 'You have successfully followed the dao',
-            buttonText: 'OK',
-            status: 'success'
+        notify({
+            title: `You have successfully ${ isDelete ? 'unfollowed' : 'followed' } the dao`
         });
 
         emitter.emit('daoFollowed');

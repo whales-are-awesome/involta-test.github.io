@@ -1,10 +1,12 @@
 <template>
     <div>
         <DaoPageHeader
-            class="mb-[46px] md:mb-[48px] sm:mb-[61px]"
-            name="SubDAO_3"
-            description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis disap"
+            v-if="pageData"
+            class="mb-[33px]"
+            :name="pageData?.name"
             :breadcrumbs="breadcrumbs"
+            :followers-amount="pageData?.followersAmountFormatted"
+            :description="pageData?.description"
         />
         <div class="flex justify-between items-center text-sm tracking-[0.4px] text-gray-400  mb-11 md:-mx-3 md:mb-[37px] sm:-mx-5">
             <BaseButton
@@ -41,7 +43,7 @@
                     <div class="flex items-center mb-11 lg:mb-8 md:mb-11 sm:flex-col sm:items-start sm:mb-8">
                         <BaseAvatar
                             class="mr-5 flex-shrink-0"
-                            :src="require('@/assets/images/common/placeholder.jpeg')"
+                            :src="require('@/assets/images/common/placeholder.jpg')"
                             alt="image"
                             size="sm"
                             rounded="sm"
@@ -106,7 +108,7 @@
                                 Created by
                             </TextSeparator>
                             <BaseAvatar
-                                :src="require('@/assets/images/common/placeholder.jpeg')"
+                                :src="require('@/assets/images/common/placeholder.jpg')"
                                 alt="image"
                                 rounded="full"
                             >
@@ -165,7 +167,7 @@
                             </p>
                             <BaseAvatar
                                 class="mr-5 mb-[30px] sm:mb-[32px]"
-                                :src="require('@/assets/images/common/placeholder.jpeg')"
+                                :src="require('@/assets/images/common/placeholder.jpg')"
                                 alt="image"
                                 size="md"
                                 :rounded="!isMobile.sm ? 'sm' : 'xs'"
@@ -287,7 +289,7 @@
                                                                 class="flex items-center justify-between text-xxs text-gray-500 font-medium"
                                                             >
                                                                 <BaseAvatar
-                                                                    :src="require('@/assets/images/common/placeholder.jpeg')"
+                                                                    :src="require('@/assets/images/common/placeholder.jpg')"
                                                                     alt="image"
                                                                     size="xxs"
                                                                     rounded="full"
@@ -405,7 +407,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
@@ -423,26 +425,17 @@ import useIsMobile from '@/composables/useIsMobile';
 import useError from '@/composables/useError';
 import { currenyItems } from '@/types/currency';
 import { Statuses } from '@/types/statuses';
+import useDao from '@/composables/fetch/useDao';
+import emitter from '@/plugins/mitt';
+import { useRoute } from 'vue-router';
+import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
 
 
 // META
 
-enum TagStatuses {
-    Proposals,
-    Statistics,
-    DAOs,
-    APPs
-}
-
 const isMobile = useIsMobile();
 
-const tagList = ref({
-    options: [
-        {id: TagStatuses.Proposals, title: TagStatuses[TagStatuses.Proposals]},
-        {id: TagStatuses.Statistics, title: TagStatuses[TagStatuses.Statistics]}
-    ],
-    value: TagStatuses.Proposals
-})
+const route = useRoute();
 
 const formData = ref({
     voteId: 0,
@@ -452,29 +445,37 @@ const formData = ref({
 });
 
 
+// META:PAGE
+
+const [ page, fetchDao ] = useDao({
+    address: route.params.address as string
+}, {
+    saveInStorage: true
+});
+
+const pageData = computed(() => page.value.data);
+
+emitter.on('daoFollowed', fetchDao);
+
+watchEffect(() => {
+    page.value.error && useError(404)
+});
+
+
 const showMore = ref(false);
 
-const formInfo = {
-    voteOptions: [
-        {id: 0, title: 'Need My Vote'},
-        {id: 1, title: 'All'}
-    ],
-    statusesOptions: [
-        {id: Statuses.Active, title: Statuses[Statuses.Active]},
-        {id: Statuses.Stopped, title: Statuses[Statuses.Stopped]},
-        {id: Statuses.Closed, title: Statuses[Statuses.Closed]},
-    ]
-};
+// BREADCRUMBS
 
-const breadcrumbs = [
-    {title: 'DAO Name', link: {name: 'home'}},
-    {title: 'SubDAO_3', link: {name: 'home'}},
-    {title: 'Sub__1.2'}
-]
+const breadcrumbs = computed(() => {
+    if (!pageData.value?.path.length) return [];
 
-const formResult = computed(() => ({
-    search: formData.value.search,
-    voteId: formData.value.voteId,
-    statusId: formData.value.statusId
-}));
+    const data: IBreadcrumb[] = [...pageData.value?.path].reverse().map(item => ({
+        title: item.name,
+        link: { name: 'network-dao-address', params: { network: route.params.network, address: item.address } }
+    }));
+
+    data.push({ title: pageData.value?.fullName });
+
+    return data;
+});
 </script>

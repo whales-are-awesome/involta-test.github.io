@@ -3,15 +3,9 @@
         :class="classes.root"
     >
         <div :class="classes.inner">
-            <MarqueeText :repeat="4">
+            <MarqueeText :repeat="15">
                 <span :class="classes.item">
-                    Total projects: 124
-                </span>
-                    <span :class="classes.item">
-                    Total projects: 112
-                </span>
-                    <span :class="classes.item">
-                    Total projects: 101
+                    DAO Renaissance
                 </span>
             </MarqueeText>
         </div>

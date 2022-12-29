@@ -26,7 +26,7 @@
                 />
             </div>
             <div
-                class="flex-grow flex flex-col overflow-hidden sm:min-h-screen transition-main"
+                class="min-h-screen flex-grow flex flex-col overflow-hidden sm:min-h-screen transition-main"
                 :style="`transform: translateX(${ !isMobile.xl ? sidebarWidth + daoSidebarWidth : 0 }px )`"
             >
                 <TheHeader
@@ -72,12 +72,7 @@ const daoSidebarWidth = ref(0);
 
 const showMobileSidebar = ref(false);
 
-const showDaoSidebar = computed(() => [
-    'network-dao-address',
-    'network-dao-address-followers',
-    'network-dao-address-subdao',
-    'proposal-id'
-].includes(route.name as string));
+const showDaoSidebar = computed(() => (route.name as string).startsWith('network-dao-address'));
 
 watch([showMobileSidebar, showDaoSidebar], () => {
     let width = sidebar.value?.root.offsetWidth || 0;

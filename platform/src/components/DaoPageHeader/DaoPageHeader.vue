@@ -23,7 +23,7 @@
                             width="20"
                         />
                         <span>
-                        Followers <strong>{{ followers }}</strong>
+                        Followers <strong>{{ followersAmount }}</strong>
                     </span>
                     </ActionLink>
                     <ActionLink
@@ -86,7 +86,7 @@ import ThemeSettings from '@/types/themeSettings';
 interface IProps {
     name?: string
     description?: string
-    followers?: string
+    followersAmount?: string
     breadcrumbs?: IBreadcrumb[]
     themeSettings?: ThemeSettings<'root'>
 }

@@ -4,7 +4,7 @@
         class="mb-[33px]"
         :name="pageData?.name"
         :breadcrumbs="breadcrumbs"
-        :followers="pageData?.followersAmountFormatted"
+        :followers-amount="pageData?.followersAmountFormatted"
         :description="pageData?.description"
     />
     <div v-else class="-preloader -preloader_placeholder"></div>
@@ -15,7 +15,7 @@
             :items="tagListOptions"
             size="sm"
         />
-        <div class="p-4 bg-surface-200 rounded-[10px]">
+        <div class="p-4 bg-surface-200 rounded-[10px] relative">
             <div class="flex -mx-2 -mt-2.5 relative mb-[30px] sm:flex-wrap">
                 <div
                     v-if="tagListValue === MainSections.Proposals"
@@ -106,19 +106,19 @@
                     v-if="proposalItems.data?.items.length"
                     class="mb-[10px]"
                 >
-                    {{ proposalItems.data?.items.length }} active proposals
+                    {{ proposalItems.data?.total }} active proposal{{ proposalItems.data?.total > 1 ? 's' : '' }}
                 </TextSeparator>
                 <div class="space-y-[18px]">
                     <template v-if="proposalItems.data?.items.length">
-                        <BaseCard
+                        <ProposalCard
                             v-for="item in proposalItems.data?.items"
-                            :key="item"
-                            :avatar="require('@/assets/images/common/placeholder.jpeg')"
+                            :key="item.id"
+                            :avatar="require('@/assets/images/common/placeholder.jpg')"
                             name="DAO Name"
                             label-title="Active"
                             :title="item.name"
                             :text="item.description"
-                            :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpeg') } ]"
+                            :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpg') } ]"
                             :end-date="new Date((new Date).setHours(23))"
                         />
                     </template>
@@ -132,6 +132,12 @@
                 </div>
             </template>
             <div v-if="tagListValue === MainSections.Daos">
+                <TextSeparator
+                    v-if="daoItems.data?.total"
+                    class="mb-[10px]"
+                >
+                    {{ daoItems.data?.total }} SubDAO{{ daoItems.data?.total > 1 ? 's' : '' }}
+                </TextSeparator>
                 <div
                     v-if="daoItemsFiltered.length"
                     class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
@@ -150,8 +156,9 @@
                             :to="{ name: 'network-dao-address', params: { network: item.network, address: item.address } }"
                             :name="item.fullName"
                             :network="item.network"
+                            :is-followed="item.isFollowed"
                             :address="item.address"
-                            :followers="item.followersAmountFormatted"
+                            :followers-amount="item.followersAmount"
                             proposals="232"
                         />
                     </div>
@@ -165,6 +172,17 @@
                 />
             </div>
             <div v-if="tagListValue === MainSections.Apps">
+                <div class="absolute inset-0 z-50 bg-white bg-opacity-70 flex justify-center items-center">
+                    <div class="title-h2 text-400">
+                        WORK IN PROGRESS
+                    </div>
+                </div>
+                <TextSeparator
+                    v-if="proposalItems.data?.items.length"
+                    class="mb-[10px]"
+                >
+                    {{ proposalItems.data?.total }} APPs
+                </TextSeparator>
                 <div class="flex flex-wrap -mx-3 -mt-6 mb-8">
                     <div
                         class="w-1/4 px-3 mt-6 md:w-1/3"
@@ -173,7 +191,7 @@
                     >
                         <DaoCard
                             class="h-full"
-                            :avatar="require('@/assets/images/common/placeholder.jpeg')"
+                            :avatar="require('@/assets/images/common/placeholder.jpg')"
                             :to="{ name: 'app' }"
                             name="DAO Name"
                             followers="232"
@@ -194,7 +212,7 @@ import { useRoute } from 'vue-router';
 
 import TagsList from '@/components/TagsList/TagsList.vue';
 import TagsButtonList from '@/components/TagsButtonList/TagsButtonList.vue';
-import BaseCard from '@/components/BaseCard/BaseCard.vue';
+import ProposalCard from '@/components/ProposalCard/ProposalCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
@@ -232,7 +250,7 @@ const isMobile = useIsMobile();
 
 const tagListOptions = [
     { id: MainSections.Proposals, title: 'Proposals' },
-    { id: MainSections.Statistics, title: 'Statistics' },
+    // { id: MainSections.Statistics, title: 'Statistics' },
     { id: MainSections.Daos, title: 'SubDAOs' },
     { id: MainSections.Apps, title: 'APPs' }
 ];
@@ -248,13 +266,15 @@ useQueryUpdates(tagListData, ['section']);
 
 // META:PAGE
 
-const [ page ] = useDao({
+const [ page, fetchDao ] = useDao({
     address: route.params.address as string
 }, {
     saveInStorage: true
 });
 
 const pageData = computed(() => page.value.data);
+
+emitter.on('daoFollowed', fetchDao);
 
 watchEffect(() => {
     page.value.error && useError(404)
@@ -352,11 +372,11 @@ const createButton = computed(() => {
     return {
         [MainSections.Proposals]: {
             text: 'Create Proposal',
-            onClick: () => {}
+            onClick: () => open('CreateProposalLayer', { parentDaoAddress: route.params.address })
         },
         [MainSections.Daos]: {
-            text: 'Create Dao',
-            onClick: () => {}
+            text: 'Create SubDAO',
+            onClick: () => open('CreateDaoLayer', { parentAddress: route.params.address })
         },
         [MainSections.Apps]: {
             text: 'Create App',

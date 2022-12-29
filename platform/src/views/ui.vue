@@ -221,13 +221,13 @@
         </div>
         <div class="mb-10 pb-10 border-b border-gray-300">
             <h3 class="mb-6">Card</h3>
-            <BaseCard
-                :avatar="require('@/assets/images/common/placeholder.jpeg')"
+            <ProposalCard
+                :avatar="require('@/assets/images/common/placeholder.jpg')"
                 name="DAO Name"
                 label-title="Active"
                 title="Proposal Name"
                 votes="14"
-                :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpeg') } ]"
+                :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpg') } ]"
                 text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"
                 :end-date="new Date((new Date).setHours(23))"
             />
@@ -249,7 +249,7 @@
                 >
                     <DaoCard
                         class="h-full"
-                        :avatar="require('@/assets/images/common/placeholder.jpeg')"
+                        :avatar="require('@/assets/images/common/placeholder.jpg')"
                         name="Dapp Name"
                         followers="232"
                         proposals="232"
@@ -470,7 +470,7 @@ import TagsList from '@/components/TagsList/TagsList.vue';
 import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
 import BaseTimer from '@/components/BaseTimer/BaseTimer.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
-import BaseCard from '@/components/BaseCard/BaseCard.vue';
+import ProposalCard from '@/components/ProposalCard/ProposalCard.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import DaoCard from '@/components/DaoCard/DaoCard.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';

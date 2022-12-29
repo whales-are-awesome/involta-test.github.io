@@ -31,7 +31,7 @@
                                 }"
                                 @click="follow"
                             >
-                                Follow DAO
+                                {{ currentDao.data?.isFollowed ? 'Unfollow DAO' : 'Follow DAO' }}
                             </BaseButton>
                         </div>
                     </div>
@@ -133,9 +133,9 @@ const isFollowing = ref(false);
 async function follow() {
     isFollowing.value = true;
 
-    const { address, network } = currentDao.value.data!;
+    const { address, network, isFollowed, followersAmount } = currentDao.value.data!;
 
-    const [_, error] = await followDao(address, network, layer.alert);
+    const [_, error] = await followDao(address, network, layer.alert, isFollowed);
 
     isFollowing.value = false;
 }

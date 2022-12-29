@@ -13,7 +13,7 @@ import TagsList from '@/components/TagsList/TagsList.vue';
 import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
 import BaseTimer from '@/components/BaseTimer/BaseTimer.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
-import BaseCard from '@/components/BaseCard/BaseCard.vue';
+import ProposalCard from '@/components/ProposalCard/ProposalCard.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import DaoCard from '@/components/DaoCard/DaoCard.vue';
 import DropField from '@/components/Form/DropField/DropField.vue';

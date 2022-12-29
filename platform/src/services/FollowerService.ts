@@ -39,4 +39,9 @@ export default class FollowerService {
     static async followDao(path: IDaoPath, config: Config) {
         return API.post<never>(`/${ path.network }/dao/${ path.address }/follow`, {}, config);
     }
+
+    static async unFollowDao(path: IDaoPath, config: Config) {
+        console.log(config);
+        return API.delete<never>(`/${ path.network }/dao/${ path.address }/follow`, config);
+    }
 }

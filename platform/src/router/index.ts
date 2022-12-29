@@ -45,22 +45,13 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "followers" */ '../views/_network/dao/_id/followers.vue'),
     },
     {
-        path: '/:network/dao/:address/:subdao',
-        name: 'network-dao-address-subdao',
-        meta: {
-            title: 'SubDAO',
-            middleware: [walletsInitMiddleware, authMiddleware]
-        },
-        component: () => import(/* webpackChunkName: "subdao" */ '../views/_network/dao/_id/index.vue'),
-    },
-    {
-        path: '/proposal/:id/',
-        name: 'proposal-id',
+        path: '/:network/dao/:address/proposal/:proposalId',
+        name: 'network-dao-address-proposal-id',
         meta: {
             title: 'Proposal',
             middleware: [walletsInitMiddleware, authMiddleware]
         },
-        component: () => import(/* webpackChunkName: "proposal" */ '../views/proposal/_id.vue'),
+        component: () => import(/* webpackChunkName: "followers" */ '../views/_network/dao/_id/proposal/_id.vue'),
     },
     {
         path: '/app',

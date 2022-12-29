@@ -17,7 +17,7 @@
                     Create new Proposal
                 </p>
                 <p :class="classes.topText">
-                    Read the doc <ActionLink href="#">”How to create a new Proposal?”</ActionLink>.
+                    Read the doc <ActionLink href="//docs.outercircle.io/general/outercircle" target="_blank">”How to create a new Proposal?”</ActionLink>.
                 </p>
             </div>
             <BaseCross @click="close(id)" />
@@ -43,6 +43,15 @@
                 :tip="`${ formData.description.length }/150`"
                 :error="formErrors.description"
             />
+            <BlockInfo
+                v-if="!parentDaoAddress"
+                title="Select relative SubDAO"
+                tooltip="Select relative SubDAO"
+            >
+                <DropdownSearch
+                    v-model="formData.name"
+                />
+            </BlockInfo>
 <!--            <SelectField-->
 <!--                v-model="formData.subDaoId"-->
 <!--                :options="formInfo.subDao"-->
@@ -51,22 +60,22 @@
 <!--                size="lg"-->
 <!--                angle-view="secondary"-->
 <!--            />-->
-            <DateFieldsWrapper
-                title="Choose Dates"
-                tooltip="About SubDAO"
-                :required="true"
-            >
-                <DateField
-                    v-model="formData.startDate"
-                    class="w-1/2"
-                    title="Start date"
-                />
-                <DateField
-                    v-model="formData.endDate"
-                    class="w-1/2"
-                    title="End date"
-                />
-            </DateFieldsWrapper>
+<!--            <DateFieldsWrapper-->
+<!--                title="Choose Dates"-->
+<!--                tooltip="About SubDAO"-->
+<!--                :required="true"-->
+<!--            >-->
+<!--                <DateField-->
+<!--                    v-model="formData.startDate"-->
+<!--                    class="w-1/2"-->
+<!--                    title="Start date"-->
+<!--                />-->
+<!--                <DateField-->
+<!--                    v-model="formData.endDate"-->
+<!--                    class="w-1/2"-->
+<!--                    title="End date"-->
+<!--                />-->
+<!--            </DateFieldsWrapper>-->
         </div>
         <div :class="classes.advanced">
             <TextSeparator>
@@ -85,7 +94,7 @@
 <!--            <BaseAccordion :no-chevron="true">-->
 <!--                <template #top>-->
 <!--                    <BaseAvatar-->
-<!--                        :src="require('@/assets/images/common/placeholder.jpeg')"-->
+<!--                        :src="require('@/assets/images/common/placeholder.jpg')"-->
 <!--                        alt="DAO"-->
 <!--                        rounded="sm"-->
 <!--                        size="md"-->
@@ -304,7 +313,34 @@ const isSending = ref(false);
 const formInfo = {
     subDao: [
         { id: 1, title: 'DAO 1' },
-        { id: 2, title: 'DAO 2' }
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
+        { id: 2, title: 'DAO 2' },
     ],
     solidityTypes: solidityTypes.map(item => ({
         title: item,

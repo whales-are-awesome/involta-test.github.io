@@ -58,11 +58,13 @@ function normalizeDaoAsDefault(data: IDao): INormalizedDaoAsDefault {
     return {
         ...data,
         fullName: data.name || cutAddress(data.address),
-        followersAmountFormatted: addSpacesToNumber(data.followersAmount),
         path: data.path?.map(item => ({
             ...item,
             fullName: item.name || cutAddress(item.address),
-        }))
+        })),
+        get followersAmountFormatted() {
+            return addSpacesToNumber(this.followersAmount);
+        }
     };
 }
 
@@ -71,8 +73,10 @@ function normalizeDaoItemsAsTable(data: IResponsePagination<IDaoItem>): IRespons
         ...data,
         items: data.items.map(item => ({
             ...item,
-            followersAmountFormatted: addSpacesToNumber(item.followersAmount),
-            fullName: item.name || cutAddress(item.address)
+            fullName: item.name || cutAddress(item.address),
+            get followersAmountFormatted() {
+                return addSpacesToNumber(this.followersAmount);
+            }
         }))
     };
 }

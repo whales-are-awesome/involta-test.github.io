@@ -23,6 +23,16 @@ const mutations: MutationTree<IState> = {
             state.pending = payload.pending;
         }
     },
+    updateData(state, payload: IState['data']) {
+        if(!payload) {
+            return;
+        }
+
+        state.data = {
+            ...state.data,
+            ...payload
+        };
+    },
     removeData(state) {
         state.data = null;
         state.pending = true;
@@ -35,6 +45,9 @@ const actions: ActionTree<IState, IRootState> = {
     },
     async removeData({ commit }) {
         commit('removeData');
+    },
+    async updateData({ commit }, payload: IState['data']) {
+        commit('updateData', payload);
     }
 };
 

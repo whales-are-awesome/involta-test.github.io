@@ -25,7 +25,7 @@
                         Followers
                     </div>
                     <div :class="classes.infoItemBottom">
-                        {{ followers }}
+                        {{ addSpacesToNumber(followersAmountLocal) }}
                     </div>
                 </div>
             </div>
@@ -54,10 +54,10 @@
                 view="outlined"
                 size="sm"
                 rounded="lg"
-                :loading="isFollowing"
+                :loading="isFollowingPending"
                 @click="follow"
             >
-                Follow
+                {{ isFollowedLocal ? 'Unfollow' : 'Follow' }}
             </BaseButton>
         </div>
     </div>
@@ -72,6 +72,7 @@ import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import CategoryLabel from '@/components/CategoryLabel/CategoryLabel.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
+import addSpacesToNumber from '@/helpers/addSpacesToNumber';
 import ThemeSettings from '@/types/themeSettings';
 import IRouterLink from '@/types/routerLink';
 import followDao from '@/helpers/followDao';
@@ -87,7 +88,9 @@ interface IProps {
     address?: string
     network?: string
     category?: string
-    followers: string
+    followersAmount: number
+    followersAmountFormatted: string
+    isFollowed?: boolean
     proposals: string
     themeSettings?: ThemeSettings<'root'>
 }
@@ -141,17 +144,25 @@ function goToPage() {
 
 
 // FOLLOW
-const isFollowing = ref(false);
+
+const isFollowedLocal = ref<boolean>(!!props.isFollowed);
+const followersAmountLocal = ref(props.followersAmount);
+const isFollowingPending = ref(false);
 
 async function follow() {
     if (!props.address || !props.network) {
         return;
     }
 
-    isFollowing.value = true;
+    isFollowingPending.value = true;
 
-    const [_, error] = await followDao(props.address, props.network, alert);
+    const [_, error] = await followDao(props.address, props.network, alert, isFollowedLocal.value);
 
-    isFollowing.value = false;
+    if (!error ){
+        followersAmountLocal.value = isFollowedLocal.value ? followersAmountLocal.value - 1 : followersAmountLocal.value + 1;
+        isFollowedLocal.value = !isFollowedLocal.value;
+    }
+
+    isFollowingPending.value = false;
 }
 </script>

@@ -118,5 +118,24 @@ class API {
             return [null, e as Error, () => {}];
         }
     }
+
+    static async delete<T>(path: string, config?: Config): SendResult<T> {
+        try {
+            let cancel: Canceler | (() => void) = () => {};
+
+            const response: { data: T } = await axios.delete<T>(path,{
+                cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
+                ...config,
+                headers: {
+                    'Auth-Address': store.state.wallet.address as string,
+                    ...config?.headers
+                }
+            });
+
+            return [camelize(response.data), null, cancel];
+        } catch (e) {
+            return [null, e as Error, () => {}];
+        }
+    }
 }
 export default API;

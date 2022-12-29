@@ -17,7 +17,7 @@
                     Create new {{ name }}
                 </p>
                 <p :class="classes.topText">
-                    Read the doc <ActionLink href="#">”How to create a new {{ name }}?”</ActionLink>.
+                    Read the doc <ActionLink href="//docs.outercircle.io/general/outercircle" target="_blank">”How to create a new {{ name }}?”</ActionLink>.
                 </p>
             </div>
             <BaseCross @click="close(id)" />
@@ -196,7 +196,7 @@ async function createDAO() {
     } else {
         const isTake = await alert({
             title: 'Warning message!',
-            text: 'The <strong>Transaction was cancelled</strong> due current mistake',
+            text: 'The <strong>Transaction was cancelled</strong> due mistake',
             buttonText: 'Take me Home',
             status: 'error'
         });

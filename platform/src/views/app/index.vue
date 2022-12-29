@@ -1,5 +1,10 @@
 <template>
     <div class="relative">
+        <div class="absolute inset-0 z-50 bg-white bg-opacity-70 flex justify-center items-center">
+            <div class="title-h1 text-400">
+                WORK IN PROGRESS
+            </div>
+        </div>
         <div class="line-wave-bg h-[360px] w-screen absolute top-0 left-1/2 -translate-x-1/2 z-[-1] border-b border-primary-100"></div>
         <div class="pt-[34px] px-8 mb-16 md:h-au md:mb-[143px] md:px-0 sm:pt-[26px]">
             <div class="mb-[20px] sm:mb-[15px]">
@@ -21,7 +26,7 @@
                 <div class="flex flex-grow bg-white px-4 py-6 rounded-[15px] border border-primary-100 md:w-full md:p-4 md:items-start sm:py-4 sm:px-3">
                     <BaseAvatar
                         class="mr-6 flex-shrink-0 sm:mr-3"
-                        :src="require('@/assets/images/common/placeholder.jpeg')"
+                        :src="require('@/assets/images/common/placeholder.jpg')"
                         alt="DAO"
                         :rounded="isMobile.sm ? 'md' : 'lg'"
                         size="xxl"

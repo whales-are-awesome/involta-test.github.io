@@ -21,179 +21,186 @@
             class="pt-[8px] mr-[42px] mb-[36px] sm:mb-[45px] md:pt-[14px]"
             :items="tagListOptions"
         />
-        <div class="flex -mx-2 -mt-2.5 relative mb-5 sm:flex-wrap">
-            <div
-                v-if="tagListValue === MainSections.Proposals"
-                class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
-            >
-                <SelectField
-                    v-model="formData.value.statusId"
-                    theme="primary"
-                    :options="formProposalsInfo.statusesOptions"
-                    :theme-settings="{
+        <div class="relative">
+            <div class="flex -mx-2 -mt-2.5 relative mb-5 sm:flex-wrap">
+                <div
+                    v-if="tagListValue === MainSections.Proposals"
+                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
+                >
+                    <SelectField
+                        v-model="formData.value.statusId"
+                        theme="primary"
+                        :options="formProposalsInfo.statusesOptions"
+                        :theme-settings="{
                         height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
                     }"
-                />
-            </div>
-            <div
-                v-if="tagListValue === MainSections.Daos"
-                class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
-            >
-                <SelectField
-                    v-model="formData.value.chainId"
-                    theme="primary"
-                    :options="formDaosInfo.chainOptions"
-                    :theme-settings="{
+                    />
+                </div>
+                <div
+                    v-if="tagListValue === MainSections.Daos"
+                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
+                >
+                    <SelectField
+                        v-model="formData.value.chainId"
+                        theme="primary"
+                        :options="formDaosInfo.chainOptions"
+                        :theme-settings="{
                         height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
                     }"
-                />
-            </div>
-            <div
-                v-if="tagListValue === MainSections.Apps"
-                class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
-            >
-                <SelectField
-                    v-model="formData.value.categoryId"
-                    theme="primary"
-                    :options="formAppsInfo.categoryOptions"
-                    :theme-settings="{
+                    />
+                </div>
+                <div
+                    v-if="tagListValue === MainSections.Apps"
+                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
+                >
+                    <SelectField
+                        v-model="formData.value.categoryId"
+                        theme="primary"
+                        :options="formAppsInfo.categoryOptions"
+                        :theme-settings="{
                         height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
                     }"
+                    />
+                </div>
+                <div
+                    v-if="tagListValue === MainSections.Proposals"
+                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
+                >
+                    <TagsButtonList
+                        class="h-full"
+                        v-model="formData.value.voteId"
+                        :items="formProposalsInfo.voteOptions"
+                    />
+                </div>
+                <div
+                    v-if="tagListValue === MainSections.Daos"
+                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
+                >
+                    <TagsButtonList
+                        class="h-full"
+                        v-model="formData.value.daosId"
+                        :items="formDaosInfo.daosOptions"
+                    />
+                </div>
+                <div class="!ml-auto"></div>
+                <BaseSearch
+                    v-if="tagListValue !== MainSections.Statistics"
+                    class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"
+                    v-model="formData.value.search"
                 />
-            </div>
-            <div
-                v-if="tagListValue === MainSections.Proposals"
-                class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
-            >
-                <TagsButtonList
-                    class="h-full"
-                    v-model="formData.value.voteId"
-                    :items="formProposalsInfo.voteOptions"
-                />
-            </div>
-            <div
-                v-if="tagListValue === MainSections.Daos"
-                class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
-            >
-                <TagsButtonList
-                    class="h-full"
-                    v-model="formData.value.daosId"
-                    :items="formDaosInfo.daosOptions"
-                />
-            </div>
-            <div class="!ml-auto"></div>
-            <BaseSearch
-                v-if="tagListValue !== MainSections.Statistics"
-                class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"
-                v-model="formData.value.search"
-            />
-            <div
-                v-if="tagListValue !== MainSections.Statistics"
-                class="px-2 mt-2.5 flex-shrink-0 sm:order-[-1] sm:w-1/2 md:px-1.5 sm:px-[5px]"
-            >
-                <BaseButton
-                    class="w-full"
-                    :class="(isMobile.xl || isMobile.lg) && '!h-full'"
-                    theme="primary"
-                    :icon="{
+                <div
+                    v-if="tagListValue !== MainSections.Statistics"
+                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-1] sm:w-1/2 md:px-1.5 sm:px-[5px]"
+                >
+                    <BaseButton
+                        class="w-full"
+                        :class="(isMobile.xl || isMobile.lg) && '!h-full'"
+                        theme="primary"
+                        :icon="{
                         name: 'plus',
                         width: (isMobile.xl || isMobile.lg) ? 14 : 8,
                         prepend: true
                     }"
-                    :size="(isMobile.xl || isMobile.lg) ? 'md' : 'sm'"
-                    @click="createButton.onClick"
-                >
+                        :size="(isMobile.xl || isMobile.lg) ? 'md' : 'sm'"
+                        @click="createButton.onClick"
+                    >
                     <span class="whitespace-nowrap">
                         {{ createButton.text }}
                     </span>
-                </BaseButton>
+                    </BaseButton>
+                </div>
             </div>
-        </div>
-        <div
-            v-if="tagListValue === MainSections.Proposals"
-            class="space-y-[18px] sm:space-y-[24px]"
-        >
-            <template v-if="proposalItems.data?.length">
-                <BaseCard
-                    v-for="item in 3"
-                    :key="item"
-                    :avatar="require('@/assets/images/common/placeholder.jpeg')"
-                    name="DAO Name"
-                    label-title="Active"
-                    title="Proposal Name"
-                    :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpeg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpeg') } ]"
-                    text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"
-                    :end-date="new Date((new Date).setHours(23))"
-                />
-            </template>
-            <div v-else-if="proposalItems.pending" class="-preloader -preloader_placeholder"></div>
-            <NotFound
-                v-else
-                class="!mt-[88px]"
-                title="No Proposals found"
-                text="We couldn't find any proposals matching your query. Try another query"
-            />
-        </div>
-        <div v-if="tagListValue === MainSections.Daos">
             <div
-                v-if="daoItemsFiltered.length"
-                class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
-                :class="{
+                v-if="tagListValue === MainSections.Proposals"
+                class="space-y-[18px] sm:space-y-[24px]"
+            >
+                <template v-if="proposalItems.data?.length">
+                    <ProposalCard
+                        v-for="item in 3"
+                        :key="item"
+                        :avatar="require('@/assets/images/common/placeholder.jpg')"
+                        name="DAO Name"
+                        label-title="Active"
+                        title="Proposal Name"
+                        :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpg') } ]"
+                        text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"
+                        :end-date="new Date((new Date).setHours(23))"
+                    />
+                </template>
+                <div v-else-if="proposalItems.pending" class="-preloader -preloader_placeholder"></div>
+                <NotFound
+                    v-else
+                    class="!mt-[88px]"
+                    title="No Proposals found"
+                    text="We couldn't find any proposals matching your query. Try another query"
+                />
+            </div>
+            <div v-if="tagListValue === MainSections.Daos">
+                <div
+                    v-if="daoItemsFiltered.length"
+                    class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
+                    :class="{
                     '-preloader -preloader_cover': daoItems.pending
                 }"
-                v-scroll-at.bottom="addMoreDao"
-            >
-                <div
-                    class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
-                    v-for="item in daoItemsFiltered"
-                    :key="item"
+                    v-scroll-at.bottom="addMoreDao"
                 >
-                    <DaoCard
-                        class="h-full"
-                        :to="{ name: 'network-dao-address', params: { network: item.network, address: item.address } }"
-                        :avatar="item.image"
-                        :name="item.fullName"
-                        :network="item.network"
-                        :address="item.address"
-                        :followers="item.followersAmountFormatted"
-                        proposals="232"
-                    />
+                    <div
+                        class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
+                        v-for="item in daoItemsFiltered"
+                        :key="item"
+                    >
+                        <DaoCard
+                            class="h-full"
+                            :to="{ name: 'network-dao-address', params: { network: item.network, address: item.address } }"
+                            :avatar="item.image"
+                            :name="item.fullName"
+                            :network="item.network"
+                            :address="item.address"
+                            :followers-amount="item.followersAmount"
+                            proposals="232"
+                        />
+                    </div>
                 </div>
+                <div v-else-if="daoItems.pending" class="-preloader -preloader_placeholder"></div>
+                <NotFound
+                    v-else
+                    class="!mt-[88px]"
+                    title="No Daos found"
+                    text="We couldn't find any Daos matching your query. Try another query"
+                />
             </div>
-            <div v-else-if="daoItems.pending" class="-preloader -preloader_placeholder"></div>
-            <NotFound
-                v-else
-                class="!mt-[88px]"
-                title="No Daos found"
-                text="We couldn't find any Daos matching your query. Try another query"
-            />
-        </div>
-        <div v-if="tagListValue === MainSections.Apps">
-            <div class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]">
-                <div
-                    class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
-                    v-for="item in 12"
-                    :key="item"
+            <div v-if="tagListValue === MainSections.Apps">
+                <div class="absolute inset-0 z-50 bg-white bg-opacity-70 flex justify-center items-center">
+                    <div class="title-h2 text-400">
+                        WORK IN PROGRESS
+                    </div>
+                </div>
+                <div class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]">
+                    <div
+                        class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
+                        v-for="item in 12"
+                        :key="item"
+                    >
+                        <DaoCard
+                            class="h-full"
+                            :to="{ name: 'app' }"
+                            :avatar="require('@/assets/images/common/placeholder.jpg')"
+                            name="DAO Name"
+                            followers="232"
+                            proposals="232"
+                            category="category"
+                        />
+                    </div>
+                </div>
+                <BaseButton
+                    class="w-full"
+                    view="outlined"
+                    size="sm"
+                    rounded="lg"
                 >
-                    <DaoCard
-                        class="h-full"
-                        :to="{ name: 'app' }"
-                        :avatar="require('@/assets/images/common/placeholder.jpeg')"
-                        name="DAO Name"
-                        followers="232"
-                        proposals="232"
-                        category="category"
-                    />
-                </div>
+                    Show more Daos
+                </BaseButton>
             </div>
-            <BaseButton
-                class="w-full"
-                view="outlined"
-                size="sm"
-                rounded="lg"
-            >
-                Show more Daos
-            </BaseButton>
         </div>
     </div>
 </template>
@@ -205,7 +212,7 @@ import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
 import TagsButtonList from '@/components/TagsButtonList/TagsButtonList.vue';
 import DaoCard from '@/components/DaoCard/DaoCard.vue';
-import BaseCard from '@/components/BaseCard/BaseCard.vue';
+import ProposalCard from '@/components/ProposalCard/ProposalCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
@@ -213,6 +220,7 @@ import NotFound from '@/components/NotFound/NotFound.vue';
 import { store } from '@/store';
 import { Statuses } from '@/types/statuses';
 import useIsMobile from '@/composables/useIsMobile';
+import useLayer from '@/composables/useLayer';
 import useDaoItems from '@/composables/fetch/useDaoItems';
 import useProposalItems from '@/composables/views/home/useProposalItems';
 import useQueryUpdates from '@/composables/useQueryUpdates';
@@ -227,12 +235,14 @@ const { query } = route;
 
 const isMobile = useIsMobile();
 
+const { open } = useLayer();
+
 
 // TAG LIST _ COMMON
 
 const tagListOptions = [
     { id: MainSections.Proposals, title: 'Proposals' },
-    { id: MainSections.Statistics, title: 'Statistics' },
+    // { id: MainSections.Statistics, title: 'Statistics' },
     { id: MainSections.Daos, title: 'DAOs' },
     { id: MainSections.Apps, title: 'APPs' }
 ];
@@ -337,11 +347,11 @@ const createButton = computed(() => {
     return {
         [MainSections.Proposals]: {
             text: 'Create Proposal',
-            onClick: () => {}
+            onClick: () => open('CreateProposalLayer')
         },
         [MainSections.Daos]: {
             text: 'Create Dao',
-            onClick: () => {}
+            onClick: () => open('CreateDaoLayer')
         },
         [MainSections.Apps]: {
             text: 'Create App',

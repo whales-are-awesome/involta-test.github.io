@@ -2,7 +2,7 @@
     <v-lazy-image
         v-if="show"
         :class="classes.root"
-        :src-placeholder="require('@/assets/images/common/image-placeholder.jpg')"
+        :src-placeholder="require('@/assets/images/common/placeholder.jpg')"
         v-bind="attrs"
     />
     <div
