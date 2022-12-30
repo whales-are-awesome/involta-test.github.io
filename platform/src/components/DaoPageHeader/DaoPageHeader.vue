@@ -104,8 +104,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
         'line-wave-bg py-4 px-8 -mx-[30px] border-b border-primary-100 sm:py-9 sm:px-[30px]'
     ],
-    inner: 'bg-white border border-primary-100 rounded-[10px] px-4 py-3 h-[120px]',
-    top: 'flex items-center justify-between',
+    inner: 'bg-white border border-primary-100 rounded-[10px] px-4 py-3 min-h-[120px] sm:flex sm:flex-col',
+    top: 'flex items-center justify-between sm:order-[1] sm:flex-col sm:items-start sm:mt-[18px]',
     name: ({ hasBreadcrumbs }) => [
         'font-bold text-gray-600 mb-2 md:mb-3 sm:text-xs',
         {
@@ -113,12 +113,12 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             '-mt-[3px]': !hasBreadcrumbs
         }
     ],
-    info: 'flex space-x-[18px] text-xs sm:hidden',
+    info: 'flex space-x-[18px] text-xs',
     infoItem: 'flex items-center',
     infoItemIcon: 'mr-1',
-    bottom: 'flex justify-between',
+    bottom: 'flex justify-between sm:block',
     description: 'max-w-[659px] text-xs text-gray-500 line-clamp-2 sm:line-clamp-3',
-    links: 'flex justify-end space-x-2 mt-[18px]'
+    links: 'flex justify-end space-x-2 mt-[18px] sm:justify-start'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

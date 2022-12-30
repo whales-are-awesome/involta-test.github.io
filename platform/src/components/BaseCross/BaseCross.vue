@@ -15,6 +15,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import { Themes } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
 
@@ -23,6 +24,7 @@ import ThemeSettings from '@/types/themeSettings';
 
 interface IProps {
     width?: number | string
+    theme?: Themes
     themeSettings?: ThemeSettings<'root'>
 }
 
@@ -31,7 +33,8 @@ interface IEmits {
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-    width: 16
+    width: 16,
+    theme: 'gray'
 });
 
 const emit = defineEmits<IEmits>();
@@ -39,20 +42,25 @@ const emit = defineEmits<IEmits>();
 
 // CLASSES
 
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{
+interface IThemeProps extends Pick<IProps, 'theme' | 'themeSettings'>{
 
 }
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: ({ themeSettings }) => [themeSettings?.root,
-        'text-[#B6B6BE] hover:text-[#777781] active:shadow-[0_0_0_4px_rgba(169,169,250,.25)] transition-fast cursor-pointer rounded-[4px] bg-white p-1'
+    root: ({ themeSettings, theme }) => [themeSettings?.root,
+        'transition-fast cursor-pointer rounded-[4px] bg-white p-1',
+        {
+            'text-[#B6B6BE] hover:text-[#777781] active:shadow-[0_0_0_4px_rgba(169,169,250,.25)]': theme === 'gray',
+            'text-primary-400 hover:text-primary-500 active:shadow-[0_0_0_4px_rgba(169,169,250,.25)]': theme === 'primary'
+        }
     ]
 }));
 
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
-        themeSettings: props.themeSettings
+        themeSettings: props.themeSettings,
+        theme: props.theme
     });
 });
 </script>

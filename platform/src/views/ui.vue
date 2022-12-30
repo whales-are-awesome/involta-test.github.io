@@ -223,6 +223,7 @@
             <h3 class="mb-6">Card</h3>
             <ProposalCard
                 :avatar="require('@/assets/images/common/placeholder.jpg')"
+                :to="{ name: 'home' }"
                 name="DAO Name"
                 label-title="Active"
                 title="Proposal Name"

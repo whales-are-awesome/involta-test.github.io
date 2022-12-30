@@ -113,6 +113,7 @@
                         <ProposalCard
                             v-for="item in proposalItems.data?.items"
                             :key="item.id"
+                            :to="{ name: 'network-dao-address-proposal-id', params: { ...$route.params, proposalId: item.id  } }"
                             :avatar="require('@/assets/images/common/placeholder.jpg')"
                             name="DAO Name"
                             label-title="Active"
@@ -194,7 +195,7 @@
                             :avatar="require('@/assets/images/common/placeholder.jpg')"
                             :to="{ name: 'app' }"
                             name="DAO Name"
-                            followers="232"
+                            followers-amount="232"
                             proposals="232"
                             category="category"
                         />
@@ -404,6 +405,19 @@ const formData = computed(() => {
 
 const breadcrumbs = computed(() => {
     if (!pageData.value?.path.length) return [];
+
+    pageData!.value.path = [
+        {
+            name: 'lol',
+            address: 'hui',
+            fullName: 'lol'
+        },
+        {
+            name: 'lol',
+            address: 'hui',
+            fullName: 'lol'
+        },
+    ];
 
     const data: IBreadcrumb[] = [...pageData.value?.path].reverse().map(item => ({
         title: item.name,

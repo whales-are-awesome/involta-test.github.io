@@ -14,13 +14,7 @@ enum ProposalActionType {
 }
 
 
-interface IProposalPipeline {
-    actionType: ProposalActionType
-    to: string
-    data: string
-    value: number
-}
-
+type ProposalPipeline = [ProposalActionType, string, string, number];
 
 interface IProposalOnChain {
     abstainVp: number
@@ -28,7 +22,7 @@ interface IProposalOnChain {
     creationBlock: number
     creationTime: number
     forVp: number
-    pipeline: IProposalPipeline[]
+    pipeline: ProposalPipeline[]
 }
 
 enum ProposalStatus {
@@ -52,7 +46,7 @@ interface IProposalCombined extends IProposal, IProposalOnChain {
 
 export {
     IProposal,
-    IProposalPipeline,
+    ProposalPipeline,
     IProposalOnChain,
     IProposalCombined,
     ProposalStatus,

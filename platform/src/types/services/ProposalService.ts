@@ -1,8 +1,12 @@
 import { IPaginationParams } from '@/types/api'
 import { IDaoPath } from '@/types/services/DaoService'
-import { IProposal, IProposalCombined, IProposalPipeline } from '@/types/entries/proposal'
+import { IProposal, IProposalCombined, ProposalPipeline } from '@/types/entries/proposal'
 
-interface IProposalPipelineDefault extends IProposalPipeline {
+interface IProposalPipelineDefault {
+    actionType: ProposalPipeline[0]
+    to: ProposalPipeline[1]
+    data: ProposalPipeline[2]
+    value: ProposalPipeline[3]
     isContract: boolean
     addressOrName: string
 }

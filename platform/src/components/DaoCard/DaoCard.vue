@@ -89,7 +89,6 @@ interface IProps {
     network?: string
     category?: string
     followersAmount: number
-    followersAmountFormatted: string
     isFollowed?: boolean
     proposals: string
     themeSettings?: ThemeSettings<'root'>

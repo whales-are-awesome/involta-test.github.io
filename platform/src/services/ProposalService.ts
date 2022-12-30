@@ -99,17 +99,11 @@ async function normalizeProposalAsDefault(data: IProposalCombinedDefault): Promi
         ...data,
         createdByAddressOrName: data.createdByName || cutAddress(data.createdBy),
         pipeline: await Promise.all(data.pipeline.map(async item => ({
-            //@ts-ignore
             actionType: item[0],
-            //@ts-ignore
             to: item[1],
-            //@ts-ignore
             data: item[2],
-            //@ts-ignore
             value: item[3],
-            //@ts-ignore
             isContract: await isContract(item[1]),
-            //@ts-ignore
             addressOrName: (await API.provider.lookupAddress(item[1])) || cutAddress(item[1])
         })))
     };

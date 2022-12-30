@@ -25,31 +25,32 @@
                 width="36"
             />
             <div class="title-h5 text-600">
-                {{ pageData?.fullName }} Followers (158)
+                {{ pageData?.fullName }} Followers <span class="text-gray-500">({{ pageData?.followersAmountFormatted }})</span>
             </div>
         </div>
         <div class="flex mb-6">
             <TagsButtonList
                 v-model="formData.tagValue"
-                class="h-[44px]"
                 :items="formInfo.tags"
             />
             <BaseButton
-                class="!h-auto ml-auto"
+                class="ml-auto"
+                :class="(isMobile.lg || isMobile.xl) ? '!h-auto': ''"
                 theme="primary"
+                :size="(isMobile.lg || isMobile.xl) ? 'md': 'sm'"
                 :icon="{
                     name: 'share',
-                    width: 20,
+                    width: (isMobile.lg || isMobile.xl) ? 20 : 16,
                     prepend: true
                 }"
                 @click="invite"
             >
-                Invite member
+                Invite {{ !isMobile.sm ? 'member' : '' }}
             </BaseButton>
         </div>
         <div
             v-if="followers.data?.items.length"
-            class="space-y-2"
+            class="flex flex-wrap -mx-1.5 -mt-3"
             :class="{
                 '-preloader -preloader_cover': followers.pending
             }"
@@ -57,21 +58,59 @@
             <div
                 v-for="item in followers.data?.items"
                 :key="item.address"
-                class="p-2.5 bg-primary-100 rounded-[5px] flex items-center"
+                class="w-1/3 px-1.5 mt-3 lg:w-1/2 sm:w-full"
             >
-                <div class="w-1/3">
+                <div
+                    class="p-3 bg-primary-100 rounded-[12px]"
+                >
                     <BaseAvatar
+                        class="mb-4"
                         :hexheads="item.address"
+                        size=""
+                        rounded="full"
                         alt="img"
-                        size="xxs"
+                        :theme-settings="{
+                            image: 'h-[53px] w-[53px]'
+                        }"
                     >
-                        <span class="text-600 font-medium text-xxs">
-                            {{ item.name || cutAddress(item.address) }}
-                        </span>
+                        <div>
+                            <div
+                                v-if="item.name"
+                                class="text-gray-600 font-semibold mb-1"
+                            >
+                                Vitalik.eth
+                            </div>
+                            <ActionLink
+                                class="!text-[#6C6C7D] font-medium text-xs flex items-center"
+                                @click="copyAddress(item.address)"
+                            >
+                                {{ cutAddress(item.address, 7, 4) }}
+                                <BaseIcon
+                                    class="ml-0.5"
+                                    name="copy"
+                                    width="14"
+                                />
+                            </ActionLink>
+                        </div>
                     </BaseAvatar>
-                </div>
-                <div class="text-gray-500 text-xxs font-medium w-1/3 text-center">
-                    {{ item.votingPower }} Tokens
+                    <div class="bg-white py-[19px] px-3 rounded-[8px] flex">
+                        <div class="w-1/3">
+                            <div class="text-gray-500 text-tiny font-medium mb-1">
+                                Tokens
+                            </div>
+                            <div class="font-bold text-xxs text-gray-600">
+                                {{ item.votingPower }}
+                            </div>
+                        </div>
+                        <div class="w-1/3">
+                            <div class="text-gray-500 text-tiny font-medium mb-1">
+                                Voting power
+                            </div>
+                            <div class="font-bold text-xs text-gray-600">
+                                6.9%
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,6 +134,7 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import TagsButtonList from '@/components/TagsButtonList/TagsButtonList.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
+import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import useLayer from '@/composables/useLayer';
 import useDao from '@/composables/fetch/useDao';
 import useError from '@/composables/useError';
@@ -105,6 +145,7 @@ import copy from '@/helpers/copy';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { IFollower } from '@/types/services/FollowerService';
 import cutAddress from '@/helpers/cutAddress';
+import emitter from '@/plugins/mitt';
 
 // META
 
@@ -129,13 +170,17 @@ const formData = ref({
 
 // META:PAGE
 
-const [ page ] = useDao({
+const [ page, fetchDao ] = useDao({
     address: route.params.address as string
 }, {
     saveInStorage: true
 });
 
 const pageData = computed(() => page.value.data);
+
+emitter.on('daoFollowed', fetchDao);
+emitter.on('accountChanged', fetchDao);
+
 
 watchEffect(() => {
     page.value.error && useError(404)
@@ -172,6 +217,8 @@ const followers = useFetchDataWithTotal<IFollower>();
 
 fetchFollowers();
 
+emitter.on('daoFollowed', fetchFollowers);
+
 async function fetchFollowers() {
     followers.value.pending = true;
     followers.value.cancel();
@@ -190,4 +237,13 @@ async function fetchFollowers() {
     followers.value = { data, cancel, pending: false };
 }
 
+
+// copy
+
+function copyAddress(address: string) {
+    copy(address);
+    notify({
+        title: 'Address copied',
+    });
+}
 </script>

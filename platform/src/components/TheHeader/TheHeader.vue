@@ -42,7 +42,7 @@
                         bg: '!bg-surface-300',
                         container: 'space-y-0.5 flex-col'
                     }"
-                    @click="emit('burger-click')"
+                    @click="emit('burger-click', $event)"
                 >
                     <span
                         v-for="item in 3"

@@ -463,6 +463,7 @@ const [ page, fetchDao ] = useDao({
 const pageData = computed(() => page.value.data);
 
 emitter.on('daoFollowed', fetchDao);
+emitter.on('accountChanged', fetchDao);
 
 watchEffect(() => {
     page.value.error && useError(404)

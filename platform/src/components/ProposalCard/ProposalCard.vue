@@ -1,80 +1,85 @@
 <template>
-    <div :class="classes.root">
-        <div :class="classes.top">
-            <BaseTimer
-                :class="classes.timerMobile"
-                :end-date="endDate"
-            />
-            <BaseLabel
-                :class="classes.label"
-                theme="positive"
-                view="faded"
-            >
-                {{ labelTitle }}
-            </BaseLabel>
-            <BaseAvatar
-                :class="classes.avatar"
-                :src="avatar"
-                alt="image"
-                size="sm"
-                rounded="xs"
-            >
+    <RouterLink
+        :class="classes.root"
+        :to="to"
+    >
+        <div>
+            <div :class="classes.top">
+                <BaseTimer
+                    :class="classes.timerMobile"
+                    :end-date="endDate"
+                />
+                <BaseLabel
+                    :class="classes.label"
+                    theme="positive"
+                    view="faded"
+                >
+                    {{ labelTitle }}
+                </BaseLabel>
+                <BaseAvatar
+                    :class="classes.avatar"
+                    :src="avatar"
+                    alt="image"
+                    size="sm"
+                    rounded="xs"
+                >
                 <span :class="classes.daoName">
                     {{ name }}
                 </span>
-            </BaseAvatar>
-        </div>
-        <div :class="classes.title">
-            {{ title }}
-        </div>
-        <div :class="classes.text">
-            {{ text }}
-        </div>
-        <div :class="classes.bottom">
-            <BaseTimer
-                :class="classes.timer"
-                :end-date="endDate"
-            />
-            <div :class="classes.users">
-                <BaseAvatar
-                    v-for="user in users.slice(0, 4)"
-                    :key="user.id"
-                    :class="classes.usersItem"
-                    size="xs"
-                    :src="user.avatar"
-                    rounded="full"
-                    :alt="`avatar - ${ user.id }`"
+                </BaseAvatar>
+            </div>
+            <div :class="classes.title">
+                {{ title }}
+            </div>
+            <div :class="classes.text">
+                {{ text }}
+            </div>
+            <div :class="classes.bottom">
+                <BaseTimer
+                    :class="classes.timer"
+                    :end-date="endDate"
                 />
+                <div :class="classes.users">
+                    <BaseAvatar
+                        v-for="user in users.slice(0, 4)"
+                        :key="user.id"
+                        :class="classes.usersItem"
+                        size="xs"
+                        :src="user.avatar"
+                        rounded="full"
+                        :alt="`avatar - ${ user.id }`"
+                    />
+                </div>
+                <div :class="classes.votes">
+                    {{ users.length }} votes
+                </div>
             </div>
-            <div :class="classes.votes">
-                {{ users.length }} votes
-            </div>
+            <BaseButton
+                :class="classes.voteButton"
+                rounded="sm"
+                size="sm"
+                :icon="{
+                name: 'arrow-right',
+                width: 16
+            }"
+                @click="$router.push({ name: 'proposal-id', params: { id: 2 } })"
+            >
+                Vote
+            </BaseButton>
+            <BaseButton
+                :class="classes.voteButtonMobile"
+                view="ghost"
+                size="md"
+                :icon="{
+                name: 'arrow-right',
+                width: 16
+            }"
+                @click="$router.push({ name: 'proposal-id', params: { id: 2 } })"
+            >
+                Vote
+            </BaseButton>
         </div>
-        <BaseButton
-            :class="classes.voteButton"
-            rounded="sm"
-            size="sm"
-            :icon="{
-                name: 'arrow-right',
-                width: 16
-            }"
-            @click="$router.push({ name: 'proposal-id', params: { id: 2 } })"
-        >
-            Vote
-        </BaseButton>
-        <BaseButton
-            :class="classes.voteButtonMobile"
-            view="ghost"
-            size="md"
-            :icon="{
-                name: 'arrow-right',
-                width: 16
-            }"
-            @click="$router.push({ name: 'proposal-id', params: { id: 2 } })"
-        >
-            Vote
-        </BaseButton>
-    </div>
+    </RouterLink>
 </template>
 
 
@@ -85,6 +90,7 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseTimer from '@/components/BaseTimer/BaseTimer.vue';
 import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
 import { IUsers } from './types';
+import IRouterLink from '@/types/routerLink';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
 
@@ -92,6 +98,7 @@ import ThemeSettings from '@/types/themeSettings';
 // META
 
 interface IProps {
+    to: IRouterLink
     avatar: string
     name: string
     labelTitle: string
@@ -111,7 +118,7 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
-        'bg-white shadow-[0_4px_20px_rgba(108,108,125,.08)] border border-gray-100 rounded-[10px] p-6 sm:pb-0 overflow-hidden'
+        'block bg-white shadow-[0_4px_20px_rgba(108,108,125,.08)] border border-gray-100 rounded-[10px] p-6 sm:pb-0 overflow-hidden'
     ],
     top: 'flex items-center mb-8 sm:flex-wrap',
     label: 'mr-4 sm:mr-0 sm:mb-8',

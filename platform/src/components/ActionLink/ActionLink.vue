@@ -8,7 +8,7 @@
         <slot></slot>
     </a>
     <RouterLink
-        v-else
+        v-else-if="to"
         :class="classes.root"
         :to="to"
         v-bind="attrs"
@@ -16,6 +16,14 @@
     >
         <slot></slot>
     </RouterLink>
+    <div
+        v-else
+        :class="classes.root"
+        v-bind="attrs"
+        @click="emit('click')"
+    >
+        <slot></slot>
+    </div>
 </template>
 
 
@@ -52,7 +60,7 @@ interface IThemeProps extends Pick<IProps, 'themeSettings' | 'theme'>{}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, theme }) => [themeSettings?.root,
-        'transition-fast',
+        'transition-fast cursor-pointer',
         {
             'text-primary-400 hover:text-primary-500': theme === 'primary',
             'text-gray-400 hover:text-gray-500': theme === 'secondary',

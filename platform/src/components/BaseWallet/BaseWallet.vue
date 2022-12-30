@@ -28,7 +28,8 @@
                     :icon="{
                         prepend: true,
                         width: 16,
-                        name: 'copy'
+                        name: 'copy',
+                        class: '!text-[#494957]'
                     }"
                     justify="start"
                     @click="copyAddress(close)"

@@ -110,31 +110,31 @@
                     </BaseButton>
                 </div>
             </div>
-            <div
-                v-if="tagListValue === MainSections.Proposals"
-                class="space-y-[18px] sm:space-y-[24px]"
-            >
-                <template v-if="proposalItems.data?.length">
-                    <ProposalCard
-                        v-for="item in 3"
-                        :key="item"
-                        :avatar="require('@/assets/images/common/placeholder.jpg')"
-                        name="DAO Name"
-                        label-title="Active"
-                        title="Proposal Name"
-                        :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpg') } ]"
-                        text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"
-                        :end-date="new Date((new Date).setHours(23))"
-                    />
-                </template>
-                <div v-else-if="proposalItems.pending" class="-preloader -preloader_placeholder"></div>
-                <NotFound
-                    v-else
-                    class="!mt-[88px]"
-                    title="No Proposals found"
-                    text="We couldn't find any proposals matching your query. Try another query"
-                />
-            </div>
+<!--            <div-->
+<!--                v-if="tagListValue === MainSections.Proposals"-->
+<!--                class="space-y-[18px] sm:space-y-[24px]"-->
+<!--            >-->
+<!--                <template v-if="proposalItems.data?.length">-->
+<!--                    <ProposalCard-->
+<!--                        v-for="item in 3"-->
+<!--                        :key="item"-->
+<!--                        :avatar="require('@/assets/images/common/placeholder.jpg')"-->
+<!--                        name="DAO Name"-->
+<!--                        label-title="Active"-->
+<!--                        title="Proposal Name"-->
+<!--                        :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpg') } ]"-->
+<!--                        text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"-->
+<!--                        :end-date="new Date((new Date).setHours(23))"-->
+<!--                    />-->
+<!--                </template>-->
+<!--                <div v-else-if="proposalItems.pending" class="-preloader -preloader_placeholder"></div>-->
+<!--                <NotFound-->
+<!--                    v-else-->
+<!--                    class="!mt-[88px]"-->
+<!--                    title="No Proposals found"-->
+<!--                    text="We couldn't find any proposals matching your query. Try another query"-->
+<!--                />-->
+<!--            </div>-->
             <div v-if="tagListValue === MainSections.Daos">
                 <div
                     v-if="daoItemsFiltered.length"
@@ -186,7 +186,7 @@
                             :to="{ name: 'app' }"
                             :avatar="require('@/assets/images/common/placeholder.jpg')"
                             name="DAO Name"
-                            followers="232"
+                            followers-amount="232"
                             proposals="232"
                             category="category"
                         />
@@ -241,7 +241,7 @@ const { open } = useLayer();
 // TAG LIST _ COMMON
 
 const tagListOptions = [
-    { id: MainSections.Proposals, title: 'Proposals' },
+    // { id: MainSections.Proposals, title: 'Proposals' },
     // { id: MainSections.Statistics, title: 'Statistics' },
     { id: MainSections.Daos, title: 'DAOs' },
     { id: MainSections.Apps, title: 'APPs' }

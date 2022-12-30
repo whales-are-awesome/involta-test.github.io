@@ -1,26 +1,31 @@
 <template>
     <Notifications
+        class="!w-auto"
         position="bottom right"
         :close-on-click="true"
     >
         <template #body="{ item, close }">
             <div :class="classes.root">
-                <div :class="classes.top">
-                    <p
-                        :class="classes.title"
-                    >
+                <BaseIcon
+                    :class="classes.icon"
+                    name="info"
+                    width="20"
+                />
+                <div :class="classes.main">
+                    <p :class="classes.title">
                         {{ item.title }}
                     </p>
-                    <BaseCross
-                        :class="classes.cross"
-                        width="14"
-                        @click="close"
+                    <div
+                        v-if="item.text"
+                        v-html="item.text"
+                        :class="classes.text"
                     />
                 </div>
-                <div
-                    v-if="item.text"
-                    v-html="item.text"
-                    :class="classes.text"
+                <BaseCross
+                    :class="classes.cross"
+                    width="16"
+                    theme="primary"
+                    @click="close"
                 />
             </div>
         </template>
@@ -31,17 +36,21 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 
 // CLASSES
 
 const useClasses = makeClasses(() => ({
-    root: 'py-4 px-4 bg-white rounded-[4px] shadow-[0px_4px_8px_rgba(133,134,134,0.4)] border-l-4 border-primary-400',
-    top: 'flex justify-between items-center',
+    root: `w-[528px] flex items-center -translate-x-[37px] -translate-y-[47px] py-4 px-4 bg-white
+          rounded-[5px] shadow-[0_2px_2px_rgba(41,41,211,0.08)] border-l-3 border-primary-400
+          sm:w-[96vw] sm:translate-x-0 sm:-translate-y-4 sm:mx-[2vw]`,
+    main: 'mr-auto',
+    icon: 'text-primary-400 mr-2',
     cross: 'ml-2',
-    title: 'text-sm',
-    text: 'text-xs'
+    title: 'font-bold text-600',
+    text: 'text-sm mt-1'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {
