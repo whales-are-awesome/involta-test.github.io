@@ -106,7 +106,7 @@ export interface IProps {
     tipBottom?: string | number
     disabled?: boolean
 
-    themeSettings?: ThemeSettings<'root' | 'description'>
+    themeSettings?: ThemeSettings<'root' | 'description' | 'descriptionSize' | 'descriptionColor'>
 }
 
 interface IEmits {
@@ -136,7 +136,8 @@ const useClasses = makeClasses<IThemeProps>(() => {
         ],
         topMain: 'flex items-center',
         description: ({ themeSettings }) => [themeSettings?.description,
-            'text-xxs text-gray-400',
+            themeSettings?.descriptionColor || 'text-gray-400',
+            themeSettings?.descriptionSize || 'text-xxs'
         ],
         title: ({ disabled }) => [
             'text-gray-500 text-sm font-bold',

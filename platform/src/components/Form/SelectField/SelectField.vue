@@ -227,8 +227,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     title: ({ innerLabel }) => ({
         'translate-y-[7px]': !!innerLabel
     }),
-    height: ({ size, themeSettings }) => [themeSettings?.height,
-        {
+    height: ({ size, themeSettings }) => [
+        themeSettings?.height || {
             'h-[60px]': size === 'xl',
             'h-[38px] sm:h-[30px]': size === 'md',
             'h-[46px]': size === 'lg',

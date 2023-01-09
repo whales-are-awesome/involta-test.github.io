@@ -15,7 +15,6 @@
             />
             <BaseAvatar
                 v-else
-                :class="classes.image"
                 :src="image"
                 size="md"
                 rounded=""

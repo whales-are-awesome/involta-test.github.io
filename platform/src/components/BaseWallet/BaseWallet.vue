@@ -46,7 +46,7 @@
                         name: 'logout'
                     }"
                     :theme-settings="{
-                        root: '!text-[#FF3E3E]'
+                        textColor: 'text-[#FF3E3E]'
                     }"
                     justify="start"
                     @click="disconnect(close)"

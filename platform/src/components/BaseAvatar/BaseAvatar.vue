@@ -34,7 +34,7 @@ interface IProps {
     hexheads?: string
     size?: Sizes
     rounded?: Rounded
-    themeSettings?: ThemeSettings<'root' | 'image'>
+    themeSettings?: ThemeSettings<'root' | 'image' | 'size' | 'rounded'>
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -58,6 +58,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     image: ({ hasContent, size, rounded, themeSettings }) => [themeSettings?.image,
         'object-cover w-full h-full transition-fast',
         {
+            'mr-2': hasContent
+        },
+
+        themeSettings?.size || {
             'w-[16px] h-[16px] sm:w-3 sm:h-3': size === 'tiny',
             'w-[20px] h-[20px]': size === 'xxs',
             'w-[24px] h-[24px] sm:w-4 sm:h-4': size === 'xs',
@@ -66,16 +70,17 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'w-[44px] h-[44px] md:w-[20px] md:h-[20px]': size === 'base',
             'w-[64px] h-[64px]': size === 'lg',
             'w-[96px] h-[96px] sm:w-16 sm:h-16': size === 'xl',
-            'w-[192px] h-[192px] md:w-[146px] md:h-[146px] sm:w-[104px] sm:h-[104px]': size === 'xxl',
+            'w-[192px] h-[192px] md:w-[146px] md:h-[146px] sm:w-[104px] sm:h-[104px]': size === 'xxl'
+        },
 
+        themeSettings?.rounded || {
+            // no adaptive
             'rounded-[5px]': rounded === 'xs',
             'rounded-[8px]': rounded === 'sm',
             'rounded-[10px]': rounded === 'md',
             'rounded-[16px]': rounded === 'lg',
             'rounded-[20px]': rounded === 'xl',
             'rounded-[100%]': rounded === 'full',
-
-            'mr-2': hasContent
         }
     ]
 }));

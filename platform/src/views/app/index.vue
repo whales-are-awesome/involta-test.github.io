@@ -98,7 +98,7 @@
                         theme="primary"
                         rounded="lg"
                         :theme-settings="{
-                            root: 'sm:!h-[32px]'
+                            size: 'h-[40px] sm:h-[32px]'
                         }"
                         @click="open('SupportAppLayer')"
                     >

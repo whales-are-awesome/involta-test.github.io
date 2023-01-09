@@ -25,7 +25,7 @@
                         v-model="formData.value.statusId"
                         :options="formProposalsInfo.statusesOptions"
                         :theme-settings="{
-                            height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
+                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'
                         }"
                     />
                 </div>
@@ -37,7 +37,7 @@
                         v-model="formData.value.chainId"
                         :options="formDaosInfo.chainOptions"
                         :theme-settings="{
-                            height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
+                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'
                         }"
                     />
                 </div>
@@ -49,7 +49,7 @@
                         v-model="formData.value.categoryId"
                         :options="formAppsInfo.categoryOptions"
                         :theme-settings="{
-                            height: (isMobile.xl || isMobile.lg) ? '!h-[44px]' : '!h-[28px]'
+                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'
                         }"
                     />
                 </div>
@@ -88,10 +88,10 @@
                         :class="(isMobile.xl || isMobile.lg) && '!h-full'"
                         theme="primary"
                         :icon="{
-                        name: 'plus',
-                        width: (isMobile.xl || isMobile.lg) ? 14 : 8,
-                        prepend: true
-                    }"
+                            name: 'plus',
+                            width: (isMobile.xl || isMobile.lg) ? 14 : 8,
+                            prepend: true
+                        }"
                         :size="(isMobile.xl || isMobile.lg) ? 'md' : 'sm'"
                         @click="createButton.onClick"
                     >

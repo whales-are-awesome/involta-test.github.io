@@ -1,0 +1,2 @@
+Что можно задавать в класс компоненту: position, top, bottom, left, right, z-index, width, height
+Не использовать !important на компонентах

@@ -59,9 +59,9 @@
                 rounded="sm"
                 size="sm"
                 :icon="{
-                name: 'arrow-right',
-                width: 16
-            }"
+                    name: 'arrow-right',
+                    width: 16
+                }"
                 @click="$router.push({ name: 'proposal-id', params: { id: 2 } })"
             >
                 Vote
@@ -71,9 +71,9 @@
                 view="ghost"
                 size="md"
                 :icon="{
-                name: 'arrow-right',
-                width: 16
-            }"
+                    name: 'arrow-right',
+                    width: 16
+                }"
                 @click="$router.push({ name: 'proposal-id', params: { id: 2 } })"
             >
                 Vote

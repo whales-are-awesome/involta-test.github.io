@@ -214,7 +214,7 @@
                     tooltip="Use Custom transaction for personal data?"
                     description="Use Custom transaction for personal data?"
                     :theme-settings="{
-                        description: '!text-gray-500'
+                        descriptionColor: 'text-gray-500'
                     }"
                 />
             </BaseAdd>

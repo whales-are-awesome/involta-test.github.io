@@ -9,7 +9,7 @@
                     rounded="full"
                     :wrap-content="false"
                     :theme-settings="{
-                        bg: '!bg-surface-300',
+                        bgOrBorder: 'bg-surface-300',
                         container: 'space-y-0.5 flex-col'
                     }"
                     @click="emit('burger-click', $event)"
@@ -39,7 +39,7 @@
                     rounded="full"
                     :wrap-content="false"
                     :theme-settings="{
-                        bg: '!bg-surface-300',
+                        bgOrBorder: 'bg-surface-300',
                         container: 'space-y-0.5 flex-col'
                     }"
                     @click="emit('burger-click', $event)"

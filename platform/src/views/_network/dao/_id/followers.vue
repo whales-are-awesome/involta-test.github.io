@@ -66,11 +66,10 @@
                     <BaseAvatar
                         class="mb-4"
                         :hexheads="item.address"
-                        size=""
                         rounded="full"
                         alt="img"
                         :theme-settings="{
-                            image: 'h-[53px] w-[53px]'
+                            size: 'h-[53px] w-[53px]'
                         }"
                     >
                         <div>

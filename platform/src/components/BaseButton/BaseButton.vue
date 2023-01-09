@@ -80,7 +80,7 @@ interface IProps {
     view?: Views
     justify?: Justify
     wrapContent?: boolean
-    themeSettings?: ThemeSettings<'root' | 'container' | 'bg'>
+    themeSettings?: ThemeSettings<'root' | 'container' | 'bg' | 'textColor' | 'bgOrBorder' | 'size'>
     loading?: boolean
 }
 
@@ -115,14 +115,22 @@ interface IThemeProps extends Pick<IProps, 'theme' | 'size' | 'disabled' | 'view
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({size, themeSettings, view, theme, disabled, rounded, justify, loading}) => [themeSettings?.root,
         'group inline-flex items-center relative z-1 [background-position-y:0] tracking-[0.4px]',
-        {
-            'px-5 h-[52px] text-lg': size === 'lg',
-            'px-5 h-[40px] text-base': size === 'md',
-            'px-[18px] text-sm md:text-xxs md:h-[28px]': size === 'sm',
-            'px-[24px] md:text-xxs sm:px-2': size === 'mobile',
+
+        themeSettings?.size || {
+            'h-[52px]': size === 'lg',
+            'h-[40px]': size === 'md',
+            'md:h-[28px]': size === 'sm',
             'w-[36px] h-[36px]': size === 'icon',
-            'h-[36px] sm:h-[24px] sm:!text-xxs': size === 'sm' && rounded === 'lg',
-            'h-[32px]': size === 'sm' && rounded !== 'lg',
+            'h-[36px] sm:h-[24px]': size === 'sm' && rounded === 'lg',
+            'h-[32px]': size === 'sm' && rounded !== 'lg'
+        },
+
+        {
+            'px-5 text-lg': size === 'lg',
+            'px-5 text-base': size === 'md',
+            'px-[18px] text-sm md:text-xxs': size === 'sm',
+            'px-[24px] md:text-xxs sm:px-2': size === 'mobile',
+            'sm:!text-xxs': size === 'sm' && rounded === 'lg',
 
             'justify-center': justify === 'center',
             'justify-start': justify === 'start',
@@ -131,22 +139,24 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'pointer-events-none': loading
         },
 
-        view === 'filled' && {
-            'text-white': ['gray', 'primary', 'alert'].includes(theme),
-            'text-gray-500 active:text-gray-700': theme === 'surface',
-            'text-gray-600 active:text-gray-700': theme === 'white'
-        },
+        themeSettings?.textColor || [
+            view === 'filled' && {
+                'text-white': ['gray', 'primary', 'alert'].includes(theme!),
+                'text-gray-500 active:text-gray-700': theme === 'surface',
+                'text-gray-600 active:text-gray-700': theme === 'white'
+            },
 
 
-        view === 'outlined' && {
-            'text-primary-500 active:text-primary-600': view === 'outlined' && theme === 'primary-200',
-            'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme),
-        },
+            view === 'outlined' && {
+                'text-primary-500 active:text-primary-600': view === 'outlined' && theme === 'primary-200',
+                'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme!),
+            },
 
-        view === 'ghost' && {
-            'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme),
-            'text-gray-600 hover:text-gray-700': theme === 'white'
-        }
+            view === 'ghost' && {
+                'text-gray-500 active:text-gray-600': ['gray', 'gray-500'].includes(theme!),
+                'text-gray-600 hover:text-gray-700': theme === 'white'
+            }
+        ]
     ],
     container: ({themeSettings}) => [themeSettings?.container,
         'flex justify-center items-center transition-fast'
@@ -161,25 +171,27 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'rounded-full': rounded === 'full'
         },
 
-        view === 'filled' && {
-            'bg-gray-700 group-hover:bg-gray-800 group-active:bg-600': theme === 'gray',
-            'bg-surface-400 group-hover:bg-gray-300': theme === 'surface',
-            'bg-primary-400 group-hover:bg-primary-500 group-active:bg-primary-800': theme === 'primary',
-            'bg-white': theme === 'white',
-            'bg-[#CB101D]': theme === 'alert',
+        themeSettings?.bgOrBorder || [
+            view === 'filled' && {
+                'bg-gray-700 group-hover:bg-gray-800 group-active:bg-600': theme === 'gray',
+                'bg-surface-400 group-hover:bg-gray-300': theme === 'surface',
+                'bg-primary-400 group-hover:bg-primary-500 group-active:bg-primary-800': theme === 'primary',
+                'bg-white': theme === 'white',
+                'bg-[#CB101D]': theme === 'alert',
 
-            '!bg-disabled-light': disabled
-        },
+                '!bg-disabled-light': disabled
+            },
 
-        view === 'outlined' && {
-            'border-gray-200 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray',
-            'border-gray-500 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray-500',
-            'border border-primary-200 group-hover:bg-primary-200 group-active:bg-primary-100': theme === 'primary-200',
-        },
+            view === 'outlined' && {
+                'border-gray-200 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray',
+                'border-gray-500 border group-hover:bg-gray-100 group-active:bg-white': theme === 'gray-500',
+                'border border-primary-200 group-hover:bg-primary-200 group-active:bg-primary-100': theme === 'primary-200',
+            },
 
-        view === 'ghost' && {
-            'group-hover:bg-gray-100 group-active:bg-transparent': theme === 'gray'
-        },
+            view === 'ghost' && {
+                'group-hover:bg-gray-100 group-active:bg-transparent': theme === 'gray'
+            },
+        ]
     ],
     content: '',
     icon: ({ hasContent, icon }) => [

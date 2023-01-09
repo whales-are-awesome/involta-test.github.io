@@ -76,8 +76,8 @@
                                 <TextSeparator
                                     class="mb-4 pb-4 border-b border-surface-300 whitespace-nowrap"
                                     :theme-settings="{
-                                    root: 'md:before:hidden'
-                                }"
+                                        root: 'md:before:hidden'
+                                    }"
                                 >
                                     Proposal Status
                                 </TextSeparator>
@@ -85,8 +85,8 @@
                                     theme="positive"
                                     view="faded"
                                     :theme-settings="{
-                                    root: 'rounded-[8px] w-full h-[44px] md:h-[24px] '
-                                }"
+                                        root: 'rounded-[8px] w-full h-[44px] md:h-[24px] '
+                                    }"
                                 >
 
                                     <span class="text-sm md:!text-xxs sm:!text-xxs">Active</span>
@@ -98,8 +98,8 @@
                                 <TextSeparator
                                     class="mb-4 pb-4 border-b border-surface-300"
                                     :theme-settings="{
-                                    root: 'md:before:hidden'
-                                }"
+                                        root: 'md:before:hidden'
+                                    }"
                                 >
                                     Created by
                                 </TextSeparator>
