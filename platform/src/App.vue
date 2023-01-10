@@ -4,7 +4,7 @@
     >
         <ErrorPage v-show="hasError" />
         <template v-if="!hasError">
-            <RouterView :key="$route.path" />
+            <RouterView :key="$route.path + viewKeyCounter" />
         </template>
     </Layout>
     <div v-if="!$route.name" class="-preloader inset-0 -z-1"></div>
@@ -23,6 +23,8 @@ import { store } from '@/store';
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 
 const hasError = computed(() => !!store.state.error.status);
+
+const viewKeyCounter = computed(() => store.state.app.viewKey);
 
 const watchForCreatedDaos = useWatchForCreatedDaos();
 

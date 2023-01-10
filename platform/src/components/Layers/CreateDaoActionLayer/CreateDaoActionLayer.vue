@@ -1,11 +1,19 @@
 <template>
     <BaseLayer
-        :theme-settings="{
-            container: 'max-w-[664px] p-11 rounded-[20px]'
-        }"
         :id="id"
+        :theme-settings="{
+            container: 'p-[54px] w-[534px] flex flex-col base-animation-layer rounded-[4px] text-center'
+        }"
     >
-        <div class="flex justify-end">
+        <p class="title-h4 mb-11">
+            Choose an action
+        </p>
+        <p
+            class="text-400 mb-11"
+        >
+            What do you want
+        </p>
+        <div class="flex justify-center space-x-4">
             <BaseButton
                 class="w-[200px]"
                 theme="primary"
@@ -27,7 +35,8 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import { store } from '@/store';
 import useLayer from '@/composables/useLayer';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
@@ -44,6 +53,7 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 
 const router = useRouter();
+const route = useRoute();
 
 const { close, open } = useLayer();
 
@@ -75,8 +85,11 @@ function openCreateLayer() {
 
 // JOIN
 
-function join() {
-    close('CreateDaoActionLayer');
-    router.push({ name: 'home', query: { section: 'daos' } });
+async function join() {
+    close(props.id);
+    await router.replace({ name: 'home', query: { section: 'daos' } });
+    if (route.name === 'home') {
+        store.dispatch('app/updateView');
+    }
 }
 </script>
