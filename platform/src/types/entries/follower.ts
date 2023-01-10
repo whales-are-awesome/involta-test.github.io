@@ -1,14 +1,14 @@
-interface IFollower {
+interface IFollowerAPI {
     address: string
     name: string
     votingPower: number
 }
 
-interface IFollowerOnChain {
+interface IFollowerChain {
 
 }
 
 export {
-    IFollower,
-    IFollowerOnChain
+    IFollowerAPI,
+    IFollowerChain
 }

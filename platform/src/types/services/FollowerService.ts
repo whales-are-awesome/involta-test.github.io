@@ -1,5 +1,9 @@
 import { IPaginationParams } from '@/types/api';
-import { IFollower } from '@/types/entries/follower';
+import { IFollowerAPI } from '@/types/entries/follower';
+
+interface IFollower extends IFollowerAPI {
+
+}
 
 export {
     IFollower,

@@ -1,4 +1,6 @@
-interface IProposal {
+// API
+
+interface IProposalAPI {
     id: number
     name: string
     description: string
@@ -8,21 +10,12 @@ interface IProposal {
     createdBy: string
 }
 
+
+// CHAIN
+
 enum ProposalActionType {
     Regular,
     App
-}
-
-
-type ProposalPipeline = [ProposalActionType, string, string, number];
-
-interface IProposalOnChain {
-    abstainVp: number
-    againstVp: number
-    creationBlock: number
-    creationTime: number
-    forVp: number
-    pipeline: ProposalPipeline[]
 }
 
 enum ProposalStatus {
@@ -40,15 +33,21 @@ enum ProposalVoteType {
     Abstain
 }
 
-interface IProposalCombined extends IProposal, IProposalOnChain {
+type ProposalPipeline = [ProposalActionType, string, string, number];
 
+interface IProposalChain {
+    abstainVp: number
+    againstVp: number
+    creationBlock: number
+    creationTime: number
+    forVp: number
+    pipeline: ProposalPipeline[]
 }
 
 export {
-    IProposal,
+    IProposalAPI,
     ProposalPipeline,
-    IProposalOnChain,
-    IProposalCombined,
+    IProposalChain,
     ProposalStatus,
     ProposalVoteType
 }

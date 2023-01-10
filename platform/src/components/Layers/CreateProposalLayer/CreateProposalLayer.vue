@@ -398,7 +398,7 @@ async function createProposal() {
     }
 
 
-    const [response, error] = await ProposalService.createProposalOnChain({
+    const [response, error] = await ProposalService.createProposalChain({
         contractAddress: route.params.address as string,
         actions: formData.value.transactions
             .map((item: any) => ({

@@ -3,7 +3,7 @@ interface IPathItem {
     address: string
 }
 
-interface IDao {
+interface IDaoAPI {
     address: string
     creationTx: string
     followersAmount: number
@@ -19,6 +19,11 @@ interface IDao {
     path: IPathItem[]
 }
 
-interface IDaoOnChain {
+interface IDaoChain {
 
+}
+
+export {
+    IDaoAPI,
+    IDaoChain
 }

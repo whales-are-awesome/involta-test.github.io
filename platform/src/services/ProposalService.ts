@@ -5,22 +5,13 @@ import cutAddress from '@/helpers/cutAddress';
 import { IResponsePagination, Config } from '@/types/api';
 import {
     IProposal,
-    IFetchProposalPath,
-    IProposalParams,
-    ICreateProposalOnChainParams,
-    ICreateProposalOnChainResponse,
-    ICreateProposalParams,
-    IProposalCombined,
-    IProposalCombinedDefault,
-    IProposalCombinedDefaultNormalizedAsDefault,
-
-    IProposalItem,
-    IProposalItemQuery,
-    INormalizedProposalItem,
-
-    IPaginationParams
+    IProposalNormalizedAsDefault,
+    IProposalPath,
+    ICreateProposalChainParams,
+    ICreateProposalChainResponse,
+    ICreateProposalParams
 } from '@/types/services/ProposalService';
-import { IProposalOnChain } from '@/types/entries/proposal'
+import { IProposalChain } from '@/types/entries/proposal'
 import isContract from '@/helpers/isContract'
 
 import { IDaoPath } from '@/types/services/DaoService';
@@ -28,8 +19,8 @@ import { IDaoPath } from '@/types/services/DaoService';
 //toDo: добить интерфейсы
 
 export default class ProposalService {
-    static async createProposalOnChain(params: ICreateProposalOnChainParams) {
-        return API.sendOnChain<ICreateProposalOnChainResponse>({
+    static async createProposalChain(params: ICreateProposalChainParams) {
+        return API.sendChain<ICreateProposalChainResponse>({
             contractAddress: params.contractAddress,
             contractABI: daoControllerABI,
             methodName: 'createProposal',
@@ -41,15 +32,15 @@ export default class ProposalService {
         return API.post<any>(`/${ path.network }/dao/${ path.address }/proposal`, params, config);
     }
 
-    static async fetchProposal(path: IFetchProposalPath) {
+    static async fetchProposal(path: IProposalPath) {
         const [data, ...rest] = await API.get<IProposal>(`/${ path.network }/dao/${ path.address }/proposal/${ path.id }`);
-        const [chainData, ...restChainData] = await API.getFromChain<IProposalOnChain>({
+        const [chainData, ...restChainData] = await API.getFromChain<IProposalChain>({
             contractAddress: path.address,
             params: [path.id],
             contractABI: daoControllerABI,
             methodName: 'getProposal'
         });
-        let fullData: IProposalCombinedDefault | null = null;
+        let fullData: IProposal | null = null;
 
         if (data && chainData) {
             fullData = cloneDeep({
@@ -66,7 +57,7 @@ export default class ProposalService {
         return [fullData, ...rest] as const;
     }
 
-    static async fetchProposalAsDefault(path: IFetchProposalPath) {
+    static async fetchProposalAsDefault(path: IProposalPath) {
         const [data, ...rest] = await ProposalService.fetchProposal(path);
 
         return [data && await normalizeProposalAsDefault(data), ...rest] as const;
@@ -78,7 +69,7 @@ export default class ProposalService {
     }
 
     static async voteProposal(params: any) {
-        return API.sendOnChain<never>({
+        return API.sendChain<never>({
             contractAddress: params.contractAddress,
             contractABI: daoControllerABI,
             methodName: 'voteProposal',
@@ -94,7 +85,7 @@ export default class ProposalService {
 }
 
 
-async function normalizeProposalAsDefault(data: IProposalCombinedDefault): Promise<IProposalCombinedDefaultNormalizedAsDefault> {
+async function normalizeProposalAsDefault(data: IProposal): Promise<IProposalNormalizedAsDefault> {
     return {
         ...data,
         createdByAddressOrName: data.createdByName || cutAddress(data.createdBy),

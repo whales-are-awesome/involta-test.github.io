@@ -1,26 +1,31 @@
 import { IPaginationParams } from '@/types/api'
-import { IDaoPath } from '@/types/services/DaoService'
-import { IProposal, IProposalCombined, ProposalPipeline } from '@/types/entries/proposal'
+import { IProposalAPI, IProposalChain, ProposalPipeline } from '@/types/entries/proposal'
 
-interface IProposalPipelineDefault {
-    actionType: ProposalPipeline[0]
-    to: ProposalPipeline[1]
-    data: ProposalPipeline[2]
-    value: ProposalPipeline[3]
-    isContract: boolean
-    addressOrName: string
-}
-
-interface IProposalCombinedDefault extends IProposalCombined {
+interface IProposal extends IProposalAPI, IProposalChain {
     createdByName?: string
 }
 
-interface IProposalCombinedDefaultNormalizedAsDefault extends Omit<IProposalCombinedDefault, 'pipeline'> {
-    createdByAddressOrName: string
-    pipeline: IProposalPipelineDefault[]
+interface IProposalItem extends IProposal {
 }
 
-interface IFetchProposalPath extends IDaoPath {
+interface IProposalNormalizedAsDefault extends Omit<IProposal, 'pipeline'> {
+    createdByAddressOrName: string
+    pipeline: {
+        actionType: ProposalPipeline[0]
+        to: ProposalPipeline[1]
+        data: ProposalPipeline[2]
+        value: ProposalPipeline[3]
+        isContract: boolean
+        addressOrName: string
+    }[]
+}
+
+interface INormalizedProposalItem extends IProposalNormalizedAsDefault {
+}
+
+interface IProposalPath {
+    network: string
+    address: string
     id: number | string
 }
 
@@ -28,7 +33,7 @@ interface IProposalParams {
     id: string
 }
 
-interface ICreateProposalOnChainParams {
+interface ICreateProposalChainParams {
     contractAddress: string
     actions: Array<{
         actionType: number
@@ -38,7 +43,7 @@ interface ICreateProposalOnChainParams {
     }>
 }
 
-interface ICreateProposalOnChainResponse {
+interface ICreateProposalChainResponse {
     hash: string
 }
 
@@ -48,8 +53,7 @@ interface ICreateProposalParams {
     description: string
 }
 
-interface IProposalItem extends IProposal {
-}
+
 
 interface IProposalItemQuery {
     search: string
@@ -57,20 +61,15 @@ interface IProposalItemQuery {
     statusId: number | string
 }
 
-interface INormalizedProposalItem extends IProposal {
-}
-
 
 export {
     IProposal,
-    IFetchProposalPath,
+    IProposalPath,
     IProposalParams,
-    ICreateProposalOnChainParams,
-    ICreateProposalOnChainResponse,
+    IProposalNormalizedAsDefault,
+    ICreateProposalChainParams,
+    ICreateProposalChainResponse,
     ICreateProposalParams,
-    IProposalCombined,
-    IProposalCombinedDefault,
-    IProposalCombinedDefaultNormalizedAsDefault,
 
     IProposalItem,
     IProposalItemQuery,

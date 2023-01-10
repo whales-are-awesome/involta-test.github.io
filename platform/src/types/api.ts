@@ -22,7 +22,7 @@ interface IResponsePagination<T> {
 }
 
 
-interface sendDataOnChainProps {
+interface sendDataChainProps {
     contractAddress?: string
     contractABI?: any
     contractName?: ConctactNames
@@ -37,6 +37,6 @@ export {
     SendResult,
     IResponsePagination,
     IPaginationParams,
-    sendDataOnChainProps,
+    sendDataChainProps,
     Config
 }

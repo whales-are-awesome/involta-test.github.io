@@ -1,19 +1,8 @@
+import { IDaoAPI } from '@/types/entries/dao'
 import { IPaginationParams } from '@/types/api'
 
-interface IDao {
-    address: string
-    creationTx: string
-    followersAmount: number
-    isFollowed: boolean
-    network: string
-    parentDao: string
-    rootDao: string
-    creator: string
-    name: string
-    description: string
-    link: string
-    image: string
-    path: {name: string, address: string}[]
+interface IDao extends IDaoAPI {
+
 }
 
 interface IDaoPath {

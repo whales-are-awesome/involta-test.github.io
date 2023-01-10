@@ -2,7 +2,7 @@ import daoFactoryABI from '@/abi/daoFactoryABI';
 import axios, { Canceler } from '@/plugins/axios';
 import camelize from '@/helpers/camelize';
 import snakelize from '@/helpers/snakelize';
-import { FetchResult, SendResult, sendDataOnChainProps, Config } from '@/types/api'
+import { FetchResult, SendResult, sendDataChainProps, Config } from '@/types/api'
 import { ethers, Signer } from 'ethers'
 import { store } from '@/store';
 
@@ -26,7 +26,7 @@ class API {
         return API.provider?.getSigner();
     }
 
-    static async sendOnChain<T>(props: sendDataOnChainProps): SendResult<{trx: any, trxReceipt: any}> {
+    static async sendChain<T>(props: sendDataChainProps): SendResult<{trx: any, trxReceipt: any}> {
         try {
             const contract = props.contractAddress ? new ethers.Contract(props.contractAddress, props.contractABI, API.provider) : API.contracts[props.contractName!];
             const signer = await API.getSigner();
@@ -50,7 +50,7 @@ class API {
         }
     }
 
-    static async getFromChain<T>(props: sendDataOnChainProps): SendResult<T> {
+    static async getFromChain<T>(props: sendDataChainProps): SendResult<T> {
         try {
             const contract = props.contractAddress ? new ethers.Contract(props.contractAddress, props.contractABI, API.provider) : API.contracts[props.contractName!];
 
