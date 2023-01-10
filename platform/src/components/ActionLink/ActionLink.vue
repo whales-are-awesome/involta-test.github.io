@@ -40,7 +40,7 @@ import ThemeSettings from '@/types/themeSettings';
 interface IProps {
     to?: RouterLinkProps['to']
     theme?: Themes
-    themeSettings?: ThemeSettings<'root'>
+    themeSettings?: ThemeSettings<'root' | 'color'>
 }
 
 interface IEmits {
@@ -61,7 +61,7 @@ interface IThemeProps extends Pick<IProps, 'themeSettings' | 'theme'>{}
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, theme }) => [themeSettings?.root,
         'transition-fast cursor-pointer',
-        {
+        themeSettings?.color || {
             'text-primary-400 hover:text-primary-500': theme === 'primary',
             'text-gray-400 hover:text-gray-500': theme === 'secondary',
             'text-gray-500 hover:text-gray-600': theme === 'secondary-dark'

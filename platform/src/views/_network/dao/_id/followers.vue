@@ -74,22 +74,22 @@
                     >
                         <div>
                             <div
-                                v-if="item.name"
-                                class="text-gray-600 font-semibold mb-1"
-                            >
-                                Vitalik.eth
-                            </div>
-                            <ActionLink
-                                class="!text-[#6C6C7D] font-medium text-xs flex items-center"
+                                class="font-medium text-sm flex items-center group text-gray-600 group-hover:text-gray-700 cursor-pointer"
                                 @click="copyAddress(item.address)"
                             >
                                 {{ cutAddress(item.address, 7, 4) }}
                                 <BaseIcon
-                                    class="ml-0.5"
+                                    class="ml-0.5 text-gray-400 group-hover:text-gray-500"
                                     name="copy"
-                                    width="14"
+                                    width="18"
                                 />
-                            </ActionLink>
+                            </div>
+                            <div
+                                v-if="item.name"
+                                class="text-primary-500 font-semibold text-xxs mt-1"
+                            >
+                                {{ item.name }}
+                            </div>
                         </div>
                     </BaseAvatar>
                     <div class="bg-white py-[19px] px-3 rounded-[8px] flex">
@@ -133,7 +133,6 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import TagsButtonList from '@/components/TagsButtonList/TagsButtonList.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
-import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import useLayer from '@/composables/useLayer';
 import useDao from '@/composables/fetch/useDao';
 import useError from '@/composables/useError';
@@ -206,7 +205,7 @@ function invite() {
     notify({
         title: 'Link copied',
     });
-    copy(window.origin + route.path.split('/').slice(0, -1).join('/'));
+    copy(window.origin + route.path.split('/').slice(0, -1).join('/') + '?invitation=true');
 }
 
 

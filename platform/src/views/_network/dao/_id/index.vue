@@ -208,7 +208,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 
 import TagsList from '@/components/TagsList/TagsList.vue';
@@ -235,12 +235,13 @@ import { Statuses, MainSections } from '@/types/statuses';
 import getQueryParam from '@/helpers/getQueryParam';
 import useQueryUpdates from '@/composables/useQueryUpdates';
 import useIsMobile from '@/composables/useIsMobile';
+import followDao from '@/helpers/followDao';
 
 
 
 // META
 
-const { open } = useLayer();
+const { alert } = useLayer();
 
 const route = useRoute();
 const { query } = route;
@@ -427,5 +428,31 @@ const breadcrumbs = computed(() => {
     data.push({ title: pageData.value?.fullName });
 
     return data;
+});
+
+
+// FOLLOW
+
+let showFollow = false;
+
+watch(pageData, async () => {
+    if (pageData.value?.isFollowed === false && query.invitation && !showFollow) {
+        const { network, address } = route.params;
+
+        const isFollow = await alert({
+            title: 'Follow dao?',
+            text: 'Do you want to follow this dao?',
+            buttonText: 'Yes',
+            status: 'unknown'
+        });
+
+        if (isFollow) {
+            const [_, error] = await followDao(address as string, network as string, alert, false);
+        }
+    }
+
+    if (pageData.value !== null && !showFollow) {
+        showFollow = true;
+    }
 });
 </script>
