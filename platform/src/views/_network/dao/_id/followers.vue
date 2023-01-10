@@ -5,7 +5,7 @@
     >
         <div>
             <BaseButton
-                class="!text-gray-400 mb-5"
+                class="mb-5"
                 :size="!isMobile.sm  ? 'sm' : 'mobile'"
                 view="ghost"
                 :icon="{
@@ -14,6 +14,9 @@
                     prepend: true
                 }"
                 :href="{ name: 'network-dao-address', params: $route.params  }"
+                :theme-settings="{
+                    textColor: 'text-gray-400'
+                }"
             >
                 Back
             </BaseButton>

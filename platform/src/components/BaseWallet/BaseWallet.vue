@@ -29,7 +29,7 @@
                         prepend: true,
                         width: 16,
                         name: 'copy',
-                        class: '!text-[#494957]'
+                        className: 'text-[#494957]'
                     }"
                     justify="start"
                     @click="copyAddress(close)"

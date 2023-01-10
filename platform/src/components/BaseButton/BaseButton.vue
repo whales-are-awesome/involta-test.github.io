@@ -13,7 +13,7 @@
             <slot name="prepend"></slot>
             <BaseIcon
                 v-if="icon && icon.prepend"
-                :class="[classes.icon, icon.class]"
+                :class="[classes.icon, icon?.className]"
                 :name="icon.name"
                 :width="icon.width"
                 :height="icon.height"
@@ -31,7 +31,7 @@
             <slot name="append"></slot>
             <BaseIcon
                 v-if="icon && !icon.prepend"
-                :class="[classes.icon, icon.class]"
+                :class="[classes.icon, icon?.className]"
                 :name="icon.name"
                 :width="icon.width"
                 :height="icon.height"
@@ -69,7 +69,7 @@ interface IProps {
         name: Icons
         width?: string
         height?: string
-        class?: string
+        className?: string
         prepend?: boolean
     }
     rounded?: Rounded
@@ -128,9 +128,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         {
             'px-5 text-lg': size === 'lg',
             'px-5 text-base': size === 'md',
-            'px-[18px] text-sm md:text-xxs': size === 'sm',
+            'px-[18px] text-sm': size === 'sm',
+            'md:text-xxs': size === 'sm' && rounded !== 'lg',
+            'sm:text-xxs': size === 'sm' && rounded === 'lg',
             'px-[24px] md:text-xxs sm:px-2': size === 'mobile',
-            'sm:!text-xxs': size === 'sm' && rounded === 'lg',
 
             'justify-center': justify === 'center',
             'justify-start': justify === 'start',

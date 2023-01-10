@@ -124,7 +124,7 @@ const { close, alert, closeLast, open } = useLayer();
 
 const useClasses = makeClasses(() => ({
     top: 'flex items-center justify-between mb-11',
-    title: 'title-h5 !text-600 mb-2',
+    title: 'title-h5 text-600 mb-2',
     topText: 'text-sm font-medium text-400',
     cross: 'text-[#B6B6BE] cursor-pointer',
     fields: 'pb-6 space-y-6',

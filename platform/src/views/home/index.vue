@@ -192,14 +192,6 @@
                         />
                     </div>
                 </div>
-                <BaseButton
-                    class="w-full"
-                    view="outlined"
-                    size="sm"
-                    rounded="lg"
-                >
-                    Show more Daos
-                </BaseButton>
             </div>
         </div>
     </div>

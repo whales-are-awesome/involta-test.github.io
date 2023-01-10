@@ -286,7 +286,7 @@ const useClasses = makeClasses(() => ({
         'flex items-center justify-between mb-11 sm:items-start'
     ],
     title: () => [
-        'title-h5 !text-600 mb-2'
+        'title-h5 text-600 mb-2'
     ],
     topText: () => [
         'text-sm font-medium text-400 sm:text-xxs'

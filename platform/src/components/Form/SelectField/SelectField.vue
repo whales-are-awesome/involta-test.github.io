@@ -85,11 +85,13 @@
                     </slot>
                 </template>
                 <template #search="{ attributes, events }">
-                    <input
-                        :class="[classes.search, classes.height, classes.padding]"
-                        v-bind="attributes"
-                        v-on="events"
-                    >
+                    <div :class="classes.searchWrapper">
+                        <input
+                            :class="[classes.search, classes.height, classes.padding]"
+                            v-bind="attributes"
+                            v-on="events"
+                        >
+                    </div>
                 </template>
             </VueSelect>
         </div>
@@ -208,10 +210,10 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'bg-primary-100 hover:bg-primary-200': theme === 'primary'
         }
     ],
-    search: ({ searchable }) => [
-        'absolute top-0 left-0 w-10/12 opacity-0 focus:opacity-100',
+    search: 'absolute top-0 left-0 w-10/12 opacity-0 focus:opacity-100',
+    searchWrapper: ({ searchable }) => [
         {
-            '!hidden': !searchable
+            'hidden': !searchable
         }
     ],
     optionIcon: 'mr-2',

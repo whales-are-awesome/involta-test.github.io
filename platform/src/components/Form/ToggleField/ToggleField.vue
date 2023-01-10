@@ -103,29 +103,28 @@ const useClasses = makeClasses<ThemeProps>(
                 },
 
                 type === 'radio' && {
-                    'rounded-full w-3 h-3': true,
+                    [`rounded-full w-3 h-3
+                      group-hover:border-surface-500 peer-focus-visible:border-surface-500
+                      peer-focus-visible:shadow-[0_0_0_4px_rgba(78,70,180,0.2)]`]: true,
                     'border-surface-500': checked && !disabled,
                     'bg-100 border-200': disabled && checked,
-                    'opacity-[.12]': disabled && !checked,
-                    'group-hover:border-surface-500 peer-focus-visible:border-surface-500 peer-focus-visible:shadow-[0_0_0_4px_rgba(78,70,180,0.2)]': true
+                    'opacity-[.12]': disabled && !checked
                 },
                 type === 'checkbox' && {
-                    'rounded-sm w-4 h-4': true,
-                    'opacity-[.12]': disabled && checked,
-                    'group-hover:border-surface-500 peer-focus-visible:border-surface-500 peer-focus-visible:shadow-[0_0_0_4px_rgba(78,70,180,0.2)]': true
+                    [`rounded-sm w-4 h-4
+                      group-hover:border-surface-500 peer-focus-visible:border-surface-500
+                      peer-focus-visible:shadow-[0_0_0_4px_rgba(78,70,180,0.2)]`]: true,
+                    'bg-surface-500': checked,
+                    'opacity-[.12]': disabled && checked
                 }
             ],
 
             view === 'switch' && {
-                'rounded-full bg-[#E3E3E5] border-[#D1D1D1]': true,
-                'bg-gray-200': !checked,
-                '!border-surface-600': checked && !disabled,
+                'rounded-full': true,
+                'bg-gray-200 border-[#D1D1D1]': !checked,
+                'bg-[#E3E3E5] border-surface-600': checked && !disabled,
                 'w-6 h-3.5': size === 'md',
                 'w-11 h-6': size === 'lg',
-            },
-
-            type === 'checkbox' && {
-                '!bg-surface-500': checked
             }
         ],
         fakeIcon: ({ type, checked, view, disabled, size }) => [

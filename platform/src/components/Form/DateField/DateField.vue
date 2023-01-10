@@ -18,11 +18,13 @@
                 @blur="hidePicker"
             >
         </label>
-        <Datepicker
-            v-model="value"
-            v-bind="pickerOptions"
-            :class="classes.picker"
-        />
+        <div :class="classes.pickerWrapper">
+            <Datepicker
+                v-model="value"
+                v-bind="pickerOptions"
+                :class="classes.picker"
+            />
+        </div>
     </div>
 </template>
 
@@ -66,14 +68,14 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         }
     ],
     fieldWrapper: 'flex flex-col text-500 placeholder:text-300',
-    fieldTitle: 'text-xs text-200 !leading-none',
+    fieldTitle: 'text-xs text-200 leading-none',
     field: 'bg-transparent text-sm h-[24px]',
-    picker: ({ isPickerShown }) => [
-        'absolute top-full left-0 w-full translate-y-7',
+    picker: 'absolute top-full left-0 w-full translate-y-7',
+    pickerWrapper: ({ isPickerShown }) => [
         {
-            '!hidden': !isPickerShown
+            'hidden': !isPickerShown
         }
-    ]
+    ],
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

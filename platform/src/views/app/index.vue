@@ -9,13 +9,16 @@
         <div class="pt-[34px] px-8 mb-16 md:h-au md:mb-[143px] md:px-0 sm:pt-[26px]">
             <div class="mb-[20px] sm:mb-[15px]">
                 <BaseButton
-                    class="!text-gray-400 -ml-3 sm:-ml-1"
+                    class="-ml-3 sm:-ml-1"
                     :size="!isMobile.sm  ? 'sm' : 'mobile'"
                     view="ghost"
                     :icon="{
                         name: 'arrow-left',
                         width: 10,
                         prepend: true
+                    }"
+                    :theme-settings="{
+                        textColor: 'text-gray-400'
                     }"
                     @click="$router.push({ name: 'home' })"
                 >

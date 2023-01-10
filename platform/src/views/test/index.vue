@@ -2,6 +2,12 @@
     <h1 class="mb-16 pb-16 border-b border-gray-300 mt-16">
         Test
     </h1>
+    <div class="mb-10 pb-10 border-b border-gray-300">
+        <DateField
+            v-model="dateField"
+            title="Date Field"
+        />
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -23,4 +29,6 @@ import DateFieldsWrapper from '@/components/Form/DateField/DateFieldsWrapper.vue
 import BaseAccordion from '@/components/BaseAccordion/BaseAccordion.vue';
 import useLayer from '@/composables/useLayer';
 
+
+const dateField = ref('');
 </script>

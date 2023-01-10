@@ -12,7 +12,6 @@
         <div v-if="pageData">
             <div class="flex justify-between items-center text-sm tracking-[0.4px] text-gray-400  mb-11 md:-mx-3 md:mb-[37px] sm:-mx-5">
                 <BaseButton
-                    class="!text-gray-400"
                     :size="!isMobile.sm  ? 'sm' : 'mobile'"
                     view="ghost"
                     :icon="{
@@ -20,17 +19,22 @@
                         width: 10,
                         prepend: true
                     }"
+                    :theme-settings="{
+                        textColor: 'text-gray-400'
+                    }"
                 >
                     Back
                 </BaseButton>
                 <BaseButton
-                    class="!text-gray-400"
                     :size="!isMobile.sm  ? 'sm' : 'mobile'"
                     view="ghost"
                     :icon="{
                         name: 'arrow-left',
-                        class: '-scale-x-100',
+                        className: '-scale-x-100',
                         width: 10
+                    }"
+                    :theme-settings="{
+                        textColor: 'text-gray-400'
                     }"
                 >
                     Next proposal
