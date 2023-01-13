@@ -9,8 +9,9 @@
                 :class="[classes.root,
                     !item.data?.view && {
                         'shadow-[0_2px_2px_rgba(41,41,211,0.08)] border-l-3': true,
-                        'text-600 border-primary-400 bg-white': !item.data?.theme,
-                        'text-primary-600 border-primary-600 bg-primary-100': item.data?.theme === 'primary',
+                        'text-600 border-primary-400 bg-white': item.data?.theme === 'base',
+                        'text-600 border-primary-400 bg-primary-100': item.data?.theme === 'primary-light',
+                        'text-primary-600 border-primary-600 bg-primary-100': !item.data?.theme,
                     },
                     item.data?.view === 'shadow' && {
                         'border': true,
@@ -24,7 +25,7 @@
                 <BaseIcon
                     :class="[classes.icon,
                         !item.data?.view && {
-                            'text-primary-400': !item.data?.theme,
+                            'text-primary-400': !item.data?.theme || item.data?.theme === 'primary-light',
                             'text-primary-600': item.data?.theme === 'primary',
                         },
                         item.data?.view === 'shadow' && {
@@ -46,7 +47,7 @@
                     <div
                         v-if="item.text"
                         v-html="item.text"
-                        :class="classes.text"
+                        :class="[classes.text, item.title && 'mt-1']"
                     />
                 </div>
                 <BaseCross
@@ -78,7 +79,7 @@ const useClasses = makeClasses(() => ({
     icon: 'mr-2',
     cross: 'ml-2',
     title: 'font-bold',
-    text: 'text-sm mt-1'
+    text: 'text-sm'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

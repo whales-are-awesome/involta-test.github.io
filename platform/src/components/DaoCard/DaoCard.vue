@@ -155,7 +155,7 @@ async function follow() {
 
     isFollowingPending.value = true;
 
-    const [_, error] = await followDao(props.address, props.network, alert, isFollowedLocal.value);
+    const [_, error] = await followDao(props.name, props.address, props.network, alert, isFollowedLocal.value);
 
     if (!error ){
         followersAmountLocal.value = isFollowedLocal.value ? followersAmountLocal.value - 1 : followersAmountLocal.value + 1;

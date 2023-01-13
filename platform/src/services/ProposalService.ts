@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, omit } from 'lodash';
 import API from '@/helpers/api';
 import daoControllerABI from '@/abi/daoControllerABI';
 import cutAddress from '@/helpers/cutAddress';
@@ -15,6 +15,7 @@ import { IProposalChain } from '@/types/entries/proposal'
 import isContract from '@/helpers/isContract'
 
 import { IDaoPath } from '@/types/services/DaoService';
+import { ethers } from 'ethers';
 
 //toDo: добить интерфейсы
 
@@ -29,7 +30,20 @@ export default class ProposalService {
     }
 
     static async createProposal(path: IDaoPath, params: ICreateProposalParams, config: Config) {
-        return API.post<any>(`/${ path.network }/dao/${ path.address }/proposal`, params, config);
+        const [response, error] = await ProposalService.createProposalChain({
+            contractAddress: path.address,
+            actions: params.actions
+        });
+
+        if (response?.trx) {
+            return API.post<never>(`/${ path.network }/dao/${ path.address }/proposal`, omit({
+                ...params,
+                creationTx: response?.trx.hash
+            }, ['actions']), config);
+        }
+
+        return [null, error, () => {}];
+
     }
 
     static async fetchProposal(path: IProposalPath) {

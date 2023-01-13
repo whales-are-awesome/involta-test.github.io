@@ -5,8 +5,10 @@ import useLayer from  '@/composables/useLayer';
 import { IDaoTransactionCookie } from  '@/types/dao';
 import emitter from '@/plugins/mitt';
 import sign from '@/helpers/sign';
+import { uuidv4 } from '@/helpers/uuid';
 import DaoService from '@/services/DaoService';
 import { store } from '@/store';
+import { notify } from '@kyvg/vue3-notification';
 
 function useWatchForCreatedDaos() {
     const cookies = useCookies();
@@ -37,12 +39,10 @@ function useWatchForCreatedDaos() {
     }
 
     async function showMessage(address: string, data: IDaoTransactionCookie) {
-        const router = useRouter();
-
         if (address) {
             await layer.alert({
                 title: 'Dao was created!',
-                text: 'You’ve <strong>successfully created new DAO</strong>. We need your sign to put it\'s data',
+                text: 'You’ve successfully created a new DAO. Sign the message in your wallet to update it\'s metadata.',
                 buttonText: 'Sign',
                 status: 'success',
                 callback: () => tryToPutData(address, data)
@@ -50,16 +50,13 @@ function useWatchForCreatedDaos() {
 
             emitter.emit('daoCreated');
         } else {
-            const isTake = await layer.alert({
-                title: 'Dao wasn\'t created!',
-                text: 'The <strong>Transaction was cancelled</strong> due current mistake',
-                buttonText: 'Take me Home',
-                status: 'error'
+            notify({
+                text: 'The <strong>transaction was cancelled</strong>',
+                data: {
+                    view: 'shadow',
+                    theme: 'alert'
+                }
             });
-
-            if (isTake) {
-                router.push({ name: 'home' });
-            }
         }
     }
 
@@ -93,7 +90,18 @@ function useWatchForCreatedDaos() {
     }
 
     async function tryToPutData(address: string, data: IDaoTransactionCookie) {
-        const [signInfo, err] = await sign('Put data?');
+        const text = [
+            'By signing this message you will update DAO metadata to:\n',
+            'Name: ' + data.name,
+            'Description: ' + data.description,
+            'Link: ' + data.link + '\n',
+            'This request will not trigger a blockchain transaction or cost any gas fees.\n',
+            'Wallet address: ' + store.state.wallet.address,
+            'Nonce: ' + uuidv4()
+        ].join('\n');
+
+        const [signInfo, err] = await sign(text);
+
 
         if (err) {
             return;
@@ -102,20 +110,24 @@ function useWatchForCreatedDaos() {
         const [_, error] = await putData(address, data, signInfo);
 
         if (!error) {
-            await layer.alert({
+            notify({
                 title: 'Success',
-                text: `Your ${ address } dao was created`,
-                buttonText: 'OK',
-                status: 'success'
+                text: 'You\'ve successfully update dao metadata',
+                data: {
+                    view: 'shadow',
+                    theme: 'success'
+                }
+            });
+        } else {
+            notify({
+                title: 'Error',
+                text: 'Dao is not indexed yet. Please wait some time for dao to be indexed',
+                data: {
+                    view: 'shadow',
+                    theme: 'alert'
+                }
             });
         }
-
-        layer.alert({
-            title: 'Dao is not indexed yet.',
-            text: 'Please wait some time for dao to be indexed',
-            buttonText: 'OK',
-            status: 'error'
-        });
 
         const int = setInterval(async() => {
             const [response] = await putData(address, data, signInfo);
@@ -123,11 +135,13 @@ function useWatchForCreatedDaos() {
             if (response) {
                 clearInterval(int);
 
-                await layer.alert({
-                    title: 'Dao was successfuly indexed',
-                    text: `Index process of ${ address } dao was success`,
-                    buttonText: 'OK',
-                    status: 'success'
+                notify({
+                    title: 'Success',
+                    text: 'You\'ve successfully update dao metadata',
+                    data: {
+                        view: 'shadow',
+                        theme: 'success'
+                    }
                 });
             }
         }, 5000);

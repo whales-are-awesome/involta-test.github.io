@@ -135,7 +135,7 @@ async function follow() {
 
     const { address, network, isFollowed } = currentDao.value.data!;
 
-    const [_, error] = await followDao(address, network, layer.alert, isFollowed);
+    const [_, error] = await followDao(currentDao.value?.data?.name || '', address, network, layer.alert, isFollowed);
 
     isFollowing.value = false;
 }

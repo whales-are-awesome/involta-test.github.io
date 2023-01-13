@@ -2,15 +2,27 @@ import sign from '@/helpers/sign';
 import FollowerService from '@/services/FollowerService';
 import emitter from '@/plugins/mitt';
 import { notify } from '@kyvg/vue3-notification';
+import { store } from '@/store';
+import { uuidv4 } from '@/helpers/uuid';
 
-async function followDao(address: string, network: string, alert: any, isDelete = false) {
-    const [signInfo, err] = await sign(`Do you want to ${ isDelete ? 'delete' : 'follow' } this dao?`);
+async function followDao(name: string, address: string, network: string, alert: any, isUnfollow = false) {
+    const actionText = isUnfollow ? 'unfollow' : 'follow';
+
+    const text = [
+        `By signing this message you will ${ actionText } "${ name || address }"`,
+        '\n',
+        'This request will not trigger a blockchain transaction or cost any gas fees.' +
+        '\n',
+        'Wallet address: ' + store.state.wallet.address,
+        'Nonce: ' + uuidv4()
+    ].join('\n')
+    const [signInfo, err] = await sign(text);
 
     if (err) {
         return [null, err] as const;
     }
 
-    const [response, error] = await FollowerService[isDelete ? 'unFollowDao' : 'followDao'](
+    const [response, error] = await FollowerService[isUnfollow ? 'unFollowDao' : 'followDao'](
         {
             address,
             network
@@ -25,17 +37,24 @@ async function followDao(address: string, network: string, alert: any, isDelete 
 
     if (!error) {
         notify({
-            title: `You have successfully ${ isDelete ? 'unfollowed' : 'followed' } the dao`
+            title: 'Success',
+            text: `You have successfully ${ isUnfollow ? 'unfollowed' : 'followed' } the dao`,
+            data: {
+                view: 'shadow',
+                theme: 'success'
+            }
         });
 
         emitter.emit('daoFollowed');
     } else {
-        alert({
-            title: 'Warning message!',
+        notify({
+            title: 'Error',
             text: 'Something go wrong',
-            buttonText: 'OK',
-            status: 'error'
-        })
+            data: {
+                view: 'shadow',
+                theme: 'alert'
+            }
+        });
     }
 
     return [response, error] as const;

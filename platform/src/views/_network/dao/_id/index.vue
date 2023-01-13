@@ -241,7 +241,7 @@ import followDao from '@/helpers/followDao';
 
 // META
 
-const { alert } = useLayer();
+const { alert, open } = useLayer();
 
 const route = useRoute();
 const { query } = route;
@@ -447,7 +447,7 @@ watch(pageData, async () => {
         });
 
         if (isFollow) {
-            const [_, error] = await followDao(address as string, network as string, alert, false);
+            const [_, error] = await followDao(pageData.value?.name, address as string, network as string, alert, false);
         }
     }
 

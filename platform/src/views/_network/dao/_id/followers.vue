@@ -244,7 +244,7 @@ async function fetchFollowers() {
 function copyAddress(address: string) {
     copy(address);
     notify({
-        title: 'Address copied',
+        title: 'Address copied'
     });
 }
 </script>

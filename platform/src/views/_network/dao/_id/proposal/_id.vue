@@ -496,7 +496,6 @@ const breadcrumbs = computed(() => {
 
 const proposal = useFetchData<IProposalCombinedDefaultNormalizedAsDefault>();
 
-ProposalService
 fetchProposal();
 
 async function fetchProposal() {
@@ -528,15 +527,23 @@ async function vote(voteType: ProposalVoteType) {
         }
     );
 
-    console.log(data);
-
     if (!error) {
         notify({
-            title: 'You have successfully voted for proposal'
+            title: 'Success',
+            text: 'You have successfully voted for proposal',
+            data: {
+                view: 'shadow',
+                theme: 'success'
+            }
         });
     } else {
         notify({
-            title: 'Something went wrong'
+            title: 'Error',
+            text: 'Something went wrong',
+            data: {
+                view: 'shadow',
+                theme: 'alert'
+            }
         });
     }
 

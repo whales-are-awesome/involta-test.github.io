@@ -154,6 +154,7 @@
                             :to="{ name: 'network-dao-address', params: { network: item.network, address: item.address } }"
                             :avatar="item.image"
                             :name="item.fullName"
+                            :is-followed="item.isFollowed"
                             :network="item.network"
                             :address="item.address"
                             :followers-amount="item.followersAmount"

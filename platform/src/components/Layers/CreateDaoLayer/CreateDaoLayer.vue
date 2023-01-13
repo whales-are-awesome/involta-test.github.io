@@ -101,6 +101,7 @@ import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
 import DaoService from '@/services/DaoService';
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
+import { notify } from '@kyvg/vue3-notification';
 
 
 // META
@@ -180,11 +181,8 @@ async function createDAO() {
     });
 
     if (response?.trx) {
-        await alert({
-            title: 'Transaction is being processed!',
-            text: 'We will show you a message when transaction will be done.',
-            buttonText: 'OK',
-            status: 'success'
+        notify({
+            text: 'Dao creation Tx is pending.'
         });
 
         watchForCreatedDaos.add({
@@ -193,21 +191,18 @@ async function createDAO() {
             name: formData.value.name,
             link:  formData.value.link
         });
+        close(props.id);
     } else {
-        const isTake = await alert({
-            title: 'Warning message!',
-            text: 'The <strong>Transaction was cancelled</strong> due mistake',
-            buttonText: 'Take me Home',
-            status: 'error'
+        notify({
+            title: 'Error',
+            text: 'The <strong>transaction was cancelled</strong>',
+            data: {
+                view: 'shadow',
+                theme: 'alert'
+            }
         });
-
-        if (isTake) {
-            router.push({ name: 'home' });
-        }
     }
 
-
-    await closeLast();
 
     isSending.value = false;
 }

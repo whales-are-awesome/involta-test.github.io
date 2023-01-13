@@ -256,9 +256,10 @@ import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
 import ProposalService from '@/services/ProposalService';
-import { createId } from '@/helpers/uuid';
+import { createId, uuidv4 } from '@/helpers/uuid';
 import useIsMobile from '@/composables/useIsMobile';
 import sign from '@/helpers/sign';
+import { notify } from '@kyvg/vue3-notification';
 import { store } from '@/store';
 
 // META
@@ -391,67 +392,69 @@ async function createProposal() {
 
     isSending.value = true;
 
-    const [signInfo, err] = await sign('Do you want create the proposal?');
+    const text = [
+        'By signing this message you will update proposal metadata:',
+        '\n',
+        'Name: ' + formData.value.name,
+        'Description: ' + formData.value.description,
+        '\n',
+        'This request will not trigger a blockchain transaction or cost any gas fees.' +
+        '\n',
+        'Wallet address: ' + store.state.wallet.address,
+        'Nonce: ' + uuidv4()
+    ].join('\n')
+
+    const [signInfo, err] = await sign(text);
 
     if (err) {
+        isSending.value = false;
+
         return [null, err] as const;
     }
 
-
-    const [response, error] = await ProposalService.createProposalChain({
-        contractAddress: route.params.address as string,
-        actions: formData.value.transactions
-            .map((item: any) => ({
-                ...item,
-                data: ethers.utils.toUtf8Bytes(item.data),
-                value: +item.value
-            }))
-            .map((item: any) => omit(item, ['id']))
-    });
-
-    if (response?.trx) {
-        await ProposalService.createProposal(
-            {
-                address: route.params.address as string,
-                network: route.params.network as string
-            },
-            {
-                creationTx: response?.trx.hash,
-                name: formData.value.name,
-                description: formData.value.description,
-            },
-            {
-                headers: {
-                    'Auth-Hash': signInfo!.hash,
-                    'Auth-Signature': signInfo!.sign,
-                    'Auth-Address': store.state.wallet.address as string
-                }
-            });
-    }
-
-
-    if (response) {
-        const isTake = await alert({
-            title: 'All set successfully!',
-            text: 'You’ve <strong>successfully created new Proposal</strong>',
-            buttonText: 'Take me Home',
-            status: 'success'
+    const [response, error] =  await ProposalService.createProposal(
+        {
+            address: route.params.address as string,
+            network: route.params.network as string
+        },
+        {
+            name: formData.value.name,
+            description: formData.value.description,
+            actions: formData.value.transactions
+                .map((item: any) => ({
+                    ...item,
+                    data: ethers.utils.toUtf8Bytes(item.data),
+                    value: +item.value
+                }))
+                .map((item: any) => omit(item, ['id']))
+        },
+        {
+            headers: {
+                'Auth-Hash': signInfo!.hash,
+                'Auth-Signature': signInfo!.sign,
+                'Auth-Address': store.state.wallet.address as string
+            }
         });
 
-        if (isTake) {
-            router.push({ name: 'home' });
-        }
-    } else {
-        const isTake = await alert({
-            title: 'Warning message!',
-            text: 'The <strong>Transaction was cancelled</strong> due current mistake',
-            buttonText: 'Take me Home',
-            status: 'error'
-        })
 
-        if (isTake) {
-            router.push({ name: 'home' });
-        }
+    if (!error) {
+        notify({
+            title: 'Success',
+            text: 'You’ve <strong>successfully created new Proposal</strong>',
+            data: {
+                view: 'shadow',
+                theme: 'success'
+            }
+        });
+    } else {
+        notify({
+            title: 'Error',
+            text: 'The <strong>transaction was cancelled</strong>',
+            data: {
+                view: 'shadow',
+                theme: 'alert'
+            }
+        });
     }
 
 

@@ -48,9 +48,14 @@ interface ICreateProposalChainResponse {
 }
 
 interface ICreateProposalParams {
-    creationTx: string
     name: string
     description: string
+    actions: Array<{
+        actionType: number
+        to: string
+        data: string
+        value: number
+    }>
 }
 
 
