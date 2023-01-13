@@ -7,11 +7,11 @@
             <a
                 v-for="(item, index) in items"
                 :key="index"
-                class="mt-3 px-1.5 w-1/4 md:w-1/2 sm:px-1 sm:mt-2"
+                class="group mt-3 px-1.5 w-1/4 md:w-1/2 sm:px-1 sm:mt-2"
                 target="_blank"
                 :href="item.href"
             >
-                <div class="h-[92px] flex items-center justify-center border border-surface-100 rounded-[12px] px-4 transition-fast hover:-translate-y-2 sm:h-[52px] sm:rounded-[8px]">
+                <div class="h-[92px] flex items-center justify-center border border-surface-100 rounded-[12px] px-4 transition-fast group-hover:-translate-y-2 sm:h-[52px] sm:rounded-[8px]">
                     <div class="">
                         <BaseIcon
                             v-if="item.icon"
