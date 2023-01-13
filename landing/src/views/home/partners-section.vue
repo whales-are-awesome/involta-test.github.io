@@ -11,21 +11,23 @@
                 target="_blank"
                 :href="item.href"
             >
-                <div class="h-[92px] flex items-center justify-center border border-surface-100 rounded-[12px] px-4 sm:h-[52px] sm:rounded-[8px]">
-                    <BaseIcon
-                        v-if="item.icon"
-                        class="sm:scale-[0.8]"
-                        :name="item.icon"
-                        :width="item.width"
-                        :height="item.height"
-                    />
-                    <img
-                        v-else
-                        class="sm:scale-[0.8]"
-                        :src="item.image"
-                        :width="item.width"
-                        :alt="`partner-${ index }`"
-                    >
+                <div class="h-[92px] flex items-center justify-center border border-surface-100 rounded-[12px] px-4 transition-fast hover:-translate-y-2 sm:h-[52px] sm:rounded-[8px]">
+                    <div class="">
+                        <BaseIcon
+                            v-if="item.icon"
+                            class="sm:scale-[0.8]"
+                            :name="item.icon"
+                            :width="item.width"
+                            :height="item.height"
+                        />
+                        <img
+                            v-else
+                            class="sm:scale-[0.8]"
+                            :src="item.image"
+                            :width="item.width"
+                            :alt="`partner-${ index }`"
+                        >
+                    </div>
                 </div>
             </a>
         </div>
