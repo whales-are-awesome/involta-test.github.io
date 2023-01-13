@@ -1,16 +1,17 @@
 <template>
     <div class="container">
-        <h4 class="text-center mb-[130px] md:text-md-h-2 md:mb-16 sm:text-lg sm:mb-4">
+        <h4 class="text-center mb-[130px] md:text-md-h-2 md:mb-16 sm:text-md-h-4 sm:mb-4">
             The pulse of ecosystem.
         </h4>
         <div class="flex justify-between items-start mb-[72px] md:mb-[40px] sm:flex-col sm:mb-[200px]">
-            <div class="max-w-[256px] md:max-w-[159px] sm:text-center sm:max-w-none sm:mb-16 sm:w-full">
-                <div class="mb-6 text-primary-300 text-xl md:text-sm md:mb-4">
+            <div class="max-w-[270px] md:max-w-[159px] sm:text-center sm:max-w-none sm:mb-16 sm:w-full">
+                <div class="mb-6 text-primary-300 text-xl md:text-sm md:mb-8">
                     OuterCircle is currently under development. <br class="hidden sm:block">Reach us to get early access.
                 </div>
                 <BaseButton
                     class="sm:mx-auto"
                     size="sm"
+                    rounded="base"
                     @click="scrollIntoViewElement('.launch-section')"
                 >
                     Get early access

@@ -1,9 +1,9 @@
 <template>
     <div class="launch-section md:mx-auto">
         <div class="container">
-            <div class="text-center mb-[90px] md:mb-[45px]">
+            <div class="text-center mb-[90px] md:mb-[80px] sm:mb-10">
                 <h1 class="mb-8 md:text-md-h-1 md:mb-4 sm:text-md-h-4 sm:mb-3">
-                    When will <br class="hidden md:block">OuterCircle launch?
+                    When will <br class="hidden">OuterCircle launch?
                 </h1>
                 <p class="text-xl text-primary-300 max-w-[602px] mx-auto md:text-[18px] md:leading-[24px] md:max-w-[410px] sm:text-sm">
                     We're targeting late 2022 for our testnet launch.

@@ -31,7 +31,7 @@
                                 :class="[
                                     'flex-shrink-0',
                                     {
-                                        'px-[46px] w-1/2 md:px-[18px] sm:mb-[20px] sm:w-full': !index,
+                                        'px-[46px] w-1/2 md:px-[18px] sm:px-[16px] sm:mb-8 sm:w-full': !index,
                                         'absolute right-0 bottom-0': index
                                     }
                                 ]"

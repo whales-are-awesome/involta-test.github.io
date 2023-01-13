@@ -58,7 +58,7 @@
                     <LinkButton
                         v-for="link in links"
                         :key="link.icon"
-                        :class="link.class"
+                        :class="link.className"
                         :href="link.href"
                         :icon-name="link.icon"
                         icon-width="24"
@@ -135,22 +135,22 @@ const links = [
     {
         icon: 'discord',
         href: '//google.com',
-        class: 'hover:text-[#7289da]'
+        className: 'hover:text-[#7289da]'
     },
     {
         icon: 'twitter',
         href: '//google.com',
-        class: 'hover:text-[#1DA1F2]'
+        className: 'hover:text-[#1DA1F2]'
     },
     {
         icon: 'website',
         href: '//google.com',
-        class: 'hover:text-black'
+        className: 'hover:text-black'
     },
     {
         icon: 'geo',
         href: '//google.com',
-        class: 'hover:text-black'
+        className: 'hover:text-black'
     },
 ]
 </script>

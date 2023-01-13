@@ -46,7 +46,7 @@ import {
     IHTMLLabelAttributes,
     IBaseButtonData
 } from './types';
-import makeClasses from '@/helpers/makeClasses';
+import makeClasses, { makeThemeSettings } from '@/helpers/makeClasses';
 
 /* INTERFACES */
 
@@ -107,7 +107,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
                 'px-6 h-[44px] text-base font-medium md:!h-[30px] md:!text-[10px] md:!px-4': size === Sizes.Sm,
                 'px-8 h-[52px] text-lg font-semibold md:!h-[30px] md:!text-[10px] md:!px-4': size === Sizes.Md,
                 'px-8 h-[56px] text-lg font-semibold md:!h-[30px] md:!text-[10px] md:!px-4': size === Sizes.Lg,
-                'px-6 h-[72px] text-lg font-semibold  md:text-sm md:px-[13px] md:h-[56px]': size === Sizes.Xl,
+                'px-6 h-[72px] text-lg font-semibold  sm:text-sm sm:px-[13px] sm:h-[56px]': size === Sizes.Xl,
                 'pl-8 pr-6 h-[52px] text-sm fomt-medium md:h-[30px] md:text-[10px] md:pl-4 md:pr-3': size === Sizes.Icon,
 
                 'w-full': width === Width.Full,
