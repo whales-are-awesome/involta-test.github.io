@@ -1,5 +1,5 @@
 const enum Icons {
-    AngleRight = 'angle-right',
+    AngleRight = 'arrow-right',
     Lamp = 'lamp',
     People = 'people',
     Rocket = 'rocket'

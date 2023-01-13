@@ -41,7 +41,7 @@
 <!--                            <BaseIcon-->
 <!--                                class="text-primary-300"-->
 <!--                                width="16"-->
-<!--                                name="angle-right"-->
+<!--                                name="arrow-right"-->
 <!--                            />-->
 <!--                        </button>-->
 <!--                    </template>-->

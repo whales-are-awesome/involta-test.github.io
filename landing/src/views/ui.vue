@@ -37,7 +37,7 @@
                 view="icon"
                 size="icon"
                 rounded="lg"
-                :icon="{ name: 'angle-right' }"
+                :icon="{ name: 'arrow-right' }"
                 theme="thirdly"
             >
                 Developer

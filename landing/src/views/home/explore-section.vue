@@ -67,7 +67,7 @@
                                         size="icon"
                                         rounded="lg"
                                         :disabled="item.button.disabled"
-                                        :icon="{ name: 'angle-right' }"
+                                        :icon="{ name: 'arrow-right' }"
                                         theme="thirdly"
                                         :href="item.button.link"
                                     >
