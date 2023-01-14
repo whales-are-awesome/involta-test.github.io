@@ -2,6 +2,7 @@
 node_modules
 dist
 
+landing/src/assets/sprite/gen/sprite.svg
 gen/sprite.svg
 
 
