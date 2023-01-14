@@ -2,7 +2,8 @@
 node_modules
 dist
 
-gen/sprite.svg
+landing/src/assets/sprite/gen/sprite.svg
+platform/src/assets/sprite/gen/sprite.svg
 
 
 # local env files
