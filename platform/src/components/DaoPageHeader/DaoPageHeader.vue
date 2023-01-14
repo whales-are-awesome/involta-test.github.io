@@ -54,16 +54,16 @@
                         {{ description }}
                     </div>
                 </div>
-                <div :class="classes.links">
-                    <LinkButton
-                        v-for="link in links"
-                        :key="link.icon"
-                        :class="link.className"
-                        :href="link.href"
-                        :icon-name="link.icon"
-                        icon-width="24"
-                    />
-                </div>
+<!--                <div :class="classes.links">-->
+<!--                    <LinkButton-->
+<!--                        v-for="link in links"-->
+<!--                        :key="link.icon"-->
+<!--                        :class="link.className"-->
+<!--                        :href="link.href"-->
+<!--                        :icon-name="link.icon"-->
+<!--                        icon-width="24"-->
+<!--                    />-->
+<!--                </div>-->
             </div>
         </div>
     </div>

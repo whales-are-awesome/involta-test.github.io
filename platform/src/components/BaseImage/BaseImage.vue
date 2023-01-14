@@ -4,6 +4,7 @@
         :class="classes.root"
         :src-placeholder="require('@/assets/images/common/placeholder.jpg')"
         v-bind="attrs"
+        :src="attrs.src || ''"
     />
     <div
         v-else
@@ -13,6 +14,11 @@
     </div>
 </template>
 
+<script lang="ts">
+export default {
+    inheritAttrs: false
+}
+</script>
 
 <script lang="ts" setup>
 import { useAttrs, computed, ref, onMounted } from 'vue';

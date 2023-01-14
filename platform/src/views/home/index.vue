@@ -22,7 +22,7 @@
             :items="tagListOptions"
         />
         <div class="relative">
-            <div class="flex -mx-2 -mt-2.5 relative mb-5 sm:flex-wrap">
+            <div class="flex z-50 -mx-2 -mt-2.5 relative mb-5 sm:flex-wrap">
                 <div
                     v-if="tagListValue === MainSections.Proposals"
                     class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
@@ -140,8 +140,8 @@
                     v-if="daoItemsFiltered.length"
                     class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
                     :class="{
-                    '-preloader -preloader_cover': daoItems.pending
-                }"
+                        '-preloader -preloader_cover': daoItems.pending
+                    }"
                     v-scroll-at.bottom="addMoreDao"
                 >
                     <div
@@ -199,7 +199,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
@@ -305,6 +305,12 @@ const daoItemsFiltered = computed(() => {
 
 emitter.on('daoCreated', fetchDaoItems);
 emitter.on('accountChanged',fetchDaoItems);
+
+onUnmounted(() => {
+    emitter.off('daoCreated', fetchDaoItems);
+    emitter.off('accountChanged', fetchDaoItems);
+});
+
 
 useQueryUpdates(formDataDaos, ['section']);
 

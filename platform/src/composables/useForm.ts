@@ -6,6 +6,7 @@ interface IProps {
         value: any
         required?: string
         pattern?: ICheckTypeValue<RegExp>
+        validator?: (value: any) => boolean | any
     }
 }
 
@@ -43,9 +44,9 @@ function useForm(props: IProps): Result {
     watch(formData, (newValue, prevValue) => {
         for (const key in newValue) {
             const newItem = newValue[key];
-            const prevtem = prevValue[key];
+            const prevItem = prevValue[key];
 
-            if (newItem !== prevtem) {
+            if (!_.isEqual(newItem,prevItem)) {
                 const newErrors = { ...errors.value };
 
                 delete newErrors[key];
@@ -75,6 +76,14 @@ function useForm(props: IProps): Result {
                     errors.value[key] = field.pattern.text;
                 } else {
                     delete errors.value[key];
+                }
+            }
+
+            if (field.validator) {
+                const error = field.validator(item);
+
+                if (error) {
+                    errors.value[key] = error;
                 }
             }
         }

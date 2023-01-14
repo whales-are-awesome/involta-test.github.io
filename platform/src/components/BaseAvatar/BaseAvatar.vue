@@ -29,9 +29,9 @@ import ThemeSettings from '@/types/themeSettings';
 // META
 
 interface IProps {
-    src?: string
+    src?: string | null
     alt: string
-    hexheads?: string
+    hexheads?: string | null
     size?: Sizes
     rounded?: Rounded
     themeSettings?: ThemeSettings<'root' | 'image' | 'size' | 'rounded'>

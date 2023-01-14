@@ -41,7 +41,7 @@
 
 
 <script lang="ts" setup>
-import { computed, defineExpose, ref } from 'vue';
+import { computed, defineExpose, onUnmounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import TheSidebarButton from './TheSidebarButton.vue';
 import makeClasses from '@/helpers/makeClasses';
@@ -102,6 +102,10 @@ const daoItemsForm = computed(() => ({
 const [daoItems, fetchDaoItems] = useDaoItems(daoItemsForm);
 
 emitter.on('daoFollowed', fetchDaoItems);
+
+onUnmounted(() => {
+    emitter.off('daoFollowed', fetchDaoItems);
+});
 
 
 // CREATE DAO LAYER

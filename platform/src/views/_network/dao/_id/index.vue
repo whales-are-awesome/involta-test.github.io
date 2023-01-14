@@ -101,14 +101,19 @@
                     </BaseButton>
                 </div>
             </div>
-            <template v-if="tagListValue === MainSections.Proposals">
+            <div v-if="tagListValue === MainSections.Proposals">
                 <TextSeparator
                     v-if="proposalItems.data?.items.length"
                     class="mb-[10px]"
                 >
                     {{ proposalItems.data?.total }} active proposal{{ proposalItems.data?.total > 1 ? 's' : '' }}
                 </TextSeparator>
-                <div class="space-y-[18px]">
+                <div
+                    class="space-y-[18px]"
+                    :class="{
+                        '-preloader -preloader_cover': proposalItems.pending
+                    }"
+                >
                     <template v-if="proposalItems.data?.items.length">
                         <ProposalCard
                             v-for="item in proposalItems.data?.items"
@@ -131,7 +136,7 @@
                         text="We couldn't find any proposals matching your query. Try another query"
                     />
                 </div>
-            </template>
+            </div>
             <div v-if="tagListValue === MainSections.Daos">
                 <TextSeparator
                     v-if="daoItems.data?.total"
@@ -143,7 +148,7 @@
                     v-if="daoItemsFiltered.length"
                     class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
                     :class="{
-                        '-preloader -preloader_cover': daoItems.pending
+                        '-preloader -preloader_cover before:top-6': daoItems.pending
                     }"
                 >
                     <div
@@ -208,7 +213,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch, watchEffect } from 'vue';
+import { computed, onUnmounted, ref, watch, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 
 import TagsList from '@/components/TagsList/TagsList.vue';
@@ -283,6 +288,10 @@ watchEffect(() => {
     page.value.error && useError(404)
 });
 
+onUnmounted(() => {
+    emitter.off('daoFollowed', fetchDao);
+});
+
 
 // PROPOSALS
 
@@ -340,6 +349,11 @@ const daoItemsFiltered = computed(() => {
 
 emitter.on('daoCreated', fetchDaoItems);
 emitter.on('accountChanged',fetchDaoItems);
+
+onUnmounted(() => {
+    emitter.off('daoCreated', fetchDaoItems);
+    emitter.off('accountChanged',fetchDaoItems);
+});
 
 useQueryUpdates(formDataDaos, ['section']);
 

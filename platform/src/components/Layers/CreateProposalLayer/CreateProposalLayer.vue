@@ -164,7 +164,7 @@
 <!--                />-->
 <!--            </BaseAdd>-->
             <BaseAccordion
-                v-for="transaction in formData.transactions"
+                v-for="(transaction, index) in formData.transactions"
                 :key="transaction.id"
                 title="Custom Transaction"
                 description="Create custom transaction description"
@@ -184,6 +184,7 @@
                         placeholder="0x2c934...a180"
                         :required="true"
                         :is-wrapped="true"
+                        :error="formErrors.transactions && formErrors.transactions[index].to"
                     />
                     <TextField
                         v-model="transaction.data"
@@ -193,6 +194,7 @@
                         :maxlength="50"
                         :tip="`${ transaction.data.length }/50`"
                         :is-wrapped="true"
+                        :error="formErrors.transactions && formErrors.transactions[index].data"
                     />
                     <TextField
                         v-model="transaction.value"
@@ -201,6 +203,7 @@
                         mask="N"
                         :required="true"
                         :is-wrapped="true"
+                        :error="formErrors.transactions && formErrors.transactions[index].value"
                     />
                 </div>
             </BaseAccordion>
@@ -371,7 +374,32 @@ const [formData, formErrors, checkErrors] = useForm({
         value: formInfo.solidityTypes[0].id
     },
     transactions: {
-        value: []
+        value: [],
+        validator: (items: any[]) => {
+            const errors: any = {};
+
+            items.forEach((item, index) => {
+                const error: any = {};
+
+                if (!item.to) {
+                    error.to = 'Empty Field'
+                }
+
+                if (!item.data) {
+                    error.data = 'Empty Field'
+                }
+
+                if (!item.value) {
+                    error.value = 'Empty Field'
+                }
+
+                if (Object.keys(error).length) {
+                    errors[index] = error;
+                }
+            })
+
+            return Object.keys(errors).length ? errors : null;
+        }
     }
 });
 
@@ -388,7 +416,7 @@ const [formData, formErrors, checkErrors] = useForm({
 // });
 
 async function createProposal() {
-    //if (checkErrors() || isSending.value) return;
+    if (checkErrors() || isSending.value) return;
 
     isSending.value = true;
 

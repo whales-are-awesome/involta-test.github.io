@@ -22,6 +22,7 @@
                     :theme-settings="{
                         textColor: 'text-gray-400'
                     }"
+                    @click="$router.push(windowLocal.history?.state?.back ? windowLocal.history.state.back : { name: 'network-dao-address', params: $route.params })"
                 >
                     Back
                 </BaseButton>
@@ -413,7 +414,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref, watchEffect, onUnmounted } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
@@ -473,8 +474,19 @@ watchEffect(() => {
     page.value.error && useError(404)
 });
 
+onUnmounted(() => {
+    emitter.off('daoFollowed', fetchDao);
+    emitter.off('accountChanged', fetchDao);
+});
+
 
 const showMore = ref(false);
+
+
+
+// WINDOW
+
+const windowLocal = window as Window;
 
 // BREADCRUMBS
 

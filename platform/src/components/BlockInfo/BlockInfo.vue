@@ -169,7 +169,7 @@ const useClasses = makeClasses<IThemeProps>(() => {
         bottom: ({ error }) => [
             'mt-2 flex items-center',
             {
-                'absolute w-full top-full left-0 z-10': error
+                'w-full': error
             }
         ],
         warningIcon: ({ disabled }) => [

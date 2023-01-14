@@ -20,8 +20,8 @@ import ThemeSettings from '@/types/themeSettings';
 interface IProps {
     view: Views
     theme: Themes
-    rounded: Rounded
-    uppercase: boolean
+    rounded?: Rounded
+    uppercase?: boolean
     themeSettings?: ThemeSettings<'root'>
 }
 

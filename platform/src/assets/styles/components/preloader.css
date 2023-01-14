@@ -1,6 +1,7 @@
 @layer components {
     .-preloader {
-        @apply relative z-50;
+        @apply relative;
+        z-index: 10;
         &::after {
             @apply absolute top-1/2 block opacity-60 left-1/2 -mt-5 -ml-5 w-10 h-10 box-border rounded-full z-10 animate-spin border-2 border-primary-500;
             content: '';

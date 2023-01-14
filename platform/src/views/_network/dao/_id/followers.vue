@@ -128,7 +128,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watchEffect } from 'vue';
+import { computed, onUnmounted, ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import { notify } from '@kyvg/vue3-notification';
 import NotFound from '@/components/NotFound/NotFound.vue';
@@ -182,9 +182,13 @@ const pageData = computed(() => page.value.data);
 emitter.on('daoFollowed', fetchDao);
 emitter.on('accountChanged', fetchDao);
 
-
 watchEffect(() => {
     page.value.error && useError(404)
+});
+
+onUnmounted(() => {
+    emitter.off('daoFollowed', fetchDao);
+    emitter.off('accountChanged', fetchDao);
 });
 
 // BREADCRUMBS
@@ -219,6 +223,10 @@ const followers = useFetchDataWithTotal<IFollower>();
 fetchFollowers();
 
 emitter.on('daoFollowed', fetchFollowers);
+
+onUnmounted(() => {
+    emitter.off('daoFollowed', fetchDao);
+});
 
 async function fetchFollowers() {
     followers.value.pending = true;

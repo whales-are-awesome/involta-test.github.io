@@ -83,7 +83,7 @@ import useLayer from '@/composables/useLayer';
 
 interface IProps {
     to?: IRouterLink
-    avatar: string
+    avatar: string | null
     name: string
     address?: string
     network?: string
