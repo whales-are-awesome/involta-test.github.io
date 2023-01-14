@@ -19,7 +19,7 @@ function compile() {
             symbol: true
         }
     });
-    const svgs = getFiles(from).slice(1);
+    const svgs = getFiles(from).filter(item => item.endsWith('.svg'));
 
     svgs.forEach((name) => spriter.add(
         path.resolve(name),
