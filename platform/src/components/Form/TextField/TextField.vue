@@ -107,7 +107,7 @@ interface IProps {
     placeholder?: string
     insetLabel?: string
     insetLeftLabel?: string
-    mask?: 'N' | 'C'
+    mask?: 'N' | 'L'
     isBold?: boolean
     isWrapped?: boolean
     icon?: {

@@ -17,6 +17,9 @@ interface INormalizedDaoAsDefault extends IDao {
 }
 
 interface ICreateDaoParams {
+    name: string
+    governanceTokenSupply: number
+    governanceTicker: string
     proposalExpirationTime: number
     quorumRequired: number
     parentRegistry?: string

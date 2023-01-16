@@ -50,6 +50,33 @@
                 :required="true"
                 :error="formErrors.link"
             />
+            <BaseAccordion
+                class="max-w-[400px]"
+                title="Governance"
+                :is-visible="true"
+            >
+                <div class="space-y-2">
+                    <TextField
+                        v-model="formData.governanceTokenSupply"
+                        title="Token supply"
+                        placeholder="Token supply"
+                        :is-wrapped="true"
+                        :required="true"
+                        mask="N"
+                        tooltip="Some text"
+                        :error="formErrors.governanceTokenSupply"
+                    />
+                    <TextField
+                        v-model="formData.governanceTicker"
+                        title="Ticker"
+                        placeholder="Ticker"
+                        :is-wrapped="true"
+                        :required="true"
+                        tooltip="Some text"
+                        :error="formErrors.governanceTicker"
+                    />
+                </div>
+            </BaseAccordion>
             <DropField
                 class="max-w-[400px]"
             />
@@ -153,6 +180,14 @@ const [formData, formErrors, checkErrors] = useForm({
             value: /[a-zA-Zа-яА-Я]{2,}/
         }
     },
+    governanceTokenSupply: {
+        value: '',
+        required: 'Empty field'
+    },
+    governanceTicker: {
+        value: '',
+        required: 'Empty field'
+    },
     description: {
         value: '',
         required: 'Empty field'
@@ -175,6 +210,9 @@ async function createDAO() {
     isSending.value = true;
 
     const [response, error] = await DaoService.createDao({
+        name: formData.value.name,
+        governanceTokenSupply: +formData.value.governanceTokenSupply,
+        governanceTicker: formData.value.governanceTicker,
         quorumRequired: formData.value.quorumRequired,
         proposalExpirationTime: +new Date() + 1000000,//+new Date(formData.value.proposalExpirationTime),
         parentRegistry: props.parentAddress || '0x' + '0'.repeat(40)

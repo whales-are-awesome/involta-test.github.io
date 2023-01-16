@@ -5,7 +5,8 @@ import snakelize from '@/helpers/snakelize';
 import { FetchResult, SendResult, sendDataChainProps, Config } from '@/types/api'
 import { ethers, Signer } from 'ethers'
 import { store } from '@/store';
-
+import Wallet from '@/wallets';
+import { open, closeLast } from '@/composables/useLayer';
 
 class API {
     static provider: any;
@@ -36,8 +37,19 @@ class API {
             const signer = await API.getSigner();
             const contractWithSigner = contract.connect(signer);
 
+            if (Wallet.currentWalletName === 'connectWallet') {
+                open('WalletConnectAction', {
+                    title: 'Action Required',
+                    text: 'Please confirm the transaction on your connected device'
+                });
+            }
+
             const trx = await contractWithSigner[props.methodName](...props.params);
             let trxReceipt;
+
+            if (Wallet.currentWalletName === 'connectWallet') {
+                closeLast();
+            }
 
             if (props.needWait) {
                 await trx.wait();
@@ -49,6 +61,10 @@ class API {
 
             return [{ trx, trxReceipt }, null];
         } catch (e) {
+            if (Wallet.currentWalletName === 'connectWallet') {
+                closeLast();
+            }
+
             console.log(e);
             return [null, e as Error];
         }

@@ -22,7 +22,14 @@ export default class DaoService {
         return API.sendChain<ICreateDaoResponse>({
             contractName: 'daoFactory',
             methodName: 'deployDao',
-            params: [+params.proposalExpirationTime, +params.quorumRequired, params.parentRegistry]
+            params: [
+                +params.proposalExpirationTime,
+                +params.quorumRequired,
+                params.parentRegistry,
+                params.name,
+                params.governanceTokenSupply,
+                params.governanceTicker
+            ]
         });
     }
 

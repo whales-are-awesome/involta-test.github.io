@@ -2,7 +2,7 @@
     <div :class="classes.root">
         <div
             :class="classes.wrapper"
-            @click.self="close(id)"
+            @click.self="closeLayer"
         >
             <div
                 :class="[containerStyles, classes.container]"
@@ -27,14 +27,16 @@ import ThemeSettings from '@/types/themeSettings';
 // META
 
 interface IProps {
-    id?: string
+    id: string
     containerStyles?: string
     position: Position
+    closeOnClickOutside?: boolean
     themeSettings?: ThemeSettings<'root' | 'container'>
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-    position: 'center'
+    position: 'center',
+    closeOnClickOutside: true
 });
 
 const { close } = useLayer();
@@ -69,6 +71,15 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         themeSettings: props.themeSettings,
     });
 });
+
+
+// CLOSE LAYER
+
+function closeLayer() {
+    if (props.closeOnClickOutside) {
+        close(props.id);
+    }
+}
 </script>
 
 <style>

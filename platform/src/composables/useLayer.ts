@@ -90,3 +90,11 @@ function useLayer() {
 }
 
 export default useLayer;
+
+export {
+    open,
+    confirm,
+    alert,
+    close,
+    closeLast
+}

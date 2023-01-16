@@ -26,6 +26,10 @@ class Wallet {
         }
     }
 
+    static get currentWalletName() {
+        return store.state.wallet.wallet;
+    }
+
     static async init(): Promise<void> {
         if (await ConnectWallet.tryConnectAndSetAddress()) {
             // check if loggedIn in ConnectWallet

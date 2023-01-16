@@ -23,6 +23,7 @@
         "apexcharts": "^3.35.3",
         "autoprefixer": "^10",
         "axios": "^0.27.2",
+        "c-promise2": "^0.13.12",
         "core-js": "^3.8.3",
         "debounce": "^1.2.1",
         "ethers": "^5.7.2",
