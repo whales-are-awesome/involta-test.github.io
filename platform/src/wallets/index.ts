@@ -1,3 +1,4 @@
+import API from '@/helpers/api';
 import InjectedWallet from './InjectedWallet';
 import ConnectWallet from './ConnectWallet';
 import { store } from '@/store';
@@ -29,6 +30,7 @@ class Wallet {
         if (await ConnectWallet.tryConnectAndSetAddress()) {
             // check if loggedIn in ConnectWallet
             store.dispatch('wallet/setWallet', 'connectWallet');
+            API.setProvider(ConnectWallet.provider);
         } else if (await InjectedWallet.tryConnectAndSetAddress()) {
             // check if loggedIn in InjectedWallet
             store.dispatch('wallet/setWallet', 'injectedWallet')

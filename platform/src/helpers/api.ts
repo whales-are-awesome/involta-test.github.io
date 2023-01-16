@@ -12,8 +12,12 @@ class API {
 
     static async init(protocol = window.ethereum) {
         if (!API.provider) {
-            API.provider = new ethers.providers.Web3Provider(protocol);
+            API.setProvider(protocol);
         }
+    }
+
+    static setProvider(protocol: any) {
+        API.provider = new ethers.providers.Web3Provider(protocol);
     }
 
     static get contracts() {
