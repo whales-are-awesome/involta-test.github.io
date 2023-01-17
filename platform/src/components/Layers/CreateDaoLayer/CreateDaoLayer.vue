@@ -216,7 +216,7 @@ async function createDAO() {
         governanceTokenSupply: +formData.value.governanceTokenSupply,
         governanceTicker: formData.value.governanceTicker,
         quorumRequired: formData.value.quorumRequired,
-        proposalExpirationTime: +new Date() + 1000000,//+new Date(formData.value.proposalExpirationTime),
+        proposalExpirationTime: formData.value.proposalExpirationTime,
         parentRegistry: props.parentAddress || '0x' + '0'.repeat(40)
     });
 

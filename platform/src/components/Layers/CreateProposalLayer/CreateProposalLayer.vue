@@ -187,16 +187,6 @@
                         :error="formErrors.transactions && formErrors.transactions[index].to"
                     />
                     <TextField
-                        v-model="transaction.data"
-                        title="Data"
-                        placeholder="Data"
-                        :required="true"
-                        :maxlength="50"
-                        :tip="`${ transaction.data.length }/50`"
-                        :is-wrapped="true"
-                        :error="formErrors.transactions && formErrors.transactions[index].data"
-                    />
-                    <TextField
                         v-model="transaction.value"
                         title="Value"
                         placeholder="0"
@@ -204,6 +194,15 @@
                         :required="true"
                         :is-wrapped="true"
                         :error="formErrors.transactions && formErrors.transactions[index].value"
+                    />
+                    <TextField
+                        v-model="transaction.data"
+                        title="Data"
+                        placeholder="Data"
+                        :maxlength="50"
+                        :tip="`${ transaction.data.length }/50`"
+                        :is-wrapped="true"
+                        :error="formErrors.transactions && formErrors.transactions[index].data"
                     />
                 </div>
             </BaseAccordion>
@@ -385,10 +384,6 @@ const [formData, formErrors, checkErrors] = useForm({
                     error.to = 'Empty Field'
                 }
 
-                if (!item.data) {
-                    error.data = 'Empty Field'
-                }
-
                 if (!item.value) {
                     error.value = 'Empty Field'
                 }
@@ -451,7 +446,7 @@ async function createProposal() {
             actions: formData.value.transactions
                 .map((item: any) => ({
                     ...item,
-                    data: ethers.utils.toUtf8Bytes(item.data),
+                    data: ethers.utils.toUtf8Bytes(item.data || 0),
                     value: +item.value
                 }))
                 .map((item: any) => omit(item, ['id']))
