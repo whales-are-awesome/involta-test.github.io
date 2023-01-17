@@ -2,6 +2,7 @@
     <BaseLayer
         :id="id"
         position="right"
+        :close-on-click-outside="false"
         :theme-settings="{
             container: [
                 'create-dao-layer w-[455px] p-10 flex flex-col sm:w-full',
@@ -97,6 +98,7 @@
                         title="Quorum required"
                         placeholder="Quorum required"
                         :is-wrapped="true"
+                        :maxlength="+formData.governanceTokenSupply"
                         tooltip="Some text"
                     />
                 </div>
@@ -114,7 +116,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import useLayer from '@/composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';

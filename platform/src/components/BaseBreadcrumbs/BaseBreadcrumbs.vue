@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import { store } from '@/store';

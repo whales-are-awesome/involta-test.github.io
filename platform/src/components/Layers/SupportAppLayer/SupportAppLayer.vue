@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, ref } from 'vue';
+import { computed, ref } from 'vue';
 import useLayer from '@/composables/useLayer';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import TextField from '@/components/Form/TextField/TextField.vue';

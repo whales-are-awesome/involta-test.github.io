@@ -234,7 +234,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { omit } from 'lodash';
 import { ethers } from 'ethers';
 import { useRouter, useRoute } from 'vue-router';

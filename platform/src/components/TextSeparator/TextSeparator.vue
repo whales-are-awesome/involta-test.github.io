@@ -6,7 +6,7 @@
 
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';

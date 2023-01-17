@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 import useLayer from '@/composables/useLayer';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
