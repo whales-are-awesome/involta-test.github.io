@@ -2,7 +2,6 @@
     <BaseLayer
         :id="id"
         position="right"
-        :close-on-click-outside="false"
         :theme-settings="{
             container: [
                 'create-dao-layer w-[455px] p-10 flex flex-col sm:w-full',
@@ -118,6 +117,8 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { notify } from '@kyvg/vue3-notification';
+import API from '@/helpers/api';
 import useLayer from '@/composables/useLayer';
 import BaseCross from '@/components/BaseCross/BaseCross.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
@@ -130,7 +131,6 @@ import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
 import DaoService from '@/services/DaoService';
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
-import { notify } from '@kyvg/vue3-notification';
 
 
 // META
@@ -226,6 +226,7 @@ async function createDAO() {
         });
 
         watchForCreatedDaos.add({
+            network: await API.getNetwork(),
             hash: response.trx.hash,
             description: formData.value.description,
             name: formData.value.name,

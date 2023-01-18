@@ -1,9 +1,11 @@
+import { ethers, Signer } from 'ethers'
+//@ts-ignore
+import { CPromise } from 'c-promise2';
 import daoFactoryABI from '@/abi/daoFactoryABI';
 import axios, { Canceler } from '@/plugins/axios';
 import camelize from '@/helpers/camelize';
 import snakelize from '@/helpers/snakelize';
 import { FetchResult, SendResult, sendDataChainProps, Config } from '@/types/api'
-import { ethers, Signer } from 'ethers'
 import { store } from '@/store';
 import Wallet from '@/wallets';
 import { open, closeLast } from '@/composables/useLayer';
@@ -31,20 +33,37 @@ class API {
         return API.provider?.getSigner();
     }
 
+    static async getNetwork(): Promise<string> {
+        return (await API.provider?.getNetwork())?.name;
+    }
+
     static async sendChain<T>(props: sendDataChainProps): SendResult<{trx: any, trxReceipt: any}> {
         try {
             const contract = props.contractAddress ? new ethers.Contract(props.contractAddress, props.contractABI, API.provider) : API.contracts[props.contractName!];
             const signer = await API.getSigner();
             const contractWithSigner = contract.connect(signer);
+            const contractWithSignerPromise = new CPromise(async(resolve: any, reject: any) => {
+                try {
+                    const trx = await contractWithSigner[props.methodName](...props.params)
+
+                    resolve(trx);
+                } catch (e) {
+                    reject(new Error('Trx error'));
+                }
+            });
 
             if (Wallet.currentWalletName === 'connectWallet') {
                 open('WalletConnectAction', {
                     title: 'Action Required',
                     text: 'Please confirm the transaction on your connected device'
+                }).then(isCancel => {
+                    if (isCancel) {
+                        contractWithSignerPromise.cancel();
+                    }
                 });
             }
 
-            const trx = await contractWithSigner[props.methodName](...props.params);
+            const trx = await contractWithSignerPromise;
             let trxReceipt;
 
             if (Wallet.currentWalletName === 'connectWallet') {
@@ -60,8 +79,8 @@ class API {
             }
 
             return [{ trx, trxReceipt }, null];
-        } catch (e) {
-            if (Wallet.currentWalletName === 'connectWallet') {
+        } catch (e: any) {
+            if (Wallet.currentWalletName === 'connectWallet' && e?.message === 'Trx error') {
                 closeLast();
             }
 

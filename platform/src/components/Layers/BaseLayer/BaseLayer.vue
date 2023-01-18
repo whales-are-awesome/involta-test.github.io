@@ -3,9 +3,11 @@
         <div
             :class="classes.wrapper"
             @click.self="closeLayer"
+            @mousedown.self="mouseDown = true"
         >
             <div
                 :class="[containerStyles, classes.container]"
+                @click="mouseDown = false"
             >
                 <slot></slot>
             </div>
@@ -17,7 +19,7 @@
 </script>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import useLayer from '@/composables/useLayer';
 import makeClasses from '@/helpers/makeClasses';
 import { Position } from './types';
@@ -75,8 +77,10 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 
 // CLOSE LAYER
 
+const mouseDown = ref(false);
+
 function closeLayer() {
-    if (props.closeOnClickOutside) {
+    if (props.closeOnClickOutside && mouseDown.value) {
         close(props.id);
     }
 }

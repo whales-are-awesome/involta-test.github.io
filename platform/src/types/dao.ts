@@ -1,4 +1,5 @@
 interface IDaoTransactionCookie {
+    network: string
     hash: string
     name: string
     description: string

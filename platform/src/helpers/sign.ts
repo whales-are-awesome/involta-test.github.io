@@ -9,7 +9,13 @@ async function sign(message: string) {
     try {
         const signer = await API.getSigner();
         const signPromise = new CPromise(async(resolve: any, reject: any) => {
-            resolve(await signer.signMessage(message) as string);
+            try {
+                const sign = await signer.signMessage(message) as string;
+
+                resolve(sign);
+            } catch (e) {
+                reject(new Error('Sign canceled'));
+            }
         });
 
         if (Wallet.currentWalletName === 'connectWallet') {
@@ -25,8 +31,6 @@ async function sign(message: string) {
 
         const sign = await signPromise;
 
-        console.log(sign);
-
         const messagePrefixed = '\x19Ethereum Signed Message:\n' + message.length + message;
         const hash = ethers.utils.id(messagePrefixed);
 
@@ -38,9 +42,8 @@ async function sign(message: string) {
             hash,
             sign
         }, null] as const;
-    } catch (e) {
-        console.log(e);
-        if (Wallet.currentWalletName === 'connectWallet') {
+    } catch (e: any) {
+        if (Wallet.currentWalletName === 'connectWallet' && e?.message === 'Sign canceled') {
             closeLast();
         }
 

@@ -83,7 +83,6 @@ export default class ProposalService {
     }
 
     static async voteProposal(params: any) {
-        console.log([params.proposald, params.decision, []])
         return API.sendChain<never>({
             contractAddress: params.contractAddress,
             contractABI: daoControllerABI,

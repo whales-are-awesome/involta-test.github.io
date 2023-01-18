@@ -3,6 +3,7 @@
         class="p-8"
         :class="id"
         :id="id"
+        :close-on-click-outside="closeOnClickOutside"
         :theme-settings="{
             container: 'p-[54px] w-[534px] flex flex-col base-animation-layer rounded-[4px] text-center'
         }"
@@ -27,10 +28,11 @@
         </p>
         <div class="flex justify-center space-x-4">
             <BaseButton
+                v-if="cancelButtonText"
                 theme="surface"
                 @click="close(id)"
             >
-                Cancel
+                {{ cancelButtonText }}
             </BaseButton>
             <BaseButton
                 theme="primary"
@@ -57,13 +59,16 @@ export interface IProps {
     id: string
     title: string
     text: string
+    cancelButtonText?: string
+    closeOnClickOutside?: boolean
     buttonText: string
     status: Statuses
     callback?: () => void
 }
 
 const props =withDefaults(defineProps<IProps>(), {
-
+    cancelButtonText: 'Cancel',
+    closeOnClickOutside: true
 });
 
 const { close } = useLayer();

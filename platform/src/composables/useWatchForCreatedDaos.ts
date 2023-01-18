@@ -44,6 +44,8 @@ function useWatchForCreatedDaos() {
                 title: 'Dao was created!',
                 text: 'You’ve successfully created a new DAO. Sign the message in your wallet to update it\'s metadata.',
                 buttonText: 'Sign',
+                cancelButtonText: '',
+                closeOnClickOutside: false,
                 status: 'success',
                 callback: () => tryToPutData(address, data)
             });
@@ -110,6 +112,7 @@ function useWatchForCreatedDaos() {
         const [_, error] = await putData(address, data, signInfo);
 
         if (!error) {
+            window.open([window.location.origin, data.network, 'dao', address].join('/'));
             notify({
                 title: 'Success',
                 text: 'You\'ve successfully update dao metadata',
@@ -133,6 +136,7 @@ function useWatchForCreatedDaos() {
             const [response] = await putData(address, data, signInfo);
 
             if (response) {
+                window.open([window.location.origin, data.network, 'dao', address].join('/'));
                 clearInterval(int);
 
                 notify({
