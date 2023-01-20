@@ -6,16 +6,19 @@ import { IResponsePagination, Config } from '@/types/api';
 import {
     IProposal,
     IProposalNormalizedAsDefault,
+    INormalizedProposalItemAsTable,
     IProposalPath,
     ICreateProposalChainParams,
     ICreateProposalChainResponse,
-    ICreateProposalParams
+    ICreateProposalParams,
+    IProposalItem
 } from '@/types/services/ProposalService';
-import { IProposalChain } from '@/types/entries/proposal'
+import { IProposalChain, proposalStatuses, ProposalVoteType } from '@/types/entries/proposal'
 import isContract from '@/helpers/isContract'
+import { store } from '@/store'
 
 import { IDaoPath } from '@/types/services/DaoService';
-import { ethers } from 'ethers';
+import addSpacesToNumber from '@/helpers/addSpacesToNumber';
 
 //toDo: добить интерфейсы
 
@@ -57,9 +60,24 @@ export default class ProposalService {
         let fullData: IProposal | null = null;
 
         if (data && chainData) {
+            const [proposalExpirationTime] = await API.getFromChain<number>({
+                contractAddress: path.address,
+                params: [],
+                contractABI: daoControllerABI,
+                methodName: 'proposalExpirationTime'
+            });
+            const [voted] = await API.getFromChain<ProposalVoteType>({
+                contractAddress: path.address,
+                params: [store.state.wallet.address, path.id],
+                contractABI: daoControllerABI,
+                methodName: 'voted'
+            });
+
             fullData = cloneDeep({
                 ...data,
-                ...chainData
+                ...chainData,
+                proposalExpirationTime,
+                voted: !!voted
             });
 
             await Promise.all([
@@ -79,7 +97,37 @@ export default class ProposalService {
 
 
     static async fetchDaoProposalItems(path: IDaoPath, params: any) {
-        return API.get<IResponsePagination<IProposal>>(`/${ path.network }/dao/${ path.address }/proposal`, params);
+        const [data, ...rest] = await API.get<IResponsePagination<IProposal>>(`/${ path.network }/dao/${ path.address }/proposal`, params);
+
+        const fullData = cloneDeep(data) as typeof data;
+
+        if (data?.items.length) {
+            const [proposalExpirationTime] = await API.getFromChain<number>({
+                contractAddress: path.address,
+                params: [],
+                contractABI: daoControllerABI,
+                methodName: 'proposalExpirationTime'
+            });
+
+            await Promise.all(data.items.map(async(item, index) => {
+                const [chainData, ...restChainData] = await API.getFromChain<IProposalChain>({
+                    contractAddress: path.address,
+                    params: [item.id],
+                    contractABI: daoControllerABI,
+                    methodName: 'getProposal'
+                });
+
+                fullData!.items[index] = {
+                    ...item,
+                    ...chainData,
+                    proposalExpirationTime: proposalExpirationTime!
+                };
+            }))
+        }
+
+        console.log(normalizeProposalItemsAsTable(fullData!));
+
+        return [fullData && normalizeProposalItemsAsTable(fullData), ...rest] as const;
     }
 
     static async voteProposal(params: any) {
@@ -103,6 +151,12 @@ async function normalizeProposalAsDefault(data: IProposal): Promise<IProposalNor
     return {
         ...data,
         createdByAddressOrName: data.createdByName || cutAddress(data.createdBy),
+        statusName: proposalStatuses[data.status],
+        endTime: (data.creationTime * 1000) + (data.proposalExpirationTime * 1000),
+        totalVp: +data.againstVp.toString() + +data.forVp.toString() + +data.abstainVp.toString(),
+        againstVp: +data.againstVp.toString(),
+        forVp: +data.forVp.toString(),
+        abstainVp: +data.abstainVp.toString(),
         pipeline: await Promise.all(data.pipeline.map(async item => ({
             actionType: item[0],
             to: item[1],
@@ -111,5 +165,18 @@ async function normalizeProposalAsDefault(data: IProposal): Promise<IProposalNor
             isContract: await isContract(item[1]),
             addressOrName: (await API.provider.lookupAddress(item[1])) || cutAddress(item[1])
         })))
+    };
+}
+
+function normalizeProposalItemsAsTable(data: IResponsePagination<IProposalItem>): IResponsePagination<INormalizedProposalItemAsTable> {
+    return {
+        ...data,
+        items: data.items.map(item => ({
+            ...item,
+            proposalExpirationTime: +item.proposalExpirationTime * 1000,
+            creationTime: item.creationTime * 1000,
+            statusName: proposalStatuses[item.status],
+            endTime: (item.creationTime * 1000) + (item.proposalExpirationTime * 1000)
+        }))
     };
 }

@@ -26,6 +26,14 @@ enum ProposalStatus {
     Rejected
 }
 
+const proposalStatuses = {
+    [ProposalStatus.None]: 'No Proposal',
+    [ProposalStatus.Exists]: 'Active',
+    [ProposalStatus.Accepted]: 'Accepted',
+    [ProposalStatus.Executed]: 'Executed',
+    [ProposalStatus.Rejected]: 'Rejected',
+};
+
 enum ProposalVoteType {
     None,
     For,
@@ -36,6 +44,7 @@ enum ProposalVoteType {
 type ProposalPipeline = [ProposalActionType, string, string, number];
 
 interface IProposalChain {
+    status: ProposalStatus
     abstainVp: number
     againstVp: number
     creationBlock: number
@@ -49,5 +58,6 @@ export {
     ProposalPipeline,
     IProposalChain,
     ProposalStatus,
-    ProposalVoteType
+    ProposalVoteType,
+    proposalStatuses
 }

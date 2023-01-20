@@ -1,8 +1,10 @@
 import { IPaginationParams } from '@/types/api'
-import { IProposalAPI, IProposalChain, ProposalPipeline } from '@/types/entries/proposal'
+import { IProposalAPI, IProposalChain, ProposalPipeline, proposalStatuses } from '@/types/entries/proposal'
 
 interface IProposal extends IProposalAPI, IProposalChain {
     createdByName?: string
+    proposalExpirationTime: number
+    voted: boolean
 }
 
 interface IProposalItem extends IProposal {
@@ -10,6 +12,9 @@ interface IProposalItem extends IProposal {
 
 interface IProposalNormalizedAsDefault extends Omit<IProposal, 'pipeline'> {
     createdByAddressOrName: string
+    statusName: string
+    endTime: number
+    totalVp: number
     pipeline: {
         actionType: ProposalPipeline[0]
         to: ProposalPipeline[1]
@@ -20,7 +25,9 @@ interface IProposalNormalizedAsDefault extends Omit<IProposal, 'pipeline'> {
     }[]
 }
 
-interface INormalizedProposalItem extends IProposalNormalizedAsDefault {
+interface INormalizedProposalItemAsTable extends IProposalItem {
+    statusName: string
+    endTime: number
 }
 
 interface IProposalPath {
@@ -78,7 +85,9 @@ export {
 
     IProposalItem,
     IProposalItemQuery,
-    INormalizedProposalItem,
+    INormalizedProposalItemAsTable,
+
+    proposalStatuses,
 
     IPaginationParams
 }

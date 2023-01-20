@@ -6,15 +6,16 @@
         <div>
             <div :class="classes.top">
                 <BaseTimer
+                    v-if="endDate > currentDate"
                     :class="classes.timerMobile"
                     :end-date="endDate"
                 />
                 <BaseLabel
                     :class="classes.label"
-                    theme="positive"
+                    :theme="labelTheme"
                     view="faded"
                 >
-                    {{ labelTitle }}
+                    {{ labelTitleLocal }}
                 </BaseLabel>
                 <BaseAvatar
                     :class="classes.avatar"
@@ -34,61 +35,67 @@
             <div :class="classes.text">
                 {{ text }}
             </div>
-            <div :class="classes.bottom">
+            <div
+                v-if="endDate > currentDate"
+                :class="classes.bottom"
+            >
                 <BaseTimer
                     :class="classes.timer"
                     :end-date="endDate"
                 />
-                <div :class="classes.users">
-                    <BaseAvatar
-                        v-for="user in users.slice(0, 4)"
-                        :key="user.id"
-                        :class="classes.usersItem"
-                        size="xs"
-                        :src="user.avatar"
-                        rounded="full"
-                        :alt="`avatar - ${ user.id }`"
-                    />
-                </div>
-                <div :class="classes.votes">
-                    {{ users.length }} votes
-                </div>
+<!--                <div :class="classes.users">-->
+<!--                    <BaseAvatar-->
+<!--                        v-for="user in users.slice(0, 4)"-->
+<!--                        :key="user.id"-->
+<!--                        :class="classes.usersItem"-->
+<!--                        size="xs"-->
+<!--                        :src="user.avatar"-->
+<!--                        rounded="full"-->
+<!--                        :alt="`avatar - ${ user.id }`"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <div :class="classes.votes">-->
+<!--                    {{ users.length }} votes-->
+<!--                </div>-->
             </div>
-            <BaseButton
-                :class="classes.voteButton"
-                rounded="sm"
-                size="sm"
-                :icon="{
-                    name: 'arrow-right',
-                    width: 16
-                }"
-                @click="$router.push({ name: 'proposal-id', params: { id: 2 } })"
-            >
-                Vote
-            </BaseButton>
-            <BaseButton
-                :class="classes.voteButtonMobile"
-                view="ghost"
-                size="md"
-                :icon="{
-                    name: 'arrow-right',
-                    width: 16
-                }"
-                @click="$router.push({ name: 'proposal-id', params: { id: 2 } })"
-            >
-                Vote
-            </BaseButton>
+            <template v-if="endDate > currentDate">
+                <BaseButton
+                    :class="classes.voteButton"
+                    rounded="sm"
+                    size="sm"
+                    :icon="{
+                        name: 'arrow-right',
+                        width: 16
+                    }"
+                    @click="$router.push({ name: 'proposal-id', params: { id: 2 } })"
+                >
+                    Vote
+                </BaseButton>
+                <BaseButton
+                    :class="classes.voteButtonMobile"
+                    view="ghost"
+                    size="md"
+                    :icon="{
+                        name: 'arrow-right',
+                        width: 16
+                    }"
+                    @click="$router.push({ name: 'proposal-id', params: { id: 2 } })"
+                >
+                    Vote
+                </BaseButton>
+            </template>
         </div>
     </RouterLink>
 </template>
 
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref, onUnmounted } from 'vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseTimer from '@/components/BaseTimer/BaseTimer.vue';
 import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
+import { ProposalStatus, proposalStatuses } from '@/types/entries/proposal';
 import { IUsers } from './types';
 import IRouterLink from '@/types/routerLink';
 import makeClasses from '@/helpers/makeClasses';
@@ -101,6 +108,7 @@ interface IProps {
     to: IRouterLink
     avatar: string
     name: string
+    status: ProposalStatus
     labelTitle: string
     title: string
     text: string
@@ -110,6 +118,19 @@ interface IProps {
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
+
+
+// CURRENT DATE. USED: LABEL
+
+const currentDate = ref(new Date());
+
+const int = setInterval(() => {
+    currentDate.value = new Date();
+});
+
+onUnmounted(() => {
+    clearInterval(int);
+});
 
 
 // CLASSES
@@ -142,4 +163,22 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         themeSettings: props.themeSettings
     });
 });
+
+
+// IS REJECTED. USED: LABEL
+
+const isRejected = computed(() => currentDate.value > props.endDate && props.status === ProposalStatus.Exists);
+
+
+// LABEL
+
+const labelTitleLocal = computed(() => isRejected.value ? proposalStatuses[ProposalStatus.Rejected]: props.labelTitle);
+
+const labelTheme = computed(() => [
+    '',
+    'primary',
+    'positive',
+    'positive',
+    'critical',
+][isRejected.value ? ProposalStatus.Rejected : props.status]);
 </script>

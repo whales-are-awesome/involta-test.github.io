@@ -10,12 +10,7 @@ type ClassesCollection<T> = Record<string, ClassDefinition<T>>;
 type ThemeCallback<T> = (globalUtilities: ClassesUtilities, localUtilities?: ClassesUtilities)=> ClassesCollection<T>;
 type UseClassesCallback<T> = (props?: T)=> StaticClassesMap;
 
-interface IMakeThemeSettingsProps {
 
-}
-
-
-// TODO: вынести в отдельный файл
 const globalUtilities: ClassesUtilities = {};
 
 

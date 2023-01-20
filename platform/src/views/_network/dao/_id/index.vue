@@ -119,13 +119,14 @@
                             v-for="item in proposalItems.data?.items"
                             :key="item.id"
                             :to="{ name: 'network-dao-address-proposal-id', params: { ...$route.params, proposalId: item.id  } }"
-                            :avatar="require('@/assets/images/common/placeholder.jpg')"
-                            name="DAO Name"
-                            label-title="Active"
+                            :avatar="pageData?.image"
+                            :name="pageData?.name"
+                            :label-title="item.statusName"
+                            :status="item.status"
                             :title="item.name"
                             :text="item.description"
                             :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpg') } ]"
-                            :end-date="new Date((new Date).setHours(23))"
+                            :end-date="new Date(item.endTime)"
                         />
                     </template>
                     <div v-else-if="proposalItems.pending" class="-preloader -preloader_placeholder"></div>

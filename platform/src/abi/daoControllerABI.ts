@@ -1,785 +1,907 @@
-export default [
+export default  [
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'address',
-                'name': '_defaultAdminAddress',
-                'type': 'address'
+                "internalType": "address",
+                "name": "_owner",
+                "type": "address"
             },
             {
-                'internalType': 'uint256',
-                'name': '_proposalExpirationTime',
-                'type': 'uint256'
+                "internalType": "uint256",
+                "name": "_proposalExpirationTime",
+                "type": "uint256"
             },
             {
-                'internalType': 'uint256',
-                'name': '_quorumRequired',
-                'type': 'uint256'
+                "internalType": "uint256",
+                "name": "_quorumRequired",
+                "type": "uint256"
             },
             {
-                'internalType': 'contract IDaoController',
-                'name': '_parentDaoController',
-                'type': 'address'
-            }
-        ],
-        'stateMutability': 'nonpayable',
-        'type': 'constructor'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'appAddress',
-                'type': 'address'
+                "internalType": "uint256",
+                "name": "_totalVotingPower",
+                "type": "uint256"
             },
             {
-                'indexed': false,
-                'internalType': 'uint8',
-                'name': 'numberOfUserFunctions',
-                'type': 'uint8'
+                "internalType": "contract IDaoController",
+                "name": "_parentRegistry",
+                "type": "address"
             },
             {
-                'indexed': false,
-                'internalType': 'string[]',
-                'name': '',
-                'type': 'string[]'
-            }
-        ],
-        'name': 'AppUserFunctions',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'appAddress',
-                'type': 'address'
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
             },
             {
-                'indexed': false,
-                'internalType': 'string',
-                'name': 'name',
-                'type': 'string'
+                "internalType": "string",
+                "name": "_description",
+                "type": "string"
             },
             {
-                'indexed': false,
-                'internalType': 'string',
-                'name': 'description',
-                'type': 'string'
+                "internalType": "address",
+                "name": "_factory",
+                "type": "address"
             }
         ],
-        'name': 'NewOuterCircleApp',
-        'type': 'event'
+        "stateMutability": "nonpayable",
+        "type": "constructor"
     },
     {
-        'anonymous': false,
-        'inputs': [
+        "anonymous": false,
+        "inputs": [
             {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'daoController',
-                'type': 'address'
-            }
-        ],
-        'name': 'OCChildApproved',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'daoController',
-                'type': 'address'
-            }
-        ],
-        'name': 'OCChildRemoved',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'parentAddress',
-                'type': 'address'
-            }
-        ],
-        'name': 'OCDaoControllerCreated',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'oldParent',
-                'type': 'address'
+                "indexed": true,
+                "internalType": "address",
+                "name": "appAddress",
+                "type": "address"
             },
             {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'newParent',
-                'type': 'address'
-            }
-        ],
-        'name': 'OCParentChanged',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': true,
-                'internalType': 'uint256',
-                'name': 'propId',
-                'type': 'uint256'
-            }
-        ],
-        'name': 'OCProposalAccepted',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': true,
-                'internalType': 'uint256',
-                'name': 'propId',
-                'type': 'uint256'
-            }
-        ],
-        'name': 'OCProposalCreated',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': true,
-                'internalType': 'uint256',
-                'name': 'propId',
-                'type': 'uint256'
-            }
-        ],
-        'name': 'OCProposalExecuted',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': false,
-                'internalType': 'uint256',
-                'name': 'oldTime',
-                'type': 'uint256'
+                "indexed": false,
+                "internalType": "uint8",
+                "name": "numberOfUserFunctions",
+                "type": "uint8"
             },
             {
-                'indexed': false,
-                'internalType': 'uint256',
-                'name': 'newTime',
-                'type': 'uint256'
+                "indexed": false,
+                "internalType": "string[]",
+                "name": "",
+                "type": "string[]"
             }
         ],
-        'name': 'OCProposalExpirationTimeChanged',
-        'type': 'event'
+        "name": "AppUserFunctions",
+        "type": "event"
     },
     {
-        'anonymous': false,
-        'inputs': [
+        "anonymous": false,
+        "inputs": [
             {
-                'indexed': true,
-                'internalType': 'uint256',
-                'name': 'propId',
-                'type': 'uint256'
-            }
-        ],
-        'name': 'OCProposalRejected',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': false,
-                'internalType': 'uint256',
-                'name': 'oldQuorum',
-                'type': 'uint256'
+                "indexed": true,
+                "internalType": "address",
+                "name": "appAddress",
+                "type": "address"
             },
             {
-                'indexed': false,
-                'internalType': 'uint256',
-                'name': 'newQuorum',
-                'type': 'uint256'
-            }
-        ],
-        'name': 'OCQuorumRequiredChanged',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': true,
-                'internalType': 'uint256',
-                'name': 'propId',
-                'type': 'uint256'
-            }
-        ],
-        'name': 'OCVetoCasted',
-        'type': 'event'
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': true,
-                'internalType': 'bytes32',
-                'name': 'role',
-                'type': 'bytes32'
+                "indexed": false,
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
             },
             {
-                'indexed': true,
-                'internalType': 'bytes32',
-                'name': 'previousAdminRole',
-                'type': 'bytes32'
+                "indexed": false,
+                "internalType": "string",
+                "name": "description",
+                "type": "string"
+            }
+        ],
+        "name": "NewOuterCircleApp",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "daoController",
+                "type": "address"
+            }
+        ],
+        "name": "OCChildApproved",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "daoController",
+                "type": "address"
+            }
+        ],
+        "name": "OCChildRemoved",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "parentAddress",
+                "type": "address"
+            }
+        ],
+        "name": "OCDaoControllerCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "oldParent",
+                "type": "address"
             },
             {
-                'indexed': true,
-                'internalType': 'bytes32',
-                'name': 'newAdminRole',
-                'type': 'bytes32'
+                "indexed": true,
+                "internalType": "address",
+                "name": "newParent",
+                "type": "address"
             }
         ],
-        'name': 'RoleAdminChanged',
-        'type': 'event'
+        "name": "OCParentChanged",
+        "type": "event"
     },
     {
-        'anonymous': false,
-        'inputs': [
+        "anonymous": false,
+        "inputs": [
             {
-                'indexed': true,
-                'internalType': 'bytes32',
-                'name': 'role',
-                'type': 'bytes32'
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "OCProposalAccepted",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "OCProposalCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "OCProposalExecuted",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "oldTime",
+                "type": "uint256"
             },
             {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'account',
-                'type': 'address'
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "newTime",
+                "type": "uint256"
+            }
+        ],
+        "name": "OCProposalExpirationTimeChanged",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "OCProposalRejected",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "oldQuorum",
+                "type": "uint256"
             },
             {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'sender',
-                'type': 'address'
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "newQuorum",
+                "type": "uint256"
             }
         ],
-        'name': 'RoleGranted',
-        'type': 'event'
+        "name": "OCQuorumRequiredChanged",
+        "type": "event"
     },
     {
-        'anonymous': false,
-        'inputs': [
+        "anonymous": false,
+        "inputs": [
             {
-                'indexed': true,
-                'internalType': 'bytes32',
-                'name': 'role',
-                'type': 'bytes32'
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "OCVetoCasted",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
             },
             {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'account',
-                'type': 'address'
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "previousAdminRole",
+                "type": "bytes32"
             },
             {
-                'indexed': true,
-                'internalType': 'address',
-                'name': 'sender',
-                'type': 'address'
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "newAdminRole",
+                "type": "bytes32"
             }
         ],
-        'name': 'RoleRevoked',
-        'type': 'event'
+        "name": "RoleAdminChanged",
+        "type": "event"
     },
     {
-        'inputs': [],
-        'name': 'DEFAULT_ADMIN_ROLE',
-        'outputs': [
+        "anonymous": false,
+        "inputs": [
             {
-                'internalType': 'bytes32',
-                'name': '',
-                'type': 'bytes32'
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
             }
         ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "name": "RoleGranted",
+        "type": "event"
     },
     {
-        'inputs': [],
-        'name': 'appId',
-        'outputs': [
+        "anonymous": false,
+        "inputs": [
             {
-                'internalType': 'bytes32',
-                'name': '',
-                'type': 'bytes32'
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
             }
         ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "name": "RoleRevoked",
+        "type": "event"
     },
     {
-        'inputs': [
+        "inputs": [],
+        "name": "DEFAULT_ADMIN_ROLE",
+        "outputs": [
             {
-                'internalType': 'contract IDaoController',
-                'name': '_daoController',
-                'type': 'address'
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
             }
         ],
-        'name': 'approveChildDaoController',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [],
+        "name": "appId",
+        "outputs": [
             {
-                'internalType': 'uint256',
-                'name': '_propId',
-                'type': 'uint256'
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
             }
         ],
-        'name': 'castVeto',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'uint256',
-                'name': '_newTime',
-                'type': 'uint256'
+                "internalType": "contract IDaoController",
+                "name": "_daoController",
+                "type": "address"
             }
         ],
-        'name': 'changeProposalExpirationTime',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+        "name": "approveChildDaoController",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'uint256',
-                'name': '_newQuorumRequired',
-                'type': 'uint256'
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
             }
         ],
-        'name': 'changeQuorumRequired',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+        "name": "castVeto",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'components': [
+                "internalType": "uint256",
+                "name": "_newTime",
+                "type": "uint256"
+            }
+        ],
+        "name": "changeProposalExpirationTime",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_newQuorumRequired",
+                "type": "uint256"
+            }
+        ],
+        "name": "changeQuorumRequired",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "components": [
                     {
-                        'internalType': 'enum ActionType',
-                        'name': 'actionType',
-                        'type': 'uint8'
+                        "internalType": "enum ActionType",
+                        "name": "actionType",
+                        "type": "uint8"
                     },
                     {
-                        'internalType': 'address',
-                        'name': 'to',
-                        'type': 'address'
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
                     },
                     {
-                        'internalType': 'bytes',
-                        'name': 'data',
-                        'type': 'bytes'
+                        "internalType": "bytes",
+                        "name": "data",
+                        "type": "bytes"
                     },
                     {
-                        'internalType': 'uint256',
-                        'name': 'value',
-                        'type': 'uint256'
+                        "internalType": "uint256",
+                        "name": "value",
+                        "type": "uint256"
                     }
                 ],
-                'internalType': 'struct Action[]',
-                'name': '_pipeline',
-                'type': 'tuple[]'
+                "internalType": "struct Action[]",
+                "name": "_pipeline",
+                "type": "tuple[]"
             }
         ],
-        'name': 'createProposal',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+        "name": "createProposal",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'uint256',
-                'name': '_propId',
-                'type': 'uint256'
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
             }
         ],
-        'name': 'executeProposal',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+        "name": "executeProposal",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [],
+        "name": "factory",
+        "outputs": [
             {
-                'internalType': 'uint256',
-                'name': '_propId',
-                'type': 'uint256'
+                "internalType": "address",
+                "name": "",
+                "type": "address"
             }
         ],
-        'name': 'getProposal',
-        'outputs': [
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
             {
-                'components': [
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getProposal",
+        "outputs": [
+            {
+                "components": [
                     {
-                        'internalType': 'enum ProposalStatus',
-                        'name': 'status',
-                        'type': 'uint8'
+                        "internalType": "enum ProposalStatus",
+                        "name": "status",
+                        "type": "uint8"
                     },
                     {
-                        'components': [
+                        "components": [
                             {
-                                'internalType': 'enum ActionType',
-                                'name': 'actionType',
-                                'type': 'uint8'
+                                "internalType": "enum ActionType",
+                                "name": "actionType",
+                                "type": "uint8"
                             },
                             {
-                                'internalType': 'address',
-                                'name': 'to',
-                                'type': 'address'
+                                "internalType": "address",
+                                "name": "to",
+                                "type": "address"
                             },
                             {
-                                'internalType': 'bytes',
-                                'name': 'data',
-                                'type': 'bytes'
+                                "internalType": "bytes",
+                                "name": "data",
+                                "type": "bytes"
                             },
                             {
-                                'internalType': 'uint256',
-                                'name': 'value',
-                                'type': 'uint256'
+                                "internalType": "uint256",
+                                "name": "value",
+                                "type": "uint256"
                             }
                         ],
-                        'internalType': 'struct Action[]',
-                        'name': 'pipeline',
-                        'type': 'tuple[]'
+                        "internalType": "struct Action[]",
+                        "name": "pipeline",
+                        "type": "tuple[]"
                     },
                     {
-                        'internalType': 'uint256',
-                        'name': 'creationBlock',
-                        'type': 'uint256'
+                        "internalType": "uint256",
+                        "name": "creationBlock",
+                        "type": "uint256"
                     },
                     {
-                        'internalType': 'uint256',
-                        'name': 'creationTime',
-                        'type': 'uint256'
+                        "internalType": "uint256",
+                        "name": "creationTime",
+                        "type": "uint256"
                     },
                     {
-                        'internalType': 'uint256',
-                        'name': 'forVp',
-                        'type': 'uint256'
+                        "internalType": "uint256",
+                        "name": "forVp",
+                        "type": "uint256"
                     },
                     {
-                        'internalType': 'uint256',
-                        'name': 'againstVp',
-                        'type': 'uint256'
+                        "internalType": "uint256",
+                        "name": "againstVp",
+                        "type": "uint256"
                     },
                     {
-                        'internalType': 'uint256',
-                        'name': 'abstainVp',
-                        'type': 'uint256'
+                        "internalType": "uint256",
+                        "name": "abstainVp",
+                        "type": "uint256"
                     }
                 ],
-                'internalType': 'struct Proposal',
-                'name': '',
-                'type': 'tuple'
+                "internalType": "struct Proposal",
+                "name": "",
+                "type": "tuple"
             }
         ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'bytes32',
-                'name': 'role',
-                'type': 'bytes32'
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
             }
         ],
-        'name': 'getRoleAdmin',
-        'outputs': [
+        "name": "getRoleAdmin",
+        "outputs": [
             {
-                'internalType': 'bytes32',
-                'name': '',
-                'type': 'bytes32'
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
             }
         ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [],
+        "name": "governance",
+        "outputs": [
             {
-                'internalType': 'bytes32',
-                'name': 'role',
-                'type': 'bytes32'
+                "internalType": "contract IGovernance",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
             },
             {
-                'internalType': 'address',
-                'name': 'account',
-                'type': 'address'
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
             }
         ],
-        'name': 'grantRole',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+        "name": "grantRole",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'bytes32',
-                'name': 'role',
-                'type': 'bytes32'
+                "internalType": "address",
+                "name": "_who",
+                "type": "address"
+            }
+        ],
+        "name": "grantRolesByGovernance",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
             },
             {
-                'internalType': 'address',
-                'name': 'account',
-                'type': 'address'
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
             }
         ],
-        'name': 'hasRole',
-        'outputs': [
+        "name": "hasRole",
+        "outputs": [
             {
-                'internalType': 'bool',
-                'name': '',
-                'type': 'bool'
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
             }
         ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'contract IDaoController',
-                'name': '',
-                'type': 'address'
+                "internalType": "contract IDaoController",
+                "name": "",
+                "type": "address"
             }
         ],
-        'name': 'isChildDaoController',
-        'outputs': [
+        "name": "isChildDaoController",
+        "outputs": [
             {
-                'internalType': 'bool',
-                'name': '',
-                'type': 'bool'
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
             }
         ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        'inputs': [],
-        'name': 'parentDaoController',
-        'outputs': [
+        "inputs": [],
+        "name": "parentDaoController",
+        "outputs": [
             {
-                'internalType': 'contract IDaoController',
-                'name': '',
-                'type': 'address'
+                "internalType": "contract IDaoController",
+                "name": "",
+                "type": "address"
             }
         ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'uint256',
-                'name': '_propId',
-                'type': 'uint256'
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
             }
         ],
-        'name': 'proposalAccepted',
-        'outputs': [
+        "name": "proposalAccepted",
+        "outputs": [
             {
-                'internalType': 'bool',
-                'name': '',
-                'type': 'bool'
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
             }
         ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        'inputs': [],
-        'name': 'proposalExpirationTime',
-        'outputs': [
+        "inputs": [],
+        "name": "proposalExpirationTime",
+        "outputs": [
             {
-                'internalType': 'uint256',
-                'name': '',
-                'type': 'uint256'
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'uint256',
-                'name': '_propId',
-                'type': 'uint256'
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
             }
         ],
-        'name': 'proposalExpired',
-        'outputs': [
+        "name": "proposalExpired",
+        "outputs": [
             {
-                'internalType': 'bool',
-                'name': '',
-                'type': 'bool'
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
             }
         ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        'inputs': [],
-        'name': 'quorumRequired',
-        'outputs': [
+        "inputs": [],
+        "name": "quorumRequired",
+        "outputs": [
             {
-                'internalType': 'uint256',
-                'name': '',
-                'type': 'uint256'
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'contract IDaoController',
-                'name': '_daoController',
-                'type': 'address'
+                "internalType": "contract IDaoController",
+                "name": "_daoController",
+                "type": "address"
             }
         ],
-        'name': 'removeChildDaoController',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+        "name": "removeChildDaoController",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'bytes32',
-                'name': 'role',
-                'type': 'bytes32'
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
             },
             {
-                'internalType': 'address',
-                'name': 'account',
-                'type': 'address'
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
             }
         ],
-        'name': 'renounceRole',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+        "name": "renounceRole",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'bytes32',
-                'name': 'role',
-                'type': 'bytes32'
+                "internalType": "bytes32",
+                "name": "role",
+                "type": "bytes32"
             },
             {
-                'internalType': 'address',
-                'name': 'account',
-                'type': 'address'
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
             }
         ],
-        'name': 'revokeRole',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+        "name": "revokeRole",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'bytes4',
-                'name': 'interfaceId',
-                'type': 'bytes4'
+                "internalType": "address",
+                "name": "_who",
+                "type": "address"
             }
         ],
-        'name': 'supportsInterface',
-        'outputs': [
-            {
-                'internalType': 'bool',
-                'name': '',
-                'type': 'bool'
-            }
-        ],
-        'stateMutability': 'view',
-        'type': 'function'
+        "name": "revokeRolesByGovernance",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'uint256',
-                'name': '_propId',
-                'type': 'uint256'
+                "internalType": "address",
+                "name": "_governance",
+                "type": "address"
+            }
+        ],
+        "name": "setGovernance",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes4",
+                "name": "interfaceId",
+                "type": "bytes4"
+            }
+        ],
+        "name": "supportsInterface",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "totalVotingPower",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
             },
             {
-                'internalType': 'enum VoteType',
-                'name': '_decision',
-                'type': 'uint8'
+                "internalType": "enum VoteType",
+                "name": "_decision",
+                "type": "uint8"
             },
             {
-                'internalType': 'bytes[]',
-                'name': '_data',
-                'type': 'bytes[]'
+                "internalType": "bytes[]",
+                "name": "_data",
+                "type": "bytes[]"
             }
         ],
-        'name': 'voteProposal',
-        'outputs': [],
-        'stateMutability': 'nonpayable',
-        'type': 'function'
+        "name": "voteProposal",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     },
     {
-        'inputs': [
+        "inputs": [
             {
-                'internalType': 'address',
-                'name': '_who',
-                'type': 'address'
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "propId",
+                "type": "uint256"
             }
         ],
-        'name': 'votingPowerOf',
-        'outputs': [
+        "name": "voted",
+        "outputs": [
             {
-                'internalType': 'uint256',
-                'name': '',
-                'type': 'uint256'
+                "internalType": "enum VoteType",
+                "name": "",
+                "type": "uint8"
             }
         ],
-        'stateMutability': 'pure',
-        'type': 'function'
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_who",
+                "type": "address"
+            }
+        ],
+        "name": "votingPowerOf",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
     }
 ];
