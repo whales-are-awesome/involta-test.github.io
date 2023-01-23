@@ -66,18 +66,25 @@ export default class ProposalService {
                 contractABI: daoControllerABI,
                 methodName: 'proposalExpirationTime'
             });
-            const [voted] = await API.getFromChain<ProposalVoteType>({
+            const [vote] = await API.getFromChain<string>({
                 contractAddress: path.address,
                 params: [store.state.wallet.address, path.id],
                 contractABI: daoControllerABI,
                 methodName: 'voted'
+            });
+            const [votingPower] = await API.getFromChain<number>({
+                contractAddress: path.address,
+                params: [store.state.wallet.address],
+                contractABI: daoControllerABI,
+                methodName: 'votingPowerOf'
             });
 
             fullData = cloneDeep({
                 ...data,
                 ...chainData,
                 proposalExpirationTime,
-                voted: !!voted
+                vote: +vote! as ProposalVoteType,
+                votingPower: votingPower
             });
 
             await Promise.all([

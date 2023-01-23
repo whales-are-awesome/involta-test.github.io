@@ -99,14 +99,14 @@ const useClasses = makeClasses<ThemeProps>(
             view === 'primary' && [
                 'text-white group-hover:border-surface-500',
                 {
-                    'border-200': !checked,
+                    'border-[#8D8DD9]': !checked,
                 },
 
                 type === 'radio' && {
                     [`rounded-full w-3 h-3
                       group-hover:border-surface-500 peer-focus-visible:border-surface-500
                       peer-focus-visible:shadow-[0_0_0_4px_rgba(78,70,180,0.2)]`]: true,
-                    'border-surface-500': checked && !disabled,
+                    'border-[#8D8DD9]': checked && !disabled,
                     'bg-100 border-200': disabled && checked,
                     'opacity-[.12]': disabled && !checked
                 },
@@ -135,7 +135,7 @@ const useClasses = makeClasses<ThemeProps>(
 
                 type === 'radio' && {
                     'w-1.5 h-1.5 rounded-full': true,
-                    'bg-surface-500': checked,
+                    'bg-[#8D8DD9]': checked,
                     'bg-200': disabled && checked
                 },
                 type === 'checkbox' && {

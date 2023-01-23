@@ -19,8 +19,8 @@ function useIsMobile() {
         const width = store.state.isMobile.width;
 
         return {
-            xl: width > 1056,
-            lg: width > 960 && width <= 1056,
+            xl: width > 1280,
+            lg: width > 960 && width <= 1280,
             md: width > 600 && width <= 960,
             sm: width <= 600
         }

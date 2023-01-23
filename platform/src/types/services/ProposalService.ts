@@ -1,10 +1,11 @@
 import { IPaginationParams } from '@/types/api'
-import { IProposalAPI, IProposalChain, ProposalPipeline, proposalStatuses } from '@/types/entries/proposal'
+import { IProposalAPI, IProposalChain, ProposalPipeline, proposalStatuses, ProposalVoteType } from '@/types/entries/proposal'
 
 interface IProposal extends IProposalAPI, IProposalChain {
     createdByName?: string
     proposalExpirationTime: number
-    voted: boolean
+    vote: ProposalVoteType
+    votingPower: number
 }
 
 interface IProposalItem extends IProposal {
