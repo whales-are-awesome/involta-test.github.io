@@ -422,19 +422,6 @@ const formData = computed(() => {
 const breadcrumbs = computed(() => {
     if (!pageData.value?.path.length) return [];
 
-    pageData!.value.path = [
-        {
-            name: 'lol',
-            address: 'hui',
-            fullName: 'lol'
-        },
-        {
-            name: 'lol',
-            address: 'hui',
-            fullName: 'lol'
-        },
-    ];
-
     const data: IBreadcrumb[] = [...pageData.value?.path].reverse().map(item => ({
         title: item.name,
         link: { name: 'network-dao-address', params: { network: route.params.network, address: item.address } }

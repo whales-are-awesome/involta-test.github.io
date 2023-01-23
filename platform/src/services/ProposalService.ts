@@ -132,8 +132,6 @@ export default class ProposalService {
             }))
         }
 
-        console.log(normalizeProposalItemsAsTable(fullData!));
-
         return [fullData && normalizeProposalItemsAsTable(fullData), ...rest] as const;
     }
 
