@@ -22,7 +22,7 @@
 
 
 <script lang="ts" setup>
-import { computed, useSlots, ref, defineExpose } from 'vue';
+import { computed, useSlots, ref } from 'vue';
 import Popper from 'vue3-popper';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';

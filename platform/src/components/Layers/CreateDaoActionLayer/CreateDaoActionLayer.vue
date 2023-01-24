@@ -8,11 +8,6 @@
         <p class="title-h4 mb-11">
             Choose an action
         </p>
-        <p
-            class="text-400 mb-11"
-        >
-            What do you want
-        </p>
         <div class="flex justify-center space-x-4">
             <BaseButton
                 class="w-[200px]"

@@ -18,9 +18,6 @@ import isContract from '@/helpers/isContract'
 import { store } from '@/store'
 
 import { IDaoPath } from '@/types/services/DaoService';
-import addSpacesToNumber from '@/helpers/addSpacesToNumber';
-
-//toDo: добить интерфейсы
 
 export default class ProposalService {
     static async createProposalChain(params: ICreateProposalChainParams) {
@@ -92,6 +89,8 @@ export default class ProposalService {
                     .then((result: string) => fullData!.createdByName = result)
             ]);
         }
+
+        console.log(fullData);
 
         return [fullData, ...rest] as const;
     }

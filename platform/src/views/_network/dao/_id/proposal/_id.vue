@@ -143,7 +143,7 @@
                                                 height="15"
                                             />
                                         </div>
-                                        {{ proposalData?.votingPower }} OC
+                                        {{ proposalData?.votingPower }} Tokens
                                     </div>
                                     <template v-if="index === 4">
                                         <div class="space-y-3 mb-3">
@@ -505,7 +505,7 @@
                                                 height="15"
                                             />
                                         </div>
-                                        {{ proposalData?.votingPower }} OC
+                                        {{ proposalData?.votingPower }} Tokens
                                     </div>
                                     <template v-if="index === 4">
                                         <div class="space-y-3 mb-3">
@@ -537,8 +537,10 @@
                                                 :progress="proposalData?.abstainVp / proposalData?.totalVp * 100 || 0"
                                             />
                                         </div>
-                                        <div class="flex justify-between">
-                                            <div></div>
+                                        <div class="flex justify-between items-center">
+                                            <div class="">
+                                                {{ proposalData?.totalVp }} in total
+                                            </div>
                                             <BaseButton
                                                 v-if="canVote"
                                                 class="w-[96px]"
@@ -624,6 +626,11 @@ onUnmounted(() => {
 });
 
 
+// META:IS REJECTED
+
+const isRejected = computed(() => currentDate.value > new Date(proposalData.value?.endTime || 0) && proposalData.value?.status === ProposalStatus.Exists);
+
+
 const showMore = ref(false);
 
 
@@ -676,7 +683,11 @@ const proposalData = computed(() => proposal.value.data);
 
 const currentVote = ref(ProposalVoteType.None);
 
-const canVote = computed(() => proposalData.value?.vote === ProposalVoteType.None && !!+proposalData.value?.votingPower)
+const canVote = computed(() => true
+    // proposalData.value?.vote === ProposalVoteType.None
+    // && !!+proposalData.value?.votingPower
+    // && !isRejected.value
+)
 
 async function vote() {
     if (proposalData.value?.vote !== ProposalVoteType.None) {
@@ -727,11 +738,6 @@ const currentDate = ref(new Date());
 const int = setInterval(() => currentDate.value = new Date());
 
 onUnmounted(() => clearInterval(int));
-
-
-// IS REJECTED. USED: LABEL
-
-const isRejected = computed(() => currentDate.value > new Date(proposalData.value?.endTime || 0) && proposalData.value?.status === ProposalStatus.Exists);
 
 
 // LABEL

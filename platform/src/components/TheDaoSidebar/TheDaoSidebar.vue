@@ -77,7 +77,7 @@
 
 
 <script lang="ts" setup>
-import { computed, ref, defineExpose, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { store } from '@/store';
 import SubDaoMenu from '@/components/SubDaoMenu/SubDaoMenu.vue';

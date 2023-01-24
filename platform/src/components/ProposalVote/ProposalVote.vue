@@ -21,7 +21,7 @@
                 {{ title }}
             </p>
             <p :class="classes.votes">
-                {{ votes }} votes
+                {{ votes }} tokens
             </p>
             <p :class="classes.percents">
                 {{ progress }}%

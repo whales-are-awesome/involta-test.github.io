@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useSlots, defineExpose, ref } from 'vue';
+import { computed, useSlots, ref } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import {
     IHTMLButtonAttributes,

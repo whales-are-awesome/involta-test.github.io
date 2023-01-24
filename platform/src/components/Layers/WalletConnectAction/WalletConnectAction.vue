@@ -37,7 +37,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue';
 import useLayer from '@/composables/useLayer';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';

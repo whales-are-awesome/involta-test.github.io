@@ -41,7 +41,7 @@
 
 
 <script lang="ts" setup>
-import { computed, defineExpose, onUnmounted, ref } from 'vue';
+import { computed, onUnmounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import TheSidebarButton from './TheSidebarButton.vue';
 import makeClasses from '@/helpers/makeClasses';
