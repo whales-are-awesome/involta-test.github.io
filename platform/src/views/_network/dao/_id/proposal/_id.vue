@@ -683,10 +683,10 @@ const proposalData = computed(() => proposal.value.data);
 
 const currentVote = ref(ProposalVoteType.None);
 
-const canVote = computed(() => true
-    // proposalData.value?.vote === ProposalVoteType.None
-    // && !!+proposalData.value?.votingPower
-    // && !isRejected.value
+const canVote = computed(() =>
+    proposalData.value?.vote === ProposalVoteType.None
+    && !!+proposalData.value?.votingPower
+    && !isRejected.value
 )
 
 async function vote() {

@@ -56,6 +56,8 @@ export default class ProposalService {
         });
         let fullData: IProposal | null = null;
 
+        console.log(chainData);
+
         if (data && chainData) {
             const [proposalExpirationTime] = await API.getFromChain<number>({
                 contractAddress: path.address,
@@ -89,8 +91,6 @@ export default class ProposalService {
                     .then((result: string) => fullData!.createdByName = result)
             ]);
         }
-
-        console.log(fullData);
 
         return [fullData, ...rest] as const;
     }
