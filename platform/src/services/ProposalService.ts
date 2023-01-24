@@ -139,6 +139,7 @@ export default class ProposalService {
             contractAddress: params.contractAddress,
             contractABI: daoControllerABI,
             methodName: 'voteProposal',
+            needWait: true,
             params: [params.proposald, params.decision, []]
         });
     }

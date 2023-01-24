@@ -705,7 +705,7 @@ async function vote() {
     );
 
     if (!error) {
-        fetchProposal();
+        await fetchProposal();
         notify({
             title: 'Success',
             text: 'You have successfully voted for proposal',
