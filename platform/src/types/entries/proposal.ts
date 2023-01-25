@@ -27,7 +27,7 @@ enum ProposalStatus {
 }
 
 const proposalStatuses = {
-    [ProposalStatus.None]: 'No Proposal',
+    [ProposalStatus.None]: 'Processing',
     [ProposalStatus.Exists]: 'Active',
     [ProposalStatus.Accepted]: 'Accepted',
     [ProposalStatus.Executed]: 'Executed',

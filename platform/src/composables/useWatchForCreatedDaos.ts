@@ -1,8 +1,7 @@
-import { useRouter } from  'vue-router';
 import API from  '@/helpers/api';
 import useCookies from  '@/composables/useCookies';
 import useLayer from  '@/composables/useLayer';
-import { IDaoTransactionCookie } from  '@/types/dao';
+import { IDaoTransactionCookie } from  '@/types/services/DaoService';
 import emitter from '@/plugins/mitt';
 import sign from '@/helpers/sign';
 import { uuidv4 } from '@/helpers/uuid';
@@ -16,7 +15,7 @@ function useWatchForCreatedDaos() {
 
     function watch() {
         setInterval(() => {
-            const transactions: IDaoTransactionCookie[] = cookies.get('pendingTransactions') || [];
+            const transactions: IDaoTransactionCookie[] = cookies.get('pendingDaoTransactions') || [];
 
             transactions.forEach(async item => {
                 const receipt = await API.provider.getTransactionReceipt(item.hash);
@@ -33,9 +32,9 @@ function useWatchForCreatedDaos() {
     }
 
     function add(dao: IDaoTransactionCookie) {
-        const transactions: IDaoTransactionCookie[] = cookies.get('pendingTransactions') || [];
+        const transactions: IDaoTransactionCookie[] = cookies.get('pendingDaoTransactions') || [];
 
-        cookies.set('pendingTransactions', JSON.stringify([...transactions, dao]));
+        cookies.set('pendingDaoTransactions', JSON.stringify([...transactions, dao]));
     }
 
     async function showMessage(address: string, data: IDaoTransactionCookie) {
@@ -63,12 +62,12 @@ function useWatchForCreatedDaos() {
     }
 
     function deleteTransaction(hash: string) {
-        const transactions: IDaoTransactionCookie[] = cookies.get('pendingTransactions');
+        const transactions: IDaoTransactionCookie[] = cookies.get('pendingDaoTransactions');
         const transactionIndex = transactions.findIndex(item => item.hash === hash);
 
         transactions.splice(transactionIndex, 1);
 
-        cookies.set('pendingTransactions', transactions);
+        cookies.set('pendingDaoTransactions', transactions);
     }
 
     async function putData(address: string, data: IDaoTransactionCookie, signInfo: Awaited<ReturnType<typeof sign>>[0]) {
@@ -158,5 +157,3 @@ function useWatchForCreatedDaos() {
 }
 
 export default useWatchForCreatedDaos;
-
-// 0x74dfbff8ec36a1a2ccafe92837d4d3a4722cecf417af67a078045e195419c46a

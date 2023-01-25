@@ -113,6 +113,7 @@
                     :class="{
                         '-preloader -preloader_cover': proposalItems.pending
                     }"
+                    v-scroll-at.bottom="addMoreProposals"
                 >
                     <template v-if="proposalItems.data?.items.length">
                         <ProposalCard
@@ -151,6 +152,7 @@
                     :class="{
                         '-preloader -preloader_cover before:top-6': daoItems.pending
                     }"
+                    v-scroll-at.bottom="addMoreDao"
                 >
                     <div
                         class="w-1/4 px-3 mt-6 md:w-1/3 sm:w-1/2 sm:px-[9px]"
@@ -316,9 +318,21 @@ const formDataProposals = ref({
     offset: 0
 });
 
-const [proposalItems] = useProposalItems(formDataProposals);
+const [proposalItems, fetchProposal] = useProposalItems(formDataProposals);
+
+emitter.on('proposalCreated', fetchProposal);
+
+onUnmounted(() => {
+    emitter.off('proposalCreated', fetchDao);
+});
 
 useQueryUpdates(formDataProposals, ['section']);
+
+function addMoreProposals() {
+    if (proposalItems.value.data?.items.length !== proposalItems.value.data?.total) {
+        formDataProposals.value.offset += formDataProposals.value.limit;
+    }
+}
 
 
 // DAOS

@@ -75,6 +75,14 @@ interface IProposalItemQuery {
 }
 
 
+interface IProposalTransactionCookie {
+    network: string
+    address: string
+    hash: string
+    name: string
+}
+
+
 export {
     IProposal,
     IProposalPath,
@@ -90,5 +98,7 @@ export {
 
     proposalStatuses,
 
-    IPaginationParams
+    IPaginationParams,
+
+    IProposalTransactionCookie
 }

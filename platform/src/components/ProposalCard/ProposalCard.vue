@@ -6,7 +6,7 @@
         <div>
             <div :class="classes.top">
                 <BaseTimer
-                    v-if="endDate > currentDate"
+                    v-if="canVote"
                     :class="classes.timerMobile"
                     :end-date="endDate"
                 />
@@ -36,7 +36,7 @@
                 {{ text }}
             </div>
             <div
-                v-if="endDate > currentDate"
+                v-if="canVote"
                 :class="classes.bottom"
             >
                 <BaseTimer
@@ -58,7 +58,7 @@
 <!--                    {{ users.length }} votes-->
 <!--                </div>-->
             </div>
-            <template v-if="endDate > currentDate">
+            <template v-if="canVote">
                 <BaseButton
                     :class="classes.voteButton"
                     rounded="sm"
@@ -95,7 +95,7 @@ import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseTimer from '@/components/BaseTimer/BaseTimer.vue';
 import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
-import { ProposalStatus, proposalStatuses } from '@/types/entries/proposal';
+import { ProposalStatus, proposalStatuses, ProposalVoteType } from '@/types/entries/proposal';
 import { IUsers } from './types';
 import IRouterLink from '@/types/routerLink';
 import makeClasses from '@/helpers/makeClasses';
@@ -165,9 +165,18 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 });
 
 
-// IS REJECTED. USED: LABEL
+// IS REJECTED. USED: LABEL, CAN VOTE
 
-const isRejected = computed(() => currentDate.value > props.endDate && props.status === ProposalStatus.Exists);
+const isRejected = computed(() => (currentDate.value > props.endDate && props.status === ProposalStatus.Exists) || props.status === ProposalStatus.Rejected);
+
+
+// CAN VOTE
+
+const canVote = computed(() =>
+    props.status === ProposalStatus.Exists
+    && !isRejected.value
+    && props.endDate > currentDate.value
+)
 
 
 // LABEL
@@ -175,7 +184,7 @@ const isRejected = computed(() => currentDate.value > props.endDate && props.sta
 const labelTitleLocal = computed(() => isRejected.value ? proposalStatuses[ProposalStatus.Rejected]: props.labelTitle);
 
 const labelTheme = computed(() => [
-    '',
+    'neutral',
     'primary',
     'positive',
     'positive',

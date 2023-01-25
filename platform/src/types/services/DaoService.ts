@@ -50,6 +50,16 @@ interface INormalizedDaoItemAsTable extends IDao {
     followersAmountFormatted: string
 }
 
+
+interface IDaoTransactionCookie {
+    network: string
+    hash: string
+    name: string
+    description: string
+    link: string
+    image?: string
+}
+
 export {
     IDao,
     IDaoPath,
@@ -62,5 +72,7 @@ export {
     IDaoItemParams,
     INormalizedDaoItemAsTable,
 
-    IPaginationParams
+    IPaginationParams,
+
+    IDaoTransactionCookie
 }

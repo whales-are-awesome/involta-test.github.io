@@ -9,7 +9,7 @@
 
 
 <script lang="ts" setup>
-import { computed, defineEmits } from 'vue';
+import { computed } from 'vue';
 import { Rounded, Themes, Views } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';

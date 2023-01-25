@@ -25,7 +25,7 @@
 
 
 <script lang="ts" setup>
-import { computed, defineEmits, ref, onMounted, watch, nextTick, onUnmounted } from 'vue';
+import { computed, ref, onMounted, watch, nextTick, onUnmounted } from 'vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import useIsMobile from '@/composables/useIsMobile';
 import { IItem } from './types';

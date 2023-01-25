@@ -26,7 +26,7 @@
 
 
 <script lang="ts" setup>
-import { computed, defineEmits, ref, onMounted, watch, nextTick, onUnmounted } from 'vue';
+import { computed, ref, onMounted, watch, nextTick, onUnmounted } from 'vue';
 import { IItem, Sizes } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';

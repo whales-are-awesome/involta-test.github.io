@@ -36,13 +36,15 @@ export default class ProposalService {
         });
 
         if (response?.trx) {
-            return API.post<never>(`/${ path.network }/dao/${ path.address }/proposal`, omit({
+            await API.post<never>(`/${ path.network }/dao/${ path.address }/proposal`, omit({
                 ...params,
-                creationTx: response?.trx.hash
+                creationTx: response.trx.hash
             }, ['actions']), config);
+
+            return [response, error, () => {}] as const;
         }
 
-        return [null, error, () => {}];
+        return [null, error, () => {}] as const;
 
     }
 
@@ -55,8 +57,6 @@ export default class ProposalService {
             methodName: 'getProposal'
         });
         let fullData: IProposal | null = null;
-
-        console.log(chainData);
 
         if (data && chainData) {
             const [proposalExpirationTime] = await API.getFromChain<number>({

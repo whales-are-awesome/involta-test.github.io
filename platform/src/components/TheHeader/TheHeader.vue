@@ -98,7 +98,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineEmits } from 'vue';
+import { computed } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseWallet from '@/components/BaseWallet/BaseWallet.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';

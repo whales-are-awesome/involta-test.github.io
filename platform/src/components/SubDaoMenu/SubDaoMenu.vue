@@ -77,7 +77,7 @@
 
 
 <script lang="ts" setup>
-import { computed, defineEmits } from 'vue';
+import { computed } from 'vue';
 import SubDaoItemsPopup from '@/components/SubDaoItemsPopup/SubDaoItemsPopup.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';

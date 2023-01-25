@@ -48,6 +48,17 @@
                         {{ name }}
                     </div>
                     <div
+                        v-if="link"
+                        :class="classes.link"
+                    >
+                        <ActionLink
+                            :href="link"
+                            target="_blank"
+                        >
+                            {{ link.replace('https', '').replace('//', '') }}
+                        </ActionLink>
+                    </div>
+                    <div
                         v-if="description"
                         :class="classes.description"
                     >
@@ -87,6 +98,7 @@ interface IProps {
     name?: string
     description?: string
     followersAmount?: string
+    link?: string
     breadcrumbs?: IBreadcrumb[]
     themeSettings?: ThemeSettings<'root'>
 }
@@ -117,6 +129,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     infoItem: 'flex items-center',
     infoItemIcon: 'mr-1',
     bottom: 'flex justify-between sm:block',
+    link: 'mb-1 text-xs',
     description: 'max-w-[659px] text-xs text-gray-500 line-clamp-2 sm:line-clamp-3',
     links: 'flex justify-end space-x-2 mt-[18px] sm:justify-start'
 }));

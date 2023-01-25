@@ -263,6 +263,8 @@ import useIsMobile from '@/composables/useIsMobile';
 import sign from '@/helpers/sign';
 import { notify } from '@kyvg/vue3-notification';
 import { store } from '@/store';
+import API from '@/helpers/api';
+import useWatchForCreatedProposals from '@/composables/useWatchForCreatedProposals';
 
 // META
 
@@ -398,17 +400,8 @@ const [formData, formErrors, checkErrors] = useForm({
     }
 });
 
-// const formResult = computed(() => {
-//     return {
-//         transactions: formData.value.transactions.map((item: any) => ({
-//             address: item.address,
-//             value: 0,
-//             response: '',
-//             data: `${ item.funcName }(${ item.parameters.map((param: any) => param.type.trim()).join(',') })`,
-//             transType: 0
-//         }))
-//     }
-// });
+
+const watchForCreatedProposals = useWatchForCreatedProposals();
 
 async function createProposal() {
     if (checkErrors() || isSending.value) return;
@@ -435,7 +428,7 @@ async function createProposal() {
         return [null, err] as const;
     }
 
-    const [response, error] =  await ProposalService.createProposal(
+    const [response, error] = await ProposalService.createProposal(
         {
             address: route.params.address as string,
             network: route.params.network as string
@@ -460,14 +453,21 @@ async function createProposal() {
         });
 
 
-    if (!error) {
+    if (!error && response) {
         notify({
-            title: 'Success',
-            text: 'You’ve <strong>successfully created new Proposal</strong>',
+            title: 'Wait',
+            text: 'Proposal creation Tx is pending.',
             data: {
                 view: 'shadow',
-                theme: 'success'
+                theme: 'primary'
             }
+        });
+
+        watchForCreatedProposals.add({
+            network: await API.getNetwork(),
+            address: route.params.address as string,
+            hash: response.trx.hash,
+            name: formData.value.name
         });
     } else {
         notify({

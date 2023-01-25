@@ -6,6 +6,7 @@
             :name="pageData?.name"
             :breadcrumbs="breadcrumbs"
             :followers-amount="pageData?.followersAmountFormatted"
+            :link="pageData?.link"
             :description="pageData?.description"
         />
         <div v-else class="-preloader -preloader_placeholder"></div>
@@ -61,7 +62,7 @@
                                 rounded="sm"
                             >
                         <span class="font-semibold text-gray-600 sm:text-xs">
-                            DAO Name
+                            {{ pageData?.name }}
                         </span>
                             </BaseAvatar>
                             <!--                            <BaseBreadcrumbs-->
@@ -685,6 +686,7 @@ const currentVote = ref(ProposalVoteType.None);
 
 const canVote = computed(() =>
     proposalData.value?.vote === ProposalVoteType.None
+    && proposalData.value?.status === ProposalStatus.Exists
     && !!+proposalData.value?.votingPower
     && !isRejected.value
 )
@@ -745,7 +747,7 @@ onUnmounted(() => clearInterval(int));
 const labelTitleLocal = computed(() => isRejected.value ? proposalStatuses[ProposalStatus.Rejected]: proposalData.value?.statusName);
 
 const labelTheme = computed(() => [
-    '',
+    'neutral',
     'primary',
     'positive',
     'positive',
