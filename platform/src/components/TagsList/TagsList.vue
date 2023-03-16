@@ -15,7 +15,7 @@
                         'text-200': value !== item.id
                     }
                 ]"
-                @click="value = item.id"
+                @click="setItem(item)"
             >
                 {{ item.title }}
             </div>
@@ -27,6 +27,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, onMounted, watch, nextTick, onUnmounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { IItem, Sizes } from './types';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
@@ -50,6 +51,8 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 
 const emit = defineEmits<IEmits>();
+
+const router = useRouter();
 
 
 // CLASSES
@@ -90,7 +93,7 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
     });
 });
 
-// VALUE
+// META:VALUE
 
 const value = computed({
     get() {
@@ -134,6 +137,16 @@ onMounted(async() => {
 
 onUnmounted(() => {
     window.removeEventListener('resize', setLineWithDelay);
-
 });
+
+
+// SET ITEM
+
+function setItem(item: IItem) {
+    if (!item.to) {
+        value.value = item.id
+    } else {
+        router.push(item.to);
+    }
+}
 </script>

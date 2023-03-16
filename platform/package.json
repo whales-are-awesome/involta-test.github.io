@@ -27,6 +27,7 @@
         "core-js": "^3.8.3",
         "debounce": "^1.2.1",
         "ethers": "^5.7.2",
+        "get-eth-price": "^1.0.0",
         "graphql": "^15.8.0",
         "graphql-tag": "^2.12.6",
         "hsl-to-hex": "^1.0.0",

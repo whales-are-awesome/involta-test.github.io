@@ -552,6 +552,15 @@
                                             >
                                                 Vote
                                             </BaseButton>
+                                            <BaseButton
+                                                v-if="canExecute"
+                                                class="w-[96px]"
+                                                size="sm"
+                                                theme="primary"
+                                                @click="execute"
+                                            >
+                                                Execute
+                                            </BaseButton>
                                         </div>
                                     </template>
                                 </div>
@@ -753,4 +762,43 @@ const labelTheme = computed(() => [
     'positive',
     'critical',
 ][isRejected.value ? ProposalStatus.Rejected : (proposalData.value?.status || 0)]);
+
+
+// EXECUTE
+
+const canExecute = computed(() => proposalData.value?.status === ProposalStatus.Accepted);
+
+async function execute() {
+    proposal.value.pending = true;
+
+    const [data, error, cancel] = await ProposalService.executeProposal(
+        {
+            proposald: route.params.proposalId,
+            contractAddress: route.params.address
+        }
+    );
+
+    if (!error) {
+        await fetchProposal();
+        notify({
+            title: 'Success',
+            text: 'You have successfully executed for proposal',
+            data: {
+                view: 'shadow',
+                theme: 'success'
+            }
+        });
+    } else {
+        proposal.value.pending = false;
+        notify({
+            title: 'Error',
+            text: 'Something went wrong',
+            data: {
+                view: 'shadow',
+                theme: 'alert'
+            }
+        });
+    }
+}
+
 </script>

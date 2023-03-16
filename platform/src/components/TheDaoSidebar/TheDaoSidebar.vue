@@ -9,7 +9,7 @@
         >
             <div :class="classes.content">
                 <div v-if="currentDao.pending || subDaoItems.pending || isPendingParentDaos" class="-preloader"></div>
-                <template v-if="currentDao.data && subDaoItems.data">
+                <template v-if="currentDao.data">
                     <div :class="classes.top">
                         <div :class="classes.logoWrapper">
                             <BaseImage

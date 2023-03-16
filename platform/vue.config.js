@@ -3,6 +3,8 @@ const webpack = require('webpack');
 
 module.exports = defineConfig({
     transpileDependencies: true,
+    // publicPath: './',
+    // assetsDir: './',
     chainWebpack: config => {
         config.module
             .rule('graphql')

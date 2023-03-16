@@ -1,4 +1,6 @@
 import API from '@/helpers/api';
+import { ethers } from 'ethers';
+import daoControllerABI from '@/abi/daoControllerABI';
 import cutAddress from '@/helpers/cutAddress';
 import addSpacesToNumber from '@/helpers/addSpacesToNumber';
 import { IResponsePagination, Config } from '@/types/api';
@@ -32,7 +34,6 @@ export default class DaoService {
             ]
         });
     }
-
 
     static async fetchDao(path: IDaoPath) {
         return API.get<IDao>(`/${ path.network }/dao/${ path.address }`);

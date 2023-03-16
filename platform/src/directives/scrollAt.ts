@@ -29,13 +29,10 @@ const scrollAt = {
             }
         }
 
-
         //@ts-ignore
-
-        binding.dir.scrollHandler();
-
-        //@ts-ignore
-        window.addEventListener('scroll', binding.dir.scrollHandler)
+        setTimeout(() => {
+            window.addEventListener('scroll', binding.dir.scrollHandler);
+        }, 1000);
     },
     unmounted(el: any, binding: any) {
         //@ts-ignore

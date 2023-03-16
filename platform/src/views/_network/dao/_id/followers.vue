@@ -101,7 +101,7 @@
                                 Tokens
                             </div>
                             <div class="font-bold text-xxs text-gray-600">
-                                {{ item.votingPower }}
+
                             </div>
                         </div>
                         <div class="w-1/3">
@@ -109,7 +109,7 @@
                                 Voting power
                             </div>
                             <div class="font-bold text-xs text-gray-600">
-                                6.9%
+                                {{ item.votingPower }}%
                             </div>
                         </div>
                     </div>

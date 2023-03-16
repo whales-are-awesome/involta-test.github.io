@@ -48,6 +48,8 @@ class API {
 
                     resolve(trx);
                 } catch (e) {
+                    console.log(e);
+
                     reject(new Error('Trx error'));
                 }
             });

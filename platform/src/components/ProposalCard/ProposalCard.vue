@@ -24,15 +24,24 @@
                     size="sm"
                     rounded="xs"
                 >
-                <span :class="classes.daoName">
+                <span
+                    v-if="name"
+                    :class="classes.daoName"
+                >
                     {{ name }}
                 </span>
                 </BaseAvatar>
             </div>
-            <div :class="classes.title">
+            <div
+                v-if="title"
+                :class="classes.title"
+            >
                 {{ title }}
             </div>
-            <div :class="classes.text">
+            <div
+                v-if="text"
+                :class="classes.text"
+            >
                 {{ text }}
             </div>
             <div

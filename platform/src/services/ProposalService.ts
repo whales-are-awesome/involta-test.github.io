@@ -144,6 +144,16 @@ export default class ProposalService {
         });
     }
 
+    static async executeProposal(params: any) {
+        return API.sendChain<never>({
+            contractAddress: params.contractAddress,
+            contractABI: daoControllerABI,
+            methodName: 'executeProposal',
+            needWait: true,
+            params: [params.proposald]
+        });
+    }
+
     // static async fetchDaoProposalItemsAsTable(params?: IProposalItemQuery) {
     //     const [data, ...rest] = await DaoService.fetchDaoProposalItems(params);
     //

@@ -16,9 +16,12 @@
             size="sm"
         />
         <div class="p-4 bg-surface-200 rounded-[10px] relative">
-            <div class="flex -mx-2 -mt-2.5 relative mb-[30px] sm:flex-wrap">
+            <div
+                v-if="tagListValue !== Sections.Treasury"
+                class="flex -mx-2 -mt-2.5 relative mb-[30px] sm:flex-wrap"
+            >
                 <div
-                    v-if="tagListValue === MainSections.Proposals"
+                    v-if="tagListValue === Sections.Proposals"
                     class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
                 >
                     <SelectField
@@ -30,7 +33,7 @@
                     />
                 </div>
                 <div
-                    v-if="tagListValue === MainSections.Daos"
+                    v-if="tagListValue === Sections.Daos"
                     class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
                 >
                     <SelectField
@@ -42,7 +45,7 @@
                     />
                 </div>
                 <div
-                    v-if="tagListValue === MainSections.Apps"
+                    v-if="tagListValue === Sections.Apps"
                     class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
                 >
                     <SelectField
@@ -54,7 +57,7 @@
                     />
                 </div>
                 <div
-                    v-if="tagListValue === MainSections.Proposals"
+                    v-if="tagListValue === Sections.Proposals"
                     class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
                 >
                     <TagsButtonList
@@ -64,7 +67,7 @@
                     />
                 </div>
                 <div
-                    v-if="tagListValue === MainSections.Daos"
+                    v-if="tagListValue === Sections.Daos"
                     class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
                 >
                     <TagsButtonList
@@ -75,12 +78,12 @@
                 </div>
                 <div class="!ml-auto"></div>
                 <BaseSearch
-                    v-if="tagListValue !== MainSections.Statistics"
+                    v-if="tagListValue !== Sections.Statistics"
                     class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"
                     v-model="formData.value.search"
                 />
                 <div
-                    v-if="tagListValue !== MainSections.Statistics"
+                    v-if="createButton"
                     class="px-2 mt-2.5 flex-shrink-0 sm:order-[-1] sm:w-1/2 md:px-1.5 sm:px-[5px]"
                 >
                     <BaseButton
@@ -100,8 +103,9 @@
                     </span>
                     </BaseButton>
                 </div>
-            </div>
-            <div v-if="tagListValue === MainSections.Proposals">
+            </div
+            >
+            <div v-if="tagListValue === Sections.Proposals">
                 <TextSeparator
                     v-if="proposalItems.data?.items.length"
                     class="mb-[10px]"
@@ -139,7 +143,7 @@
                     />
                 </div>
             </div>
-            <div v-if="tagListValue === MainSections.Daos">
+            <div v-if="tagListValue === Sections.Daos">
                 <TextSeparator
                     v-if="daoItems.data?.total"
                     class="mb-[10px]"
@@ -180,7 +184,7 @@
                     text="We couldn't find any Daos matching your query. Try another query"
                 />
             </div>
-            <div v-if="tagListValue === MainSections.Apps">
+            <div v-if="tagListValue === Sections.Apps">
                 <div class="absolute inset-0 z-50 bg-white bg-opacity-70 flex justify-center items-center">
                     <div class="title-h2 text-400">
                         WORK IN PROGRESS
@@ -210,13 +214,53 @@
                     </div>
                 </div>
             </div>
+            <div v-if="tagListValue === Sections.Treasury">
+                <div class="flex font-medium uppercase text-xxs text-gray-400 mb-4 pl-4">
+                    <div class="w-[200px]">
+                        Asset
+                    </div>
+                    <div class="w-[200px] pr-2">
+                        Price
+                    </div>
+                    <div class="w-[200px] pr-2">
+                        Balance
+                    </div>
+                    <div class="w-[200px] pr-2">
+                        Value
+                    </div>
+                </div>
+                <div
+                    v-for="(item, key) in treasures"
+                    :key="key"
+                    class="flex items-center text-sm bg-white shadow-[0_4px_20px_rgba(108,108,125,.08)] border border-gray-100 rounded-[10px] p-4 sm:pb-0 overflow-hidden"
+                >
+                    <div class="w-[200px] flex items-center">
+                        <BaseIcon
+                            class="flex-shrink-0 mr-2"
+                            :name="item.icon"
+                            width="30"
+                        />
+                        {{ item.title }}
+                    </div>
+                    <div class="w-[200px] pr-2">
+                        {{ item.price }} $
+                    </div>
+                    <div class="w-[200px] pr-2">
+                        {{ item.balance }} ETH
+                    </div>
+                    <div class="w-[200px] pr-2">
+                        {{ item.price * item.balance }} $
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div v-else class="-preloader -preloader_placeholder"></div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onUnmounted, ref, watch, watchEffect } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue';
+import { getEthPriceNow } from 'get-eth-price';
 import { useRoute } from 'vue-router';
 
 import TagsList from '@/components/TagsList/TagsList.vue';
@@ -227,6 +271,7 @@ import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import NotFound from '@/components/NotFound/NotFound.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import DaoCard from '@/components/DaoCard/DaoCard.vue';
 import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
 
@@ -238,12 +283,14 @@ import useDaoItems from '@/composables/fetch/useDaoItems';
 
 import emitter from '@/plugins/mitt';
 
-import { Statuses, MainSections } from '@/types/statuses';
+import { Statuses } from '@/types/statuses';
+import API from '@/helpers/api';
 
 import getQueryParam from '@/helpers/getQueryParam';
 import useQueryUpdates from '@/composables/useQueryUpdates';
 import useIsMobile from '@/composables/useIsMobile';
 import followDao from '@/helpers/followDao';
+import DaoService from '@/services/DaoService';
 
 
 
@@ -259,14 +306,24 @@ const isMobile = useIsMobile();
 
 // TAG LIST _ COMMON
 
+enum Sections {
+    Proposals = 'proposals' as any,
+    Statistics = 'statistics' as any,
+    Daos = 'daos' as any,
+    Apps = 'apps' as any,
+    Treasury = 'treasury' as any,
+}
+
 const tagListOptions = [
-    { id: MainSections.Proposals, title: 'Proposals' },
-    // { id: MainSections.Statistics, title: 'Statistics' },
-    { id: MainSections.Daos, title: 'SubDAOs' },
-    { id: MainSections.Apps, title: 'APPs' }
+    { id: Sections.Proposals, title: 'Proposals' },
+    // { id: Sections.Statistics, title: 'Statistics' },
+    { id: Sections.Daos, title: 'SubDAOs' },
+    { id: Sections.Apps, title: 'APPs' },
+    { id: Sections.Treasury, title: 'Treasury' },
+    { title: 'Followers', to: { name: 'network-dao-address-followers', params: route.params  } },
 ];
 
-const tagListValue = ref(getQueryParam<MainSections>(query.section, tagListOptions));
+const tagListValue = ref(getQueryParam<Sections>(query.section, tagListOptions));
 
 const tagListData = computed(() => ({
     section: tagListValue.value
@@ -402,19 +459,20 @@ useQueryUpdates(formDataApps, ['section']);
 
 const createButton = computed(() => {
     return {
-        [MainSections.Proposals]: {
+        [Sections.Proposals]: {
             text: 'Create Proposal',
             onClick: () => open('CreateProposalLayer', { parentDaoAddress: route.params.address })
         },
-        [MainSections.Daos]: {
+        [Sections.Daos]: {
             text: 'Create SubDAO',
             onClick: () => open('CreateDaoLayer', { parentAddress: route.params.address })
         },
-        [MainSections.Apps]: {
+        [Sections.Apps]: {
             text: 'Create App',
             onClick: () => {}
         },
-        [MainSections.Statistics]: '',
+        [Sections.Statistics]: null,
+        [Sections.Treasury]: null,
     }[tagListValue.value];
 });
 
@@ -423,10 +481,11 @@ const createButton = computed(() => {
 
 const formData = computed(() => {
     return {
-        [MainSections.Proposals]: formDataProposals,
-        [MainSections.Daos]: formDataDaos,
-        [MainSections.Apps]: formDataApps,
-        [MainSections.Statistics]: '',
+        [Sections.Proposals]: formDataProposals,
+        [Sections.Daos]: formDataDaos,
+        [Sections.Apps]: formDataApps,
+        [Sections.Treasury]: formDataApps,
+        [Sections.Statistics]: '',
     }[tagListValue.value];
 });
 
@@ -470,5 +529,34 @@ watch(pageData, async () => {
     if (pageData.value !== null && !showFollow) {
         showFollow = true;
     }
+});
+
+// TREASURES
+
+const treasures = ref({
+    ethereum: {
+        title: 'Ethereum',
+        icon: 'ethereum',
+        balance: 0,
+        price: 0
+    }
+});
+
+const ethPriceInt = setInterval(setEthPrice, 1000);
+
+setEthPrice();
+setEthBalance();
+
+async function setEthPrice() {
+    const ETHPrice = await getEthPriceNow() as number;
+    treasures.value.ethereum.price = Object.values(ETHPrice)[0].ETH.USD;
+}
+
+async function setEthBalance() {
+    treasures.value.ethereum.balance = await API.provider.getBalance(route.params.address) as number;
+}
+
+onUnmounted(() => {
+    clearInterval(ethPriceInt);
 });
 </script>
