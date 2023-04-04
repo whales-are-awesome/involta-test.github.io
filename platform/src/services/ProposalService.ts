@@ -83,7 +83,7 @@ export default class ProposalService {
                 ...chainData,
                 proposalExpirationTime,
                 vote: +vote! as ProposalVoteType,
-                votingPower: votingPower
+                votingPower
             });
 
             await Promise.all([

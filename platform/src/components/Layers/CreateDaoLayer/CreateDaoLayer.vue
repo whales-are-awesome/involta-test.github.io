@@ -77,9 +77,9 @@
                     />
                 </div>
             </BaseAccordion>
-            <DropField
-                class="max-w-[400px]"
-            />
+<!--            <DropField-->
+<!--                class="max-w-[400px]"-->
+<!--            />-->
             <BaseAccordion
                 class="max-w-[400px]"
                 title="Advanced DAO information"

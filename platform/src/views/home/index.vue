@@ -23,78 +23,78 @@
         />
         <div class="relative">
             <div class="flex z-50 -mx-2 -mt-2.5 relative mb-5 sm:flex-wrap">
-                <div
-                    v-if="tagListValue === MainSections.Proposals"
-                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
-                >
-                    <SelectField
-                        v-model="formData.value.statusId"
-                        theme="primary"
-                        :options="formProposalsInfo.statusesOptions"
-                        :theme-settings="{
-                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'
-                        }"
-                    />
-                </div>
-                <div
-                    v-if="tagListValue === MainSections.Daos"
-                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
-                >
-                    <SelectField
-                        v-model="formData.value.chainId"
-                        theme="primary"
-                        :options="formDaosInfo.chainOptions"
-                        :theme-settings="{
-                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'
-                        }"
-                    />
-                </div>
-                <div
-                    v-if="tagListValue === MainSections.Apps"
-                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
-                >
-                    <SelectField
-                        v-model="formData.value.categoryId"
-                        theme="primary"
-                        :options="formAppsInfo.categoryOptions"
-                        :theme-settings="{
-                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'
-                        }"
-                    />
-                </div>
-                <div
-                    v-if="tagListValue === MainSections.Proposals"
-                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
-                >
-                    <TagsButtonList
-                        class="h-full"
-                        v-model="formData.value.voteId"
-                        :items="formProposalsInfo.voteOptions"
-                    />
-                </div>
-                <div
-                    v-if="tagListValue === MainSections.Daos"
-                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
-                >
-                    <TagsButtonList
-                        class="h-full"
-                        v-model="formData.value.daosId"
-                        :items="formDaosInfo.daosOptions"
-                    />
-                </div>
+<!--                <div-->
+<!--                    v-if="tagListValue === MainSections.Proposals"-->
+<!--                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"-->
+<!--                >-->
+<!--                    <SelectField-->
+<!--                        v-model="formData.value.statusId"-->
+<!--                        theme="primary"-->
+<!--                        :options="formProposalsInfo.statusesOptions"-->
+<!--                        :theme-settings="{-->
+<!--                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'-->
+<!--                        }"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <div-->
+<!--                    v-if="tagListValue === MainSections.Daos"-->
+<!--                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"-->
+<!--                >-->
+<!--                    <SelectField-->
+<!--                        v-model="formData.value.chainId"-->
+<!--                        theme="primary"-->
+<!--                        :options="formDaosInfo.chainOptions"-->
+<!--                        :theme-settings="{-->
+<!--                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'-->
+<!--                        }"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <div-->
+<!--                    v-if="tagListValue === MainSections.Apps"-->
+<!--                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"-->
+<!--                >-->
+<!--                    <SelectField-->
+<!--                        v-model="formData.value.categoryId"-->
+<!--                        theme="primary"-->
+<!--                        :options="formAppsInfo.categoryOptions"-->
+<!--                        :theme-settings="{-->
+<!--                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'-->
+<!--                        }"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <div-->
+<!--                    v-if="tagListValue === MainSections.Proposals"-->
+<!--                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"-->
+<!--                >-->
+<!--                    <TagsButtonList-->
+<!--                        class="h-full"-->
+<!--                        v-model="formData.value.voteId"-->
+<!--                        :items="formProposalsInfo.voteOptions"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <div-->
+<!--                    v-if="tagListValue === MainSections.Daos"-->
+<!--                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"-->
+<!--                >-->
+<!--                    <TagsButtonList-->
+<!--                        class="h-full"-->
+<!--                        v-model="formData.value.daosId"-->
+<!--                        :items="formDaosInfo.daosOptions"-->
+<!--                    />-->
+<!--                </div>-->
                 <div class="!ml-auto"></div>
-                <BaseSearch
-                    v-if="tagListValue !== MainSections.Statistics"
-                    class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"
-                    v-model="formData.value.search"
-                />
+<!--                <BaseSearch-->
+<!--                    v-if="tagListValue !== MainSections.Statistics"-->
+<!--                    class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"-->
+<!--                    v-model="formData.value.search"-->
+<!--                />-->
                 <div
                     v-if="tagListValue !== MainSections.Statistics"
                     class="px-2 mt-2.5 flex-shrink-0 sm:order-[-1] sm:w-1/2 md:px-1.5 sm:px-[5px]"
                 >
                     <BaseButton
-                        class="w-full"
-                        :class="(isMobile.xl || isMobile.lg) && '!h-full'"
+                        class="w-full h-[44px]"
+                        :class="(isMobile.xl || isMobile.lg) && '!h-ful'"
                         theme="primary"
                         :icon="{
                             name: 'plus',

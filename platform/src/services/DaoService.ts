@@ -16,6 +16,7 @@ import {
     IDaoItemParams,
     INormalizedDaoItemAsTable,
 } from '@/types/services/DaoService';
+import { store } from '@/store';
 
 
 
@@ -36,7 +37,16 @@ export default class DaoService {
     }
 
     static async fetchDao(path: IDaoPath) {
-        return API.get<IDao>(`/${ path.network }/dao/${ path.address }`);
+        const [votingPower] = await API.getFromChain<number>({
+            contractAddress: path.address,
+            params: [store.state.wallet.address],
+            contractABI: daoControllerABI,
+            methodName: 'votingPowerOf'
+        });
+
+        const [data, error] = await API.get<IDao>(`/${ path.network }/dao/${ path.address }`);
+
+        return [{ ...data, votingPower: +votingPower! } as IDao, error, () => {}] as const;
     }
 
     static async fetchDaoAsDefault(params: IDaoPath) {

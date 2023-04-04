@@ -18,11 +18,10 @@
                 width="104"
             />
         </div>
-        <p class="title-h4 mb-3">
-            {{ title }}
-        </p>
+        <p class="title-h4 mb-3" v-html="title"></p>
         <p
             class="text-400 mb-11"
+            :class="themeSettings?.text"
             v-html="text"
         >
         </p>
@@ -51,6 +50,8 @@ import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import { Statuses } from './types';
+import ThemeSettings from '@/types/themeSettings';
+
 
 
 // META
@@ -64,6 +65,7 @@ export interface IProps {
     buttonText: string
     status: Statuses
     callback?: () => void
+    themeSettings?: ThemeSettings<'text'>
 }
 
 const props =withDefaults(defineProps<IProps>(), {

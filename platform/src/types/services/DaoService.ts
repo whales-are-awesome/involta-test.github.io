@@ -2,7 +2,7 @@ import { IDaoAPI } from '@/types/entries/dao'
 import { IPaginationParams } from '@/types/api'
 
 interface IDao extends IDaoAPI {
-
+    votingPower: number
 }
 
 interface IDaoPath {

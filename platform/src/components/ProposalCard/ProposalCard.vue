@@ -122,6 +122,7 @@ interface IProps {
     title: string
     text: string
     endDate: Date
+    hasVotingPower: boolean
     users: IUsers[]
     themeSettings?: ThemeSettings<'root'>
 }
@@ -182,7 +183,8 @@ const isRejected = computed(() => (currentDate.value > props.endDate && props.st
 // CAN VOTE
 
 const canVote = computed(() =>
-    props.status === ProposalStatus.Exists
+    props.hasVotingPower
+    && props.status === ProposalStatus.Exists
     && !isRejected.value
     && props.endDate > currentDate.value
 )

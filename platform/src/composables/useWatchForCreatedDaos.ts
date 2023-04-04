@@ -71,10 +71,13 @@ function useWatchForCreatedDaos() {
     }
 
     async function putData(address: string, data: IDaoTransactionCookie, signInfo: Awaited<ReturnType<typeof sign>>[0]) {
+        console.log(data.network);
+        console.log(data.network === 'goerli');
+
         return DaoService.changeDao(
             {
                 address,
-                network: 'goerli'
+                network: data.network
             },
             {
                 name: data.name,

@@ -597,6 +597,7 @@ import { IProposalNormalizedAsDefault, proposalStatuses } from '@/types/services
 import ProposalService from '@/services/ProposalService';
 import { ProposalStatus, ProposalVoteType } from '@/types/entries/proposal';
 import { notify } from '@kyvg/vue3-notification';
+import { useTitle } from '@vueuse/core';
 
 
 // META
@@ -627,7 +628,7 @@ emitter.on('daoFollowed', fetchDao);
 emitter.on('accountChanged', fetchDao);
 
 watchEffect(() => {
-    page.value.error && useError(404)
+    page.value.error && useError(404);
 });
 
 onUnmounted(() => {
@@ -687,6 +688,12 @@ async function fetchProposal() {
 }
 
 const proposalData = computed(() => proposal.value.data);
+
+watchEffect(() => {
+    if (proposalData.value?.name) {
+        useTitle( 'OuterCircle | ' + proposalData.value?.name);
+    }
+});
 
 
 // VOTE
@@ -766,7 +773,7 @@ const labelTheme = computed(() => [
 
 // EXECUTE
 
-const canExecute = computed(() => proposalData.value?.status === ProposalStatus.Accepted);
+const canExecute = computed(() => proposalData.value?.status === ProposalStatus.Accepted && +proposalData.value?.votingPower);
 
 async function execute() {
     proposal.value.pending = true;

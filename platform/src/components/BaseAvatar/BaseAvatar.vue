@@ -2,12 +2,17 @@
     <div
         :class="classes.root"
     >
-        <iframe
+        <a
             v-if="hexheads"
-            :class="classes.image"
-            :src="`https://hexheads.xyz/image.html?address=${ hexheads }`"
-            frameborder="0">
-        </iframe>
+            href="http://hexheads.io"
+            target="_blank"
+        >
+            <BaseImage
+                :class="classes.image"
+                :src="`https://api.hexheads.io/img?hexId=${ hexheads }`"
+                :alt="alt"
+            />
+        </a>
         <BaseImage
             v-else
             :class="classes.image"

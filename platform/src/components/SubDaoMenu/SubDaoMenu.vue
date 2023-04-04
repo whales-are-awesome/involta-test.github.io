@@ -28,24 +28,6 @@
                             width="6"
                             height="4.5"
                         />
-                        <!--                                <SubDaoItemsPopup-->
-                        <!--                                    v-if="item.isHovered"-->
-                        <!--                                    :items="item.items"-->
-                        <!--                                />-->
-                    </div>
-                    <div
-                        v-if="false"
-                        :class="classes.itemSublist"
-                    >
-                        <SubDaoItemsPopup :items="items" />
-                        <div
-                            v-for="(subDao, subDaoIndex) in items"
-                            :key="subDaoIndex"
-                            :class="classes.itemSublistItem"
-                            @click="$router.push(`/${ subDao.network }/dao/${ subDao.address }`)"
-                        >
-                            {{ subDao.fullName }}
-                        </div>
                     </div>
                 </div>
             </div>
@@ -78,7 +60,6 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import SubDaoItemsPopup from '@/components/SubDaoItemsPopup/SubDaoItemsPopup.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';

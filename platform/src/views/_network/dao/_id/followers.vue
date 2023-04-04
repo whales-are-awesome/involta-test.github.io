@@ -32,13 +32,13 @@
             </div>
         </div>
         <div class="flex mb-6">
-            <TagsButtonList
-                v-model="formData.tagValue"
-                :items="formInfo.tags"
-            />
+<!--            <TagsButtonList-->
+<!--                v-model="formData.tagValue"-->
+<!--                :items="formInfo.tags"-->
+<!--            />-->
             <BaseButton
-                class="ml-auto"
-                :class="(isMobile.lg || isMobile.xl) ? '!h-auto': ''"
+                class="ml-auto h-[44px]"
+                :class="(isMobile.lg || isMobile.xl) ? '!h-auo': ''"
                 theme="primary"
                 :size="(isMobile.lg || isMobile.xl) ? 'md': 'sm'"
                 :icon="{
@@ -147,6 +147,7 @@ import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { IFollower } from '@/types/services/FollowerService';
 import cutAddress from '@/helpers/cutAddress';
 import emitter from '@/plugins/mitt';
+import { useTitle } from '@vueuse/core';
 
 // META
 
@@ -183,7 +184,10 @@ emitter.on('daoFollowed', fetchDao);
 emitter.on('accountChanged', fetchDao);
 
 watchEffect(() => {
-    page.value.error && useError(404)
+    page.value.error && useError(404);
+    if (pageData.value?.name) {
+        useTitle( 'OuterCircle | ' + pageData.value.name + ' followers');
+    }
 });
 
 onUnmounted(() => {
