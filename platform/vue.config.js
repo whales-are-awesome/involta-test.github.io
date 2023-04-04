@@ -4,6 +4,9 @@ const webpack = require('webpack');
 module.exports = defineConfig({
     transpileDependencies: true,
     publicPath: './',
+    devServer: {
+        disableHostCheck: true
+    },
     chainWebpack: config => {
         config.module
             .rule('graphql')
