@@ -9,13 +9,15 @@ interface IState {
     address: string | null
     ensName: string | null
     wallet: wallets
+    network: string
 }
 
 function state(): IState {
     return {
         address: null,
         ensName: '',
-        wallet: ''
+        wallet: '',
+        network: ''
     };
 }
 
@@ -29,6 +31,9 @@ const mutations: MutationTree<IState> = {
     setAddress(state, payload: IState['address']) {
         state.address = payload;
     },
+    setNetwork(state, payload: IState['network']) {
+        state.network = payload;
+    },
     setWallet(state, payload: IState['wallet']) {
         state.wallet = payload;
     },
@@ -41,6 +46,9 @@ const mutations: MutationTree<IState> = {
 const actions: ActionTree<IState, IRootState> = {
     setAddress({ commit }, payload: IState['address']) {
         commit('setAddress', payload);
+    },
+    setNetwork({ commit }, payload: IState['network']) {
+        commit('setNetwork', payload);
     },
     setWallet({ commit }, payload: IState['wallet']) {
         commit('setWallet', payload);

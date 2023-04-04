@@ -25,6 +25,7 @@ export default class DaoService {
         return API.sendChain<ICreateDaoResponse>({
             contractName: 'daoFactory',
             methodName: 'deployDao',
+            network: params.network,
             params: [
                 +params.proposalExpirationTime,
                 +params.quorumRequired,

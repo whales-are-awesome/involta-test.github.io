@@ -138,6 +138,7 @@ import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 export interface IProps {
     id: string
     parentAddress?: string
+    network?: string
 }
 
 const props =withDefaults(defineProps<IProps>(), {
@@ -217,7 +218,8 @@ async function createDAO() {
         governanceTicker: formData.value.governanceTicker,
         quorumRequired: formData.value.quorumRequired,
         proposalExpirationTime: formData.value.proposalExpirationTime,
-        parentRegistry: props.parentAddress || '0x' + '0'.repeat(40)
+        parentRegistry: props.parentAddress || '0x' + '0'.repeat(40),
+        network: props.network
     });
 
     if (response?.trx) {

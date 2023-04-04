@@ -65,7 +65,7 @@
                     </template>
                     <div
                         :class="classes.addSubDao"
-                        @click="layer.open('CreateDaoLayer', { parentAddress: $route.params.address })"
+                        @click="layer.open('CreateDaoLayer', { parentAddress: $route.params.address, network: $route.params.network })"
                     >
                         + Add New SubDAO
                     </div>

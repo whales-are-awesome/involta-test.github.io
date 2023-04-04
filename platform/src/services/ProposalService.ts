@@ -23,6 +23,7 @@ export default class ProposalService {
     static async createProposalChain(params: ICreateProposalChainParams) {
         return API.sendChain<ICreateProposalChainResponse>({
             contractAddress: params.contractAddress,
+            network: params.network,
             contractABI: daoControllerABI,
             methodName: 'createProposal',
             params: [params.actions]
@@ -31,6 +32,7 @@ export default class ProposalService {
 
     static async createProposal(path: IDaoPath, params: ICreateProposalParams, config: Config) {
         const [response, error] = await ProposalService.createProposalChain({
+            network: path.network,
             contractAddress: path.address,
             actions: params.actions
         });
@@ -137,6 +139,7 @@ export default class ProposalService {
     static async voteProposal(params: any) {
         return API.sendChain<never>({
             contractAddress: params.contractAddress,
+            network: params.network,
             contractABI: daoControllerABI,
             methodName: 'voteProposal',
             needWait: true,
@@ -147,6 +150,7 @@ export default class ProposalService {
     static async executeProposal(params: any) {
         return API.sendChain<never>({
             contractAddress: params.contractAddress,
+            network: params.network,
             contractABI: daoControllerABI,
             methodName: 'executeProposal',
             needWait: true,

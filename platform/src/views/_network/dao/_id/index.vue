@@ -295,7 +295,6 @@ import followDao from '@/helpers/followDao';
 import DaoService from '@/services/DaoService';
 
 
-
 // META
 
 const { alert, open } = useLayer();
@@ -470,7 +469,7 @@ const createButton = computed(() => {
         },
         [Sections.Daos]: {
             text: 'Create SubDAO',
-            onClick: () => open('CreateDaoLayer', { parentAddress: route.params.address })
+            onClick: () => open('CreateDaoLayer', { parentAddress: route.params.address, network: route.params.network })
         },
         [Sections.Apps]: {
             text: 'Create App',

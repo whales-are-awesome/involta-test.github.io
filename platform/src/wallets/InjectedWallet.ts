@@ -18,8 +18,10 @@ class InjectedWallet {
     static async login(): Promise<string> {
         await API.provider.send('eth_requestAccounts', []);
         const address = (await API.provider.listAccounts())[0];
+        const network = await API.getNetwork();
 
         store.dispatch('wallet/setAddress', address);
+        store.dispatch('wallet/setNetwork', network);
         store.dispatch('wallet/setWallet', 'injectedWallet');
 
         return address;
@@ -33,7 +35,10 @@ class InjectedWallet {
     @init
     static async tryConnectAndSetAddress(_address?: string): Promise<string> {
         const address = _address || (await API.provider.listAccounts())[0];
+        const network = await API.getNetwork();
+
         store.dispatch('wallet/setAddress', address);
+        store.dispatch('wallet/setNetwork', network);
 
         return address;
     }
@@ -50,8 +55,10 @@ class InjectedWallet {
             }
 
             const address = (await API.provider.listAccounts())[0];
+            const network = await API.getNetwork();
 
             store.dispatch('wallet/setAddress', address);
+            store.dispatch('wallet/setNetwork', network);
             emitter.emit('accountChanged');
             redirectAfterLogin();
             console.log('accountsChanged')

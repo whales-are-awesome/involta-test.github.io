@@ -43,6 +43,7 @@ interface IProposalParams {
 
 interface ICreateProposalChainParams {
     contractAddress: string
+    network: string,
     actions: Array<{
         actionType: number
         to: string

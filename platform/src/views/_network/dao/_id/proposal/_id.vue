@@ -717,6 +717,7 @@ async function vote() {
     const [data, error, cancel] = await ProposalService.voteProposal(
         {
             proposald: route.params.proposalId,
+            network: route.params.network,
             contractAddress: route.params.address,
             decision: currentVote.value
         }
@@ -780,6 +781,7 @@ async function execute() {
 
     const [data, error, cancel] = await ProposalService.executeProposal(
         {
+            network: route.params.network,
             proposald: route.params.proposalId,
             contractAddress: route.params.address
         }

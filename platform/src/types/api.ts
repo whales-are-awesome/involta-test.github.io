@@ -23,6 +23,7 @@ interface IResponsePagination<T> {
 
 
 interface sendDataChainProps {
+    network?: string
     contractAddress?: string
     contractABI?: any
     contractName?: ConctactNames

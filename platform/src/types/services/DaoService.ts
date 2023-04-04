@@ -23,6 +23,7 @@ interface ICreateDaoParams {
     proposalExpirationTime: number
     quorumRequired: number
     parentRegistry?: string
+    network?: string
 }
 
 interface ICreateDaoResponse {

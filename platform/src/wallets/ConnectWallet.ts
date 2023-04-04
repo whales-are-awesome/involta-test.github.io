@@ -4,6 +4,7 @@ import { providers } from 'ethers';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import '@walletconnect/types';
 import { store } from '@/store';
+import API from '@/helpers/api';
 
 class ConnectWallet {
     static provider: any;
@@ -37,7 +38,10 @@ class ConnectWallet {
     }
 
     static handleChainChanged(): void {
-        ConnectWallet.provider.on('chainChanged', (chainId: any) => {
+        ConnectWallet.provider.on('chainChanged', async (chainId: any) => {
+            // const network = await API.getNetwork();
+
+            // store.dispatch('wallet/setNetwork', network);
             console.log('chainChanged');
         });
     }
