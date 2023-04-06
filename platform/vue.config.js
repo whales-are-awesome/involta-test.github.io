@@ -4,6 +4,11 @@ const webpack = require('webpack');
 module.exports = defineConfig({
     transpileDependencies: true,
     publicPath: './',
+    devServer: {
+        allowedHosts: [
+            "app.outercircle.io",
+        ]
+    },
     chainWebpack: config => {
         config.module
             .rule('graphql')
