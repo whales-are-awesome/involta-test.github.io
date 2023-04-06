@@ -216,7 +216,7 @@
                 </div>
             </div>
             <div v-if="tagListValue === Sections.Treasury">
-                <div class="flex font-medium uppercase text-xxs text-gray-400 mb-4 pl-4">
+                <div class="flex font-medium uppercase text-xxs text-gray-400 mb-4 pl-4 lg:hidden">
                     <div class="w-[200px]">
                         Asset
                     </div>
@@ -233,9 +233,10 @@
                 <div
                     v-for="(item, key) in treasures"
                     :key="key"
-                    class="flex items-center text-sm bg-white shadow-[0_4px_20px_rgba(108,108,125,.08)] border border-gray-100 rounded-[10px] p-4 sm:pb-0 overflow-hidden"
+                    class="flex items-center text-sm bg-white shadow-[0_4px_20px_rgba(108,108,125,.08)] border border-gray-100 rounded-[10px] p-4 overflow-hidden lg:block lg:space-y-6"
                 >
-                    <div class="w-[200px] flex items-center">
+                    <div class="w-[200px] flex items-center lg:w-full">
+                        <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Asset</div>
                         <BaseIcon
                             class="flex-shrink-0 mr-2"
                             :name="item.icon"
@@ -243,14 +244,14 @@
                         />
                         {{ item.title }}
                     </div>
-                    <div class="w-[200px] pr-2">
-                        {{ item.price }} $
+                    <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
+                        <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Price</div> {{ item.price }} $
                     </div>
-                    <div class="w-[200px] pr-2">
-                        {{ item.balance }} ETH
+                    <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
+                        <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Balance</div> {{ item.balance }} ETH
                     </div>
-                    <div class="w-[200px] pr-2">
-                        {{ item.price * item.balance }} $
+                    <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
+                        <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Value</div> {{ item.price * item.balance }} $
                     </div>
                 </div>
             </div>

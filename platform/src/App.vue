@@ -35,16 +35,16 @@ watchForCreatedDaos.watch();
 watchForCreatedProposals.watch();
 
 onMounted(() => {
-    alert({
-        title: 'Welcome to <br>OuterCircle Alpha!',
-        text: `This application is currently under development and should only be used for demonstration purposes.
-               <br><br>Use at your own risk. <br><br>All created DAOs must be manually migrated to the OuterCircle Beta when it will released.`,
-        buttonText: 'Accept',
-        cancelButtonText: '',
-        status: 'unknown',
-        themeSettings: {
-            text: 'text-left'
-        }
-    });
+    // alert({
+    //     title: 'Welcome to <br>OuterCircle Alpha!',
+    //     text: `This application is currently under development and should only be used for demonstration purposes.
+    //            <br><br>Use at your own risk. <br><br>All created DAOs must be manually migrated to the OuterCircle Beta when it will released.`,
+    //     buttonText: 'Accept',
+    //     cancelButtonText: '',
+    //     status: 'unknown',
+    //     themeSettings: {
+    //         text: 'text-left'
+    //     }
+    // });
 });
 </script>
