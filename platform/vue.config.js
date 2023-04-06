@@ -6,7 +6,7 @@ module.exports = defineConfig({
     publicPath: './',
     devServer: {
         allowedHosts: [
-            "outercircle.io",
+            "app.outercircle.io",
         ]
     },
     chainWebpack: config => {
