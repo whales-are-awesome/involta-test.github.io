@@ -5,7 +5,9 @@ module.exports = defineConfig({
     transpileDependencies: true,
     publicPath: './',
     devServer: {
-        disableHostCheck: true
+        allowedHosts: [
+            "outercircle.io",
+        ]
     },
     chainWebpack: config => {
         config.module
