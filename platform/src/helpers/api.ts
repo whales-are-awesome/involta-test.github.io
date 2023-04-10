@@ -14,7 +14,7 @@ class API {
     static provider: any;
 
     static async init(protocol = window.ethereum) {
-        if (!API.provider) {
+        if (!API.provider && protocol !== undefined) {
             API.setProvider(protocol);
         }
     }

@@ -4,6 +4,7 @@
     "private": true,
     "scripts": {
         "serve": "./src/bin/generate-svg.js & vue-cli-service serve",
+        "production": "vue-cli-service serve --mode production",
         "svg": "./src/bin/generate-svg.js",
         "build": "./src/bin/generate-svg.js & vue-cli-service build",
         "lint": "vue-cli-service lint"
@@ -65,7 +66,6 @@
         "@vue/cli-plugin-babel": "~5.0.0",
         "@vue/cli-plugin-eslint": "~5.0.0",
         "@vue/cli-plugin-router": "~5.0.0",
-        "@vue/cli-plugin-typescript": "~5.0.0",
         "@vue/cli-plugin-vuex": "~5.0.0",
         "@vue/cli-service": "~5.0.0",
         "@vue/eslint-config-typescript": "^9.1.0",

@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-full flex items-center justify-center">
+    <div class="my-auto flex items-center justify-center">
         <div class="max-w-[680px] w-full border border-surface-300 rounded-[20px] py-8 px-6 lg:max-w-[464px] sm:px-3 sm:py-6 sm:mt-[91px] sm:mb-8">
             <p class="title-h3 mb-4 sm:mb-3">Connect Wallet</p>
             <p class="font-medium text-sm mb-9 sm:text-sm">
@@ -43,6 +43,11 @@ const router = useRouter();
 const wallets = computed(() => {
     const result: IWallet[] = [];
     const provider = window.ethereum;
+    const connectWallet = { id: 'connectWallet', name: 'ConnectWallet', icon: 'connect-wallet', login: () => Wallet.ConnectWallet.login() };
+
+    if (provider === undefined) {
+        return [connectWallet];
+    }
 
     if ('isMetaMask' in provider && 'isTrustWallet' in provider) {
         result.push({ id: 'injectedWallet', name: 'Injected', icon: 'injected-wallet', login: () => Wallet.InjectedWallet.login() });

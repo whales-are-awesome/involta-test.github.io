@@ -3,10 +3,10 @@ import { store } from '@/store';
 import redirectAfterLogin from '@/helpers/redirectAfterLogin';
 import emitter from '@/plugins/mitt';
 
-function init(target: any, propertyKey: string, propertyDescriptor: PropertyDescriptor) {
-    if (!target.instance) {
-        target.init();
-    }
+function init(target: any, propertyKey: string, propertyDescriptor: PropertyDescriptor): any {
+    return () => {
+        target.call()
+    };
 }
 
 class InjectedWallet {
