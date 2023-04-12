@@ -52,11 +52,11 @@
                     </span>
                 </BaseButton>
             </div>
-            <BaseIcon
-                :class="classes.icon"
-                name="question"
-                width="24"
-            />
+<!--            <BaseIcon-->
+<!--                :class="classes.icon"-->
+<!--                name="question"-->
+<!--                width="24"-->
+<!--            />-->
             <nav :class="classes.nav">
                 <ul :class="classes.navList">
                     <li
@@ -145,7 +145,7 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 
 const nav = [
     { title: 'Documentation', href: '//docs.outercircle.io', target: '_blank' },
-    { title: 'Explore', to: { name: '' } }
+    // { title: 'Explore', to: { name: '' } }
 ];
 
 

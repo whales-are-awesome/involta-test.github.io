@@ -1,12 +1,15 @@
 import { watch } from 'vue';
+import { isEqual } from 'lodash';
 import { useRoute, useRouter } from 'vue-router';
 
 function useQueryUpdates(formData: any, includes?: string[]) {
     const route = useRoute();
     const router = useRouter();
 
-    watch([formData.value, () => formData.value], () => {
-        updateQuery();
+    watch([formData.value, () => formData.value], (current, prev) => {
+        if (!isEqual(current, prev)) {
+            updateQuery();
+        }
     });
 
     function updateQuery() {

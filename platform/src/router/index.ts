@@ -125,7 +125,7 @@ router.beforeEach((to, from, next) => {
     });
 })
 
-router.afterEach((context, to) => {
+router.afterEach((context, to, from) => {
     // @ts-ignore
     if (to.meta.title) document.title = to.meta.title;
 

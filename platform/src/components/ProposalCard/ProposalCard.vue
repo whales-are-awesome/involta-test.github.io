@@ -130,7 +130,7 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {});
 
 
-// CURRENT DATE. USED: LABEL
+// CURRENT DATE. USED: CAN VOTE, IS REJECTED
 
 const currentDate = ref(new Date());
 

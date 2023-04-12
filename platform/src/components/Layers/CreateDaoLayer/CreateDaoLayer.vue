@@ -251,7 +251,8 @@ async function createDAO() {
 }
 
 
-// IS SUBDAO
+// SUBDAO
+
 const isSubDao = computed(() => !!props.parentAddress);
 
 const name = computed(() => isSubDao.value ? 'SubDAO' : 'DAO');

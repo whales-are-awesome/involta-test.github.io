@@ -26,6 +26,7 @@ import { useRouter } from 'vue-router';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import WalletNameCard from '@/components/WalletNameCard/WalletNameCard.vue';
 import { Icons } from '@/components/BaseIcon/types';
+import { store } from '@/store';
 
 import Wallet from '@/wallets';
 import API from '@/helpers/api';
@@ -38,6 +39,8 @@ interface IWallet {
 }
 
 const router = useRouter();
+
+const address = computed(() => store.state.wallet.address)
 
 
 const wallets = computed(() => {

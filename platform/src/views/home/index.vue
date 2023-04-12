@@ -211,6 +211,7 @@ import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import NotFound from '@/components/NotFound/NotFound.vue';
 import { store } from '@/store';
+import wait from '@/helpers/wait';
 import { Statuses } from '@/types/statuses';
 import useIsMobile from '@/composables/useIsMobile';
 import useLayer from '@/composables/useLayer';
@@ -314,9 +315,15 @@ onUnmounted(() => {
 
 useQueryUpdates(formDataDaos, ['section']);
 
-function addMoreDao() {
-    if (daoItems.value.data?.items.length !== daoItems.value.data?.total) {
-        formDataDaos.value.offset += formDataDaos.value.limit;
+async function addMoreDao() {
+    if (daoItems.value.data?.items.length && daoItems.value.data?.total) {
+        const prev = daoItems.value.data.items.length;
+
+        if (daoItems.value.data.items.length <= daoItems.value.data.total) {
+            formDataDaos.value.offset += formDataDaos.value.limit;
+        }
+
+        return wait(() => daoItems.value.data.items.length !== prev);
     }
 }
 

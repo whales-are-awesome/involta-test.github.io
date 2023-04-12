@@ -113,7 +113,7 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 });
 
 
-// VALUE. USED IN ON CLICK
+// VALUE. USED: ON CLICK
 
 const value = computed({
     get() {

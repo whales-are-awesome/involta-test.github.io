@@ -107,7 +107,7 @@ const useClasses = makeClasses(() => ({
     content: 'w-full min-h-full relative overflow-hidden p-2 rounded-[18px] bg-surface-200',
     top: 'rounded-[20px] mb-9 md:px-3',
     topInfo: 'flex',
-    topInfoJoin: 'flex-grow mr-2',
+    topInfoJoin: 'flex-grow',
     logoWrapper: 'pb-[100%] relative bg-black overflow-hidden mb-3 rounded-[10px] md:rounded-[4px]',
     logo: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 z-0 opacity-70',
     parentDaoTitle: 'sm:text-xxs',
@@ -153,6 +153,7 @@ const parentDaos = computed(() => {
     return [...items, ...moreParentDaos.value].reverse()
 });
 
+
 async function addParentDaos() {
     const lastParentAddress = currentDao.value.data!.path.slice(-1)[0].address;
 
@@ -196,7 +197,14 @@ watch(currentDao.value, (val) => {
 // ROOT
 
 const root = ref<HTMLElement | null>(null);
+
+
+// INNER
+
 const inner = ref<HTMLElement | null>(null);
+
+
+// DEFINE EXPOSE
 
 defineExpose({
     root,
