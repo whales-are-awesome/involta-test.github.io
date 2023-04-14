@@ -56,12 +56,7 @@ const { close, open } = useLayer();
 // CLASSES
 
 const useClasses = makeClasses(() => ({
-    title: () => [
-        'title-h4 mb-4'
-    ],
-    message: () => [
-        'mb-11 text-lg'
-    ]
+
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

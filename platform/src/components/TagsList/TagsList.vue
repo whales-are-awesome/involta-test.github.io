@@ -55,6 +55,18 @@ const emit = defineEmits<IEmits>();
 const router = useRouter();
 
 
+// META:VALUE
+
+const value = computed({
+    get() {
+        return props.modelValue;
+    },
+    set(value: IProps['modelValue']) {
+        emit('update:modelValue', value);
+    }
+});
+
+
 // CLASSES
 
 interface ThemeProps extends Pick<IProps, 'size' | 'themeSettings'>{}
@@ -91,17 +103,6 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
         size: props.size,
         themeSettings: props.themeSettings
     });
-});
-
-// META:VALUE
-
-const value = computed({
-    get() {
-        return props.modelValue;
-    },
-    set(value: IProps['modelValue']) {
-        emit('update:modelValue', value);
-    }
 });
 
 

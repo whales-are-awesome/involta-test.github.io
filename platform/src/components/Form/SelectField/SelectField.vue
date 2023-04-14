@@ -273,7 +273,7 @@ const value = computed({
 });
 
 
-// ANGLE_ICON
+// ANGLE ICON
 
 const angleIcon = computed<IIconProps | ''>(() => {
     switch (props.angleView) {
@@ -296,6 +296,7 @@ const angleIcon = computed<IIconProps | ''>(() => {
 
 
 // OPEN
+
 const main = ref<HTMLElement>();
 
 async function onOpen() {

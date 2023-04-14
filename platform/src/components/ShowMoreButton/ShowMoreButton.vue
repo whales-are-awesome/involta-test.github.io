@@ -38,6 +38,7 @@ const props = withDefaults(defineProps<IProps>(), {});
 
 const emit = defineEmits<IEmits>();
 
+
 // CLASSES
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{

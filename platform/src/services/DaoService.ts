@@ -1,5 +1,4 @@
 import API from '@/helpers/api';
-import { ethers } from 'ethers';
 import daoControllerABI from '@/abi/daoControllerABI';
 import cutAddress from '@/helpers/cutAddress';
 import addSpacesToNumber from '@/helpers/addSpacesToNumber';
@@ -68,7 +67,7 @@ export default class DaoService {
     static async fetchDaoItemsAsTable(params?: IDaoItemParams) {
         const [data, ...rest] = await DaoService.fetchDaoItems(params);
 
-        return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
+        return [data && await normalizeDaoItemsAsTable(data), ...rest] as const;
     }
 }
 
@@ -87,15 +86,18 @@ function normalizeDaoAsDefault(data: IDao): INormalizedDaoAsDefault {
     };
 }
 
-function normalizeDaoItemsAsTable(data: IResponsePagination<IDaoItem>): IResponsePagination<INormalizedDaoItemAsTable> {
+async function normalizeDaoItemsAsTable(data: IResponsePagination<IDaoItem>): Promise<IResponsePagination<INormalizedDaoItemAsTable>> {
+    const network = await API.getNetwork();
+
     return {
         ...data,
         items: data.items.map(item => ({
             ...item,
             fullName: item.name || cutAddress(item.address),
             get followersAmountFormatted() {
+                //@ts-ignore
                 return addSpacesToNumber(this.followersAmount);
             }
-        }))
+        })).filter(item => item.network === network)
     };
 }

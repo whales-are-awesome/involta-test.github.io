@@ -1,130 +1,132 @@
 <template>
-    <div
-        v-if="pageData"
-        class="mt-11"
-    >
-        <div>
-            <BaseButton
-                class="mb-5"
-                :size="!isMobile.sm  ? 'sm' : 'mobile'"
-                view="ghost"
-                :icon="{
+    <div>
+        <div
+            v-if="pageData"
+            class="mt-11"
+        >
+            <div>
+                <BaseButton
+                    class="mb-5"
+                    :size="!isMobile.sm  ? 'sm' : 'mobile'"
+                    view="ghost"
+                    :icon="{
                     name: 'arrow-left',
                     width: 10,
                     prepend: true
                 }"
-                :href="{ name: 'network-dao-address', params: $route.params  }"
-                :theme-settings="{
+                    :href="{ name: 'network-dao-address', params: $route.params  }"
+                    :theme-settings="{
                     textColor: 'text-gray-400'
                 }"
-            >
-                Back
-            </BaseButton>
-        </div>
-        <div class="flex items-center mb-[18px]">
-            <BaseIcon
-                class="mr-2"
-                name="users-bold"
-                width="36"
-            />
-            <div class="title-h5 text-600">
-                {{ pageData?.fullName }} Followers <span class="text-gray-500">({{ pageData?.followersAmountFormatted }})</span>
+                >
+                    Back
+                </BaseButton>
             </div>
-        </div>
-        <div class="flex mb-6">
-<!--            <TagsButtonList-->
-<!--                v-model="formData.tagValue"-->
-<!--                :items="formInfo.tags"-->
-<!--            />-->
-            <BaseButton
-                class="ml-auto h-[44px]"
-                :class="(isMobile.lg || isMobile.xl) ? '!h-auo': ''"
-                theme="primary"
-                :size="(isMobile.lg || isMobile.xl) ? 'md': 'sm'"
-                :icon="{
+            <div class="flex items-center mb-[18px]">
+                <BaseIcon
+                    class="mr-2"
+                    name="users-bold"
+                    width="36"
+                />
+                <div class="title-h5 text-600">
+                    {{ pageData?.fullName }} Followers <span class="text-gray-500">({{ pageData?.followersAmountFormatted }})</span>
+                </div>
+            </div>
+            <div class="flex mb-6">
+                <!--            <TagsButtonList-->
+                <!--                v-model="formData.tagValue"-->
+                <!--                :items="formInfo.tags"-->
+                <!--            />-->
+                <BaseButton
+                    class="ml-auto h-[44px]"
+                    :class="(isMobile.lg || isMobile.xl) ? '!h-auo': ''"
+                    theme="primary"
+                    :size="(isMobile.lg || isMobile.xl) ? 'md': 'sm'"
+                    :icon="{
                     name: 'share',
                     width: (isMobile.lg || isMobile.xl) ? 20 : 16,
                     prepend: true
                 }"
-                @click="invite"
-            >
-                Invite {{ !isMobile.sm ? 'member' : '' }}
-            </BaseButton>
-        </div>
-        <div
-            v-if="followers.data?.items.length"
-            class="flex flex-wrap -mx-1.5 -mt-3"
-            :class="{
+                    @click="invite"
+                >
+                    Invite {{ !isMobile.sm ? 'member' : '' }}
+                </BaseButton>
+            </div>
+            <div
+                v-if="followers.data?.items.length"
+                class="flex flex-wrap -mx-1.5 -mt-3"
+                :class="{
                 '-preloader -preloader_cover': followers.pending
             }"
-        >
-            <div
-                v-for="item in followers.data?.items"
-                :key="item.address"
-                class="w-1/3 px-1.5 mt-3 lg:w-1/2 sm:w-full"
             >
                 <div
-                    class="p-3 bg-primary-100 rounded-[12px]"
+                    v-for="item in followers.data?.items"
+                    :key="item.address"
+                    class="w-1/3 px-1.5 mt-3 lg:w-1/2 sm:w-full"
                 >
-                    <BaseAvatar
-                        class="mb-4"
-                        :hexheads="item.address"
-                        rounded="full"
-                        alt="img"
-                        :theme-settings="{
+                    <div
+                        class="p-3 bg-primary-100 rounded-[12px]"
+                    >
+                        <BaseAvatar
+                            class="mb-4"
+                            :hexheads="item.address"
+                            rounded="full"
+                            alt="img"
+                            :theme-settings="{
                             size: 'h-[53px] w-[53px]'
                         }"
-                    >
-                        <div>
-                            <div
-                                class="font-medium text-sm flex items-center group text-gray-600 group-hover:text-gray-700 cursor-pointer"
-                                @click="copyAddress(item.address)"
-                            >
-                                {{ cutAddress(item.address, 7, 4) }}
-                                <BaseIcon
-                                    class="ml-0.5 text-gray-400 group-hover:text-gray-500"
-                                    name="copy"
-                                    width="18"
-                                />
+                        >
+                            <div>
+                                <div
+                                    class="font-medium text-sm flex items-center group text-gray-600 group-hover:text-gray-700 cursor-pointer"
+                                    @click="copyAddress(item.address)"
+                                >
+                                    {{ cutAddress(item.address, 7, 4) }}
+                                    <BaseIcon
+                                        class="ml-0.5 text-gray-400 group-hover:text-gray-500"
+                                        name="copy"
+                                        width="18"
+                                    />
+                                </div>
+                                <div
+                                    v-if="item.name"
+                                    class="text-primary-500 font-semibold text-xxs mt-1"
+                                >
+                                    {{ item.name }}
+                                </div>
                             </div>
-                            <div
-                                v-if="item.name"
-                                class="text-primary-500 font-semibold text-xxs mt-1"
-                            >
-                                {{ item.name }}
-                            </div>
-                        </div>
-                    </BaseAvatar>
-                    <div class="bg-white py-[19px] px-3 rounded-[8px] flex">
-                        <div class="w-1/3">
-                            <div class="text-gray-500 text-tiny font-medium mb-1">
-                                Tokens
-                            </div>
-                            <div class="font-bold text-xxs text-gray-600">
+                        </BaseAvatar>
+                        <div class="bg-white py-[19px] px-3 rounded-[8px] flex">
+                            <div class="w-1/3">
+                                <div class="text-gray-500 text-tiny font-medium mb-1">
+                                    Tokens
+                                </div>
+                                <div class="font-bold text-xxs text-gray-600">
 
+                                </div>
                             </div>
-                        </div>
-                        <div class="w-1/3">
-                            <div class="text-gray-500 text-tiny font-medium mb-1">
-                                Voting power
-                            </div>
-                            <div class="font-bold text-xs text-gray-600">
-                                {{ item.votingPower }}%
+                            <div class="w-1/3">
+                                <div class="text-gray-500 text-tiny font-medium mb-1">
+                                    Voting power
+                                </div>
+                                <div class="font-bold text-xs text-gray-600">
+                                    {{ item.votingPower }}%
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div v-else-if="followers.pending" class="-preloader -preloader_placeholder"></div>
+            <NotFound
+                v-else
+                class="mt-[88px]"
+                title="No followers found"
+                text="No followers yet."
+            />
         </div>
-        <div v-else-if="followers.pending" class="-preloader -preloader_placeholder"></div>
-        <NotFound
-            v-else
-            class="mt-[88px]"
-            title="No followers found"
-            text="No followers yet."
-        />
+        <div v-else class="-preloader -preloader_placeholder"></div>
     </div>
-    <div v-else class="-preloader -preloader_placeholder"></div>
 </template>
 
 <script lang="ts" setup>

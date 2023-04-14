@@ -1,19 +1,20 @@
 <template>
     <Layout
-        v-if="$route.name"
+        v-if="routeName"
     >
         <ErrorPage v-show="hasError" />
         <template v-if="!hasError">
-            <RouterView :key="$route.path + viewKeyCounter" />
+            <RouterView class="w-full" :key="$route.path + viewKeyCounter" />
         </template>
     </Layout>
-    <div v-if="!$route.name" class="-preloader inset-0 -z-1"></div>
+    <div v-if="!routeName" class="-preloader inset-0 -z-1"></div>
     <Layers />
     <BaseNotifications />
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import Layers from '@/components/Layers/Layers.vue';
 import BaseNotifications from '@/components/BaseNotifications/BaseNotifications.vue';
 import Layout from './layouts/index.vue';
@@ -23,6 +24,11 @@ import { alert } from '@/composables/useLayer';
 
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 import useWatchForCreatedProposals from '@/composables/useWatchForCreatedProposals';
+
+
+// META
+
+const route = useRoute();
 
 const hasError = computed(() => !!store.state.error.status);
 
@@ -35,16 +41,21 @@ watchForCreatedDaos.watch();
 watchForCreatedProposals.watch();
 
 onMounted(() => {
-    alert({
-        title: 'Welcome to <br>OuterCircle Alpha!',
-        text: `This application is currently under development and should only be used for demonstration purposes.
-               <br><br>Use at your own risk. <br><br>All created DAOs must be manually migrated to the OuterCircle Beta when it will released.`,
-        buttonText: 'Accept',
-        cancelButtonText: '',
-        status: 'unknown',
-        themeSettings: {
-            text: 'text-left'
-        }
-    });
+    // alert({
+    //     title: 'Welcome to <br>OuterCircle Alpha!',
+    //     text: `This application is currently under development and should only be used for demonstration purposes.
+    //            <br><br>Use at your own risk. <br><br>All created DAOs must be manually migrated to the OuterCircle Beta when it will released.`,
+    //     buttonText: 'Accept',
+    //     cancelButtonText: '',
+    //     status: 'unknown',
+    //     themeSettings: {
+    //         text: 'text-left'
+    //     }
+    // });
 });
+
+
+// ROUTE NAME
+
+const routeName = computed(() => route.name);
 </script>

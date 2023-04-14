@@ -33,7 +33,6 @@ function useProposalItems(_data: any) {
             address: route.params.address as string,
         }, dataResult.value);
 
-
         if (error) {
             items.value.pending = false;
 

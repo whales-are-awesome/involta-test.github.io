@@ -19,24 +19,24 @@ const scrollAt = {
             const trigger = triggerTop ? scrollY < 10 : window.innerHeight + scrollY > elHeight + elOffsetTop - 10;
 
             if (binding.value && !loading && trigger) {
-                loading = true
+                loading = true;
 
-                const result = binding.value()
+                const result = binding.value();
 
-                if (result === undefined) done()
-                else if (result.then && result.then.call) result.then(done, done)
-                else done()
+                if (result === undefined) done();
+                else if (result.then && result.then.call) result.then(done, done);
+                else done();
             }
         }
 
         //@ts-ignore
         setTimeout(() => {
             window.addEventListener('scroll', binding.dir.scrollHandler);
-        }, 1000);
+        }, 700);
     },
     unmounted(el: any, binding: any) {
         //@ts-ignore
-        window.removeEventListener('scroll', binding.dir.scrollHandler)
+        window.removeEventListener('scroll', binding.dir.scrollHandler);
     }
 }
 export default scrollAt;

@@ -88,14 +88,6 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 
 const isFocus = ref(false);
 
-function onFocus(): void {
-    isFocus.value = true;
-}
-
-function onBlur(): void {
-    isFocus.value = false;
-}
-
 watch(isFocus, () => {
     const parent = root.value?.parentElement;
     const cords = root.value?.getBoundingClientRect();
@@ -108,7 +100,15 @@ watch(isFocus, () => {
     const resultWidth = cords.right - parentCords.left;
 
     inner.value.style.width = (isMobile.value.md && isFocus.value) ? resultWidth + 'px' : '';
-})
+});
+
+function onFocus(): void {
+    isFocus.value = true;
+}
+
+function onBlur(): void {
+    isFocus.value = false;
+}
 
 // VALUE
 

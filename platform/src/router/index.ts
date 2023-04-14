@@ -12,7 +12,6 @@ const routes: Array<RouteRecordRaw> = [
         path: '/',
         name: 'home',
         meta: {
-            title: 'OuterCircle',
             middleware: [walletsInitMiddleware, authMiddleware]
         },
         component: Home
@@ -21,7 +20,6 @@ const routes: Array<RouteRecordRaw> = [
         path: '/ui',
         name: 'ui',
         meta: {
-            title: 'UI',
             middleware: [walletsInitMiddleware]
         },
         component: () => import(/* webpackChunkName: "ui" */ '../views/ui.vue'),
@@ -54,7 +52,6 @@ const routes: Array<RouteRecordRaw> = [
         path: '/app',
         name: 'app',
         meta: {
-            title: 'App',
             middleware: [walletsInitMiddleware, authMiddleware]
         },
         component: () => import(/* webpackChunkName: "apps" */ '../views/app/index.vue'),
@@ -63,7 +60,6 @@ const routes: Array<RouteRecordRaw> = [
         path: '/auth',
         name: 'auth',
         meta: {
-            title: 'Connect wallet',
             middleware: [walletsInitMiddleware, authMiddleware]
         },
         component: () => import(/* webpackChunkName: "auth" */ '../views/auth/index.vue'),
@@ -72,7 +68,6 @@ const routes: Array<RouteRecordRaw> = [
         path: '/test',
         name: 'test',
         meta: {
-            title: 'Test',
             middleware: [walletsInitMiddleware]
         },
         component: () => import(/* webpackChunkName: "test" */ '../views/test/index.vue'),
@@ -125,10 +120,7 @@ router.beforeEach((to, from, next) => {
     });
 })
 
-router.afterEach((context, to) => {
-    // @ts-ignore
-    if (to.meta.title) document.title = to.meta.title;
-
+router.afterEach((context, to, from) => {
     store.commit('breadcrumbs/clear');
     scrollIntoView(document.body);
 });

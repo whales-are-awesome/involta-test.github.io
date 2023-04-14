@@ -53,7 +53,6 @@ import { Statuses } from './types';
 import ThemeSettings from '@/types/themeSettings';
 
 
-
 // META
 
 export interface IProps {
@@ -79,7 +78,7 @@ const { close } = useLayer();
 // CLASSES
 
 
-// ICON_NAME
+// ICON NAME
 
 const iconName = computed(() => {
     switch(props.status) {
@@ -96,6 +95,7 @@ const iconName = computed(() => {
 
 
 // ACCEPT
+
 const pending = ref(false);
 
 async function accept() {
@@ -111,7 +111,6 @@ async function accept() {
         pending.value = false;
 
     }
-
 
     close(props.id, true);
 }
