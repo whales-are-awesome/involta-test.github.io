@@ -35,6 +35,8 @@ class API {
         //     daoFactory: new ethers.Contract(daoFactoryAddress!, daoFactoryABI, API.provider)
         // }[contractName];
 
+        console.log(process.env.VUE_APP_DAO_FACTORY_ADDRESS_GOERLI);
+
         return new ethers.Contract(process.env.VUE_APP_DAO_FACTORY_ADDRESS_GOERLI!, daoFactoryABI, API.provider);
     }
 
@@ -49,6 +51,7 @@ class API {
 
     static async sendChain<T>(props: sendDataChainProps): SendResult<{trx: any, trxReceipt: any}> {
         try {
+            console.log(props);
             const contract = props.contractAddress ? new ethers.Contract(props.contractAddress, props.contractABI, API.provider) : await API.getContracts(props.contractName!, props.network);
             const signer = await API.getSigner();
             const contractWithSigner = contract.connect(signer);

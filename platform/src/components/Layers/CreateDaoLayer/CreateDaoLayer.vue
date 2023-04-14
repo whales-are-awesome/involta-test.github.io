@@ -83,6 +83,7 @@
             <BaseAccordion
                 class="max-w-[400px]"
                 title="Advanced DAO information"
+                :is-visible="true"
             >
                 <div class="space-y-2">
                     <TextField
