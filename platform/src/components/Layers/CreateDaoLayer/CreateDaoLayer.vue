@@ -90,6 +90,7 @@
                         title="Proposal expiration time"
                         placeholder="Proposal expiration time"
                         :is-wrapped="true"
+                        mask="N"
                         tooltip="Some text"
                     />
                     <TextField
@@ -97,7 +98,8 @@
                         title="Quorum required"
                         placeholder="Quorum required"
                         :is-wrapped="true"
-                        :maxlength="+formData.governanceTokenSupply"
+                        :required="true"
+                        mask="N"
                         tooltip="Some text"
                     />
                 </div>
@@ -115,7 +117,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { notify } from '@kyvg/vue3-notification';
 import API from '@/helpers/api';
@@ -141,7 +143,7 @@ export interface IProps {
     network?: string
 }
 
-const props =withDefaults(defineProps<IProps>(), {
+const props = withDefaults(defineProps<IProps>(), {
 
 });
 
@@ -203,8 +205,19 @@ const [formData, formErrors, checkErrors] = useForm({
         value: 1000
     },
     quorumRequired: {
-        value: 1000
+        value: '',
+        required: 'Empty field'
     },
+});
+
+watch(() => formData.value.governanceTicker, () => {
+    formData.value.governanceTicker = formData.value.governanceTicker.replace(/[ ]/g, '').trim().toUpperCase();
+});
+
+watch(() => [formData.value.governanceTokenSupply, formData.value.quorumRequired], ([token, quorum]) => {
+    if (+quorum > +token || !token) {
+        formData.value.quorumRequired = formData.value.governanceTokenSupply;
+    }
 });
 
 async function createDAO() {

@@ -30,6 +30,19 @@ import { store } from '@/store';
 
 import Wallet from '@/wallets';
 import API from '@/helpers/api';
+import { useTitle } from '@vueuse/core';
+
+
+// META
+
+const router = useRouter();
+
+const address = computed(() => store.state.wallet.address);
+
+useTitle('Connect wallet')
+
+
+// WALLET
 
 interface IWallet {
     id: string
@@ -37,11 +50,6 @@ interface IWallet {
     icon: Icons
     login: () => Promise<string>
 }
-
-const router = useRouter();
-
-const address = computed(() => store.state.wallet.address)
-
 
 const wallets = computed(() => {
     const result: IWallet[] = [];

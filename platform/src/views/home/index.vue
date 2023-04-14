@@ -200,6 +200,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, onUnmounted } from 'vue';
+import { useTitle } from '@vueuse/core'
 import { useRoute } from 'vue-router';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
@@ -222,6 +223,7 @@ import { MainSections } from '@/types/statuses'
 import emitter from '@/plugins/mitt';
 import getQueryParam from '@/helpers/getQueryParam';
 
+
 // META
 
 const route = useRoute();
@@ -230,6 +232,8 @@ const { query } = route;
 const isMobile = useIsMobile();
 
 const { open } = useLayer();
+
+useTitle('OuterCircle');
 
 
 // TAG LIST _ COMMON

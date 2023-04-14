@@ -19,6 +19,7 @@
                 @click="$router.push({ name: 'home' })"
             />
             <TheSidebarButton
+                v-if="address"
                 icon="plus"
                 :icon-width="isMobile.sm ? 13 : 17"
                 :active="isCreateDaoOpened"
@@ -122,6 +123,11 @@ const root = ref<HTMLElement | null>(null);
 defineExpose({
     root
 });
+
+
+// ADDRESS
+
+const address = computed(() => store.state.wallet.address);
 </script>
 
 <style scoped>
