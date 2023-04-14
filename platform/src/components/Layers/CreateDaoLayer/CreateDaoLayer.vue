@@ -102,6 +102,7 @@
                         :required="true"
                         mask="N"
                         tooltip="Some text"
+                        :error="formErrors.quorumRequired"
                     />
                 </div>
             </BaseAccordion>

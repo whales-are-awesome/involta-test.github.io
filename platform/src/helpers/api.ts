@@ -35,7 +35,7 @@ class API {
         //     daoFactory: new ethers.Contract(daoFactoryAddress!, daoFactoryABI, API.provider)
         // }[contractName];
 
-        console.log(process.env.VUE_APP_DAO_FACTORY_ADDRESS_GOERLI);
+        console.log(process.env);
 
         return new ethers.Contract(process.env.VUE_APP_DAO_FACTORY_ADDRESS_GOERLI!, daoFactoryABI, API.provider);
     }
