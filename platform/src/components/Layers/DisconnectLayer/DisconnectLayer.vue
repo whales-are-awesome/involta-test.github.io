@@ -9,8 +9,8 @@
         <p class="title-h5 mb-3 text-500">
             Do you want to disconnect wallet?
         </p>
-        <p class="title-h6 mb-16 text-500">
-            {{ address }}
+        <p class="title-h6 mb-16 text-500 overflow-ellipsis">
+            {{ cutAddress(address, 5, 5) }}
         </p>
         <div class="flex justify-center space-x-4">
             <BaseButton
@@ -33,6 +33,7 @@ import { computed } from 'vue';
 import useLayer from '@/composables/useLayer';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
+import cutAddress from '@/helpers/cutAddress';
 import { store } from '@/store';
 
 

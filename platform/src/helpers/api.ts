@@ -9,6 +9,7 @@ import { FetchResult, SendResult, sendDataChainProps, Config } from '@/types/api
 import { store } from '@/store';
 import Wallet from '@/wallets';
 import { open, closeLast } from '@/composables/useLayer';
+import { Networks, networksType } from '@/types/networks';
 
 class API {
     static provider: any;
@@ -37,12 +38,12 @@ class API {
 
 
 
-    static async getContracts(contractName: 'daoFactory', _network?: string) {
-        const network = await API.getNetwork();
+    static async getContracts(contractName: 'daoFactory', _network?: networksType) {
+        const network = await API.getNetwork() as networksType;
 
         const daoFactoryAddress = {
-            goerli: process.env.VUE_APP_DAO_FACTORY_ADDRESS_GOERLI,
-            polygon: process.env.VUE_APP_DAO_FACTORY_ADDRESS_POLYGON
+            [Networks.Goerli]: process.env.VUE_APP_DAO_FACTORY_ADDRESS_GOERLI,
+            [Networks.Polygon]: process.env.VUE_APP_DAO_FACTORY_ADDRESS_POLYGON
         }[network];
 
         return {
@@ -55,13 +56,13 @@ class API {
         return API.provider?.getSigner();
     }
 
-    static async getNetwork(): Promise<string> {
+    static async getNetwork(): Promise<networksType | ''> {
         const network = await API.provider?.getNetwork();
         const chainId = network?.chainId;
 
         const networkName = {
-            137: 'polygon',
-            5: 'goerli'
+            137: Networks.Polygon,
+            5: Networks.Goerli
         }[chainId as number];
 
         return networkName!;
