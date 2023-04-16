@@ -83,8 +83,8 @@ function useWatchForCreatedDaos() {
             },
         {
                 headers: {
-                    'Auth-Hash': signInfo!.hash,
-                    'Auth-Signature': signInfo!.sign
+                    'X-Auth-Hash': signInfo!.hash,
+                    'X-Auth-Signature': signInfo!.sign
                 }
             }
         );

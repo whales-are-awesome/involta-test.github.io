@@ -8,11 +8,14 @@
                 <BaseButton
                     v-for="item in items"
                     :key="item.id"
-                    class="h-full"
+                    :class="classes.button"
                     ref="itemRefs"
                     view="ghost"
                     theme="white"
                     :size="(isMobile.xl || isMobile.lg) ? 'md' : 'mobile'"
+                    :theme-settings="{
+                        size: 'h-auto'
+                    }"
                     @click="value = item.id"
                 >
                     {{ item.title }}
@@ -59,7 +62,7 @@ interface ThemeProps extends Pick<IProps, 'themeSettings'>{}
 
 const useClasses = makeClasses<ThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
-        'bg-primary-100 p-[2px] rounded-[5px]'
+        'bg-primary-100 rounded-[5px]'
     ],
     inner: 'relative z-1 h-full',
     items: 'flex h-full',

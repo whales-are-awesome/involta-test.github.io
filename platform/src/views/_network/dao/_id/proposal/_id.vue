@@ -5,7 +5,7 @@
             class="mb-[33px]"
             :name="pageData?.name"
             :breadcrumbs="breadcrumbs"
-            :followers-amount="pageData?.followersAmountFormatted"
+            :owner="pageData?.owner"
             :link="pageData?.link"
             :description="pageData?.description"
         />
@@ -155,7 +155,7 @@
                                                 :votes="proposalData?.forVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="proposalData?.forVp / proposalData?.totalVp * 100 || 0"
+                                                :progress="cropPercents(proposalData?.forVp / proposalData?.totalVp * 100) || 0"
                                             />
                                             <ProposalVote
                                                 v-model="currentVote"
@@ -164,7 +164,7 @@
                                                 :votes="proposalData?.againstVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="proposalData?.againstVp / proposalData?.totalVp * 100 || 0"
+                                                :progress="cropPercents(proposalData?.againstVp / proposalData?.totalVp * 100) || 0"
                                             />
                                             <ProposalVote
                                                 v-model="currentVote"
@@ -173,7 +173,7 @@
                                                 :votes="proposalData?.abstainVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="proposalData?.abstainVp / proposalData?.totalVp * 100 || 0"
+                                                :progress="cropPercents(proposalData?.abstainVp / proposalData?.totalVp * 100) || 0"
                                             />
                                         </div>
                                         <div class="flex justify-between">
@@ -517,7 +517,7 @@
                                                 :votes="proposalData?.forVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="proposalData?.forVp / proposalData?.totalVp * 100 || 0"
+                                                :progress="cropPercents(proposalData?.forVp / proposalData?.totalVp * 100) || 0"
                                             />
                                             <ProposalVote
                                                 v-model="currentVote"
@@ -526,7 +526,7 @@
                                                 :votes="proposalData?.againstVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="proposalData?.againstVp / proposalData?.totalVp * 100 || 0"
+                                                :progress="cropPercents(proposalData?.againstVp / proposalData?.totalVp * 100) || 0"
                                             />
                                             <ProposalVote
                                                 v-model="currentVote"
@@ -535,7 +535,7 @@
                                                 :votes="proposalData?.abstainVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="proposalData?.abstainVp / proposalData?.totalVp * 100 || 0"
+                                                :progress="cropPercents(proposalData?.abstainVp / proposalData?.totalVp * 100) || 0"
                                             />
                                         </div>
                                         <div class="flex justify-between items-center">
@@ -576,6 +576,9 @@
 
 <script lang="ts" setup>
 import { computed, onUnmounted, ref, watch, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
+import { notify } from '@kyvg/vue3-notification';
+import { useTitle } from '@vueuse/core';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
@@ -590,14 +593,12 @@ import { currenyItems } from '@/types/currency';
 import { Statuses } from '@/types/statuses';
 import useDao from '@/composables/fetch/useDao';
 import emitter from '@/plugins/mitt';
-import { useRoute } from 'vue-router';
 import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
 import { useFetchData } from '@/composables/useFetchData';
 import { IProposalNormalizedAsDefault, proposalStatuses } from '@/types/services/ProposalService';
 import ProposalService from '@/services/ProposalService';
 import { ProposalStatus, ProposalVoteType } from '@/types/entries/proposal';
-import { notify } from '@kyvg/vue3-notification';
-import { useTitle } from '@vueuse/core';
+import cropPercents from '@/helpers/cropPercents';
 
 
 // META

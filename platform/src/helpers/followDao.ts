@@ -29,8 +29,8 @@ async function followDao(name: string, address: string, network: string, alert: 
         },
         {
             headers: {
-                'Auth-Hash': signInfo!.hash,
-                'Auth-Signature': signInfo!.sign
+                'X-Auth-Hash': signInfo!.hash,
+                'X-Auth-Signature': signInfo!.sign
             }
         }
     );

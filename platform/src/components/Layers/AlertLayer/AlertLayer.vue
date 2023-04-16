@@ -29,7 +29,7 @@
             <BaseButton
                 v-if="cancelButtonText"
                 theme="surface"
-                @click="close(id)"
+                @click="close(props.id, false);"
             >
                 {{ cancelButtonText }}
             </BaseButton>

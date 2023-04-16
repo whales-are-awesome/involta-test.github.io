@@ -418,9 +418,9 @@ async function createProposal() {
         },
         {
             headers: {
-                'Auth-Hash': signInfo!.hash,
-                'Auth-Signature': signInfo!.sign,
-                'Auth-Address': store.state.wallet.address as string
+                'X-Auth-Hash': signInfo!.hash,
+                'X-Auth-Signature': signInfo!.sign,
+                'X-Auth-Address': store.state.wallet.address as string
             }
         });
 

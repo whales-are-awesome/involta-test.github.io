@@ -42,7 +42,7 @@
 
 
 <script lang="ts" setup>
-import { computed, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import TheSidebarButton from './TheSidebarButton.vue';
 import makeClasses from '@/helpers/makeClasses';
@@ -52,6 +52,9 @@ import useDaoItems from '@/composables/fetch/useDaoItems';
 import useIsMobile from '@/composables/useIsMobile';
 import { store } from '@/store';
 import emitter from '@/plugins/mitt';
+import API from '@/helpers/api';
+import useError from '@/composables/useError';
+import { useTitle } from '@vueuse/core';
 
 
 // META
@@ -103,9 +106,23 @@ const daoItemsForm = computed(() => ({
 const [daoItems, fetchDaoItems] = useDaoItems(daoItemsForm);
 
 emitter.on('daoFollowed', fetchDaoItems);
+emitter.on('daoEdited', fetchDaoItems);
+
+watch(daoItems.value, async() => {
+    const network = await API.getNetwork();
+
+    if (daoItems.value.data?.items.length) {
+        const filtered = daoItems.value.data.items.filter(item => item.network === network);
+
+        if (filtered.length !== daoItems.value.data.items.length) {
+            daoItems.value.data.items = daoItems.value.data.items.filter(item => item.network === network);
+        }
+    }
+});
 
 onUnmounted(() => {
     emitter.off('daoFollowed', fetchDaoItems);
+    emitter.off('daoEdited', fetchDaoItems);
 });
 
 

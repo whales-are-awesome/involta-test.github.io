@@ -5,7 +5,8 @@
             class="mb-[33px]"
             :name="pageData?.name"
             :breadcrumbs="breadcrumbs"
-            :followers-amount="pageData?.followersAmountFormatted"
+            :owner="pageData?.owner"
+            :link="pageData?.link"
             :description="pageData?.description"
         />
         <div v-else class="-preloader -preloader_placeholder"></div>
@@ -21,87 +22,113 @@
                     v-if="tagListValue !== Sections.Treasury"
                     class="flex -mx-2 -mt-2.5 relative mb-[30px] sm:flex-wrap"
                 >
-                    <!--                <div-->
-                    <!--                    v-if="tagListValue === Sections.Proposals"-->
-                    <!--                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"-->
-                    <!--                >-->
-                    <!--                    <SelectField-->
-                    <!--                        v-model="formData.value.statusId"-->
-                    <!--                        :options="formProposalsInfo.statusesOptions"-->
-                    <!--                        :theme-settings="{-->
-                    <!--                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'-->
-                    <!--                        }"-->
-                    <!--                    />-->
-                    <!--                </div>-->
-                    <!--                <div-->
-                    <!--                    v-if="tagListValue === Sections.Daos"-->
-                    <!--                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"-->
-                    <!--                >-->
-                    <!--                    <SelectField-->
-                    <!--                        v-model="formData.value.chainId"-->
-                    <!--                        :options="formDaosInfo.chainOptions"-->
-                    <!--                        :theme-settings="{-->
-                    <!--                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'-->
-                    <!--                        }"-->
-                    <!--                    />-->
-                    <!--                </div>-->
-                    <!--                <div-->
-                    <!--                    v-if="tagListValue === Sections.Apps"-->
-                    <!--                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"-->
-                    <!--                >-->
-                    <!--                    <SelectField-->
-                    <!--                        v-model="formData.value.categoryId"-->
-                    <!--                        :options="formAppsInfo.categoryOptions"-->
-                    <!--                        :theme-settings="{-->
-                    <!--                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'-->
-                    <!--                        }"-->
-                    <!--                    />-->
-                    <!--                </div>-->
-                    <!--                <div-->
-                    <!--                    v-if="tagListValue === Sections.Proposals"-->
-                    <!--                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"-->
-                    <!--                >-->
-                    <!--                    <TagsButtonList-->
-                    <!--                        class="h-full sm:h-[28px]"-->
-                    <!--                        v-model="formData.value.voteId"-->
-                    <!--                        :items="formProposalsInfo.voteOptions"-->
-                    <!--                    />-->
-                    <!--                </div>-->
-                    <!--                <div-->
-                    <!--                    v-if="tagListValue === Sections.Daos"-->
-                    <!--                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"-->
-                    <!--                >-->
-                    <!--                    <TagsButtonList-->
-                    <!--                        class="h-full sm:h-[28px]"-->
-                    <!--                        v-model="formData.value.daosId"-->
-                    <!--                        :items="formDaosInfo.daosOptions"-->
-                    <!--                    />-->
-                    <!--                </div>-->
-                    <div class="!ml-auto"></div>
-                    <!--                <BaseSearch-->
-                    <!--                    v-if="tagListValue !== Sections.Statistics"-->
-                    <!--                    class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"-->
-                    <!--                    v-model="formData.value.search"-->
-                    <!--                />-->
                     <div
-                        v-if="createButton"
+                        v-if="tagListValue === Sections.Proposals"
+                        class="pointer-events-none opacity-30  px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
+                    >
+                        <SelectField
+                            v-model="formData.value.statusId"
+                            :options="formProposalsInfo.statusesOptions"
+                            :theme-settings="{
+                                height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'
+                            }"
+                        />
+                    </div>
+                    <div
+                        v-if="tagListValue === Sections.Proposals"
+                        class="pointer-events-none opacity-30 px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
+                    >
+                        <TagsButtonList
+                            class="h-full sm:h-[28px]"
+                            v-model="formData.value.voteId"
+                            :items="formProposalsInfo.voteOptions"
+                        />
+                    </div>
+                    <div
+                        v-if="tagListValue === Sections.Daos"
+                        class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
+                    >
+                        <SelectField
+                            v-model="formData.value.chainId"
+                            :options="formDaosInfo.chainOptions"
+                            :theme-settings="{
+                                height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'
+                            }"
+                        />
+                    </div>
+                    <div
+                        v-if="tagListValue === Sections.Apps"
+                        class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
+                    >
+                        <SelectField
+                            v-model="formData.value.categoryId"
+                            :options="formAppsInfo.categoryOptions"
+                            :theme-settings="{
+                                height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'
+                            }"
+                        />
+                    </div>
+                    <div
+                        v-if="tagListValue === Sections.Daos"
+                        class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
+                    >
+                        <TagsButtonList
+                            class="h-full sm:h-[28px]"
+                            v-model="formData.value.daosId"
+                            :items="formDaosInfo.daosOptions"
+                        />
+                    </div>
+                    <div
+                        v-if="tagListValue === Sections.Followers"
+                        class="pointer-events-none opacity-30 px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
+                    >
+                        <TagsButtonList
+                            class="h-full h-[44px] sm:h-[28px]"
+                            v-model="formDataFollowers.type"
+                            :items="formFollowersInfo.typeOptions"
+                        />
+                    </div>
+                    <div class="!ml-auto"></div>
+                    <BaseSearch
+                        v-if="tagListValue !== Sections.Statistics && tagListValue !== Sections.Followers"
+                        class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"
+                        v-model="formData.value.search"
+                    />
+                    <div
+                        v-if="createButton || tagListValue === Sections.Followers"
                         class="px-2 mt-2.5 flex-shrink-0 sm:order-[-1] sm:w-1/2 md:px-1.5 sm:px-[5px]"
                     >
                         <BaseButton
+                            v-if="createButton"
                             class="w-full h-[44px]"
-                            :class="(isMobile.xl || isMobile.lg) && '!h-ful'"
+                            :class="(isMobile.xl || isMobile.lg) && '!h-full'"
                             theme="primary"
                             :icon="{
-                            name: 'plus',
-                            width: (isMobile.xl || isMobile.lg) ? 14 : 8,
-                            prepend: true
-                        }"
+                                name: 'plus',
+                                width: (isMobile.xl || isMobile.lg) ? 14 : 8,
+                                prepend: true
+                            }"
                             :size="(isMobile.xl || isMobile.lg) ? 'md' : 'sm'"
                             @click="createButton.onClick"
                         >
-                    <span class="whitespace-nowrap">
-                        {{ createButton.text }}
-                    </span>
+                            <span class="whitespace-nowrap">
+                                {{ createButton.text }}
+                            </span>
+                        </BaseButton>
+                        <BaseButton
+                            v-if="tagListValue === Sections.Followers"
+                            class="w-full h-[44px]"
+                            :class="(isMobile.xl || isMobile.lg) && '!h-full'"
+                            theme="primary"
+                            :size="(isMobile.lg || isMobile.xl) ? 'md': 'sm'"
+                            :icon="{
+                                name: 'share',
+                                width: (isMobile.lg || isMobile.xl) ? 20 : 16,
+                                prepend: true
+                            }"
+                            @click="invite"
+                        >
+                            Invite {{ !isMobile.sm ? 'member' : '' }}
                         </BaseButton>
                     </div>
                 </div
@@ -216,6 +243,41 @@
                         </div>
                     </div>
                 </div>
+                <div v-if="tagListValue === Sections.Followers">
+                    <TextSeparator
+                        v-if="+pageData?.followersAmountFormatted"
+                        class="mb-[20px]"
+                    >
+                        {{ pageData?.followersAmountFormatted }} Follower{{ pageData?.followersAmountFormatted > 1 ? 's' : '' }}
+                    </TextSeparator>
+                    <div
+                        v-if="followers.data?.items.length"
+                        class="flex flex-wrap -mx-3 -mt-6 sm:-mx-[9px]"
+                        :class="{
+                            '-preloader -preloader_cover before:top-6': followers.pending
+                        }"
+                        v-scroll-at.bottom="addMoreFollowers"
+                    >
+                        <div
+                            class="w-1/4 px-1.5 mt-3 lg:w-1/2 sm:w-full"
+                            v-for="item in followers.data?.items"
+                            :key="item.address"
+                        >
+                            <FollowersItem
+                                :address="item.address"
+                                :name="item.name"
+                                :voting-power="item.votingPower"
+                            />
+                        </div>
+                    </div>
+                    <div v-else-if="followers.pending" class="-preloader -preloader_placeholder"></div>
+                    <NotFound
+                        v-else
+                        class="!mt-[88px]"
+                        title="No Followers found"
+                        text="We couldn't find any followers matching your query. Try another query"
+                    />
+                </div>
                 <div v-if="tagListValue === Sections.Treasury">
                     <div class="flex font-medium uppercase text-xxs text-gray-400 mb-4 pl-4 lg:hidden">
                         <div class="w-[200px]">
@@ -274,6 +336,7 @@ import ProposalCard from '@/components/ProposalCard/ProposalCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
+import FollowersItem from '@/components/FollowersItem/FollowersItem.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import NotFound from '@/components/NotFound/NotFound.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
@@ -296,6 +359,11 @@ import useQueryUpdates from '@/composables/useQueryUpdates';
 import useIsMobile from '@/composables/useIsMobile';
 import followDao from '@/helpers/followDao';
 import DaoService from '@/services/DaoService';
+import { useFetchDataWithTotal } from '@/composables/useFetchData';
+import { IFollower } from '@/types/services/FollowerService';
+import FollowerService from '@/services/FollowerService';
+import { notify } from '@kyvg/vue3-notification';
+import copy from '@/helpers/copy';
 
 
 // META
@@ -316,6 +384,7 @@ enum Sections {
     Daos = 'daos' as any,
     Apps = 'apps' as any,
     Treasury = 'treasury' as any,
+    Followers = 'followers' as any,
 }
 
 const tagListOptions = [
@@ -324,7 +393,7 @@ const tagListOptions = [
     // { id: Sections.Daos, title: 'SubDAOs' },
     { id: Sections.Apps, title: 'APPs' },
     { id: Sections.Treasury, title: 'Treasury' },
-    { title: 'Followers', to: { name: 'network-dao-address-followers', params: route.params  } },
+    { id: Sections.Followers, title: 'Followers' },
 ];
 
 const tagListValue = ref(getQueryParam<Sections>(query.section, tagListOptions));
@@ -347,6 +416,7 @@ const [ page, fetchDao ] = useDao({
 const pageData = computed(() => page.value.data);
 
 emitter.on('daoFollowed', fetchDao);
+emitter.on('daoEdited', fetchDao);
 
 watchEffect(() => {
     page.value.error && useError(404);
@@ -357,6 +427,7 @@ watchEffect(() => {
 
 onUnmounted(() => {
     emitter.off('daoFollowed', fetchDao);
+    emitter.off('daoEdited', fetchDao);
 });
 
 
@@ -566,4 +637,67 @@ async function setEthBalance() {
 onUnmounted(() => {
     clearInterval(ethPriceInt);
 });
+
+
+// FOLLOWERS
+
+const followers = useFetchDataWithTotal<IFollower>();
+
+const formFollowersInfo = {
+    typeOptions: [
+        { id: 'voters', title: 'Voters' },
+        { id: 'followers', title: 'Followers' }
+    ],
+};
+
+const formDataFollowers = ref({
+    type: getQueryParam<string>(query.type, formFollowersInfo.typeOptions),
+    limit: 20,
+    offset: 0
+});
+
+fetchFollowers();
+
+emitter.on('daoFollowed', fetchFollowers);
+
+onUnmounted(() => {
+    emitter.off('daoFollowed', fetchDao);
+});
+
+async function fetchFollowers() {
+    followers.value.pending = true;
+    followers.value.cancel();
+
+    const [data, error, cancel] = await FollowerService.fetchFollowers(
+        {
+            network: route.params.network as string,
+            address: route.params.address as string
+        },
+        {
+            offset: 0,
+            limit: 15
+        }
+    );
+
+    followers.value = { data, cancel, pending: false };
+}
+
+function addMoreFollowers() {
+    if (followers.value.data?.items.length !== followers.value.data?.total) {
+        formDataFollowers.value.offset += formDataFollowers.value.limit;
+    }
+}
+
+
+// INVITE MEMBER
+
+function invite() {
+    const link = window.location.search
+                    ? window.location.origin + window.location.pathname + window.location.search + '&invitation=true'
+                    : window.location.origin + window.location.pathname + '?invitation=true';
+    notify({
+        title: 'Link copied',
+    });
+    copy(link);
+}
 </script>

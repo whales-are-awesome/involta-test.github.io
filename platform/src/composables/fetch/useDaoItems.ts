@@ -1,7 +1,8 @@
-import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { computed, watch } from 'vue';
+import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import DaoService from '@/services/DaoService';
 import { INormalizedDaoItemAsTable } from '@/types/services/DaoService';
+import API from '@/helpers/api';
 
 function useDaoItems(_data: any) {
     const items = useFetchDataWithTotal<INormalizedDaoItemAsTable>();
@@ -21,11 +22,12 @@ function useDaoItems(_data: any) {
     watch(dataResult, fetchItems);
     async function fetchItems(val?: any, prevVal?: any) {
         const isAddMore = val?.offset !== prevVal?.offset && val?.offset !== 0;
+        const network = await API.getNetwork();
 
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await DaoService.fetchDaoItemsAsTable(dataResult.value);
+        const [data, error, cancel] = await DaoService.fetchDaoItemsAsTable(network, dataResult.value);
 
         if (error) {
             items.value.pending = false;

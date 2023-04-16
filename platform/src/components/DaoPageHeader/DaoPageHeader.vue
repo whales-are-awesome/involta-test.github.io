@@ -13,29 +13,17 @@
                 />
                 <div :class="classes.info">
                     <ActionLink
-                        :class="classes.infoItem"
-                        :to="{ name: 'network-dao-address-followers', params: $route.params  }"
-                        theme="secondary-dark"
-                    >
-                        <BaseIcon
-                            :class="classes.infoItemIcon"
-                            name="users"
-                            width="20"
-                        />
-                        <span>
-                        Followers <strong>{{ followersAmount }}</strong>
-                    </span>
-                    </ActionLink>
-                    <ActionLink
+                        v-if="owner === address"
                         :class="classes.infoItem"
                         theme="secondary-dark"
+                        @click="openEditDao"
                     >
                         <BaseIcon
                             :class="classes.infoItemIcon"
                             name="settings"
                             width="20"
                         />
-                        Params
+                        Edit
                     </ActionLink>
                 </div>
             </div>
@@ -55,7 +43,7 @@
                             :href="link"
                             target="_blank"
                         >
-                            {{ link.replace('https', '').replace('//', '') }}
+                            {{ formatLink(link) }}
                         </ActionLink>
                     </div>
                     <div
@@ -83,13 +71,17 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import LinkButton from '@/components/LinkButton/LinkButton.vue';
 import BaseBreadcrumbs from '@/components/BaseBreadcrumbs/BaseBreadcrumbs.vue';
 import { IBreadcrumb  } from './types';
+import { open } from '@/composables/useLayer';
 import makeClasses from '@/helpers/makeClasses';
+import API from '@/helpers/api';
 import ThemeSettings from '@/types/themeSettings';
+import { store } from '@/store';
 
 
 // META
@@ -98,12 +90,15 @@ interface IProps {
     name?: string
     description?: string
     followersAmount?: string
+    owner: string
     link?: string
     breadcrumbs?: IBreadcrumb[]
     themeSettings?: ThemeSettings<'root'>
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
+
+const route = useRoute();
 
 
 // CLASSES
@@ -166,6 +161,35 @@ const links = [
         className: 'hover:text-black'
     },
 ]
+
+
+// ADDRESS
+
+const address = computed(() => store.state.wallet.address);
+
+
+// LINK
+
+function formatLink(_link: string) {
+    let link: string = _link.replace('https://', '')
+        .replace('//', '')
+        .replace('www.', '');
+
+    if (link.endsWith('/')) {
+        link = link.slice(0, -1);
+    }
+
+    return link;
+}
+
+
+async function openEditDao() {
+    open('EditDaoLayer', {
+        network: route.params.network,
+        address: route.params.address
+    })
+}
+
 </script>
 
 <style scoped>

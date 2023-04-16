@@ -4,6 +4,7 @@ interface IPathItem {
 }
 
 interface IDaoAPI {
+    owner: string
     address: string
     creationTx: string
     followersAmount: number

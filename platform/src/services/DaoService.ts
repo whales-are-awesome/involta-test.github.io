@@ -60,14 +60,14 @@ export default class DaoService {
     }
 
 
-    static async fetchDaoItems(params?: IDaoItemParams) {
-        return API.get<IResponsePagination<IDaoItem>>('/dao', params);
+    static async fetchDaoItems(network: string, params?: IDaoItemParams) {
+        return API.get<IResponsePagination<IDaoItem>>(`/${ network }/dao`, params);
     }
 
-    static async fetchDaoItemsAsTable(params?: IDaoItemParams) {
-        const [data, ...rest] = await DaoService.fetchDaoItems(params);
+    static async fetchDaoItemsAsTable(network: string, params?: IDaoItemParams) {
+        const [data, ...rest] = await DaoService.fetchDaoItems(network, params);
 
-        return [data && await normalizeDaoItemsAsTable(data), ...rest] as const;
+        return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
     }
 }
 
@@ -86,9 +86,7 @@ function normalizeDaoAsDefault(data: IDao): INormalizedDaoAsDefault {
     };
 }
 
-async function normalizeDaoItemsAsTable(data: IResponsePagination<IDaoItem>): Promise<IResponsePagination<INormalizedDaoItemAsTable>> {
-    const network = await API.getNetwork();
-
+function normalizeDaoItemsAsTable(data: IResponsePagination<IDaoItem>): IResponsePagination<INormalizedDaoItemAsTable> {
     return {
         ...data,
         items: data.items.map(item => ({
@@ -98,6 +96,6 @@ async function normalizeDaoItemsAsTable(data: IResponsePagination<IDaoItem>): Pr
                 //@ts-ignore
                 return addSpacesToNumber(this.followersAmount);
             }
-        })).filter(item => item.network === network)
+        }))
     };
 }

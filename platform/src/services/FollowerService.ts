@@ -19,7 +19,7 @@ export default class FollowerService {
             await Promise.all([
                 FollowerService.fetchVotingPower(item.address, path.address)
                     .then(result => item.votingPower = result[0] || 0),
-                API.provider.lookupAddress(item.address)
+                API.lookupAddress(item.address)
                     .then((result: string) => item.name = result)
             ]);
         }) || []);

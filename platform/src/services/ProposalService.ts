@@ -89,7 +89,7 @@ export default class ProposalService {
             });
 
             await Promise.all([
-                API.provider.lookupAddress(data.createdBy)
+                API.lookupAddress(data.createdBy)
                     .then((result: string) => fullData!.createdByName = result)
             ]);
         }
@@ -182,7 +182,7 @@ async function normalizeProposalAsDefault(data: IProposal): Promise<IProposalNor
             data: item[2],
             value: item[3],
             isContract: await isContract(item[1]),
-            addressOrName: (await API.provider.lookupAddress(item[1])) || cutAddress(item[1])
+            addressOrName: (await API.lookupAddress(item[1])) || cutAddress(item[1])
         })))
     };
 }

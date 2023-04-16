@@ -23,19 +23,31 @@ class API {
         API.provider = new ethers.providers.Web3Provider(protocol);
     }
 
+    static async lookupAddress(address: string) {
+        let name = '';
+
+        try {
+            name = await API.provider.lookupAddress(address);
+        } catch (e) {
+            console.log(e)
+        }
+
+        return name;
+    }
+
+
+
     static async getContracts(contractName: 'daoFactory', _network?: string) {
-        const network = _network || await API.getNetwork();
+        const network = await API.getNetwork();
 
         const daoFactoryAddress = {
             goerli: process.env.VUE_APP_DAO_FACTORY_ADDRESS_GOERLI,
             polygon: process.env.VUE_APP_DAO_FACTORY_ADDRESS_POLYGON
         }[network];
 
-        // return {
-        //     daoFactory: new ethers.Contract(daoFactoryAddress!, daoFactoryABI, API.provider)
-        // }[contractName];
-
-        return new ethers.Contract(process.env.VUE_APP_DAO_FACTORY_ADDRESS_POLYGON!, daoFactoryABI, API.provider);
+        return {
+            daoFactory: new ethers.Contract(daoFactoryAddress!, daoFactoryABI, API.provider)
+        }[contractName];
     }
 
 
@@ -44,7 +56,14 @@ class API {
     }
 
     static async getNetwork(): Promise<string> {
-        return (await API.provider?.getNetwork())?.name;
+        const { chainId } = await API.provider?.getNetwork();
+
+        const networkName = {
+            137: 'polygon',
+            5: 'goerli'
+        }[chainId as number];
+
+        return networkName!;
     }
 
     static async sendChain<T>(props: sendDataChainProps): SendResult<{trx: any, trxReceipt: any}> {
@@ -122,7 +141,7 @@ class API {
                 params,
                 cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
                 headers: {
-                    'Auth-Address': store.state.wallet.address as string
+                    'X-Auth-Address': store.state.wallet.address as string
                 }
             });
 
@@ -140,7 +159,7 @@ class API {
                 cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
                 ...config,
                 headers: {
-                    'Auth-Address': store.state.wallet.address as string,
+                    'X-Auth-Address': store.state.wallet.address as string,
                     ...config?.headers
                 }
             });
@@ -159,7 +178,7 @@ class API {
                 cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
                 ...config,
                 headers: {
-                    'Auth-Address': store.state.wallet.address as string,
+                    'X-Auth-Address': store.state.wallet.address as string,
                     ...config?.headers
                 }
             });
@@ -178,7 +197,7 @@ class API {
                 cancelToken: new axios.CancelToken((_cancel) => cancel = _cancel),
                 ...config,
                 headers: {
-                    'Auth-Address': store.state.wallet.address as string,
+                    'X-Auth-Address': store.state.wallet.address as string,
                     ...config?.headers
                 }
             });
