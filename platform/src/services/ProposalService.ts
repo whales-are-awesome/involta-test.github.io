@@ -117,8 +117,6 @@ export default class ProposalService {
                 methodName: 'proposalExpirationTime'
             });
 
-            console.log(proposalExpirationTime)
-
             await Promise.all(data.items.map(async(item, index) => {
                 const [chainData, ...restChainData] = await API.getFromChain<IProposalChain>({
                     contractAddress: path.address,

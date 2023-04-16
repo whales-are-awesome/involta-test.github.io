@@ -40,14 +40,10 @@ class API {
     static async getContracts(contractName: 'daoFactory', _network?: string) {
         const network = await API.getNetwork();
 
-        console.log(network);
-
         const daoFactoryAddress = {
             goerli: process.env.VUE_APP_DAO_FACTORY_ADDRESS_GOERLI,
             polygon: process.env.VUE_APP_DAO_FACTORY_ADDRESS_POLYGON
         }[network];
-
-        console.log(daoFactoryAddress);
 
         return {
             daoFactory: new ethers.Contract(daoFactoryAddress!, daoFactoryABI, API.provider)
@@ -60,7 +56,8 @@ class API {
     }
 
     static async getNetwork(): Promise<string> {
-        const { chainId } = await API.provider?.getNetwork();
+        const network = await API.provider?.getNetwork();
+        const chainId = network?.chainId;
 
         const networkName = {
             137: 'polygon',

@@ -24,6 +24,11 @@ function useDaoItems(_data: any) {
         const isAddMore = val?.offset !== prevVal?.offset && val?.offset !== 0;
         const network = await API.getNetwork();
 
+        if (!network) {
+            items.value.pending = false;
+            return;
+        }
+
         items.value.pending = true;
         items.value.cancel();
 
@@ -42,7 +47,6 @@ function useDaoItems(_data: any) {
         }
 
         items.value = { ...items.value, cancel, pending: false };
-
     }
 
     return [items, fetchItems] as const;

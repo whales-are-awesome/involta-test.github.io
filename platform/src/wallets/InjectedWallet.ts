@@ -17,12 +17,25 @@ function init(target: any, propertyKey: string, propertyDescriptor: PropertyDesc
     };
 }
 
+function needsProvider(target: any, propertyKey: string, propertyDescriptor: PropertyDescriptor): any {
+
+    const originalMethod = propertyDescriptor.value;
+
+    propertyDescriptor.value = (...args: any) => {
+        if (window.ethereum) {
+            //@ts-ignore
+            return originalMethod.apply(this, args);
+        }
+    };
+}
+
 class InjectedWallet {
     static init(): void {
         InjectedWallet.handleAll();
     }
 
     @init
+    @needsProvider
     static async login(): Promise<string> {
         await API.provider.send('eth_requestAccounts', []);
         const address = (await API.provider.listAccounts())[0];
@@ -35,12 +48,14 @@ class InjectedWallet {
         return address;
     }
 
+    @needsProvider
     static handleAll() {
         InjectedWallet.networkAccountsChange();
         InjectedWallet.handleNetworkChange();
     }
 
     @init
+    @needsProvider
     static async tryConnectAndSetAddress(_address?: string): Promise<string> {
         const address = _address || (await API.provider.listAccounts())[0];
         const network = await API.getNetwork();
@@ -54,6 +69,7 @@ class InjectedWallet {
     static async disconnect(): Promise<void> {
     }
 
+    @needsProvider
     static networkAccountsChange(): void {
         window.ethereum.on('accountsChanged', async () => {
             if (store.state.wallet.wallet === 'connectWallet') {
@@ -73,6 +89,7 @@ class InjectedWallet {
         })
     }
 
+    @needsProvider
     static handleNetworkChange(): void {
         window.ethereum.on('chainChanged', async () => {
             window.location.reload();
