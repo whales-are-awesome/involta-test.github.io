@@ -5,6 +5,7 @@ import { useFetchDataWithTotal } from '@/composables/useFetchData';
 
 import ProposalService from '@/services/ProposalService';
 import { IProposalItem } from '@/types/services/ProposalService';
+import { networksType } from '@/types/networks';
 
 
 function useProposalItems(_data: any) {
@@ -29,7 +30,7 @@ function useProposalItems(_data: any) {
         items.value.cancel();
 
         const [data, error, cancel] = await ProposalService.fetchDaoProposalItems( {
-            network: route.params.network as string,
+            network: route.params.network as networksType,
             address: route.params.address as string,
         }, dataResult.value);
 

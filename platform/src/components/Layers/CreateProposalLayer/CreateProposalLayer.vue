@@ -265,6 +265,7 @@ import { notify } from '@kyvg/vue3-notification';
 import { store } from '@/store';
 import API from '@/helpers/api';
 import useWatchForCreatedProposals from '@/composables/useWatchForCreatedProposals';
+import { networksType } from '@/types/networks';
 
 // META
 
@@ -403,7 +404,7 @@ async function createProposal() {
     const [response, error] = await ProposalService.createProposal(
         {
             address: route.params.address as string,
-            network: route.params.network as string
+            network: route.params.network as networksType
         },
         {
             name: formData.value.name,

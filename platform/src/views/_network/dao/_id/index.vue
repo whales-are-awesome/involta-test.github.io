@@ -361,6 +361,7 @@ import followDao from '@/helpers/followDao';
 import DaoService from '@/services/DaoService';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { IFollower } from '@/types/services/FollowerService';
+import { networksType } from '@/types/networks';
 import FollowerService from '@/services/FollowerService';
 import { notify } from '@kyvg/vue3-notification';
 import copy from '@/helpers/copy';
@@ -670,7 +671,7 @@ async function fetchFollowers() {
 
     const [data, error, cancel] = await FollowerService.fetchFollowers(
         {
-            network: route.params.network as string,
+            network: route.params.network as networksType,
             address: route.params.address as string
         },
         {

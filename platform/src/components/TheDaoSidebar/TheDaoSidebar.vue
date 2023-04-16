@@ -89,6 +89,7 @@ import DaoService from '@/services/DaoService';
 import useLayer from '@/composables/useLayer';
 import useSubDaoItems from '@/composables/fetch/useSubDaoItems';
 import { DEFAULT_LIMIT, DEFAILT_ADD_LIMIT, INormalizedDaoAsDefault } from './types';
+import { networksType } from '@/types/networks';
 
 // META
 
@@ -161,7 +162,7 @@ async function addParentDaos() {
 
     const [data] = await DaoService.fetchDaoAsDefault({
         address: lastParentAddress,
-        network: route.params.network as string
+        network: route.params.network as networksType
     });
 
     if (data) {
