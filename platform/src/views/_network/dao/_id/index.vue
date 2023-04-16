@@ -620,7 +620,7 @@ const treasures = ref({
     }
 });
 
-const ethPriceInt = setInterval(setEthPrice, 1000);
+const ethPriceInt = setInterval(setEthPrice, 5000);
 
 setEthPrice();
 setEthBalance();

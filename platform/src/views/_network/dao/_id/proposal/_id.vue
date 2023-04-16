@@ -640,7 +640,7 @@ onUnmounted(() => {
 
 // META:IS REJECTED
 
-const isRejected = computed(() => currentDate.value > new Date(proposalData.value?.endTime || 0) && proposalData.value?.status === ProposalStatus.Exists);
+const isExpired = computed(() => currentDate.value > new Date(proposalData.value?.endTime || 0) && proposalData.value?.status === ProposalStatus.Exists);
 
 
 const showMore = ref(false);
@@ -705,7 +705,7 @@ const canVote = computed(() =>
     proposalData.value?.vote === ProposalVoteType.None
     && proposalData.value?.status === ProposalStatus.Exists
     && !!+proposalData.value?.votingPower
-    && !isRejected.value
+    && !isExpired.value
 )
 
 async function vote() {
@@ -762,7 +762,7 @@ onUnmounted(() => clearInterval(int));
 
 // LABEL
 
-const labelTitleLocal = computed(() => isRejected.value ? proposalStatuses[ProposalStatus.Rejected]: proposalData.value?.statusName);
+const labelTitleLocal = computed(() => isExpired.value ? 'Expired': proposalData.value?.statusName);
 
 const labelTheme = computed(() => [
     'neutral',
@@ -770,7 +770,7 @@ const labelTheme = computed(() => [
     'positive',
     'positive',
     'critical',
-][isRejected.value ? ProposalStatus.Rejected : (proposalData.value?.status || 0)]);
+][isExpired.value ? ProposalStatus.Rejected : (proposalData.value?.status || 0)]);
 
 
 // EXECUTE

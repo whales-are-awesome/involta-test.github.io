@@ -50,6 +50,7 @@ onMounted(async () => {
         buttonText: 'Accept',
         cancelButtonText: '',
         status: 'unknown',
+        closeOnClickOutside: false,
         themeSettings: {
             text: 'text-left'
         }

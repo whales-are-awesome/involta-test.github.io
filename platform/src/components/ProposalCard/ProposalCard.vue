@@ -177,8 +177,12 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 
 // IS REJECTED. USED: LABEL, CAN VOTE
 
-const isRejected = computed(() => (currentDate.value > props.endDate && props.status === ProposalStatus.Exists) || props.status === ProposalStatus.Rejected);
+const isRejected = computed(() => props.status === ProposalStatus.Rejected);
 
+
+// IS EXPIRED. USED: LABEL, CAN VOTE
+
+const isExpired = computed(() => currentDate.value > props.endDate && props.status === ProposalStatus.Exists);
 
 // CAN VOTE
 
@@ -186,13 +190,20 @@ const canVote = computed(() =>
     props.hasVotingPower
     && props.status === ProposalStatus.Exists
     && !isRejected.value
+    && !isExpired.value
     && props.endDate > currentDate.value
 )
 
 
 // LABEL
 
-const labelTitleLocal = computed(() => isRejected.value ? proposalStatuses[ProposalStatus.Rejected]: props.labelTitle);
+const labelTitleLocal = computed(() =>
+    isRejected.value
+        ? proposalStatuses[ProposalStatus.Rejected]
+        : isExpired.value
+            ? 'Expired'
+            : props.labelTitle
+);
 
 const labelTheme = computed(() => [
     'neutral',
@@ -200,5 +211,5 @@ const labelTheme = computed(() => [
     'positive',
     'positive',
     'critical',
-][isRejected.value ? ProposalStatus.Rejected : props.status]);
+][isRejected.value || isExpired.value ? ProposalStatus.Rejected : props.status]);
 </script>
