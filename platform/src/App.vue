@@ -26,7 +26,7 @@ import { Networks } from '@/types/networks';
 
 
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
-import useWatchForCreatedProposals from '@/composables/useWatchForCreatedProposals';-
+import useWatchForCreatedProposals from '@/composables/useWatchForCreatedProposals';
 
 
 // META
