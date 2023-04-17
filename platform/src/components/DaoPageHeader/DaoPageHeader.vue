@@ -13,7 +13,7 @@
                 />
                 <div :class="classes.info">
                     <ActionLink
-                        v-if="owner === address"
+                        v-if="canEdit"
                         :class="classes.infoItem"
                         theme="secondary-dark"
                         @click="openEditDao"
@@ -105,6 +105,7 @@ const route = useRoute();
 
 interface IThemeProps extends Pick<IProps, 'themeSettings'>{
     hasBreadcrumbs: boolean
+    canEdit: boolean
 }
 
 const useClasses = makeClasses<IThemeProps>(() => ({
@@ -112,9 +113,14 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         'line-wave-bg py-4 px-8 -mx-[30px] border-b border-primary-100 sm:py-9 sm:px-[30px]'
     ],
     inner: 'bg-white border border-primary-100 rounded-[10px] px-4 py-3 min-h-[120px] sm:flex sm:flex-col',
-    top: 'flex items-center justify-between sm:order-[1] sm:flex-col sm:items-start sm:mt-[18px]',
+    top: ({ canEdit }) => [
+        'flex items-center justify-between sm:order-[1] sm:flex-col sm:items-start sm:mt-[18px]',
+        {
+            'mb-5': !canEdit
+        }
+    ],
     name: ({ hasBreadcrumbs }) => [
-        'font-bold text-gray-600 mb-2 md:mb-3 sm:text-xs',
+        'font-bold text-gray-600 mb-2 overflow-hidden overflow-ellipsis md:mb-3 sm:text-xs',
         {
             'mt-[13px] sm:mt-[17px]': hasBreadcrumbs,
             '-mt-[3px]': !hasBreadcrumbs
@@ -132,7 +138,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
         themeSettings: props.themeSettings,
-        hasBreadcrumbs: !!props.breadcrumbs?.length
+        hasBreadcrumbs: !!props.breadcrumbs?.length,
+        canEdit: canEdit.value
     });
 });
 
@@ -163,9 +170,14 @@ const links = [
 ]
 
 
-// ADDRESS
+// META: ADDRESS
 
 const address = computed(() => store.state.wallet.address);
+
+
+// CAN EDIT
+
+const canEdit = computed(() => props.owner === address.value);
 
 
 // LINK

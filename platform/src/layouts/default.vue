@@ -1,16 +1,16 @@
 <template>
-    <div class="default">
+    <div class="default md:overflow-hidden">
         <div
             class="flex"
             @click="showMobileSidebar = false"
         >
             <div
                 ref="sidebars"
-                class="flex bg-surface-300 min-h-screen sticky top-[0] min-h-screen overflow-hidden transition-main flex-shrink-0 md:z-[100] md:fixed md:left-0 self-start"
-                @click.stop
+                class="flex bg-surface-300 sticky top-[0] min-h-screen overflow-hidden transition-main flex-shrink-0 md:z-[100] md:fixed md:left-0 self-start"
                 :class="{
                     'md:-translate-x-full': !showMobileSidebar
                 }"
+                @click.stop
             >
                 <TheSidebar
                     ref="sidebar"
@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import TheHeader from '@/components/TheHeader/TheHeader.vue';
 import TheMarquee from '@/components/TheMarquee/TheMarquee.vue';

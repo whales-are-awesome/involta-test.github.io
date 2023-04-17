@@ -62,14 +62,14 @@ function useLayer() {
             appElement.style.position = 'fixed';
             appElement.style.top = coords.top + 'px';
             appElement.style.left = coords.left + 'px';
-            appElement.style.paddingRight = '10px';
+            // appElement.style.paddingRight = '10px';
         } else if (appElement) {
             const scrollTo = Math.abs(+appElement.style.top.slice(0, -2));
 
             appElement.style.removeProperty('position');
             appElement.style.removeProperty('top');
             appElement.style.removeProperty('left');
-            appElement.style.removeProperty('paddingRight');
+            // appElement.style.removeProperty('paddingRight');
 
             if (scrollTo !== 0) {
                 appElement.scrollTop = scrollTo;

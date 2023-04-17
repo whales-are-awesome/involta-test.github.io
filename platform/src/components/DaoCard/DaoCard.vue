@@ -118,7 +118,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     title: 'text-sm font-semibold text-gray-600 mb-4 text-center overflow-ellipsis overflow-hidden',
     info: 'flex justify-center mb-9 sm:mb-6',
     infoItem: 'text-center w-1/2 flex first:justify-end last:justify-start',
-    infoItemTop: 'text-gray-400 text-tiny whitespace-nowrap',
+    infoItemTop: 'text-gray-400 text-xs whitespace-nowrap',
     infoItemBottom: 'text-center text-xxs text-gray-600 font-semibold',
     infoDelimiter: 'bg-gray-100 flex-shrink-0 w-px h-[26px] mx-7 md:mx-2',
     buttonWrapper: 'flex justify-center mt-auto',

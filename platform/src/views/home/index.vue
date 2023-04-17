@@ -158,7 +158,7 @@
                             :network="item.network"
                             :address="item.address"
                             :followers-amount="item.followersAmount"
-                            proposals="232"
+                            proposals="TBA"
                         />
                     </div>
                 </div>
@@ -188,7 +188,7 @@
                             :avatar="require('@/assets/images/common/placeholder.jpg')"
                             name="DAO Name"
                             followers-amount="232"
-                            proposals="232"
+                            proposals="TBA"
                             category="category"
                         />
                     </div>

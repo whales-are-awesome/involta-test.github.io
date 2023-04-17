@@ -201,7 +201,7 @@
                                 :is-followed="item.isFollowed"
                                 :address="item.address"
                                 :followers-amount="item.followersAmount"
-                                proposals="232"
+                                proposals="TBA"
                             />
                         </div>
                     </div>
@@ -237,7 +237,7 @@
                                 :to="{ name: 'app' }"
                                 name="DAO Name"
                                 followers-amount="232"
-                                proposals="232"
+                                proposals="TBA"
                                 category="category"
                             />
                         </div>

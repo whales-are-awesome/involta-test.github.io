@@ -145,13 +145,20 @@ onUnmounted(() => {
 
 // CLASSES
 
-interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{
+    hasContent: boolean
+}
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
         'block bg-white shadow-[0_4px_20px_rgba(108,108,125,.08)] border border-gray-100 rounded-[10px] p-6 sm:pb-0 overflow-hidden'
     ],
-    top: 'flex items-center mb-8 sm:flex-wrap',
+    top: ({ hasContent }) => [
+        'flex items-center sm:flex-wrap',
+        {
+            'mb-8': hasContent
+        }
+    ],
     label: 'mr-4 sm:mr-0 sm:mb-8',
     avatar: 'mr-5 flex-shrink-0 sm:w-full sm:mr-0',
     breadcrumbs: 'sm:w-full sm:mt-[3px] sm:ml-[43px]',
@@ -170,7 +177,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
-        themeSettings: props.themeSettings
+        themeSettings: props.themeSettings,
+        hasContent: !!props.title || !!props.text || canVote.value
     });
 });
 

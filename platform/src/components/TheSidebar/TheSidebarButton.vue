@@ -84,9 +84,9 @@ const useClasses = makeClasses<IThemeProps>(() => ({
         }
     ],
     inner: ({ isHovered, isActive, hasImage, isDao }) => [
-        'w-[36px] h-[36px] overflow-hidden transition-fast relative flex items-center justify-center z-1 cursor-pointer sm:w-[28px] sm:h-[28px]',
+        'w-[36px] h-[36px] overflow-hidden transition-fast relative flex items-center justify-center z-1 cursor-pointer md:w-[28px] md:h-[28px]',
         {
-            'after:block after:inset-0 after:-z-1 after:bg-gray-200 after:rounded-[10px] after:absolute after:transition-fast hover:after:scale-[1] bg-white sm:rounded-[5px]': !hasImage,
+            'after:block after:inset-0 after:-z-1 after:bg-gray-200 after:rounded-[10px] after:absolute after:transition-fast hover:after:scale-[1] bg-white md:rounded-[5px]': !hasImage,
             'rounded-[100%]': (hasImage || isDao) && !isActive,
             'rounded-[10px]': !((hasImage || isDao) && !isActive),
             'after:!delay-200': !isHovered,

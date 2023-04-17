@@ -155,7 +155,7 @@
                                                 :votes="proposalData?.forVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="cropPercents(proposalData?.forVp / proposalData?.totalVp * 100) || 0"
+                                                :progress="cropPercents((proposalData?.forVp / proposalData?.totalVp * 100) || 0)"
                                             />
                                             <ProposalVote
                                                 v-model="currentVote"
@@ -164,7 +164,7 @@
                                                 :votes="proposalData?.againstVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="cropPercents(proposalData?.againstVp / proposalData?.totalVp * 100) || 0"
+                                                :progress="cropPercents((proposalData?.againstVp / proposalData?.totalVp * 100) || 0)"
                                             />
                                             <ProposalVote
                                                 v-model="currentVote"
@@ -173,7 +173,7 @@
                                                 :votes="proposalData?.abstainVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="cropPercents(proposalData?.abstainVp / proposalData?.totalVp * 100) || 0"
+                                                :progress="cropPercents((proposalData?.abstainVp / proposalData?.totalVp * 100) || 0)"
                                             />
                                         </div>
                                         <div class="flex justify-between">
@@ -517,7 +517,7 @@
                                                 :votes="proposalData?.forVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="cropPercents(proposalData?.forVp / proposalData?.totalVp * 100) || 0"
+                                                :progress="cropPercents((proposalData?.forVp / proposalData?.totalVp * 100) || 0)"
                                             />
                                             <ProposalVote
                                                 v-model="currentVote"
@@ -526,7 +526,7 @@
                                                 :votes="proposalData?.againstVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="cropPercents(proposalData?.againstVp / proposalData?.totalVp * 100) || 0"
+                                                :progress="cropPercents((proposalData?.againstVp / proposalData?.totalVp * 100) || 0)"
                                             />
                                             <ProposalVote
                                                 v-model="currentVote"
@@ -535,7 +535,7 @@
                                                 :votes="proposalData?.abstainVp"
                                                 :vote="proposalData?.vote"
                                                 :can-vote="canVote"
-                                                :progress="cropPercents(proposalData?.abstainVp / proposalData?.totalVp * 100) || 0"
+                                                :progress="cropPercents((proposalData?.abstainVp / proposalData?.totalVp * 100) || 0)"
                                             />
                                         </div>
                                         <div class="flex justify-between items-center">
@@ -756,9 +756,9 @@ watch(() => proposal.value.data, () => {
 
 const currentDate = ref(new Date());
 
-const int = setInterval(() => currentDate.value = new Date());
+const currentDateInt = setInterval(() => currentDate.value = new Date(), 1000);
 
-onUnmounted(() => clearInterval(int));
+onUnmounted(() => clearInterval(currentDateInt));
 
 
 // LABEL

@@ -253,7 +253,7 @@
                         :avatar="require('@/assets/images/common/placeholder.jpg')"
                         name="Dapp Name"
                         followers="232"
-                        proposals="232"
+                        proposals="TBA"
                     />
                 </div>
             </div>

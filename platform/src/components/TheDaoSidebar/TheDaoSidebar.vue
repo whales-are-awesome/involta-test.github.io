@@ -31,7 +31,9 @@
                                 }"
                                 @click="follow"
                             >
-                                {{ currentDao.data?.isFollowed ? 'Unfollow DAO' : 'Follow DAO' }}
+                                <span class="whitespace-nowrap">
+                                    {{ currentDao.data?.isFollowed ? 'Unfollow DAO' : 'Follow DAO' }}
+                                </span>
                             </BaseButton>
                         </div>
                     </div>
