@@ -1,24 +1,25 @@
 <template>
     <BaseLayer
+        :class="classes.root"
         :id="id"
         :theme-settings="{
-            container: 'p-[54px] w-[534px] flex flex-col base-animation-layer rounded-[4px] text-center'
+            container: classes.rootContainer
         }"
     >
-        <p class="title-h4 mb-11">
+        <p :class="classes.title">
             Choose an action
         </p>
-        <div class="flex justify-center space-x-4">
+        <div :class="classes.buttons">
             <BaseButton
-                class="w-[200px]"
+                :class="classes.buttonItem"
                 theme="primary"
                 @click="join"
             >
                 Join Dao
             </BaseButton>
-            <div class="w-px flex-shrink-0 mx-4 bg-surface-500"></div>
+            <div :class="classes.delimiter"></div>
             <BaseButton
-                class="w-[200px]"
+                :class="classes.buttonItem"
                 theme="primary"
                 @click="openCreateLayer"
             >
@@ -56,7 +57,12 @@ const { close, open } = useLayer();
 // CLASSES
 
 const useClasses = makeClasses(() => ({
-
+    root: 'p-8 sm:p-6',
+    rootContainer: 'p-[54px] w-[534px] flex flex-col base-animation-layer rounded-[4px] text-center md:p-6',
+    title: 'title-h4 mb-11',
+    buttons: 'flex justify-center space-x-4 sm:flex-col sm:space-x-0 sm:space-y-4 sm:items-center',
+    buttonItem: 'w-[200px]',
+    delimiter: 'w-px flex-shrink-0 mx-4 bg-surface-500 sm:hidden'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

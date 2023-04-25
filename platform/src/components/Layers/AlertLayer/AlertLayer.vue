@@ -1,31 +1,29 @@
 <template>
     <BaseLayer
-        class="p-8"
-        :class="id"
+        :class="classes.root"
         :id="id"
         :close-on-click-outside="closeOnClickOutside"
         :theme-settings="{
-            container: 'p-[54px] w-[534px] flex flex-col base-animation-layer rounded-[4px] text-center'
+            container: classes.rootContainer
         }"
     >
-        <div v-if="pending" class="-preloader"></div>
+        <div v-if="pending" :class="classes.preloader"></div>
         <div
             v-if="iconName"
-            class="mb-11 flex justify-center"
+            :class="classes.icon"
         >
             <BaseIcon
                 :name="iconName"
                 width="104"
             />
         </div>
-        <p class="title-h4 mb-3" v-html="title"></p>
+        <p :class="classes.title" v-html="title"></p>
         <p
-            class="text-400 mb-11"
-            :class="themeSettings?.text"
+            :class="classes.text"
             v-html="text"
         >
         </p>
-        <div class="flex justify-center space-x-4">
+        <div :class="classes.buttons">
             <BaseButton
                 v-if="cancelButtonText"
                 theme="surface"
@@ -51,6 +49,7 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import { Statuses } from './types';
 import ThemeSettings from '@/types/themeSettings';
+import makeClasses from '@/helpers/makeClasses';
 
 
 // META
@@ -64,10 +63,10 @@ export interface IProps {
     buttonText: string
     status: Statuses
     callback?: () => void
-    themeSettings?: ThemeSettings<'text'>
+    themeSettings?: ThemeSettings<'root' | 'text'>
 }
 
-const props =withDefaults(defineProps<IProps>(), {
+const props = withDefaults(defineProps<IProps>(), {
     cancelButtonText: 'Cancel',
     closeOnClickOutside: true
 });
@@ -76,6 +75,30 @@ const { close } = useLayer();
 
 
 // CLASSES
+
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{
+
+}
+
+const useClasses = makeClasses<IThemeProps>(() => ({
+    root: ({ themeSettings }) => [themeSettings?.root,
+        'p-8 sm:p-6'
+    ],
+    rootContainer: 'p-[54px] w-[534px] flex flex-col base-animation-layer rounded-[4px] text-center md:p-6',
+    preloader: '-preloader',
+    icon: 'mb-11 flex justify-center',
+    title: 'title-h4 mb-3',
+    text: ({ themeSettings }) => [themeSettings?.text,
+        'text-400 mb-11'
+    ],
+    buttons: 'flex justify-center space-x-4'
+}));
+
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+        themeSettings: props.themeSettings
+    });
+});
 
 
 // ICON NAME

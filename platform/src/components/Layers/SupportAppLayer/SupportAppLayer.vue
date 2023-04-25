@@ -1,7 +1,7 @@
 <template>
     <BaseLayer
         :theme-settings="{
-            container: 'max-w-[502px] p-10 rounded-[10px]'
+            container: classes.rootContainer
         }"
         :id="id"
     >
@@ -42,7 +42,7 @@
             </TextField>
         </div>
         <BaseButton
-            class="w-full"
+            :class="classes.button"
             theme="primary"
             size="lg"
         >
@@ -78,6 +78,9 @@ const { close } = useLayer();
 // CLASSES
 
 const useClasses = makeClasses(() => ({
+    rootContainer: () => [
+        'max-w-[502px] p-10 rounded-[10px]'
+    ],
     top: () => [
         'flex items-center justify-between mb-11 sm:items-start'
     ],
@@ -93,7 +96,8 @@ const useClasses = makeClasses(() => ({
     fieldWrapper: 'mb-11',
     fieldInner: 'w-[164px] flex items-center p-1 border border-surface-300 rounded-[4px]',
     fieldInnerLogo: 'w-[24px] mr-2',
-    fieldInnerText: 'text-xxs tracking-[0.08px] uppercase font-bold'
+    fieldInnerText: 'text-xxs tracking-[0.08px] uppercase font-bold',
+    button: 'w-full'
 }));
 
 

@@ -52,17 +52,17 @@ interface IThemeProps extends Pick<IProps, 'position'> {
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: () => [
-        'fixed inset-0 min-h-screen z-[9998] overflow-x-hidden overflow-y-auto'
+        'fixed inset-0 min-h-screen z-[9998] overflow-x-hidden overflow-y-auto flex'
     ],
-    wrapper: ({ position }) => [
-        'min-h-screen',
+    wrapper: () => [
+        'w-full flex',
+    ],
+    container: ({ themeSettings, position }) => [
+        [themeSettings?.container, 'bg-white relative my-auto'],
         {
-            'flex items-center justify-center': position === 'center',
-            'flex justify-end': position === 'right'
+            'mx-auto': position === 'center',
+            'ml-auto': position === 'right'
         }
-    ],
-    container: ({ themeSettings }) => [
-        [themeSettings?.container, 'bg-white relative']
     ]
 
 }));

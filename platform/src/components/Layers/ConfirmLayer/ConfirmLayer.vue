@@ -1,7 +1,7 @@
 <template>
     <BaseLayer
         :theme-settings="{
-            container: 'max-w-[480px] p-6 rounded-[8px]'
+            container: classes.rootContainer
         }"
         :id="id"
     >
@@ -11,7 +11,7 @@
                 width="36"
             />
             <div :class="classes.title" v-html="title"></div>
-            <BaseCross/>
+            <BaseCross />
         </div>
         <div :class="classes.message" v-html="message"></div>
         <div :class="classes.buttons">
@@ -68,6 +68,7 @@ const { close } = useLayer();
 // CLASSES
 
 const useClasses = makeClasses(() => ({
+    rootContainer: 'max-w-[480px] p-6 rounded-[8px]',
     top: 'flex items-center mb-[28px]',
     icon: 'flex-shrink-0',
     title: () => [

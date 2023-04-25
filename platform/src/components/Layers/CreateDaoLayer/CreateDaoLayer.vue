@@ -3,12 +3,7 @@
         :id="id"
         position="right"
         :theme-settings="{
-            container: [
-                'create-dao-layer w-[455px] p-10 flex flex-col sm:w-full',
-                {
-                    '-preloader -preloader_cover': isSending
-                }
-            ]
+            container: classes.rootContainer
         }"
     >
         <div :class="classes.top">
@@ -51,11 +46,11 @@
                 :error="formErrors.link"
             />
             <BaseAccordion
-                class="max-w-[400px]"
+                :class="classes.accordionItem"
                 title="Governance"
                 :is-visible="true"
             >
-                <div class="space-y-2">
+                <div :class="classes.accordionInner">
                     <TextField
                         v-model="formData.governanceTokenSupply"
                         title="Token supply"
@@ -81,11 +76,11 @@
 <!--                class="max-w-[400px]"-->
 <!--            />-->
             <BaseAccordion
-                class="max-w-[400px]"
+                :class="classes.accordionItem"
                 title="Advanced DAO information"
                 :is-visible="true"
             >
-                <div class="space-y-2">
+                <div :class="classes.accordionInner">
                     <TextField
                         v-model="formData.proposalExpirationTime"
                         title="Proposal expiration time"
@@ -153,23 +148,6 @@ const router = useRouter();
 const route = useRoute();
 
 const { close, alert, closeLast, open } = useLayer();
-
-
-// CLASSES
-
-const useClasses = makeClasses(() => ({
-    top: 'flex items-center justify-between mb-11',
-    title: 'title-h5 text-600 mb-2',
-    topText: 'text-sm font-medium text-400',
-    cross: 'text-[#B6B6BE] cursor-pointer',
-    fields: 'pb-6 space-y-6',
-    button: 'font-semibold w-full mt-auto flex-shrink-0',
-}));
-
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-    });
-});
 
 
 // CREATE DAO
@@ -266,6 +244,32 @@ async function createDAO() {
 }
 
 
+// CLASSES
+
+const useClasses = makeClasses(() => ({
+    rootContainer: ({ isSending }) => [
+        'right-layer min-h-full w-[455px] p-10 flex flex-col sm:w-full',
+        {
+            '-preloader -preloader_cover': isSending
+        }
+    ],
+    top: 'flex items-center justify-between mb-11',
+    title: 'title-h5 text-600 mb-2',
+    topText: 'text-sm font-medium text-400',
+    cross: 'text-[#B6B6BE] cursor-pointer',
+    fields: 'pb-6 space-y-6',
+    button: 'font-semibold w-full mt-auto flex-shrink-0',
+    accordionItem: 'max-w-[400px]',
+    accordionInner: 'space-y-2'
+}));
+
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+        isSending: isSending.value
+    });
+});
+
+
 // SUBDAO
 
 const isSubDao = computed(() => !!props.parentAddress);
@@ -274,10 +278,10 @@ const name = computed(() => isSubDao.value ? 'SubDAO' : 'DAO');
 </script>
 
 <style>
-.fade-enter-active .create-dao-layer, .fade-leave-active .create-dao-layer {
+.fade-enter-active .right-layer, .fade-leave-active .right-layer {
     transition: transform .5s;
 }
-.fade-enter-from .create-dao-layer, .fade-leave-to .create-dao-layer  {
+.fade-enter-from .right-layer, .fade-leave-to .right-layer  {
     transform: translateX(100%);
 }
 </style>

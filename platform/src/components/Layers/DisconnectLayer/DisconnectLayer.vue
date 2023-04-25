@@ -1,18 +1,18 @@
 <template>
     <BaseLayer
-        class="p-8"
+        :class="classes.root"
         :id="id"
         :theme-settings="{
-            container: 'pt-8 pb-6 px-6 max-w-[525px] w-full base-animation-layer rounded-[4px] text-center'
+            container: classes.rootContainer
         }"
     >
-        <p class="title-h5 mb-3 text-500">
+        <p :class="classes.title">
             Do you want to disconnect wallet?
         </p>
-        <p class="title-h6 mb-16 text-500 overflow-ellipsis">
+        <p :class="classes.address">
             {{ cutAddress(address, 5, 5) }}
         </p>
-        <div class="flex justify-center space-x-4">
+        <div :class="classes.buttonItems">
             <BaseButton
                 theme="surface"
                 @click="close(id)"
@@ -35,6 +35,7 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import cutAddress from '@/helpers/cutAddress';
 import { store } from '@/store';
+import makeClasses from '@/helpers/makeClasses';
 
 
 // META
@@ -48,6 +49,28 @@ const props =withDefaults(defineProps<IProps>(), {
 });
 
 const { close } = useLayer();
+
+
+// CLASSES
+
+interface IThemeProps{
+
+}
+
+const useClasses = makeClasses<IThemeProps>(() => ({
+    root: () => [
+        'p-8 sm:p-6'
+    ],
+    rootContainer: 'pt-8 pb-6 px-6 max-w-[525px] w-full base-animation-layer rounded-[4px] text-center',
+    title: 'title-h5 mb-3 text-500',
+    address: 'title-h6 mb-16 text-500 overflow-ellipsis',
+    buttonItems: 'flex justify-center space-x-4'
+}));
+
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+    });
+});
 
 
 // ADDRESS

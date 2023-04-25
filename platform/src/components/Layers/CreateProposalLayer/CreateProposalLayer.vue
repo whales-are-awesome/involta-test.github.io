@@ -2,12 +2,7 @@
     <BaseLayer
         position="right"
         :theme-settings="{
-            container: [
-                'p-10 w-[455px] flex flex-col create-dao-layer sm:w-full sm:px-6',
-                {
-                    '-preloader -preloader_cover': isSending
-                }
-            ]
+            container: classes.rootContainer
         }"
         :id="id"
     >
@@ -177,7 +172,7 @@
                         @click="deleteTransaction(transaction.id)"
                     />
                 </template>
-                <div class="space-y-3">
+                <div :class="classes.accordionInner">
                     <TextField
                         v-model="transaction.to"
                         title="Contract address"
@@ -207,11 +202,11 @@
                 </div>
             </BaseAccordion>
             <BaseAdd
-                class="items-center"
+                :class="classes.addTransaction"
                 @click="addTransaction"
             >
                 <BlockInfo
-                    class="ml-4"
+                    :class="classes.addTransactionInner"
                     title="Add Custom Transaction"
                     tooltip="Use Custom transaction for personal data?"
                     description="Use Custom transaction for personal data?"
@@ -283,33 +278,6 @@ const route = useRoute();
 const { close, alert } = useLayer();
 
 const isMobile = useIsMobile();
-
-
-// CLASSES
-
-const useClasses = makeClasses(() => ({
-    top: () => [
-        'flex items-center justify-between mb-11 sm:items-start'
-    ],
-    title: () => [
-        'title-h5 text-600 mb-2'
-    ],
-    topText: () => [
-        'text-sm font-medium text-400 sm:text-xxs'
-    ],
-    cross: () => [
-        'text-[#B6B6BE] cursor-pointer'
-    ],
-    fields: 'mb-11 space-y-6',
-    advanced: 'pb-6 space-y-3',
-    button: 'font-semibold w-full mt-auto flex-shrink-0',
-}));
-
-const classes = computed<ReturnType<typeof useClasses>>(() => {
-    return useClasses({
-    });
-});
-
 
 
 // CREATE PROPOSAL
@@ -474,13 +442,49 @@ function deleteTransaction(id: string) {
 
     formData.value.transactions.splice(index, 1);
 }
+
+
+// CLASSES
+
+const useClasses = makeClasses(() => ({
+    rootContainer: ({ isSending }) => [
+        'p-10 w-[455px] flex flex-col right-layer min-h-full sm:w-full sm:px-6',
+        {
+            '-preloader -preloader_cover': isSending
+        }
+    ],
+    top: () => [
+        'flex items-center justify-between mb-11 sm:items-start'
+    ],
+    title: () => [
+        'title-h5 text-600 mb-2'
+    ],
+    topText: () => [
+        'text-sm font-medium text-400 sm:text-xxs'
+    ],
+    cross: () => [
+        'text-[#B6B6BE] cursor-pointer'
+    ],
+    fields: 'mb-11 space-y-6',
+    advanced: 'pb-6 space-y-3',
+    button: 'font-semibold w-full mt-auto flex-shrink-0',
+    accordionInner: 'space-y-3',
+    addTransaction: 'items-center',
+    addTransactionInner: 'ml-4'
+}));
+
+const classes = computed<ReturnType<typeof useClasses>>(() => {
+    return useClasses({
+        isSending: isSending.value
+    });
+});
 </script>
 
 <style>
-.fade-enter-active .create-dao-layer, .fade-leave-active .create-dao-layer {
+.fade-enter-active .right-layer, .fade-leave-active .right-layer {
     transition: transform .5s;
 }
-.fade-enter-from .create-dao-layer, .fade-leave-to .create-dao-layer  {
+.fade-enter-from .right-layer, .fade-leave-to .right-layer  {
     transform: translateX(100%);
 }
 </style>

@@ -323,7 +323,7 @@ async function addMoreDao() {
     if (daoItems.value.data?.items.length && daoItems.value.data?.total) {
         const prev = daoItems.value.data.items.length;
 
-        if (daoItems.value.data.items.length <= daoItems.value.data.total) {
+        if (daoItems.value.data.items.length < daoItems.value.data.total) {
             formDataDaos.value.offset += formDataDaos.value.limit;
         }
 
