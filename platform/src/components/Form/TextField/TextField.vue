@@ -53,7 +53,6 @@
                         ref="input"
                         v-model="value"
                         :class="classes.field"
-                        v-maska:[maskTokens]
                         :data-maska="mask"
                         type="text"
                         :maxlength="maxlength"
@@ -65,7 +64,6 @@
                         ref="input"
                         v-model="value"
                         :class="classes.field"
-                        v-maska:[maskTokens]
                         :data-maska="mask"
                         type="text"
                         :maxlength="maxlength"
@@ -90,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import BaseLabel from '@/components/BaseLabel/BaseLabel.vue';
 import BlockInfo, { IProps as IBlockInfoProps } from '@/components/BlockInfo/BlockInfo.vue';
@@ -107,7 +105,7 @@ interface IProps {
     placeholder?: string
     insetLabel?: string
     insetLeftLabel?: string
-    mask?: 'N' | 'L'
+    mask?: 'N' | 'L' | 'F'
     isBold?: boolean
     isWrapped?: boolean
     icon?: {
@@ -360,18 +358,27 @@ function onClick(): void {
 }
 
 
-// MASKA
+// MASK
 
-const maskTokens = {
-    tokens: {
-        N: {
-            pattern: /[\d]/,
-            multiple: true
-        },
-        L: {
-            pattern: /[a-zA-Zа-яА-Я]/,
-            multiple: true
-        }
+const masks = {
+    N: {
+        pattern: /^\d+$/,
+    },
+    F: {
+        pattern: /^(\d)+(\.)?(\d+)?$/,
+    },
+    L: {
+        pattern: /^[a-zA-Zа-яА-Я]+$/,
     }
 };
+
+watch(value, (val) => {
+    if (props.mask && props.mask in masks) {
+        const pattern = masks[props.mask].pattern;
+
+        if (!pattern.test(val)) {
+            value.value = value.value.slice(0, -1);
+        }
+    }
+});
 </script>

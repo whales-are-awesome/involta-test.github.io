@@ -108,7 +108,7 @@ const [daoItems, fetchDaoItems] = useDaoItems(daoItemsForm);
 emitter.on('daoFollowed', fetchDaoItems);
 emitter.on('daoEdited', fetchDaoItems);
 
-watch(daoItems.value, async() => {
+watch(() => daoItems.value, async() => {
     const network = await API.getNetwork();
 
     if (daoItems.value.data?.items.length) {

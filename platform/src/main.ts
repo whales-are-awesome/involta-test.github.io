@@ -2,7 +2,6 @@ import { createApp, h, provide } from 'vue'
 import VueCookies from 'vue-cookies'
 import { DefaultApolloClient } from '@vue/apollo-composable';
 import Notifications from '@kyvg/vue3-notification'
-import { vMaska } from 'maska'
 import { svgSpritePlugin } from 'vue-svg-sprite'
 import App from './App.vue'
 import router from './router'
@@ -21,7 +20,6 @@ const app = createApp({
 })
 .directive('click-outside', clickOutside)
 .directive('scroll-at', scrollAt)
-.directive('maska', vMaska)
 .use(store, key)
 .use(svgSpritePlugin, {
     url: require('./assets/sprite/gen/sprite.svg'),

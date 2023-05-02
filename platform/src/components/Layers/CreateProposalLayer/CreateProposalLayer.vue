@@ -185,7 +185,7 @@
                         v-model="transaction.value"
                         title="Value"
                         placeholder="0"
-                        mask="N"
+                        mask="F"
                         :required="true"
                         :is-wrapped="true"
                         :error="formErrors.transactions && formErrors.transactions[index].value"
@@ -359,7 +359,7 @@ async function createProposal() {
         '\n',
         'Wallet address: ' + store.state.wallet.address,
         'Nonce: ' + uuidv4()
-    ].join('\n')
+    ].join('\n');
 
     const [signInfo, err] = await sign(text);
 
@@ -381,7 +381,7 @@ async function createProposal() {
                 .map((item: any) => ({
                     ...item,
                     data: ethers.utils.toUtf8Bytes(item.data || 0),
-                    value: +item.value
+                    value: ethers.utils.parseUnits(item.value, 'ether')
                 }))
                 .map((item: any) => omit(item, ['id']))
         },

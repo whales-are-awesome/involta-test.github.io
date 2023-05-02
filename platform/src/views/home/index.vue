@@ -236,7 +236,7 @@ const { open } = useLayer();
 useTitle('OuterCircle');
 
 
-// TAG LIST _ COMMON
+// META:TAG LIST
 
 const tagListOptions = [
     // { id: MainSections.Proposals, title: 'Proposals' },

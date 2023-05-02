@@ -17,14 +17,6 @@ const routes: Array<RouteRecordRaw> = [
         component: Home
     },
     {
-        path: '/ui',
-        name: 'ui',
-        meta: {
-            middleware: [walletsInitMiddleware]
-        },
-        component: () => import(/* webpackChunkName: "ui" */ '../views/ui.vue'),
-    },
-    {
         path: '/:network/dao/:address',
         name: 'network-dao-address',
         meta: {
@@ -55,14 +47,6 @@ const routes: Array<RouteRecordRaw> = [
             middleware: [walletsInitMiddleware, authMiddleware]
         },
         component: () => import(/* webpackChunkName: "auth" */ '../views/auth/index.vue'),
-    },
-    {
-        path: '/test',
-        name: 'test',
-        meta: {
-            middleware: [walletsInitMiddleware]
-        },
-        component: () => import(/* webpackChunkName: "test" */ '../views/test/index.vue'),
     },
     {
         path: "/:catchAll(.*)",
