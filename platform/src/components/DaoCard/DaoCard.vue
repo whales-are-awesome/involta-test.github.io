@@ -3,62 +3,76 @@
         :class="classes.root"
         @click="goToPage"
     >
-        <div :class="classes.avatarWrapper">
-            <BaseAvatar
-                :class="classes.avatar"
-                :src="avatar"
-                :alt="name"
-                size="xl"
-                rounded="xl"
-                :theme-settings="{
-                    image: 'sm:rounded-[12px]'
-                }"
-            />
-        </div>
-        <p :class="classes.title">
-            {{ name }}
-        </p>
-        <div :class="classes.info">
-            <div :class="classes.infoItem">
-                <div>
-                    <div :class="classes.infoItemTop">
-                        Followers
-                    </div>
-                    <div :class="classes.infoItemBottom">
-                        {{ addSpacesToNumber(followersAmountLocal) }}
-                    </div>
-                </div>
-            </div>
-            <div :class="classes.infoDelimiter"></div>
-            <div :class="classes.infoItem">
-                <div>
-                    <div :class="classes.infoItemTop">
-                        Proposals
-                    </div>
-                    <div :class="classes.infoItemBottom">
-                        {{ proposals }}
+        <div :class="classes.inner">
+            <div :class="classes.top">
+                <div :class="classes.avatarWrapper">
+                    <BaseAvatar
+                        :class="classes.avatar"
+                        :src="avatar"
+                        :alt="name"
+                        size="xl"
+                        rounded="xl"
+                        :theme-settings="{
+                            image: 'sm:rounded-[12px]'
+                        }"
+                    />
+                    <div
+                        v-if="showNetwork"
+                        :class="classes.networkIconWrapper"
+                    >
+                        <BaseIcon
+                            :name="`network-${ network }`"
+                            width="20"
+                            height="20"
+                        />
                     </div>
                 </div>
             </div>
-        </div>
-        <div
-            :class="classes.buttonWrapper"
-            @click.stop
-        >
-            <CategoryLabel v-if="category">
-                {{ category }}
-            </CategoryLabel>
-            <BaseButton
-                v-else
-                :class="classes.button"
-                view="outlined"
-                size="sm"
-                rounded="lg"
-                :loading="isFollowingPending"
-                @click="follow"
+            <p :class="classes.title">
+                {{ name }}
+            </p>
+            <div :class="classes.info">
+                <div :class="classes.infoItem">
+                    <div>
+                        <div :class="classes.infoItemTop">
+                            Followers
+                        </div>
+                        <div :class="classes.infoItemBottom">
+                            {{ addSpacesToNumber(followersAmountLocal) }}
+                        </div>
+                    </div>
+                </div>
+                <div :class="classes.infoDelimiter"></div>
+                <div :class="classes.infoItem">
+                    <div>
+                        <div :class="classes.infoItemTop">
+                            Proposals
+                        </div>
+                        <div :class="classes.infoItemBottom">
+                            {{ proposals }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                :class="classes.buttonWrapper"
+                @click.stop
             >
-                {{ isFollowedLocal ? 'Unfollow' : 'Follow' }}
-            </BaseButton>
+                <CategoryLabel v-if="category">
+                    {{ category }}
+                </CategoryLabel>
+                <BaseButton
+                    v-else
+                    :class="classes.button"
+                    view="outlined"
+                    size="sm"
+                    rounded="lg"
+                    :loading="isFollowingPending"
+                    @click="follow"
+                >
+                    {{ isFollowedLocal ? 'Unfollow' : 'Follow' }}
+                </BaseButton>
+            </div>
         </div>
     </div>
 </template>
@@ -69,6 +83,7 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
+import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import CategoryLabel from '@/components/CategoryLabel/CategoryLabel.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
@@ -90,6 +105,7 @@ interface IProps {
     category?: string
     followersAmount: number
     isFollowed?: boolean
+    showNetwork?: boolean
     proposals: string
     themeSettings?: ThemeSettings<'root'>
 }
@@ -109,12 +125,15 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings, isLink }) => [themeSettings?.root,
-        'flex flex-col border border-gray-100 bg-white rounded-[12px] px-8 py-6 md:py-6 md:px-5 md:px-2.5 sm:px-2',
+        'flex border border-gray-100 bg-white rounded-[12px] px-8 py-6 md:py-6 md:px-5 md:px-2.5 sm:px-2',
         {
             'cursor-pointer': isLink
         }
     ],
-    avatarWrapper: 'flex justify-center mb-4',
+    inner: 'w-full flex flex-col',
+    top: 'flex justify-center relative mb-4',
+    networkIconWrapper: 'flex items-start justify-end absolute right-0 top-0 bg-white w-[25px] h-[25px] z-[5] rounded-bl-[12px]',
+    avatarWrapper: 'relative',
     title: 'text-sm font-semibold text-gray-600 mb-4 text-center overflow-ellipsis overflow-hidden',
     info: 'flex justify-center mb-9 sm:mb-6',
     infoItem: 'text-center w-1/2 flex first:justify-end last:justify-start',

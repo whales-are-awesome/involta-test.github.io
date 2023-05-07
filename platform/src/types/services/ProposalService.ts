@@ -1,6 +1,6 @@
 import { IPaginationParams } from '@/types/api'
 import { IProposalAPI, IProposalChain, ProposalPipeline, proposalStatuses, ProposalVoteType } from '@/types/entries/proposal'
-import { networksType } from '@/types/networks'
+import { NetworksType } from '@/types/networks'
 
 interface IProposal extends IProposalAPI, IProposalChain {
     createdByName?: string
@@ -33,7 +33,7 @@ interface INormalizedProposalItemAsTable extends IProposalItem {
 }
 
 interface IProposalPath {
-    network: networksType
+    network: NetworksType
     address: string
     id: number | string
 }
@@ -44,7 +44,7 @@ interface IProposalParams {
 
 interface ICreateProposalChainParams {
     contractAddress: string
-    network: networksType,
+    network: NetworksType,
     actions: Array<{
         actionType: number
         to: string

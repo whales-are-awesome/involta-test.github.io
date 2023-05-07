@@ -1,5 +1,5 @@
 import { Canceler, AxiosRequestConfig } from '@/plugins/axios';
-import { networksType } from '@/types/networks';
+import { NetworksType } from '@/types/networks';
 
 // returns data or error
 type FetchResult<T> = Promise<[T | null, Error|null, Canceler]>;
@@ -24,7 +24,7 @@ interface IResponsePagination<T> {
 
 
 interface sendDataChainProps {
-    network?: networksType
+    network?: NetworksType
     contractAddress?: string
     contractABI?: any
     contractName?: ConctactNames

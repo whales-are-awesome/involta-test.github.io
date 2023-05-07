@@ -5,7 +5,7 @@ import DaoService from '@/services/DaoService';
 import { INormalizedDaoAsDefault } from '@/types/services/DaoService';
 import { store } from '@/store';
 import { computed, watch } from 'vue';
-import { networksType } from '@/types/networks';
+import { NetworksType } from '@/types/networks';
 
 interface IData {
     address?: string
@@ -50,7 +50,7 @@ function useDao(_data: Data, _options?: IOptions) {
 
         const [data, error, cancel] = await DaoService.fetchDaoAsDefault({
             address: dataResult.value.address,
-            network: route.params.network as networksType
+            network: route.params.network as NetworksType
         });
 
         if (error) {

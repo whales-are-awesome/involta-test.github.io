@@ -361,7 +361,7 @@ import followDao from '@/helpers/followDao';
 import DaoService from '@/services/DaoService';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { IFollower } from '@/types/services/FollowerService';
-import { networksType } from '@/types/networks';
+import { NetworksType } from '@/types/networks';
 import FollowerService from '@/services/FollowerService';
 import { notify } from '@kyvg/vue3-notification';
 import copy from '@/helpers/copy';
@@ -540,7 +540,7 @@ const createButton = computed(() => {
     return {
         [Sections.Proposals]: {
             text: 'Create Proposal',
-            onClick: () => open('CreateProposalLayer', { parentDaoAddress: route.params.address })
+            onClick: () => open('CreateProposalLayer', { parentDaoAddress: route.params.address, network: route.params.network })
         },
         [Sections.Daos]: {
             text: 'Create SubDAO',
@@ -671,7 +671,7 @@ async function fetchFollowers() {
 
     const [data, error, cancel] = await FollowerService.fetchFollowers(
         {
-            network: route.params.network as networksType,
+            network: route.params.network as NetworksType,
             address: route.params.address as string
         },
         {

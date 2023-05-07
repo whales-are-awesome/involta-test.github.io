@@ -127,9 +127,12 @@ import DropField from '@/components/Form/DropField/DropField.vue';
 import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import BaseLayer from '@/components/Layers/BaseLayer/BaseLayer.vue';
 import makeClasses from '@/helpers/makeClasses';
+import changeNetworkRequest from '@/helpers/changeNetworkRequest';
 import useForm from '@/composables/useForm';
 import DaoService from '@/services/DaoService';
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
+
+import { NetworksType } from '@/types/networks';
 
 
 // META
@@ -137,7 +140,7 @@ import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 export interface IProps {
     id: string
     parentAddress?: string
-    network?: string
+    network?: NetworksType
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -205,14 +208,25 @@ async function createDAO() {
 
     isSending.value = true;
 
+    const currentNetwork = await API.getNetwork();
+
+    if (props.network && currentNetwork !== props.network) {
+        const isChanged = await changeNetworkRequest(props.network);
+
+        if (!isChanged) {
+            isSending.value = false;
+
+            return;
+        }
+    }
+
     const [response, error] = await DaoService.createDao({
         name: formData.value.name,
         governanceTokenSupply: +formData.value.governanceTokenSupply,
         governanceTicker: formData.value.governanceTicker,
         quorumRequired: formData.value.quorumRequired,
         proposalExpirationTime: formData.value.proposalExpirationTime,
-        parentRegistry: props.parentAddress || '0x' + '0'.repeat(40),
-        network: props.network
+        parentRegistry: props.parentAddress || '0x' + '0'.repeat(40)
     });
 
     if (response?.trx) {
@@ -221,7 +235,7 @@ async function createDAO() {
         });
 
         watchForCreatedDaos.add({
-            network: await API.getNetwork(),
+            network: props.network || currentNetwork,
             hash: response.trx.hash,
             description: formData.value.description,
             name: formData.value.name,

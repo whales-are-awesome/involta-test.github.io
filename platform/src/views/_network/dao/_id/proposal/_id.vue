@@ -539,7 +539,7 @@
                                             />
                                         </div>
                                         <div class="flex justify-between items-center">
-                                            <div class="">
+                                            <div v-if="proposalData?.totalVp">
                                                 {{ proposalData?.totalVp }} in total
                                             </div>
                                             <BaseButton
@@ -596,7 +596,7 @@ import emitter from '@/plugins/mitt';
 import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
 import { useFetchData } from '@/composables/useFetchData';
 import { IProposalNormalizedAsDefault, proposalStatuses } from '@/types/services/ProposalService';
-import { networksType } from '@/types/networks';
+import { NetworksType } from '@/types/networks';
 import ProposalService from '@/services/ProposalService';
 import { ProposalStatus, ProposalVoteType } from '@/types/entries/proposal';
 import cropPercents from '@/helpers/cropPercents';
@@ -680,7 +680,7 @@ async function fetchProposal() {
 
     const [data, error, cancel] = await ProposalService.fetchProposalAsDefault(
         {
-            network: route.params.network as networksType,
+            network: route.params.network as NetworksType,
             address: route.params.address as string,
             id: +route.params.proposalId
         }

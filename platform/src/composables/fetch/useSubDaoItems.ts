@@ -2,13 +2,13 @@ import { Ref } from 'vue';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { computed, watch } from 'vue';
 import SubDaoService from '@/services/SubDaoService';
-import { networksType } from '@/types/networks';
+import { NetworksType } from '@/types/networks';
 import { INormalizedSubDaoItemAsDefault, ISubDaoItemQuery } from '@/types/services/SubDaoService';
 import { pickBy } from 'lodash';
 
 interface IData extends ISubDaoItemQuery {
     parentAddress?: string
-    network: networksType
+    network: NetworksType
 }
 
 interface IOptions {

@@ -1,21 +1,17 @@
 import { computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
-
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
+import DaoService from '@/services/DaoService';
+import { INormalizedDaoItemAsTable } from '@/types/services/DaoService';
 
-import ProposalService from '@/services/ProposalService';
-import { IProposalItem } from '@/types/services/ProposalService';
-import { NetworksType } from '@/types/networks';
-
-
-function useProposalItems(_data: any) {
-    const route = useRoute();
-    const items = useFetchDataWithTotal<IProposalItem>();
+function useDaoItems(_data: any) {
+    const items = useFetchDataWithTotal<INormalizedDaoItemAsTable>();
     const dataResult = computed(() => {
         const data = _data.value || _data;
 
         return {
             ...(data),
+            search: data.search,
+            categoryId: data.categoryId,
             limit: data.limit || 20,
             offset: data.offset || 0
         }
@@ -29,10 +25,7 @@ function useProposalItems(_data: any) {
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await ProposalService.fetchDaoProposalItems( {
-            network: route.params.network as NetworksType,
-            address: route.params.address as string,
-        }, dataResult.value);
+        const [data, error, cancel] = await DaoService.fetchAllDaoItemsAsTable(dataResult.value);
 
         if (error) {
             items.value.pending = false;
@@ -47,10 +40,9 @@ function useProposalItems(_data: any) {
         }
 
         items.value = { ...items.value, cancel, pending: false };
-
     }
 
     return [items, fetchItems] as const;
 }
 
-export default useProposalItems;
+export default useDaoItems;

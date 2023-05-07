@@ -38,7 +38,7 @@ const watchForCreatedProposals = useWatchForCreatedProposals();
 
 watchForCreatedDaos.watch();
 watchForCreatedProposals.watch();
-useCallDefaultAlerts();
+// useCallDefaultAlerts();
 
 
 

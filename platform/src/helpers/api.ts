@@ -9,7 +9,7 @@ import { FetchResult, SendResult, sendDataChainProps, Config } from '@/types/api
 import { store } from '@/store';
 import Wallet from '@/wallets';
 import { open, closeLast } from '@/composables/useLayer';
-import { Networks, networksType } from '@/types/networks';
+import { Networks, NetworksType } from '@/types/networks';
 
 class API {
     static provider: any;
@@ -38,8 +38,8 @@ class API {
 
 
 
-    static async getContracts(contractName: 'daoFactory', _network?: networksType) {
-        const network = await API.getNetwork() as networksType;
+    static async getContracts(contractName: 'daoFactory', _network?: NetworksType) {
+        const network = await API.getNetwork() as NetworksType;
 
         const daoFactoryAddress = {
             [Networks.Goerli]: process.env.VUE_APP_DAO_FACTORY_ADDRESS_GOERLI,
@@ -56,16 +56,17 @@ class API {
         return API.provider?.getSigner();
     }
 
-    static async getNetwork(): Promise<networksType | ''> {
+    static async getNetwork(): Promise<NetworksType | ''> {
         const network = await API.provider?.getNetwork();
         const chainId = network?.chainId;
+        const chainName = network?.name;
 
         const networkName = {
             137: Networks.Polygon,
             5: Networks.Goerli
         }[chainId as number];
 
-        return networkName!;
+        return networkName || chainName || '';
     }
 
     static async sendChain<T>(props: sendDataChainProps): SendResult<{trx: any, trxReceipt: any}> {

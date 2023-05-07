@@ -100,7 +100,7 @@ const walletAddress = computed(() => store.state.wallet.address);
 // DAO ITEMS
 
 const daoItemsForm = computed(() => ({
-    account: walletAddress.value
+    follower: walletAddress.value
 }));
 
 const [daoItems, fetchDaoItems] = useDaoItems(daoItemsForm);

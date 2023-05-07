@@ -69,6 +69,16 @@ export default class DaoService {
 
         return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
     }
+
+    static async fetchAllDaoItems(params?: IDaoItemParams) {
+        return API.get<IResponsePagination<IDaoItem>>('/dao', params);
+    }
+
+    static async fetchAllDaoItemsAsTable(params?: IDaoItemParams) {
+        const [data, ...rest] = await DaoService.fetchAllDaoItems(params);
+
+        return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
+    }
 }
 
 

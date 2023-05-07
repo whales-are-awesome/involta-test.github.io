@@ -4,9 +4,9 @@ import emitter from '@/plugins/mitt';
 import { notify } from '@kyvg/vue3-notification';
 import { store } from '@/store';
 import { uuidv4 } from '@/helpers/uuid';
-import { networksType } from '@/types/networks';
+import { NetworksType } from '@/types/networks';
 
-async function followDao(name: string, address: string, network: networksType, alert: any, isUnfollow = false) {
+async function followDao(name: string, address: string, network: NetworksType, alert: any, isUnfollow = false) {
     const actionText = isUnfollow ? 'unfollow' : 'follow';
 
     const text = [

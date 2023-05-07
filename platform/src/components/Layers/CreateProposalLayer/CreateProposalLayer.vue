@@ -260,13 +260,15 @@ import { notify } from '@kyvg/vue3-notification';
 import { store } from '@/store';
 import API from '@/helpers/api';
 import useWatchForCreatedProposals from '@/composables/useWatchForCreatedProposals';
-import { networksType } from '@/types/networks';
+import { NetworksType } from '@/types/networks';
+import changeNetworkRequest from '@/helpers/changeNetworkRequest';
 
 // META
 
 interface IProps {
     id: string
     parentDaoAddress?: string
+    network?: NetworksType
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
@@ -349,6 +351,18 @@ async function createProposal() {
 
     isSending.value = true;
 
+    const currentNetwork = await API.getNetwork();
+
+    if (props.network && currentNetwork !== props.network) {
+        const isChanged = await changeNetworkRequest(props.network);
+
+        if (!isChanged) {
+            isSending.value = false;
+
+            return;
+        }
+    }
+
     const text = [
         'By signing this message you will update proposal metadata:',
         '\n',
@@ -372,7 +386,7 @@ async function createProposal() {
     const [response, error] = await ProposalService.createProposal(
         {
             address: route.params.address as string,
-            network: route.params.network as networksType
+            network: route.params.network as NetworksType
         },
         {
             name: formData.value.name,

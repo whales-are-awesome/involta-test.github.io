@@ -1,6 +1,6 @@
 import { IDaoAPI } from '@/types/entries/dao'
 import { IPaginationParams } from '@/types/api'
-import { networksType } from '@/types/networks'
+import { NetworksType } from '@/types/networks'
 
 interface IDao extends IDaoAPI {
     votingPower: number
@@ -8,7 +8,7 @@ interface IDao extends IDaoAPI {
 
 interface IDaoPath {
     address: string
-    network: networksType
+    network: NetworksType
 }
 
 interface INormalizedDaoAsDefault extends IDao {
@@ -24,7 +24,7 @@ interface ICreateDaoParams {
     proposalExpirationTime: number
     quorumRequired: number
     parentRegistry?: string
-    network?: networksType
+    network?: NetworksType
 }
 
 interface ICreateDaoResponse {
@@ -54,7 +54,7 @@ interface INormalizedDaoItemAsTable extends IDao {
 
 
 interface IDaoTransactionCookie {
-    network: networksType
+    network: NetworksType
     hash: string
     name: string
     description: string

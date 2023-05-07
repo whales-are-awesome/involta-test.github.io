@@ -72,22 +72,22 @@
 <!--                        :items="formProposalsInfo.voteOptions"-->
 <!--                    />-->
 <!--                </div>-->
-<!--                <div-->
-<!--                    v-if="tagListValue === MainSections.Daos"-->
-<!--                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"-->
-<!--                >-->
-<!--                    <TagsButtonList-->
-<!--                        class="h-full"-->
-<!--                        v-model="formData.value.daosId"-->
-<!--                        :items="formDaosInfo.daosOptions"-->
-<!--                    />-->
-<!--                </div>-->
+                <div
+                    v-if="tagListValue === MainSections.Daos"
+                    class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
+                >
+                    <TagsButtonList
+                        class="h-full"
+                        v-model="formData.value.follower"
+                        :items="formDaosInfo.daosOptions"
+                    />
+                </div>
                 <div class="!ml-auto"></div>
-<!--                <BaseSearch-->
-<!--                    v-if="tagListValue !== MainSections.Statistics"-->
-<!--                    class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"-->
-<!--                    v-model="formData.value.search"-->
-<!--                />-->
+                <BaseSearch
+                    v-if="tagListValue !== MainSections.Statistics"
+                    class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"
+                    v-model="formData.value.name"
+                />
                 <div
                     v-if="tagListValue !== MainSections.Statistics"
                     class="px-2 mt-2.5 flex-shrink-0 sm:order-[-1] sm:w-1/2 md:px-1.5 sm:px-[5px]"
@@ -110,31 +110,31 @@
                     </BaseButton>
                 </div>
             </div>
-<!--            <div-->
-<!--                v-if="tagListValue === MainSections.Proposals"-->
-<!--                class="space-y-[18px] sm:space-y-[24px]"-->
-<!--            >-->
-<!--                <template v-if="proposalItems.data?.length">-->
-<!--                    <ProposalCard-->
-<!--                        v-for="item in 3"-->
-<!--                        :key="item"-->
-<!--                        :avatar="require('@/assets/images/common/placeholder.jpg')"-->
-<!--                        name="DAO Name"-->
-<!--                        label-title="Active"-->
-<!--                        title="Proposal Name"-->
-<!--                        :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpg') } ]"-->
-<!--                        text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"-->
-<!--                        :end-date="new Date((new Date).setHours(23))"-->
-<!--                    />-->
-<!--                </template>-->
-<!--                <div v-else-if="proposalItems.pending" class="-preloader -preloader_placeholder"></div>-->
-<!--                <NotFound-->
-<!--                    v-else-->
-<!--                    class="!mt-[88px]"-->
-<!--                    title="No Proposals found"-->
-<!--                    text="We couldn't find any proposals matching your query. Try another query"-->
-<!--                />-->
-<!--            </div>-->
+            <div
+                v-if="tagListValue === MainSections.Proposals"
+                class="space-y-[18px] sm:space-y-[24px]"
+            >
+                <template v-if="proposalItems.data?.length">
+                    <ProposalCard
+                        v-for="item in 3"
+                        :key="item"
+                        :avatar="require('@/assets/images/common/placeholder.jpg')"
+                        name="DAO Name"
+                        label-title="Active"
+                        title="Proposal Name"
+                        :users="[{ id: 1, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 2, avatar: require('@/assets/images/common/placeholder.jpg') }, { id: 3, avatar: require('@/assets/images/common/placeholder.jpg') } ]"
+                        text="Early Birds Early Birds  Early Birds Early Birds мEarly Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds Early Birds"
+                        :end-date="new Date((new Date).setHours(23))"
+                    />
+                </template>
+                <div v-else-if="proposalItems.pending" class="-preloader -preloader_placeholder"></div>
+                <NotFound
+                    v-else
+                    class="!mt-[88px]"
+                    title="No Proposals found"
+                    text="We couldn't find any proposals matching your query. Try another query"
+                />
+            </div>
             <div v-if="tagListValue === MainSections.Daos">
                 <div
                     v-if="daoItemsFiltered.length"
@@ -154,6 +154,7 @@
                             :to="{ name: 'network-dao-address', params: { network: item.network, address: item.address } }"
                             :avatar="item.image"
                             :name="item.fullName"
+                            :show-network="true"
                             :is-followed="item.isFollowed"
                             :network="item.network"
                             :address="item.address"
@@ -216,7 +217,7 @@ import wait from '@/helpers/wait';
 import { Statuses } from '@/types/statuses';
 import useIsMobile from '@/composables/useIsMobile';
 import useLayer from '@/composables/useLayer';
-import useDaoItems from '@/composables/fetch/useDaoItems';
+import useAllDaoItems from '@/composables/fetch/useAllDaoItems';
 import useProposalItems from '@/composables/views/home/useProposalItems';
 import useQueryUpdates from '@/composables/useQueryUpdates';
 import { MainSections } from '@/types/statuses'
@@ -254,6 +255,12 @@ const tagListData = computed(() => ({
 useQueryUpdates(tagListData, ['section']);
 
 
+// META:ADDRESS
+
+const addressOrName = computed(() => store.getters['wallet/addressOrName']);
+const address = computed(() => store.state.wallet.address);
+
+
 // PROPOSALS
 
 const formProposalsInfo = {
@@ -271,7 +278,7 @@ const formProposalsInfo = {
 const formDataProposals = ref({
     voteId: getQueryParam<number>(query.voteId, formProposalsInfo.voteOptions),
     statusId: getQueryParam<number>(query.statusId, formProposalsInfo.statusesOptions),
-    search: route.query.search || '',
+    name: route.query.name || '',
     limit: 20,
     offset: 0
 });
@@ -285,8 +292,8 @@ useQueryUpdates(formDataProposals, ['section']);
 
 const formDaosInfo = {
     daosOptions: [
-        { id: 0, title: 'All Daos' },
-        { id: 1, title: 'My Daos' }
+        { id: null, title: 'All Daos' },
+        { id: address.value, title: 'My Daos' }
     ],
     chainOptions: [
         { id: 'all', title: 'All chains' },
@@ -296,13 +303,13 @@ const formDaosInfo = {
 
 const formDataDaos = ref({
     chainId: getQueryParam<string>(query.chainId, formDaosInfo.chainOptions),
-    daosId: getQueryParam<number>(query.daosId, formDaosInfo.daosOptions),
-    search: query.search || '',
+    follower: getQueryParam<string | null>(query.follower, formDaosInfo.daosOptions),
+    name: query.name || '',
     limit: 20,
     offset: 0
 });
 
-const [daoItems, fetchDaoItems] = useDaoItems(formDataDaos);
+const [daoItems, fetchDaoItems] = useAllDaoItems(formDataDaos);
 
 const daoItemsFiltered = computed(() => {
     return daoItems.value.data?.items || [];
@@ -343,7 +350,7 @@ const formAppsInfo = {
 
 const formDataApps = ref({
     categoryId: getQueryParam<number>(query.categoryId, formAppsInfo.categoryOptions),
-    search: '',
+    name: '',
     limit: 20,
     offset: 0
 });
@@ -382,10 +389,4 @@ const formData = computed(() => {
         [MainSections.Statistics]: '',
     }[tagListValue.value];
 });
-
-
-// ADDRESS
-
-const addressOrName = computed(() => store.getters['wallet/addressOrName']);
-const address = computed(() => store.state.wallet.address);
 </script>
