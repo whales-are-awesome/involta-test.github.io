@@ -38,8 +38,8 @@ class API {
 
 
 
-    static async getContracts(contractName: 'daoFactory', _network?: NetworksType) {
-        const network = await API.getNetwork() as NetworksType;
+    static getContracts(contractName: 'daoFactory', _network?: NetworksType) {
+        const network = store.state.wallet.network;
 
         const daoFactoryAddress = {
             [Networks.Goerli]: process.env.VUE_APP_DAO_FACTORY_ADDRESS_GOERLI,
@@ -71,7 +71,7 @@ class API {
 
     static async sendChain<T>(props: sendDataChainProps): SendResult<{trx: any, trxReceipt: any}> {
         try {
-            const contract = props.contractAddress ? new ethers.Contract(props.contractAddress, props.contractABI, API.provider) : await API.getContracts(props.contractName!, props.network);
+            const contract = props.contractAddress ? new ethers.Contract(props.contractAddress, props.contractABI, API.provider) : API.getContracts(props.contractName!, props.network);
             const signer = await API.getSigner();
             const contractWithSigner = contract.connect(signer);
             const contractWithSignerPromise = new CPromise(async(resolve: any, reject: any) => {

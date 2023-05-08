@@ -3,7 +3,7 @@ type IItem = string | any[] | {
 };
 
 type ThemeSettings<T extends string> = {
-    [category in T]: IItem
+    [category in T]?: IItem
 }
 
 

@@ -50,6 +50,7 @@ import TheSidebar from '@/components/TheSidebar/TheSidebar.vue';
 import TheDaoSidebar from '@/components/TheDaoSidebar/TheDaoSidebar.vue';
 import { store } from '@/store';
 import useIsMobile from '@/composables/useIsMobile';
+import useCallDefaultAlerts from '@/composables/useCallDefaultAlerts';
 
 
 // META
@@ -59,6 +60,8 @@ const route = useRoute();
 const isMobile = useIsMobile();
 
 const currentDao = computed(() => store.state.dao.data);
+
+useCallDefaultAlerts();
 
 
 

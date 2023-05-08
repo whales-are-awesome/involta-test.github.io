@@ -351,7 +351,7 @@ async function createProposal() {
 
     isSending.value = true;
 
-    const currentNetwork = await API.getNetwork();
+    const currentNetwork = store.state.wallet.network;
 
     if (props.network && currentNetwork !== props.network) {
         const isChanged = await changeNetworkRequest(props.network);
@@ -419,7 +419,7 @@ async function createProposal() {
         });
 
         watchForCreatedProposals.add({
-            network: await API.getNetwork(),
+            network: store.state.wallet.network,
             address: route.params.address as string,
             hash: response.trx.hash,
             name: formData.value.name

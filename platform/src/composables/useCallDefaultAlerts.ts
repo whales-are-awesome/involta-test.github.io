@@ -1,7 +1,7 @@
 import { onMounted } from 'vue';
 import { alert } from '@/composables/useLayer';
-import API from '@/helpers/api';
 import { Networks, NetworksChains } from '@/types/networks';
+import { store } from '@/store';
 
 function useCallDefaultAlerts() {
     onMounted(async () => {
@@ -18,7 +18,7 @@ function useCallDefaultAlerts() {
             }
         });
 
-        const network = await API.getNetwork();
+        const network = store.state.wallet.network;
 
         //@ts-ignore
         if (network && ![Networks.Polygon, Networks.Goerli].includes(network)) {

@@ -16,16 +16,12 @@
                             image: 'sm:rounded-[12px]'
                         }"
                     />
-                    <div
+                    <NetworkIcon
                         v-if="showNetwork"
-                        :class="classes.networkIconWrapper"
-                    >
-                        <BaseIcon
-                            :name="`network-${ network }`"
-                            width="20"
-                            height="20"
-                        />
-                    </div>
+                        :class="classes.networkIcon"
+                        :size="20"
+                        :network="network"
+                    />
                 </div>
             </div>
             <p :class="classes.title">
@@ -84,6 +80,7 @@ import { useRouter } from 'vue-router';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
+import NetworkIcon from '@/components/NetworkIcon/NetworkIcon.vue';
 import CategoryLabel from '@/components/CategoryLabel/CategoryLabel.vue';
 import {  } from './types';
 import makeClasses from '@/helpers/makeClasses';
@@ -132,8 +129,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     ],
     inner: 'w-full flex flex-col',
     top: 'flex justify-center relative mb-4',
-    networkIconWrapper: 'flex items-start justify-end absolute right-0 top-0 bg-white w-[25px] h-[25px] z-[5] rounded-bl-[12px]',
     avatarWrapper: 'relative',
+    networkIcon: 'absolute right-0 top-0',
     title: 'text-sm font-semibold text-gray-600 mb-4 text-center overflow-ellipsis overflow-hidden',
     info: 'flex justify-center mb-9 sm:mb-6',
     infoItem: 'text-center w-1/2 flex first:justify-end last:justify-start',

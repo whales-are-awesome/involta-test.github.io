@@ -109,7 +109,7 @@ emitter.on('daoFollowed', fetchDaoItems);
 emitter.on('daoEdited', fetchDaoItems);
 
 watch(() => daoItems.value, async() => {
-    const network = await API.getNetwork();
+    const network = store.state.wallet.network;
 
     if (daoItems.value.data?.items.length) {
         const filtered = daoItems.value.data.items.filter(item => item.network === network);

@@ -39,7 +39,7 @@ class InjectedWallet {
     static async login(): Promise<string> {
         await API.provider.send('eth_requestAccounts', []);
         const address = (await API.provider.listAccounts())[0];
-        const network = await API.getNetwork();
+        const network = store.state.wallet.network;
 
         store.dispatch('wallet/setAddress', address);
         store.dispatch('wallet/setNetwork', network);

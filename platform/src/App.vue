@@ -20,7 +20,6 @@ import BaseNotifications from '@/components/BaseNotifications/BaseNotifications.
 import Layout from './layouts/index.vue';
 import ErrorPage from '@/views/error/index.vue';
 import { store } from '@/store';
-import useCallDefaultAlerts from '@/composables/useCallDefaultAlerts';
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 import useWatchForCreatedProposals from '@/composables/useWatchForCreatedProposals';
 
@@ -38,7 +37,6 @@ const watchForCreatedProposals = useWatchForCreatedProposals();
 
 watchForCreatedDaos.watch();
 watchForCreatedProposals.watch();
-// useCallDefaultAlerts();
 
 
 

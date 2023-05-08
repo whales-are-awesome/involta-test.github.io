@@ -133,6 +133,7 @@ import DaoService from '@/services/DaoService';
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 
 import { NetworksType } from '@/types/networks';
+import { store } from '@/store';
 
 
 // META
@@ -208,7 +209,7 @@ async function createDAO() {
 
     isSending.value = true;
 
-    const currentNetwork = await API.getNetwork();
+    const currentNetwork = store.state.wallet.network;
 
     if (props.network && currentNetwork !== props.network) {
         const isChanged = await changeNetworkRequest(props.network);

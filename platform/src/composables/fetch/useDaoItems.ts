@@ -3,6 +3,7 @@ import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import DaoService from '@/services/DaoService';
 import { INormalizedDaoItemAsTable } from '@/types/services/DaoService';
 import API from '@/helpers/api';
+import { store } from '@/store';
 
 function useDaoItems(_data: any) {
     const items = useFetchDataWithTotal<INormalizedDaoItemAsTable>();
@@ -22,7 +23,7 @@ function useDaoItems(_data: any) {
     watch(dataResult, fetchItems);
     async function fetchItems(val?: any, prevVal?: any) {
         const isAddMore = val?.offset !== prevVal?.offset && val?.offset !== 0;
-        const network = await API.getNetwork();
+        const network = store.state.wallet.network;
 
         if (!network) {
             items.value.pending = false;
