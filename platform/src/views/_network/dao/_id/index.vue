@@ -325,10 +325,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue';
+import { computed, onUnmounted, ref, watch, watchEffect } from 'vue';
+import { notify } from '@kyvg/vue3-notification';
 import { useTitle } from '@vueuse/core'
 import { getEthPriceNow } from 'get-eth-price';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 import TagsList from '@/components/TagsList/TagsList.vue';
 import TagsButtonList from '@/components/TagsButtonList/TagsButtonList.vue';
@@ -348,23 +349,24 @@ import useError from '@/composables/useError';
 import useDao from '@/composables/fetch/useDao';
 import useProposalItems from '@/composables/fetch/useProposalItems'
 import useDaoItems from '@/composables/fetch/useDaoItems';
+import useQueryUpdates from '@/composables/useQueryUpdates';
+import useCheckPageNetwork from '@/composables/useCheckPageNetwork';
+import useIsMobile from '@/composables/useIsMobile';
+import { useFetchDataWithTotal } from '@/composables/useFetchData';
 
 import emitter from '@/plugins/mitt';
 
 import { Statuses } from '@/types/statuses';
-import API from '@/helpers/api';
 
+import API from '@/helpers/api';
 import getQueryParam from '@/helpers/getQueryParam';
-import useQueryUpdates from '@/composables/useQueryUpdates';
-import useIsMobile from '@/composables/useIsMobile';
+import copy from '@/helpers/copy';
 import followDao from '@/helpers/followDao';
-import DaoService from '@/services/DaoService';
-import { useFetchDataWithTotal } from '@/composables/useFetchData';
+
 import { IFollower } from '@/types/services/FollowerService';
 import { NetworksType } from '@/types/networks';
+
 import FollowerService from '@/services/FollowerService';
-import { notify } from '@kyvg/vue3-notification';
-import copy from '@/helpers/copy';
 
 
 // META
@@ -372,12 +374,13 @@ import copy from '@/helpers/copy';
 const { alert, open } = useLayer();
 
 const route = useRoute();
+const router = useRouter();
 const { query } = route;
 
 const isMobile = useIsMobile();
 
 
-// TAG LIST _ COMMON
+// META:TAG LIST
 
 enum Sections {
     Proposals = 'proposals' as any,

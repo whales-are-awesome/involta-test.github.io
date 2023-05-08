@@ -3,7 +3,7 @@ import API from '@/helpers/api';
 import wait from '@/helpers/wait';
 import { store } from '@/store';
 
-export default async function walletsInit({ next, from }: any) {
+export default async function wallesInit({ next, from }: any) {
     if (!from.name) {
         await wait(() => document.readyState === 'complete');
         await API.init();

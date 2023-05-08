@@ -1,15 +1,19 @@
 import { store } from '@/store';
 
-export default function auth({ next, to }: any) {
+export default function auth({ next, to, router }: any) {
     const isAuthPage = to.name === 'auth';
     const loggedIn = store.getters['wallet/loggedIn'];
 
     if (loggedIn && isAuthPage) {
-        next({ name: 'home' });
+        router.push({ name: 'home' });
+
+        return false;
     }
 
     if (!loggedIn  && !isAuthPage) {
-        next({ name: 'auth' });
+        router.push({ name: 'auth' });
+
+        return false;
     }
 
     return next();

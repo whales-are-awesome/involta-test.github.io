@@ -1,8 +1,8 @@
 import { NetworksType, networksChains } from '@/types/networks';
-import { alert } from '@/composables/useLayer';
+import { alert as alertTwo } from '@/composables/useLayer';
 
 async function changeNetworkRequest(network: NetworksType) {
-    const isChangeNetwork = await alert({
+    const isChangeNetwork = await alertTwo({
         title: 'Wrong network',
         text: `Please switch you network to ${ network }.`,
         buttonText: 'Switch',
@@ -10,12 +10,16 @@ async function changeNetworkRequest(network: NetworksType) {
     });
 
     if (isChangeNetwork) {
-        const isChanged = await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: networksChains[network] }]
-        }) as boolean;
+        try {
+            await window.ethereum.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: networksChains[network] }]
+            }) as boolean;
 
-        return isChanged;
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 
     return false;

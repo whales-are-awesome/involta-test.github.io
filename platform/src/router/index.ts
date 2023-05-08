@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { isEqual } from 'lodash'
 import { store } from '@/store';
 import scrollIntoView from '@/helpers/scrollIntoView';
 
 import authMiddleware from '@/middleware/auth';
-import walletsInitMiddleware from '@/middleware/wallets-init';
+import walletsInitMiddleware from '@/middleware/wallesInit';
+import checkPageNetwork from '@/middleware/checkPageNetwork';
 
 import Home from '@/views/home/index.vue'
 
@@ -20,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/:network/dao/:address',
         name: 'network-dao-address',
         meta: {
-            middleware: [walletsInitMiddleware, authMiddleware]
+            middleware: [walletsInitMiddleware, authMiddleware, checkPageNetwork]
         },
         component: () => import(/* webpackChunkName: "dao" */ '../views/_network/dao/_id/index.vue'),
     },
@@ -28,9 +30,9 @@ const routes: Array<RouteRecordRaw> = [
         path: '/:network/dao/:address/proposal/:proposalId',
         name: 'network-dao-address-proposal-id',
         meta: {
-            middleware: [walletsInitMiddleware, authMiddleware]
+            middleware: [walletsInitMiddleware, authMiddleware, checkPageNetwork]
         },
-        component: () => import(/* webpackChunkName: "followers" */ '../views/_network/dao/_id/proposal/_id.vue'),
+        component: () => import(/* webpackChunkName: "proposal-id" */ '../views/_network/dao/_id/proposal/_id.vue'),
     },
     {
         path: '/app',
@@ -64,15 +66,18 @@ const router = createRouter({
 });
 
 function middlewarePipeline (context: any, middleware: any, index: any) {
-    const nextMiddleware = middleware[index]
-    if(!nextMiddleware){
-        return context.next
+    const nextMiddleware = middleware[index];
+
+    if (!nextMiddleware) {
+        return context.next;
     }
+
     return () => {
         const nextPipeline = middlewarePipeline(
             context, middleware, index + 1
-        )
-        nextMiddleware({ ...context, next: nextPipeline })
+        );
+
+        nextMiddleware({ ...context, next: nextPipeline });
     }
 }
 
@@ -88,16 +93,22 @@ router.beforeEach((to, from, next) => {
         to,
         from,
         next,
+        router,
         store
-    }
+    };
+
     return middleware[0]({
         ...context,
         next: middlewarePipeline(context, middleware, 1)
     });
 })
 
-router.afterEach((context, to, from) => {
+router.afterEach((context, to, error) => {
     store.commit('breadcrumbs/clear');
-    scrollIntoView(document.body);
+
+    if (!error) {
+        scrollIntoView(document.body);
+    }
 });
+
 export default router

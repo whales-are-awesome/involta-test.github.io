@@ -600,6 +600,8 @@ import { NetworksType } from '@/types/networks';
 import ProposalService from '@/services/ProposalService';
 import { ProposalStatus, ProposalVoteType } from '@/types/entries/proposal';
 import cropPercents from '@/helpers/cropPercents';
+import useCheckPageNetwork from '@/composables/useCheckPageNetwork';
+import wait from '@/helpers/wait';
 
 
 // META
@@ -618,7 +620,7 @@ const formData = ref({
 
 // META:PAGE
 
-const [ page, fetchDao ] = useDao({
+const [page, fetchDao] = useDao({
     address: route.params.address as string
 }, {
     saveInStorage: true

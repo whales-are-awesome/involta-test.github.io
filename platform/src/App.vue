@@ -22,6 +22,7 @@ import ErrorPage from '@/views/error/index.vue';
 import { store } from '@/store';
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
 import useWatchForCreatedProposals from '@/composables/useWatchForCreatedProposals';
+import useLayer from '@/composables/useLayer';
 
 
 // META
@@ -34,6 +35,8 @@ const viewKeyCounter = computed(() => store.state.app.viewKey);
 
 const watchForCreatedDaos = useWatchForCreatedDaos();
 const watchForCreatedProposals = useWatchForCreatedProposals();
+
+useLayer();
 
 watchForCreatedDaos.watch();
 watchForCreatedProposals.watch();

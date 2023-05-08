@@ -44,6 +44,7 @@ class API {
         const daoFactoryAddress = {
             [Networks.Goerli]: process.env.VUE_APP_DAO_FACTORY_ADDRESS_GOERLI,
             [Networks.Polygon]: process.env.VUE_APP_DAO_FACTORY_ADDRESS_POLYGON
+            //@ts-ignore
         }[network];
 
         return {

@@ -17,6 +17,11 @@
                                 :src="currentDao.data?.image"
                                 alt="OuterCircle"
                             />
+                            <NetworkIcon
+                                :class="classes.networkIcon"
+                                size="xl"
+                                :network="currentDao.data?.network"
+                            />
                         </div>
                         <div :class="classes.topInfo">
                             <BaseButton
@@ -84,6 +89,7 @@ import { useRoute } from 'vue-router';
 import { store } from '@/store';
 import SubDaoMenu from '@/components/SubDaoMenu/SubDaoMenu.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
+import NetworkIcon from '@/components/NetworkIcon/NetworkIcon.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import makeClasses from '@/helpers/makeClasses';
 import followDao from '@/helpers/followDao';
@@ -113,6 +119,7 @@ const useClasses = makeClasses(() => ({
     topInfoJoin: 'flex-grow',
     logoWrapper: 'pb-[100%] relative bg-black overflow-hidden mb-3 rounded-[10px] md:rounded-[4px]',
     logo: 'absolute h-full min-w-full top-0 left-1/2 -translate-x-1/2 z-0 opacity-70',
+    networkIcon: 'absolute right-0 top-0',
     parentDaoTitle: 'sm:text-xxs',
     parentDaoItems: 'mb-[24px]',
     subDaoTitle: 'mb-[20px] sm:text-xxs',

@@ -19,7 +19,7 @@
                     <NetworkIcon
                         v-if="showNetwork"
                         :class="classes.networkIcon"
-                        :size="20"
+                        size="md"
                         :network="network"
                     />
                 </div>

@@ -91,9 +91,16 @@ class InjectedWallet {
 
     @needsProvider
     static handleNetworkChange(): void {
-        window.ethereum.on('chainChanged', async () => {
-            window.location.reload();
-        });
+        window.ethereum.on('chainChanged', InjectedWallet.onNetworkChange);
+    }
+
+    @needsProvider
+    static async onNetworkChange(): Promise<void> {
+        API.setProvider(window.ethereum);
+        const network = await API.getNetwork();
+
+        store.dispatch('wallet/setNetwork', network);
+        emitter.emit('networkChanged');
     }
 }
 

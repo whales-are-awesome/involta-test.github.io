@@ -2,6 +2,7 @@ import { GetterTree, MutationTree, ActionTree  } from 'vuex';
 import { IRootState } from './index';
 import cutAddress from '@/helpers/cutAddress';
 import API from '@/helpers/api';
+import { NetworksType } from '@/types/networks';
 
 type wallets = 'injectedWallet' | 'connectWallet' | '';
 
@@ -9,7 +10,7 @@ interface IState {
     address: string | null
     ensName: string | null
     wallet: wallets
-    network: string
+    network: NetworksType | null
 }
 
 function state(): IState {
@@ -17,7 +18,7 @@ function state(): IState {
         address: null,
         ensName: '',
         wallet: '',
-        network: ''
+        network: null
     };
 }
 

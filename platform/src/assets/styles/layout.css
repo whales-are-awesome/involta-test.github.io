@@ -18,4 +18,5 @@ body {
     @apply text-black text-base;
     background: white;
     min-width: 320px;
+    min-height: 100vh;
 }

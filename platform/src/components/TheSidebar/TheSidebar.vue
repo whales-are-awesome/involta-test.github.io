@@ -48,7 +48,7 @@ import TheSidebarButton from './TheSidebarButton.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useLayer from '@/composables/useLayer';
 import { IProps } from '@/components/BlockInfo/BlockInfo.vue';
-import useDaoItems from '@/composables/fetch/useDaoItems';
+import useAllDaoItems from '@/composables/fetch/useAllDaoItems';
 import useIsMobile from '@/composables/useIsMobile';
 import { store } from '@/store';
 import emitter from '@/plugins/mitt';
@@ -103,22 +103,10 @@ const daoItemsForm = computed(() => ({
     follower: walletAddress.value
 }));
 
-const [daoItems, fetchDaoItems] = useDaoItems(daoItemsForm);
+const [daoItems, fetchDaoItems] = useAllDaoItems(daoItemsForm);
 
 emitter.on('daoFollowed', fetchDaoItems);
 emitter.on('daoEdited', fetchDaoItems);
-
-watch(() => daoItems.value, async() => {
-    const network = store.state.wallet.network;
-
-    if (daoItems.value.data?.items.length) {
-        const filtered = daoItems.value.data.items.filter(item => item.network === network);
-
-        if (filtered.length !== daoItems.value.data.items.length) {
-            daoItems.value.data.items = daoItems.value.data.items.filter(item => item.network === network);
-        }
-    }
-});
 
 onUnmounted(() => {
     emitter.off('daoFollowed', fetchDaoItems);
