@@ -1,99 +1,59 @@
 <template>
-    <Popper
-        ref="root"
-        :class="classes.root"
-        :content="content"
-        :hover="hover"
-        :placement="placement"
-        :show="isShown"
-        @mouseenter="isShown = true"
-        @mouseleave="isShown = false"
-        @close="isShown = false"
+    <VDropdown
+        :distance="distance"
+        :triggers="['hover', 'touch']"
+        placement="right"
     >
         <slot></slot>
         <template
-            v-if="$slots.content"
-            #content="{ close }"
+            #popper
         >
-            <slot name="content" v-bind="{ close }"></slot>
+            <slot name="content"></slot>
         </template>
-    </Popper>
+    </VDropdown>
 </template>
 
 
 <script lang="ts" setup>
-import { computed, useSlots, ref } from 'vue';
-import Popper from 'vue3-popper';
+import { computed } from 'vue';
+//import  from '@/components/';
+import {  } from './types';
+import { Dropdown as VDropdown } from 'floating-vue';
+import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import 'floating-vue/dist/style.css'
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
-
 
 // META
 
 interface IProps {
-    hover?: boolean
-    placement?: string
-    content?: string
+    distance: number
     themeSettings?: ThemeSettings<'root'>
 }
 
-const props = withDefaults(defineProps<IProps>(), {
-    hover: true,
-    placement: 'top'
-});
+const props = withDefaults(defineProps<IProps>(), {});
 
-const slots = useSlots();
-
-const root = ref<InstanceType<typeof Popper> | null>(null);
 
 
 // CLASSES
 
-interface ThemeProps extends Pick<IProps, 'themeSettings'> {
-    hasContent: boolean
-}
+interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
 
-const useClasses = makeClasses<ThemeProps>(() => ({
-    root: ({ hasContent, themeSettings }) => [themeSettings?.root,
-        'popper-root',
-        {
-            'no-style': hasContent
-        }
+const useClasses = makeClasses<IThemeProps>(() => ({
+    root: ({ themeSettings }) => [themeSettings?.root,
+
     ]
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
-        hasContent: !!slots.content,
         themeSettings: props.themeSettings
     });
-});
-
-
-// SHOWN
-
-const isShown = ref(false)
-
-defineExpose({
-    isShown
 });
 </script>
 
 <style>
-:root {
-    --popper-theme-background-color: transparent;
-    --popper-theme-background-color-hover: transparent;
-    --popper-theme-text-color: currentColor;
-    --popper-theme-border-width: 0px;
-    --popper-theme-border-style: solid;
-    --popper-theme-border-radius: initial;
-    --popper-theme-padding: 0.25rem;
-}
-</style>
-<style scoped>
-.popper-root:not(.no-style) {
-    :deep(.popper) {
-        @apply bg-500 p-1 rounded-sm text-sm font-normal text-white ;
+    .v-popper__arrow-container {
+        display: none;
     }
-}
 </style>

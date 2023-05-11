@@ -60,7 +60,7 @@
                         >
                             <TextSeparator class="mb-3 whitespace-nowrap sm:before:hidden sm:mb-2">
                                 <span class="sm:text-xxs">Supported by</span>
-                                <BaseTooltip
+                                <TextTooltip
                                     content="info"
                                 >
                                     <BaseIcon
@@ -68,7 +68,7 @@
                                         name="warning-circle"
                                         width="8"
                                     />
-                                </BaseTooltip>
+                                </TextTooltip>
                             </TextSeparator>
                             <div class="text-lg text-gray-600 font-semibold">
                                 23233 OC
@@ -81,7 +81,7 @@
                         >
                             <TextSeparator class="mb-3 whitespace-nowrap sm:before:hidden sm:mb-2">
                                 <span class="sm:text-xxs">Backed By</span>
-                                <BaseTooltip
+                                <TextTooltip
                                     content="info"
                                 >
                                     <BaseIcon
@@ -89,7 +89,7 @@
                                         name="warning-circle"
                                         width="8"
                                     />
-                                </BaseTooltip>
+                                </TextTooltip>
                             </TextSeparator>
                             <div class="text-lg text-gray-600 font-semibold">
                                 23233 OC
@@ -161,7 +161,7 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
-import BaseTooltip from '@/components/BaseTooltip/BaseTooltip.vue';
+import TextTooltip from '@/components/TextTooltip/TextTooltip.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import CategoryLabel from '@/components/CategoryLabel/CategoryLabel.vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';

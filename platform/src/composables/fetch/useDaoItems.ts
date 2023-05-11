@@ -11,7 +11,7 @@ function useDaoItems(_data: any) {
         const data = _data.value || _data;
 
         return {
-            ...(data),
+            ...data,
             search: data.search,
             categoryId: data.categoryId,
             limit: data.limit || 20,

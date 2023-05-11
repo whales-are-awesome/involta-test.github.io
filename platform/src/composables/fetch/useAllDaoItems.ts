@@ -9,7 +9,7 @@ function useDaoItems(_data: any) {
         const data = _data.value || _data;
 
         return {
-            ...(data),
+            ...data,
             search: data.search,
             categoryId: data.categoryId,
             limit: data.limit || 20,
@@ -25,7 +25,9 @@ function useDaoItems(_data: any) {
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await DaoService.fetchAllDaoItemsAsTable(dataResult.value);
+        const [data, error, cancel] = !dataResult.value.network
+            ? await DaoService.fetchAllDaoItemsAsTable(dataResult.value)
+            : await DaoService.fetchDaoItemsAsTable(dataResult.value.network, dataResult.value);
 
         if (error) {
             items.value.pending = false;

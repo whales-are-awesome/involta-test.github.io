@@ -1,6 +1,6 @@
-import { IDaoAPI } from '@/types/entries/dao'
-import { IPaginationParams } from '@/types/api'
-import { NetworksType } from '@/types/networks'
+import { IDaoAPI } from '@/types/entries/dao';
+import { IPaginationParams } from '@/types/api';
+import { NetworksType } from '@/types/networks';
 
 interface IDao extends IDaoAPI {
     votingPower: number
@@ -25,6 +25,24 @@ interface ICreateDaoParams {
     quorumRequired: number
     parentRegistry?: string
     network?: NetworksType
+}
+
+
+interface ISubDaoItem {
+    address: string
+    network: NetworksType
+    parent: string
+    name: string
+    image: string
+}
+
+interface ISubDaoItemQuery extends IPaginationParams {
+
+}
+
+interface INormalizedSubDaoItemAsDefault extends ISubDaoItem {
+    fullName: string
+    isHovered: boolean
 }
 
 interface ICreateDaoResponse {
@@ -69,6 +87,10 @@ export {
     ICreateDaoParams,
     ICreateDaoResponse,
     IChangeDaoParams,
+
+    ISubDaoItem,
+    ISubDaoItemQuery,
+    INormalizedSubDaoItemAsDefault,
 
     IDaoItem,
     IDaoItemParams,

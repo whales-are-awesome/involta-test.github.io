@@ -579,6 +579,7 @@ import { computed, onUnmounted, ref, watch, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import { notify } from '@kyvg/vue3-notification';
 import { useTitle } from '@vueuse/core';
+
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
@@ -587,21 +588,23 @@ import ActionLink from '@/components/ActionLink/ActionLink.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import ProposalVote from '@/components/ProposalVote/ProposalVote.vue';
+import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
+
 import useIsMobile from '@/composables/useIsMobile';
 import useError from '@/composables/useError';
+import useDao from '@/composables/fetch/useDao';
+import { useFetchData } from '@/composables/useFetchData';
+
 import { currenyItems } from '@/types/currency';
 import { Statuses } from '@/types/statuses';
-import useDao from '@/composables/fetch/useDao';
-import emitter from '@/plugins/mitt';
-import { IBreadcrumb } from '@/components/BaseBreadcrumbs/types';
-import { useFetchData } from '@/composables/useFetchData';
-import { IProposalNormalizedAsDefault, proposalStatuses } from '@/types/services/ProposalService';
+import { IProposalNormalizedAsDefault } from '@/types/services/ProposalService';
 import { NetworksType } from '@/types/networks';
-import ProposalService from '@/services/ProposalService';
 import { ProposalStatus, ProposalVoteType } from '@/types/entries/proposal';
+
+
+import emitter from '@/plugins/mitt';
+import ProposalService from '@/services/ProposalService';
 import cropPercents from '@/helpers/cropPercents';
-import useCheckPageNetwork from '@/composables/useCheckPageNetwork';
-import wait from '@/helpers/wait';
 
 
 // META

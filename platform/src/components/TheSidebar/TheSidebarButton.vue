@@ -1,28 +1,48 @@
 <template>
-    <div
-        :class="classes.root"
-        @click="emit('click')"
-        @mouseenter="isHovered = true"
-        @mouseleave="isHovered = false"
+    <BaseTooltip
+        :distance="10"
     >
-        <div :class="classes.inner">
-            <BaseIcon
-                v-if="icon"
-                :class="classes.angle"
-                :width="iconWidth"
-                :height="iconHeight"
-                :name="icon"
-            />
-            <BaseAvatar
-                v-else
-                :src="image"
-                size="md"
-                rounded=""
-                alt="OuterCircle"
-            />
-            <slot></slot>
+        <div
+            :class="classes.root"
+            @click="emit('click')"
+            @mouseenter="isHovered = true"
+            @mouseleave="isHovered = false"
+        >
+            <div :class="classes.inner">
+                <BaseIcon
+                    v-if="icon"
+                    :class="classes.angle"
+                    :width="iconWidth"
+                    :height="iconHeight"
+                    :name="icon"
+                />
+                <BaseAvatar
+                    v-else
+                    :src="image"
+                    size="md"
+                    rounded=""
+                    alt="OuterCircle"
+                />
+                <slot></slot>
+            </div>
         </div>
-    </div>
+        <template
+            v-if="network"
+            #content
+        >
+            <div class="flex items-center p-2">
+                <NetworkIcon
+                    :class="classes.networkIcon"
+                    section="sidebar"
+                    position="center"
+                    :network="network"
+                />
+                <div class="pl-2 text-sm">
+                    {{ name }}
+                </div>
+            </div>
+        </template>
+    </BaseTooltip>
 </template>
 
 
@@ -32,9 +52,12 @@ import {  } from './types';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
 import { Icons } from '@/components/BaseIcon/types';
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
+import BaseTooltip from '@/components/BaseTooltip/BaseTooltip.vue';
+import NetworkIcon from '@/components/NetworkIcon/NetworkIcon.vue';
 import makeClasses from '@/helpers/makeClasses';
 import useIsMobile from '@/composables/useIsMobile';
 import ThemeSettings from '@/types/themeSettings';
+import { NetworksType } from '@/types/networks';
 
 
 // META
@@ -44,8 +67,10 @@ interface IProps {
     iconWidth?: string | number
     iconHeight?: string | number
     isDao?: boolean
+    name?: string
     active: boolean
     image?: string
+    network?: NetworksType
     themeSettings?: ThemeSettings<'root'>
 }
 
@@ -95,7 +120,9 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'text-white after:bg-[#7A78F3] after:scale-[1]': isActive,
             'text-[#7A78F3] after:bg-gray-200 after:scale-0': !isActive,
         }
-    ]
+    ],
+    networkIconWrapper: 'absolute inset-0 left-[60px] flex justify-center items-center pointer-events-none z-10',
+    networkIcon: 'flex-shrink-0'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

@@ -293,28 +293,32 @@
                             Value
                         </div>
                     </div>
-                    <div
-                        v-for="(item, key) in treasures"
-                        :key="key"
-                        class="flex items-center text-sm bg-white shadow-[0_4px_20px_rgba(108,108,125,.08)] border border-gray-100 rounded-[10px] p-4 overflow-hidden lg:block lg:space-y-6"
-                    >
-                        <div class="w-[200px] flex items-center lg:w-full">
-                            <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Asset</div>
-                            <BaseIcon
-                                class="flex-shrink-0 mr-2"
-                                :name="item.icon"
-                                width="30"
-                            />
-                            {{ item.title }}
-                        </div>
-                        <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
-                            <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Price</div> {{ item.price }} $
-                        </div>
-                        <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
-                            <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Balance</div> {{ item.balance }} ETH
-                        </div>
-                        <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
-                            <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Value</div> {{ item.price * item.balance }} $
+                    <div class="space-y-1">
+                        <div
+                            v-for="(item, key) in treasures.items"
+                            :key="key"
+                            class="flex items-center text-sm bg-white shadow-[0_4px_20px_rgba(108,108,125,.08)] border border-gray-100 rounded-[10px] p-4 overflow-hidden lg:block lg:space-y-6"
+                        >
+                            <div class="w-[200px] flex items-center lg:w-full">
+                                <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">
+                                    Asset
+                                </div>
+                                <BaseIcon
+                                    class="flex-shrink-0 mr-2"
+                                    :name="item.icon"
+                                    width="30"
+                                />
+                                {{ item.title }}
+                            </div>
+                            <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
+                                <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Price</div> {{ item.price }} $
+                            </div>
+                            <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
+                                <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Balance</div> {{ treasures.balance }} {{ item.currency }}
+                            </div>
+                            <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
+                                <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Value</div> {{ item.price * treasures.balance }} $
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -325,7 +329,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onUnmounted, ref, watch, watchEffect } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue';
 import { notify } from '@kyvg/vue3-notification';
 import { useTitle } from '@vueuse/core'
 import { getEthPriceNow } from 'get-eth-price';
@@ -360,6 +364,7 @@ import { Statuses } from '@/types/statuses';
 
 import API from '@/helpers/api';
 import getQueryParam from '@/helpers/getQueryParam';
+import getNetworkPrice from '@/helpers/getNetworkPrice';
 import copy from '@/helpers/copy';
 import followDao from '@/helpers/followDao';
 
@@ -394,7 +399,7 @@ enum Sections {
 const tagListOptions = [
     { id: Sections.Proposals, title: 'Proposals' },
     // { id: Sections.Statistics, title: 'Statistics' },
-    // { id: Sections.Daos, title: 'SubDAOs' },
+    { id: Sections.Daos, title: 'SubDAOs' },
     { id: Sections.Apps, title: 'APPs' },
     { id: Sections.Treasury, title: 'Treasury' },
     { id: Sections.Followers, title: 'Followers' },
@@ -433,7 +438,6 @@ onUnmounted(() => {
     emitter.off('daoFollowed', fetchDao);
     emitter.off('daoEdited', fetchDao);
 });
-
 
 // PROPOSALS
 
@@ -616,30 +620,45 @@ watch(pageData, async () => {
 // TREASURES
 
 const treasures = ref({
-    ethereum: {
-        title: 'Ethereum',
-        icon: 'ethereum',
-        balance: 0,
-        price: 0
+    balance: 0,
+    items: {
+        goerli: {
+            title: 'Goerli',
+            icon: 'network-goerli',
+            price: 0,
+            currency: 'GoerliETH'
+        },
+        polygon: {
+            title: 'Polygon',
+            icon: 'network-polygon',
+            price: 0,
+            currency: 'MATIC'
+        }
     }
 });
 
-const ethPriceInt = setInterval(setEthPrice, 5000);
+const pricesInt = setInterval(setPrices, 5000);
 
-setEthPrice();
-setEthBalance();
+setPrices();
+setBalance();
+filterItems();
 
-async function setEthPrice() {
-    const ETHPrice = await getEthPriceNow() as number;
-    treasures.value.ethereum.price = Object.values(ETHPrice)[0].ETH.USD;
+async function filterItems() {
+    treasures.value.items = {
+        [route.params.network as NetworksType]: treasures.value.items[route.params.network as NetworksType]
+    };
 }
 
-async function setEthBalance() {
-    treasures.value.ethereum.balance = await API.provider.getBalance(route.params.address) as number;
+async function setPrices() {
+    treasures.value.items.polygon.price = await getNetworkPrice('polygon');
+}
+
+async function setBalance() {
+    treasures.value.balance = await API.provider.getBalance(route.params.address) as number;
 }
 
 onUnmounted(() => {
-    clearInterval(ethPriceInt);
+    clearInterval(pricesInt);
 });
 
 

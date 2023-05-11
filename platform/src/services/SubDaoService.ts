@@ -21,11 +21,11 @@ export default class SubDaoService {
     static async fetchSubDaoItemsAsDefault(path: IDaoPath, params: ISubDaoItemQuery) {
         const [data, ...rest] = await SubDaoService.fetchSubDaoItems(path, params);
 
-        return [data && normalizeSubDaoItemsAsTable(data), ...rest] as const;
+        return [data && normalizeSubDaoItemsAsDefault(data), ...rest] as const;
     }
 }
 
-function normalizeSubDaoItemsAsTable(data: IResponsePagination<ISubDaoItem>): IResponsePagination<INormalizedSubDaoItemAsDefault> {
+function normalizeSubDaoItemsAsDefault(data: IResponsePagination<ISubDaoItem>): IResponsePagination<INormalizedSubDaoItemAsDefault> {
     return {
         ...data,
         items: data.items.map(item => ({

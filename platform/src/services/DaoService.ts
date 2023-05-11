@@ -11,6 +11,10 @@ import {
     ICreateDaoResponse,
     IChangeDaoParams,
 
+    INormalizedSubDaoItemAsDefault,
+    ISubDaoItem,
+    ISubDaoItemQuery,
+
     IDaoItem,
     IDaoItemParams,
     INormalizedDaoItemAsTable,
@@ -79,6 +83,16 @@ export default class DaoService {
 
         return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
     }
+
+    static async fetchSubDaoItems(path: IDaoPath, params: ISubDaoItemQuery) {
+        return API.get<IResponsePagination<ISubDaoItem>>('/' + path.network + `/dao/${ path.address }` + `/subdao`, params);
+    }
+
+    static async fetchSubDaoItemsAsDefault(path: IDaoPath, params: ISubDaoItemQuery) {
+        const [data, ...rest] = await DaoService.fetchSubDaoItems(path, params);
+
+        return [data && normalizeSubDaoItemsAsDefault(data), ...rest] as const;
+    }
 }
 
 
@@ -106,6 +120,17 @@ function normalizeDaoItemsAsTable(data: IResponsePagination<IDaoItem>): IRespons
                 //@ts-ignore
                 return addSpacesToNumber(this.followersAmount);
             }
+        }))
+    };
+}
+
+function normalizeSubDaoItemsAsDefault(data: IResponsePagination<ISubDaoItem>): IResponsePagination<INormalizedSubDaoItemAsDefault> {
+    return {
+        ...data,
+        items: data.items.map(item => ({
+            ...item,
+            fullName: item.name || cutAddress(item.address),
+            isHovered: false
         }))
     };
 }

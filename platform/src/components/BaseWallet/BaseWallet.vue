@@ -1,5 +1,5 @@
 <template>
-    <BaseTooltip ref="tooltip">
+    <TextTooltip ref="tooltip">
         <div
             :class="classes.root"
         >
@@ -55,7 +55,7 @@
                 </BaseButton>
             </div>
         </template>
-    </BaseTooltip>
+    </TextTooltip>
 </template>
 
 
@@ -63,7 +63,7 @@
 import { computed, ref } from 'vue';
 import { notify } from "@kyvg/vue3-notification";
 import BaseAvatar  from '@/components/BaseAvatar/BaseAvatar.vue';
-import BaseTooltip  from '@/components/BaseTooltip/BaseTooltip.vue';
+import TextTooltip  from '@/components/TextTooltip/TextTooltip.vue';
 import BaseButton  from '@/components/BaseButton/BaseButton.vue';
 import BaseIcon  from '@/components/BaseIcon/BaseIcon.vue';
 import {  } from './types';

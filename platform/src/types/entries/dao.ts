@@ -1,3 +1,5 @@
+import { NetworksType } from '@/types/networks';
+
 interface IPathItem {
     name: string
     address: string
@@ -9,7 +11,7 @@ interface IDaoAPI {
     creationTx: string
     followersAmount: number
     isFollowed: boolean
-    network: string
+    network: NetworksType
     parentDao: string
     rootDao: string
     creator: string

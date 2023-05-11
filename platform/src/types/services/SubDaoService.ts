@@ -1,8 +1,9 @@
-import { IPaginationParams } from '@/types/api'
+import { IPaginationParams } from '@/types/api';
+import { NetworksType } from '@/types/networks';
 
 interface ISubDaoItem {
     address: string
-    network: string
+    network: NetworksType
     parent: string
     name: string
     image: string

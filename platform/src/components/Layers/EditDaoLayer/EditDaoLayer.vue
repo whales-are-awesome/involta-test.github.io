@@ -74,6 +74,7 @@ import makeClasses from '@/helpers/makeClasses';
 import useForm from '@/composables/useForm';
 import DaoService from '@/services/DaoService';
 import useWatchForCreatedDaos from '@/composables/useWatchForCreatedDaos';
+import { NetworksType } from '@/types/networks';
 import sign from '@/helpers/sign';
 import { store } from '@/store';
 import { uuidv4 } from '@/helpers/uuid';
@@ -88,7 +89,7 @@ import emitter from '@/plugins/mitt';
 export interface IProps {
     id: string
     address: string
-    network: string
+    network: NetworksType
 }
 
 const props = withDefaults(defineProps<IProps>(), {

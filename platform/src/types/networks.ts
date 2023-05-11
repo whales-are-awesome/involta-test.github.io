@@ -5,6 +5,8 @@ enum Networks {
 
 type NetworksType = 'polygon' | 'goerli';
 
+type NetworksCurrency = 'GoerliETH' | 'MATIC';
+
 enum NetworksChains {
     Polygon = '0x89',
     Goerli = '0x5'
@@ -15,6 +17,11 @@ const networksChains: Record<NetworksType, NetworksChains> = {
     goerli: NetworksChains.Goerli
 }
 
+const networksCurrencies: Record<NetworksType, NetworksCurrency> = {
+    polygon: 'MATIC',
+    goerli: 'GoerliETH'
+};
+
 type NetworksChainsType = '0x89' | '0x5';
 
 
@@ -23,5 +30,7 @@ export {
     NetworksChains,
     networksChains,
     NetworksType,
+    NetworksCurrency,
+    networksCurrencies,
     NetworksChainsType
 }

@@ -32,6 +32,8 @@
                     :key="item.address"
                     :image="item.image"
                     :is-dao="true"
+                    :network="item.network"
+                    :name="item.fullName"
                     :active="route.params.address === item.address && route.params.network === item.network"
                     @click="$router.push({ name: 'network-dao-address', params: { address: item.address, network: item.network } })"
                 />
@@ -73,7 +75,7 @@ interface IThemeProps {
 }
 
 const useClasses = makeClasses<IThemeProps>(() => ({
-    root: 'no-scrollbar w-[72px] h-screen overflow-auto py-2 sm:w-[44px] bg-surface-300',
+    root: 'no-scrollbar w-[72px] h-screen overflow-y-auto overflow-x-visible py-2 sm:w-[44px] bg-surface-300',
     logoWrapper: `w-11 mx-auto pb-[18px] mb-[18px] relative sm:hidden
                   after:border-b-2 after:border-gray-200 after:top-full after:left-1/2 after:-translate-x-1/2 after:w-[28px] after:h-[2px] after:bg-gray-300 after:block after:absolute`,
     logo: ({ isHome }) => [

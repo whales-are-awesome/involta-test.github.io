@@ -19,7 +19,7 @@
                     <NetworkIcon
                         v-if="showNetwork"
                         :class="classes.networkIcon"
-                        size="md"
+                        section="dao-card"
                         :network="network"
                     />
                 </div>

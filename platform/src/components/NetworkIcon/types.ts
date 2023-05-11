@@ -1,5 +1,7 @@
-type Sizes = 'md' | 'xl'
+type Sections = 'dao-card' | 'dao-sidebar' | 'sidebar';
+type Positions = 'right-top' | 'center';
 
 export {
-    Sizes
+    Sections,
+    Positions
 }

@@ -1,6 +1,6 @@
-import { IPaginationParams } from '@/types/api'
-import { IProposalAPI, IProposalChain, ProposalPipeline, proposalStatuses, ProposalVoteType } from '@/types/entries/proposal'
-import { NetworksType } from '@/types/networks'
+import { IPaginationParams } from '@/types/api';
+import { IProposalAPI, IProposalChain, ProposalPipeline, proposalStatuses, ProposalVoteType } from '@/types/entries/proposal';
+import { NetworksType } from '@/types/networks';
 
 interface IProposal extends IProposalAPI, IProposalChain {
     createdByName?: string
@@ -78,7 +78,7 @@ interface IProposalItemQuery {
 
 
 interface IProposalTransactionCookie {
-    network: string
+    network: NetworksType
     address: string
     hash: string
     name: string

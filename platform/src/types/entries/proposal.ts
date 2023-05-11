@@ -1,10 +1,12 @@
+import { NetworksType } from '@/types/networks';
+
 // API
 
 interface IProposalAPI {
     id: number
     name: string
     description: string
-    network: string
+    network: NetworksType
     daoAddress: string
     creationTx: string
     createdBy: string

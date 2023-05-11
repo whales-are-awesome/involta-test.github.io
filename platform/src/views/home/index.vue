@@ -36,19 +36,19 @@
 <!--                        }"-->
 <!--                    />-->
 <!--                </div>-->
-<!--                <div-->
-<!--                    v-if="tagListValue === MainSections.Daos"-->
-<!--                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"-->
-<!--                >-->
-<!--                    <SelectField-->
-<!--                        v-model="formData.value.chainId"-->
-<!--                        theme="primary"-->
-<!--                        :options="formDaosInfo.chainOptions"-->
-<!--                        :theme-settings="{-->
-<!--                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'-->
-<!--                        }"-->
-<!--                    />-->
-<!--                </div>-->
+                <div
+                    v-if="tagListValue === MainSections.Daos"
+                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
+                >
+                    <SelectField
+                        v-model="formData.value.network"
+                        theme="primary"
+                        :options="formDaosInfo.networkOptions"
+                        :theme-settings="{
+                            height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'
+                        }"
+                    />
+                </div>
 <!--                <div-->
 <!--                    v-if="tagListValue === MainSections.Apps"-->
 <!--                    class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"-->
@@ -295,14 +295,15 @@ const formDaosInfo = {
         { id: null, title: 'All Daos' },
         { id: address.value, title: 'My Daos' }
     ],
-    chainOptions: [
-        { id: 'all', title: 'All chains' },
-        { id: 'goerli', title: 'Goerli' }
+    networkOptions: [
+        { id: null, title: 'All chains' },
+        { id: 'goerli', title: 'Goerli' },
+        { id: 'polygon', title: 'Polygon' }
     ]
 };
 
 const formDataDaos = ref({
-    chainId: getQueryParam<string>(query.chainId, formDaosInfo.chainOptions),
+    network: getQueryParam<string | null>(query.network, formDaosInfo.networkOptions),
     follower: getQueryParam<string | null>(query.follower, formDaosInfo.daosOptions),
     name: query.name || '',
     limit: 20,

@@ -1,9 +1,9 @@
 import { Ref } from 'vue';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { computed, watch } from 'vue';
-import SubDaoService from '@/services/SubDaoService';
+import DaoService from '@/services/DaoService';
 import { NetworksType } from '@/types/networks';
-import { INormalizedSubDaoItemAsDefault, ISubDaoItemQuery } from '@/types/services/SubDaoService';
+import { INormalizedSubDaoItemAsDefault, ISubDaoItemQuery } from '@/types/services/DaoService';
 import { pickBy } from 'lodash';
 
 interface IData extends ISubDaoItemQuery {
@@ -17,7 +17,7 @@ interface IOptions {
 
 type Data = Ref<IData> | IData;
 
-function useSubDaoItems(_data: Data, _options?: IOptions) {
+function useDaoSubDaoItems(_data: Data, _options?: IOptions) {
     const items = useFetchDataWithTotal<INormalizedSubDaoItemAsDefault>();
     const dataResult = computed(() => {
         const data = 'value' in _data ? _data.value : _data;
@@ -47,7 +47,7 @@ function useSubDaoItems(_data: Data, _options?: IOptions) {
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await SubDaoService
+        const [data, error, cancel] = await DaoService
             .fetchSubDaoItemsAsDefault({ address: dataResult.value.parentAddress, network: dataResult.value.network }, dataResult.value.params);
 
         if (error) {
@@ -62,4 +62,4 @@ function useSubDaoItems(_data: Data, _options?: IOptions) {
     return [items, fetchItems] as const;
 }
 
-export default useSubDaoItems;
+export default useDaoSubDaoItems;

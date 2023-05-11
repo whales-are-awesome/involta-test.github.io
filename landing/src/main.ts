@@ -1,6 +1,7 @@
 import { createApp, h } from 'vue'
 import Maska from 'maska';
 import { svgSpritePlugin } from 'vue-svg-sprite'
+import FloatingVue from 'floating-vue'
 import VueKinesis from 'vue-kinesis';
 import AOS from 'aos';
 import 'aos/dist/aos.css'
@@ -29,8 +30,10 @@ const app = createApp({
     class: 'base-icon',
 })
 .use(Maska)
+.use(FloatingVue)
 .use(VueKinesis)
 .mount('#app');
 
 // @ts-ignore
+app.use(FloatingVue);
 

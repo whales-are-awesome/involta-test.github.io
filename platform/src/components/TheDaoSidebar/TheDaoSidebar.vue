@@ -19,7 +19,7 @@
                             />
                             <NetworkIcon
                                 :class="classes.networkIcon"
-                                size="xl"
+                                section="dao-sidebar"
                                 :network="currentDao.data?.network"
                             />
                         </div>
@@ -95,7 +95,7 @@ import makeClasses from '@/helpers/makeClasses';
 import followDao from '@/helpers/followDao';
 import DaoService from '@/services/DaoService';
 import useLayer from '@/composables/useLayer';
-import useSubDaoItems from '@/composables/fetch/useSubDaoItems';
+import useDaoSubDaoItems from '@/composables/fetch/useDaoSubDaoItems';
 import { DEFAULT_LIMIT, DEFAILT_ADD_LIMIT, INormalizedDaoAsDefault } from './types';
 import { NetworksType } from '@/types/networks';
 
@@ -195,7 +195,7 @@ const formDataSubDaoParams = computed(() => ({
     ...formDataSubDao.value
 }));
 
-const [subDaoItems] = useSubDaoItems(formDataSubDaoParams);
+const [subDaoItems] = useDaoSubDaoItems(formDataSubDaoParams);
 
 watch(currentDao.value, (val) => {
     if (val.pending) {

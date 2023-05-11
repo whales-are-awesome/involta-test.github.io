@@ -17,7 +17,7 @@
                     name="required"
                     width="6"
                 />
-                <BaseTooltip
+                <TextTooltip
                     v-if="tooltip"
                     :content="tooltip"
                 >
@@ -26,7 +26,7 @@
                         name="warning-circle"
                         width="9"
                     />
-                </BaseTooltip>
+                </TextTooltip>
                 <div
                     v-if="tip"
                     :class="classes.tip"
@@ -88,7 +88,7 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
 import BaseIcon from '@/components/BaseIcon/BaseIcon.vue';
-import BaseTooltip from '@/components/BaseTooltip/BaseTooltip.vue';
+import TextTooltip from '@/components/TextTooltip/TextTooltip.vue';
 import makeClasses from '@/helpers/makeClasses';
 import ThemeSettings from '@/types/themeSettings';
 
