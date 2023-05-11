@@ -80,6 +80,13 @@ interface IDaoTransactionCookie {
     image?: string
 }
 
+
+import { IFollowerAPI } from '@/types/entries/follower';
+
+interface IFollower extends IFollowerAPI {
+
+}
+
 export {
     IDao,
     IDaoPath,
@@ -91,6 +98,8 @@ export {
     ISubDaoItem,
     ISubDaoItemQuery,
     INormalizedSubDaoItemAsDefault,
+
+    IFollower,
 
     IDaoItem,
     IDaoItemParams,

@@ -358,10 +358,10 @@ import getNetworkPrice from '@/helpers/getNetworkPrice';
 import copy from '@/helpers/copy';
 import followDao from '@/helpers/followDao';
 
-import { IFollower } from '@/types/services/FollowerService';
+import { IFollower } from '@/types/services/DaoService';
 import { NetworksType } from '@/types/networks';
 
-import FollowerService from '@/services/FollowerService';
+import DaoService from '@/services/DaoService';
 import useDaoSubDaoItems from '@/composables/fetch/useDaoSubDaoItems';
 import { store } from '@/store';
 
@@ -689,7 +689,7 @@ async function fetchFollowers() {
     followers.value.pending = true;
     followers.value.cancel();
 
-    const [data, error, cancel] = await FollowerService.sampleItems.fetch(
+    const [data, error, cancel] = await DaoService.followerItems.fetch(
         {
             network: route.params.network as NetworksType,
             address: route.params.address as string

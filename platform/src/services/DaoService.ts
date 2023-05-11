@@ -2,7 +2,7 @@ import API from '@/helpers/api';
 import daoControllerABI from '@/abi/daoControllerABI';
 import cutAddress from '@/helpers/cutAddress';
 import addSpacesToNumber from '@/helpers/addSpacesToNumber';
-import { IResponsePagination, Config } from '@/types/api';
+import { IResponsePagination, Config, IPaginationParams } from '@/types/api';
 import {
     IDao,
     IDaoPath,
@@ -14,6 +14,8 @@ import {
     INormalizedSubDaoItemAsDefault,
     ISubDaoItem,
     ISubDaoItemQuery,
+
+    IFollower,
 
     IDaoItem,
     IDaoItemParams,
@@ -115,6 +117,40 @@ export default class DaoService {
                 default: def
             }
         }
+    }
+
+    static follower = {
+        fetchVotingPower(address: string, contractAddress: string) {
+            return API.getFromChain<number>({
+                contractAddress,
+                params: [address],
+                contractABI: daoControllerABI,
+                methodName: 'votingPowerOf'
+            });
+        },
+    }
+
+    static followerItems = {
+        fetch(path: IDaoPath, params: IPaginationParams) {
+            async function raw() {
+                const [data, ...rest] = await API.get<IResponsePagination<IFollower>>(`/${ path.network }/dao/${ path.address }/followers`, params);
+
+                await Promise.all(data?.items.map(async item => {
+                    await Promise.all([
+                        DaoService.follower.fetchVotingPower(item.address, path.address)
+                            .then(result => item.votingPower = result[0] || 0),
+                        API.lookupAddress(item.address)
+                            .then((result: string) => item.name = result)
+                    ]);
+                }) || []);
+
+                return [data, ...rest] as const;
+            }
+
+            return {
+                raw
+            };
+        },
     }
 }
 
