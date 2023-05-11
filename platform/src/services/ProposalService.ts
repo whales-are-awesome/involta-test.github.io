@@ -20,6 +20,40 @@ import { store } from '@/store'
 import { IDaoPath } from '@/types/services/DaoService';
 
 export default class ProposalService {
+    static chain = {
+        createProposal(params: ICreateProposalChainParams) {
+            return API.sendChain<ICreateProposalChainResponse>({
+                contractAddress: params.contractAddress,
+                network: params.network,
+                contractABI: daoControllerABI,
+                methodName: 'createProposal',
+                params: [params.actions]
+            });
+        },
+
+        voteProposal(params: any) {
+            return API.sendChain<never>({
+                contractAddress: params.contractAddress,
+                network: params.network,
+                contractABI: daoControllerABI,
+                methodName: 'voteProposal',
+                needWait: true,
+                params: [params.proposald, params.decision, []]
+            });
+        },
+
+        executeProposal(params: any) {
+            return API.sendChain<never>({
+                contractAddress: params.contractAddress,
+                network: params.network,
+                contractABI: daoControllerABI,
+                methodName: 'executeProposal',
+                needWait: true,
+                params: [params.proposald]
+            });
+        }
+    }
+
     static sample = {
         fetch(path: IProposalPath) {
             async function raw() {
@@ -81,18 +115,8 @@ export default class ProposalService {
             }
         },
 
-        createOnChain(params: ICreateProposalChainParams) {
-            return API.sendChain<ICreateProposalChainResponse>({
-                contractAddress: params.contractAddress,
-                network: params.network,
-                contractABI: daoControllerABI,
-                methodName: 'createProposal',
-                params: [params.actions]
-            });
-        },
-
         async create(path: IDaoPath, params: ICreateProposalParams, config: Config) {
-            const [response, error] = await ProposalService.sample.createOnChain({
+            const [response, error] = await ProposalService.chain.createProposal({
                 network: path.network,
                 contractAddress: path.address,
                 actions: params.actions
@@ -110,27 +134,9 @@ export default class ProposalService {
             return [null, error, () => {}] as const;
         },
 
-        vote(params: any) {
-            return API.sendChain<never>({
-                contractAddress: params.contractAddress,
-                network: params.network,
-                contractABI: daoControllerABI,
-                methodName: 'voteProposal',
-                needWait: true,
-                params: [params.proposald, params.decision, []]
-            });
-        },
+        vote: ProposalService.chain.voteProposal,
 
-        execute(params: any) {
-            return API.sendChain<never>({
-                contractAddress: params.contractAddress,
-                network: params.network,
-                contractABI: daoControllerABI,
-                methodName: 'executeProposal',
-                needWait: true,
-                params: [params.proposald]
-            });
-        }
+        execute: ProposalService.chain.executeProposal,
     }
 
     static sampleItems = {

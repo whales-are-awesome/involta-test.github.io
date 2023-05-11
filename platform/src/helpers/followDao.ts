@@ -23,7 +23,7 @@ async function followDao(name: string, address: string, network: NetworksType, a
         return [null, err] as const;
     }
 
-    const [response, error] = await DaoService.sample[isUnfollow ? 'unfollow' : 'follow'](
+    const [response, error] = await DaoService.follow[isUnfollow ? 'unfollow' : 'follow'](
         {
             address,
             network

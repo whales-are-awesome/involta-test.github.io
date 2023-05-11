@@ -26,10 +26,45 @@ import { store } from '@/store';
 import { NetworksType } from '@/types/networks';
 
 export default class DaoService {
+    static chain = {
+        fetchVotingPower(address: string, contractAddress: string) {
+            return API.getFromChain<number>({
+                contractAddress,
+                params: [address],
+                contractABI: daoControllerABI,
+                methodName: 'votingPowerOf'
+            });
+        },
+
+        fetchTotalVotingPower(contractAddress: string) {
+            return API.getFromChain<number>({
+                contractAddress,
+                params: [],
+                contractABI: daoControllerABI,
+                methodName: 'totalVotingPower'
+            });
+        },
+        createDao(params: ICreateDaoParams) {
+            return API.sendChain<ICreateDaoResponse>({
+                contractName: 'daoFactory',
+                methodName: 'deployDao',
+                network: params.network,
+                params: [
+                    +params.proposalExpirationTime,
+                    +params.quorumRequired,
+                    params.parentRegistry,
+                    params.name,
+                    params.governanceTokenSupply,
+                    params.governanceTicker
+                ]
+            });
+        },
+    }
+
     static sample = {
         fetch(path: IDaoPath) {
             async function raw() {
-                const [votingPower] = await DaoService.sample.fetchVotingPower(store.state.wallet.address!, path.address);
+                const [votingPower] = await DaoService.chain.fetchVotingPower(store.state.wallet.address!, path.address);
 
                 const [data, error] = await API.get<IDao>(`/${ path.network }/dao/${ path.address }`);
 
@@ -48,52 +83,22 @@ export default class DaoService {
             };
         },
 
-        create(params: ICreateDaoParams) {
-            return API.sendChain<ICreateDaoResponse>({
-                contractName: 'daoFactory',
-                methodName: 'deployDao',
-                network: params.network,
-                params: [
-                    +params.proposalExpirationTime,
-                    +params.quorumRequired,
-                    params.parentRegistry,
-                    params.name,
-                    params.governanceTokenSupply,
-                    params.governanceTicker
-                ]
-            });
-        },
-
         change(path: IDaoPath, params: IChangeDaoParams, config: Config) {
             return API.put<never>(`/${ path.network }/dao/${ path.address }`, params, config);
         },
 
+        create: DaoService.chain.createDao
+    };
+
+    static follow = {
         follow(path: IDaoPath, config: Config) {
             return API.post<never>(`/${ path.network }/dao/${ path.address }/follow`, {}, config);
         },
 
         unfollow(path: IDaoPath, config: Config) {
             return API.delete<never>(`/${ path.network }/dao/${ path.address }/follow`, config);
-        },
-
-        fetchVotingPower(address: string, contractAddress: string) {
-            return API.getFromChain<number>({
-                contractAddress,
-                params: [address],
-                contractABI: daoControllerABI,
-                methodName: 'votingPowerOf'
-            });
-        },
-
-        fetchTotalVotingPower(contractAddress: string) {
-            return API.getFromChain<number>({
-                contractAddress,
-                params: [],
-                contractABI: daoControllerABI,
-                methodName: 'totalVotingPower'
-            });
-        },
-    };
+        }
+    }
 
     static sampleItems = {
         fetch(params?: IDaoItemParams, network?: NetworksType) {
@@ -137,11 +142,11 @@ export default class DaoService {
         fetch(path: IDaoPath, params: IPaginationParams) {
             async function raw() {
                 const [data, ...rest] = await API.get<IResponsePagination<IFollower>>(`/${ path.network }/dao/${ path.address }/followers`, params);
-                const [totalVotingPower] = (await DaoService.sample.fetchTotalVotingPower(path.address));
+                const [totalVotingPower] = (await DaoService.chain.fetchTotalVotingPower(path.address));
 
                 await Promise.all(data?.items.map(async item => {
                     await Promise.all([
-                        DaoService.sample.fetchVotingPower(item.address, path.address)
+                        DaoService.chain.fetchVotingPower(item.address, path.address)
                             .then(result => {
                                 item.tokens = result[0] || 0;
                                 item.votingPower = cropPercents((item.tokens / (totalVotingPower || 0) * 100) || 0);
@@ -184,7 +189,6 @@ function normalizeDaoItemsAsTable(data: IResponsePagination<IDaoItem>): IRespons
             ...item,
             fullName: item.name || cutAddress(item.address),
             get followersAmountFormatted() {
-                //@ts-ignore
                 return addSpacesToNumber(this.followersAmount);
             }
         }))
