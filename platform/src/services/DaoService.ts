@@ -2,6 +2,7 @@ import API from '@/helpers/api';
 import daoControllerABI from '@/abi/daoControllerABI';
 import cutAddress from '@/helpers/cutAddress';
 import addSpacesToNumber from '@/helpers/addSpacesToNumber';
+import cropPercents from '@/helpers/cropPercents';
 import { IResponsePagination, Config, IPaginationParams } from '@/types/api';
 import {
     IDao,
@@ -143,7 +144,7 @@ export default class DaoService {
                         DaoService.sample.fetchVotingPower(item.address, path.address)
                             .then(result => {
                                 item.tokens = result[0] || 0;
-                                item.votingPower = item.tokens / (totalVotingPower || 0) * 100;
+                                item.votingPower = cropPercents((item.tokens / (totalVotingPower || 0) * 100) || 0);
                             }),
                         API.lookupAddress(item.address)
                             .then((result: string) => item.name = result)

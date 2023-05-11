@@ -1,7 +1,7 @@
-function cropPercents(x: number | string): string {
+function cropPercents(x: number | string): number {
     return x.toString().length > 5
-        ? x.toString().slice(0, 5)
-        : x.toString();
+        ? Math.floor(+x * 100) / 100
+        : +x;
 }
 
 export default cropPercents;
