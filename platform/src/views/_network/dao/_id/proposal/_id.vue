@@ -683,13 +683,13 @@ async function fetchProposal() {
     proposal.value.pending = true;
     proposal.value.cancel();
 
-    const [data, error, cancel] = await ProposalService.fetchProposalAsDefault(
+    const [data, error, cancel] = await ProposalService.fetchProposal(
         {
             network: route.params.network as NetworksType,
             address: route.params.address as string,
             id: +route.params.proposalId
         }
-    );
+    ).default();
 
     proposal.value = { data, cancel, pending: false };
 }

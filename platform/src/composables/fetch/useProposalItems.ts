@@ -32,7 +32,7 @@ function useProposalItems(_data: any) {
         const [data, error, cancel] = await ProposalService.fetchDaoProposalItems( {
             network: route.params.network as NetworksType,
             address: route.params.address as string,
-        }, dataResult.value);
+        }, dataResult.value).table();
 
         if (error) {
             items.value.pending = false;

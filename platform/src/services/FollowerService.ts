@@ -12,19 +12,25 @@ import {
 
 
 export default class FollowerService {
-    static async fetchFollowers(path: IDaoPath, params: IPaginationParams) {
-        const [data, ...rest] = await API.get<IResponsePagination<IFollower>>(`/${ path.network }/dao/${ path.address }/followers`, params);
+    static fetchFollowers(path: IDaoPath, params: IPaginationParams) {
+        async function raw() {
+            const [data, ...rest] = await API.get<IResponsePagination<IFollower>>(`/${ path.network }/dao/${ path.address }/followers`, params);
 
-        await Promise.all(data?.items.map(async item => {
-            await Promise.all([
-                FollowerService.fetchVotingPower(item.address, path.address)
-                    .then(result => item.votingPower = result[0] || 0),
-                API.lookupAddress(item.address)
-                    .then((result: string) => item.name = result)
-            ]);
-        }) || []);
+            await Promise.all(data?.items.map(async item => {
+                await Promise.all([
+                    FollowerService.fetchVotingPower(item.address, path.address)
+                        .then(result => item.votingPower = result[0] || 0),
+                    API.lookupAddress(item.address)
+                        .then((result: string) => item.name = result)
+                ]);
+            }) || []);
 
-        return [data, ...rest] as const;
+            return [data, ...rest] as const;
+        }
+
+        return {
+            raw
+        }
     }
 
     static async fetchVotingPower(address: string, contractAddress: string) {

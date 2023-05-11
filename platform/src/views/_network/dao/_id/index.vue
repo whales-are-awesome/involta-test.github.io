@@ -646,7 +646,9 @@ async function filterItems() {
 }
 
 async function setPrices() {
-    treasures.value.items.polygon.price = await getNetworkPrice('polygon');
+    if (route.params.network === 'polygon') {
+        treasures.value.items.polygon.price = await getNetworkPrice('polygon');
+    }
 }
 
 async function setBalance() {
@@ -696,7 +698,7 @@ async function fetchFollowers() {
             offset: 0,
             limit: 15
         }
-    );
+    ).raw();
 
     followers.value = { data, cancel, pending: false };
 }

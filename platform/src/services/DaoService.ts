@@ -40,58 +40,87 @@ export default class DaoService {
         });
     }
 
-    static async fetchDao(path: IDaoPath) {
-        const [votingPower] = await API.getFromChain<number>({
-            contractAddress: path.address,
-            params: [store.state.wallet.address],
-            contractABI: daoControllerABI,
-            methodName: 'votingPowerOf'
-        });
+    static fetchDao(path: IDaoPath) {
+        async function raw() {
+            const [votingPower] = await API.getFromChain<number>({
+                contractAddress: path.address,
+                params: [store.state.wallet.address],
+                contractABI: daoControllerABI,
+                methodName: 'votingPowerOf'
+            });
 
-        const [data, error] = await API.get<IDao>(`/${ path.network }/dao/${ path.address }`);
+            const [data, error] = await API.get<IDao>(`/${ path.network }/dao/${ path.address }`);
 
-        return [{ ...data, votingPower: +votingPower! } as IDao, error, () => {}] as const;
+            return [{ ...data, votingPower: +votingPower! } as IDao, error, () => {}] as const;
+        }
+
+        async function def() {
+            const [data, ...rest] = await raw();
+
+            return [data && normalizeDaoAsDefault(data), ...rest] as const;
+        }
+
+        return {
+            raw,
+            default: def
+        }
     }
 
-    static async fetchDaoAsDefault(params: IDaoPath) {
-        const [data, ...rest] = await DaoService.fetchDao(params);
-
-        return [data && normalizeDaoAsDefault(data), ...rest] as const;
-    }
 
     static async changeDao(path: IDaoPath, params: IChangeDaoParams, config: Config) {
         return API.put<never>(`/${ path.network }/dao/${ path.address }`, params, config);
     }
 
 
-    static async fetchDaoItems(network: string, params?: IDaoItemParams) {
-        return API.get<IResponsePagination<IDaoItem>>(`/${ network }/dao`, params);
+    static fetchDaoItems(network: string, params?: IDaoItemParams) {
+        async function raw() {
+            return API.get<IResponsePagination<IDaoItem>>(`/${ network }/dao`, params);
+        }
+
+        async function table() {
+            const [data, ...rest] = await raw();
+
+            return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
+        }
+
+        return {
+            raw,
+            table
+        }
     }
 
-    static async fetchDaoItemsAsTable(network: string, params?: IDaoItemParams) {
-        const [data, ...rest] = await DaoService.fetchDaoItems(network, params);
+    static fetchAllDaoItems(params?: IDaoItemParams) {
+        async function raw() {
+            return API.get<IResponsePagination<IDaoItem>>('/dao', params);
+        }
 
-        return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
+        async function table() {
+            const [data, ...rest] = await raw();
+
+            return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
+        }
+
+        return {
+            raw,
+            table
+        }
     }
 
-    static async fetchAllDaoItems(params?: IDaoItemParams) {
-        return API.get<IResponsePagination<IDaoItem>>('/dao', params);
-    }
+    static fetchSubDaoItems(path: IDaoPath, params: ISubDaoItemQuery) {
+        async function raw() {
+            return API.get<IResponsePagination<ISubDaoItem>>('/' + path.network + `/dao/${ path.address }` + `/subdao`, params);
+        }
 
-    static async fetchAllDaoItemsAsTable(params?: IDaoItemParams) {
-        const [data, ...rest] = await DaoService.fetchAllDaoItems(params);
+        async function def() {
+            const [data, ...rest] = await raw();
 
-        return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
-    }
+            return [data && normalizeSubDaoItemsAsDefault(data), ...rest] as const;
+        }
 
-    static async fetchSubDaoItems(path: IDaoPath, params: ISubDaoItemQuery) {
-        return API.get<IResponsePagination<ISubDaoItem>>('/' + path.network + `/dao/${ path.address }` + `/subdao`, params);
-    }
-
-    static async fetchSubDaoItemsAsDefault(path: IDaoPath, params: ISubDaoItemQuery) {
-        const [data, ...rest] = await DaoService.fetchSubDaoItems(path, params);
-
-        return [data && normalizeSubDaoItemsAsDefault(data), ...rest] as const;
+        return {
+            raw,
+            default: def
+        }
     }
 }
 
