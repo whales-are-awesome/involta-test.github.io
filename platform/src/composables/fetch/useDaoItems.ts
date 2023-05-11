@@ -33,7 +33,7 @@ function useDaoItems(_data: any) {
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await DaoService.fetchDaoItems(network, dataResult.value).table();
+        const [data, error, cancel] = await DaoService.fetchDaoItems(dataResult.value, network).table();
 
         if (error) {
             items.value.pending = false;

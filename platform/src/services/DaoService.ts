@@ -20,6 +20,7 @@ import {
     INormalizedDaoItemAsTable,
 } from '@/types/services/DaoService';
 import { store } from '@/store';
+import { NetworksType } from '@/types/networks';
 
 
 
@@ -72,26 +73,9 @@ export default class DaoService {
     }
 
 
-    static fetchDaoItems(network: string, params?: IDaoItemParams) {
+    static fetchDaoItems(params?: IDaoItemParams, network?: NetworksType) {
         async function raw() {
-            return API.get<IResponsePagination<IDaoItem>>(`/${ network }/dao`, params);
-        }
-
-        async function table() {
-            const [data, ...rest] = await raw();
-
-            return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
-        }
-
-        return {
-            raw,
-            table
-        }
-    }
-
-    static fetchAllDaoItems(params?: IDaoItemParams) {
-        async function raw() {
-            return API.get<IResponsePagination<IDaoItem>>('/dao', params);
+            return API.get<IResponsePagination<IDaoItem>>(`/${ network ? network + '/' : '' }dao`, params);
         }
 
         async function table() {
