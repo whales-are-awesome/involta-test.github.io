@@ -255,6 +255,7 @@
                             <FollowersItem
                                 :address="item.address"
                                 :name="item.name"
+                                :tokens="item.tokens"
                                 :voting-power="item.votingPower"
                             />
                         </div>

@@ -30,14 +30,14 @@
             </div>
         </BaseAvatar>
         <div class="bg-white py-[19px] px-3 rounded-[8px] flex">
-<!--            <div class="w-1/3">-->
-<!--                <div class="text-gray-500 text-tiny font-medium mb-1">-->
-<!--                    Tokens-->
-<!--                </div>-->
-<!--                <div class="font-bold text-xxs text-gray-600">-->
-
-<!--                </div>-->
-<!--            </div>-->
+            <div class="w-1/3">
+                <div class="text-gray-500 text-tiny font-medium mb-1">
+                    Tokens
+                </div>
+                <div class="font-bold text-xxs text-gray-600">
+                    {{ tokens }}
+                </div>
+            </div>
             <div class="w-1/3">
                 <div class="text-gray-500 text-tiny font-medium mb-1">
                     Voting power
@@ -68,6 +68,7 @@ interface IProps {
     address: string
     name: string
     votingPower: number
+    tokens: number
     themeSettings?: ThemeSettings<'root'>
 }
 

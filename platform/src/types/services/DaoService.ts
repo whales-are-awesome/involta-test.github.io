@@ -84,7 +84,9 @@ interface IDaoTransactionCookie {
 import { IFollowerAPI } from '@/types/entries/follower';
 
 interface IFollower extends IFollowerAPI {
-
+    name: string
+    votingPower: number
+    tokens: number
 }
 
 export {
