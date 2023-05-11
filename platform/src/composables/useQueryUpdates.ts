@@ -8,7 +8,7 @@ interface IFormData {
     limit?: number
 }
 
-function useQueryUpdates(formData: IFormData, includes?: string[]) {
+function useQueryUpdates(formData: IFormData, includes?: string[], excludes?: string[]) {
     const route = useRoute();
     const router = useRouter();
 
@@ -31,6 +31,12 @@ function useQueryUpdates(formData: IFormData, includes?: string[]) {
         includes?.forEach(item => {
             if (item in route.query && !(item in resultQuery)) {
                 resultQuery[item] = route.query[item];
+            }
+        });
+
+        excludes?.forEach(item => {
+            if (resultQuery[item]) {
+                delete resultQuery[item];
             }
         });
 

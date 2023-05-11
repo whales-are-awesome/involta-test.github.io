@@ -45,18 +45,6 @@
                         />
                     </div>
                     <div
-                        v-if="tagListValue === Sections.Daos"
-                        class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
-                    >
-                        <SelectField
-                            v-model="formData.value.chainId"
-                            :options="formDaosInfo.chainOptions"
-                            :theme-settings="{
-                                height: (isMobile.xl || isMobile.lg) ? 'h-[44px]' : 'h-[28px]'
-                            }"
-                        />
-                    </div>
-                    <div
                         v-if="tagListValue === Sections.Apps"
                         class="px-2 mt-2.5 flex-shrink-0 sm:order-[-2] md:px-1.5 sm:px-[5px] sm:w-1/2"
                     >
@@ -73,8 +61,8 @@
                         class="px-2 mt-2.5 flex-shrink-0 md:px-1.5 sm:px-[5px]"
                     >
                         <TagsButtonList
-                            class="h-full sm:h-[28px]"
-                            v-model="formData.value.daosId"
+                            class="h-[44px] sm:h-[28px]"
+                            v-model="formData.value.follower"
                             :items="formDaosInfo.daosOptions"
                         />
                     </div>
@@ -92,7 +80,8 @@
                     <BaseSearch
                         v-if="tagListValue !== Sections.Statistics && tagListValue !== Sections.Followers"
                         class="mx-2 mt-2.5 max-w-[414px] w-full z-[5] sm:max-w-[92px] md:mx-1.5 sm:mx-[5px]"
-                        v-model="formData.value.search"
+                        theme="white"
+                        v-model="formData.value.name"
                     />
                     <div
                         v-if="createButton || tagListValue === Sections.Followers"
@@ -339,6 +328,7 @@ import TagsList from '@/components/TagsList/TagsList.vue';
 import TagsButtonList from '@/components/TagsButtonList/TagsButtonList.vue';
 import ProposalCard from '@/components/ProposalCard/ProposalCard.vue';
 import BaseButton from '@/components/BaseButton/BaseButton.vue';
+import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import TextSeparator from '@/components/TextSeparator/TextSeparator.vue';
 import DaoPageHeader from '@/components/DaoPageHeader/DaoPageHeader.vue';
 import FollowersItem from '@/components/FollowersItem/FollowersItem.vue';
@@ -372,6 +362,8 @@ import { IFollower } from '@/types/services/FollowerService';
 import { NetworksType } from '@/types/networks';
 
 import FollowerService from '@/services/FollowerService';
+import useDaoSubDaoItems from '@/composables/fetch/useDaoSubDaoItems';
+import { store } from '@/store';
 
 
 // META
@@ -439,6 +431,13 @@ onUnmounted(() => {
     emitter.off('daoEdited', fetchDao);
 });
 
+
+// META:ADDRESS
+
+const addressOrName = computed(() => store.getters['wallet/addressOrName']);
+const address = computed(() => store.state.wallet.address);
+
+
 // PROPOSALS
 
 const formProposalsInfo = {
@@ -456,7 +455,7 @@ const formProposalsInfo = {
 const formDataProposals = ref({
     voteId: getQueryParam<number>(query.voteId, formProposalsInfo.voteOptions),
     statusId: getQueryParam<number>(query.statusId, formProposalsInfo.statusesOptions),
-    search: route.query.search || '',
+    name: route.query.name || '',
     limit: 20,
     offset: 0
 });
@@ -482,24 +481,21 @@ function addMoreProposals() {
 
 const formDaosInfo = {
     daosOptions: [
-        { id: 0, title: 'All Daos' },
-        { id: 1, title: 'My Daos' }
+        { id: null, title: 'All Daos' },
+        { id: address.value, title: 'My Daos' }
     ],
-    chainOptions: [
-        { id: 'all', title: 'All chains' },
-        { id: 'goerli', title: 'Goerli' }
-    ]
 };
 
 const formDataDaos = ref({
-    chainId: getQueryParam<string>(query.chainId, formDaosInfo.chainOptions),
-    daosId: getQueryParam<number>(query.daosId, formDaosInfo.daosOptions),
-    search: query.search || '',
+    parentAddress: route.params.address,
+    network: route.params.network,
+    follower: getQueryParam<string | null>(query.follower, formDaosInfo.daosOptions),
+    name: query.name || '',
     limit: 20,
     offset: 0
 });
 
-const [daoItems, fetchDaoItems] = useDaoItems(formDataDaos);
+const [daoItems, fetchDaoItems] = useDaoSubDaoItems(formDataDaos);
 
 const daoItemsFiltered = computed(() => {
     return daoItems.value.data?.items || [];
@@ -513,7 +509,7 @@ onUnmounted(() => {
     emitter.off('accountChanged',fetchDaoItems);
 });
 
-useQueryUpdates(formDataDaos, ['section']);
+useQueryUpdates(formDataDaos, ['section'], ['parentAddress', 'network']);
 
 function addMoreDao() {
     if (daoItems.value.data?.items.length !== daoItems.value.data?.total) {
@@ -533,7 +529,7 @@ const formAppsInfo = {
 
 const formDataApps = ref({
     categoryId: getQueryParam<number>(query.categoryId, formAppsInfo.categoryOptions),
-    search: '',
+    name: '',
     limit: 20,
     offset: 0
 });
