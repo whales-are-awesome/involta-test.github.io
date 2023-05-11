@@ -169,7 +169,7 @@ async function addParentDaos() {
 
     isPendingParentDaos.value = true;
 
-    const [data] = await DaoService.fetchDao({
+    const [data] = await DaoService.sample.fetch({
         address: lastParentAddress,
         network: route.params.network as NetworksType
     }).default();

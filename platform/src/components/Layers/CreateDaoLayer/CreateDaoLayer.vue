@@ -221,7 +221,7 @@ async function createDAO() {
         }
     }
 
-    const [response, error] = await DaoService.createDao({
+    const [response, error] = await DaoService.sample.create({
         name: formData.value.name,
         governanceTokenSupply: +formData.value.governanceTokenSupply,
         governanceTicker: formData.value.governanceTicker,

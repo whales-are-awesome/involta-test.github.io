@@ -683,7 +683,7 @@ async function fetchProposal() {
     proposal.value.pending = true;
     proposal.value.cancel();
 
-    const [data, error, cancel] = await ProposalService.fetchProposal(
+    const [data, error, cancel] = await ProposalService.sample.fetch(
         {
             network: route.params.network as NetworksType,
             address: route.params.address as string,
@@ -721,7 +721,7 @@ async function vote() {
 
     proposal.value.pending = true;
 
-    const [data, error, cancel] = await ProposalService.voteProposal(
+    const [data, error, cancel] = await ProposalService.sample.vote(
         {
             proposald: route.params.proposalId,
             network: route.params.network,
@@ -786,7 +786,7 @@ const canExecute = computed(() => proposalData.value?.status === ProposalStatus.
 async function execute() {
     proposal.value.pending = true;
 
-    const [data, error, cancel] = await ProposalService.executeProposal(
+    const [data, error, cancel] = await ProposalService.sample.execute(
         {
             network: route.params.network,
             proposald: route.params.proposalId,

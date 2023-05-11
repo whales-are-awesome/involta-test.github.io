@@ -71,7 +71,7 @@ function useWatchForCreatedDaos() {
     }
 
     async function putData(address: string, data: IDaoTransactionCookie, signInfo: Awaited<ReturnType<typeof sign>>[0]) {
-        return DaoService.changeDao(
+        return DaoService.sample.change(
             {
                 address,
                 network: data.network

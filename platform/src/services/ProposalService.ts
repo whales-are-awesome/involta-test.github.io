@@ -20,162 +20,164 @@ import { store } from '@/store'
 import { IDaoPath } from '@/types/services/DaoService';
 
 export default class ProposalService {
-    static async createProposalChain(params: ICreateProposalChainParams) {
-        return API.sendChain<ICreateProposalChainResponse>({
-            contractAddress: params.contractAddress,
-            network: params.network,
-            contractABI: daoControllerABI,
-            methodName: 'createProposal',
-            params: [params.actions]
-        });
-    }
-
-    static async createProposal(path: IDaoPath, params: ICreateProposalParams, config: Config) {
-        const [response, error] = await ProposalService.createProposalChain({
-            network: path.network,
-            contractAddress: path.address,
-            actions: params.actions
-        });
-
-        if (response?.trx) {
-            await API.post<never>(`/${ path.network }/dao/${ path.address }/proposal`, omit({
-                ...params,
-                creationTx: response.trx.hash
-            }, ['actions']), config);
-
-            return [response, error, () => {}] as const;
-        }
-
-        return [null, error, () => {}] as const;
-
-    }
-
-    static fetchProposal(path: IProposalPath) {
-        async function raw() {
-            const [data, ...rest] = await API.get<IProposal>(`/${ path.network }/dao/${ path.address }/proposal/${ path.id }`);
-            const [chainData, ...restChainData] = await API.getFromChain<IProposalChain>({
-                contractAddress: path.address,
-                params: [path.id],
-                contractABI: daoControllerABI,
-                methodName: 'getProposal'
-            });
-            let fullData: IProposal | null = null;
-
-            if (data && chainData) {
-                const [proposalExpirationTime] = await API.getFromChain<number>({
+    static sample = {
+        fetch(path: IProposalPath) {
+            async function raw() {
+                const [data, ...rest] = await API.get<IProposal>(`/${ path.network }/dao/${ path.address }/proposal/${ path.id }`);
+                const [chainData, ...restChainData] = await API.getFromChain<IProposalChain>({
                     contractAddress: path.address,
-                    params: [],
+                    params: [path.id],
                     contractABI: daoControllerABI,
-                    methodName: 'proposalExpirationTime'
+                    methodName: 'getProposal'
                 });
-                const [vote] = await API.getFromChain<string>({
-                    contractAddress: path.address,
-                    params: [store.state.wallet.address, path.id],
-                    contractABI: daoControllerABI,
-                    methodName: 'voted'
-                });
-                const [votingPower] = await API.getFromChain<number>({
-                    contractAddress: path.address,
-                    params: [store.state.wallet.address],
-                    contractABI: daoControllerABI,
-                    methodName: 'votingPowerOf'
-                });
+                let fullData: IProposal | null = null;
 
-                fullData = cloneDeep({
-                    ...data,
-                    ...chainData,
-                    proposalExpirationTime,
-                    vote: +vote! as ProposalVoteType,
-                    votingPower
-                });
-
-                await Promise.all([
-                    API.lookupAddress(data.createdBy)
-                        .then((result: string) => fullData!.createdByName = result)
-                ]);
-            }
-
-            return [fullData, ...rest] as const;
-        }
-
-        async function def() {
-            const [data, ...rest] = await raw();
-
-            return [data && await normalizeProposalAsDefault(data), ...rest] as const;
-        }
-
-        return {
-            raw,
-            default: def
-        }
-    }
-
-
-    static fetchDaoProposalItems(path: IDaoPath, params: any) {
-        async function raw() {
-            const [data, ...rest] = await API.get<IResponsePagination<IProposal>>(`/${ path.network }/dao/${ path.address }/proposal`, params);
-
-            const fullData = cloneDeep(data) as typeof data;
-
-            if (data?.items.length) {
-                const [proposalExpirationTime] = await API.getFromChain<number>({
-                    contractAddress: path.address,
-                    params: [],
-                    contractABI: daoControllerABI,
-                    methodName: 'proposalExpirationTime'
-                });
-
-                await Promise.all(data.items.map(async(item, index) => {
-                    const [chainData, ...restChainData] = await API.getFromChain<IProposalChain>({
+                if (data && chainData) {
+                    const [proposalExpirationTime] = await API.getFromChain<number>({
                         contractAddress: path.address,
-                        params: [item.id],
+                        params: [],
                         contractABI: daoControllerABI,
-                        methodName: 'getProposal'
+                        methodName: 'proposalExpirationTime'
+                    });
+                    const [vote] = await API.getFromChain<string>({
+                        contractAddress: path.address,
+                        params: [store.state.wallet.address, path.id],
+                        contractABI: daoControllerABI,
+                        methodName: 'voted'
+                    });
+                    const [votingPower] = await API.getFromChain<number>({
+                        contractAddress: path.address,
+                        params: [store.state.wallet.address],
+                        contractABI: daoControllerABI,
+                        methodName: 'votingPowerOf'
                     });
 
-                    fullData!.items[index] = {
-                        ...item,
+                    fullData = cloneDeep({
+                        ...data,
                         ...chainData,
-                        proposalExpirationTime: proposalExpirationTime!
-                    };
-                }))
+                        proposalExpirationTime,
+                        vote: +vote! as ProposalVoteType,
+                        votingPower
+                    });
+
+                    await Promise.all([
+                        API.lookupAddress(data.createdBy)
+                            .then((result: string) => fullData!.createdByName = result)
+                    ]);
+                }
+
+                return [fullData, ...rest] as const;
             }
 
-            return [fullData, ...rest] as const;
+            async function def() {
+                const [data, ...rest] = await raw();
+
+                return [data && await normalizeProposalAsDefault(data), ...rest] as const;
+            }
+
+            return {
+                raw,
+                default: def
+            }
+        },
+
+        createOnChain(params: ICreateProposalChainParams) {
+            return API.sendChain<ICreateProposalChainResponse>({
+                contractAddress: params.contractAddress,
+                network: params.network,
+                contractABI: daoControllerABI,
+                methodName: 'createProposal',
+                params: [params.actions]
+            });
+        },
+
+        async create(path: IDaoPath, params: ICreateProposalParams, config: Config) {
+            const [response, error] = await ProposalService.sample.createOnChain({
+                network: path.network,
+                contractAddress: path.address,
+                actions: params.actions
+            });
+
+            if (response?.trx) {
+                await API.post<never>(`/${ path.network }/dao/${ path.address }/proposal`, omit({
+                    ...params,
+                    creationTx: response.trx.hash
+                }, ['actions']), config);
+
+                return [response, error, () => {}] as const;
+            }
+
+            return [null, error, () => {}] as const;
+        },
+
+        vote(params: any) {
+            return API.sendChain<never>({
+                contractAddress: params.contractAddress,
+                network: params.network,
+                contractABI: daoControllerABI,
+                methodName: 'voteProposal',
+                needWait: true,
+                params: [params.proposald, params.decision, []]
+            });
+        },
+
+        execute(params: any) {
+            return API.sendChain<never>({
+                contractAddress: params.contractAddress,
+                network: params.network,
+                contractABI: daoControllerABI,
+                methodName: 'executeProposal',
+                needWait: true,
+                params: [params.proposald]
+            });
         }
-
-        async function table() {
-            const [data, ...rest] = await raw();
-
-            return [data && normalizeProposalItemsAsTable(data), ...rest] as const;
-        }
-
-        return {
-            raw,
-            table
-        };
     }
 
-    static async voteProposal(params: any) {
-        return API.sendChain<never>({
-            contractAddress: params.contractAddress,
-            network: params.network,
-            contractABI: daoControllerABI,
-            methodName: 'voteProposal',
-            needWait: true,
-            params: [params.proposald, params.decision, []]
-        });
-    }
+    static sampleItems = {
+        fetch(path: IDaoPath, params: any) {
+            async function raw() {
+                const [data, ...rest] = await API.get<IResponsePagination<IProposal>>(`/${ path.network }/dao/${ path.address }/proposal`, params);
 
-    static async executeProposal(params: any) {
-        return API.sendChain<never>({
-            contractAddress: params.contractAddress,
-            network: params.network,
-            contractABI: daoControllerABI,
-            methodName: 'executeProposal',
-            needWait: true,
-            params: [params.proposald]
-        });
+                const fullData = cloneDeep(data) as typeof data;
+
+                if (data?.items.length) {
+                    const [proposalExpirationTime] = await API.getFromChain<number>({
+                        contractAddress: path.address,
+                        params: [],
+                        contractABI: daoControllerABI,
+                        methodName: 'proposalExpirationTime'
+                    });
+
+                    await Promise.all(data.items.map(async(item, index) => {
+                        const [chainData, ...restChainData] = await API.getFromChain<IProposalChain>({
+                            contractAddress: path.address,
+                            params: [item.id],
+                            contractABI: daoControllerABI,
+                            methodName: 'getProposal'
+                        });
+
+                        fullData!.items[index] = {
+                            ...item,
+                            ...chainData,
+                            proposalExpirationTime: proposalExpirationTime!
+                        };
+                    }))
+                }
+
+                return [fullData, ...rest] as const;
+            }
+
+            async function table() {
+                const [data, ...rest] = await raw();
+
+                return [data && normalizeProposalItemsAsTable(data), ...rest] as const;
+            }
+
+            return {
+                raw,
+                table
+            };
+        }
     }
 }
 

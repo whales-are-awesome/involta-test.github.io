@@ -1,5 +1,5 @@
 import sign from '@/helpers/sign';
-import FollowerService from '@/services/FollowerService';
+import DaoService from '@/services/DaoService';
 import emitter from '@/plugins/mitt';
 import { notify } from '@kyvg/vue3-notification';
 import { store } from '@/store';
@@ -23,7 +23,7 @@ async function followDao(name: string, address: string, network: NetworksType, a
         return [null, err] as const;
     }
 
-    const [response, error] = await FollowerService[isUnfollow ? 'unFollowDao' : 'followDao'](
+    const [response, error] = await DaoService.sample[isUnfollow ? 'unfollow' : 'follow'](
         {
             address,
             network

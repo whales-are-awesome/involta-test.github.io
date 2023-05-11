@@ -29,7 +29,7 @@ function useProposalItems(_data: any) {
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await ProposalService.fetchDaoProposalItems( {
+        const [data, error, cancel] = await ProposalService.sampleItems.fetch( {
             network: route.params.network as NetworksType,
             address: route.params.address as string,
         }, dataResult.value).table();

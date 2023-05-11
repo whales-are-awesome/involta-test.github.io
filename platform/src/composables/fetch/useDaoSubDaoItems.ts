@@ -47,8 +47,8 @@ function useDaoSubDaoItems(_data: Data, _options?: IOptions) {
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await DaoService
-            .fetchSubDaoItems({ address: dataResult.value.parentAddress, network: dataResult.value.network }, dataResult.value.params)
+        const [data, error, cancel] = await DaoService.subDaoItems
+            .fetch({ address: dataResult.value.parentAddress, network: dataResult.value.network }, dataResult.value.params)
             .default();
 
         if (error) {

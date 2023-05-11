@@ -383,7 +383,7 @@ async function createProposal() {
         return [null, err] as const;
     }
 
-    const [response, error] = await ProposalService.createProposal(
+    const [response, error] = await ProposalService.sample.create(
         {
             address: route.params.address as string,
             network: route.params.network as NetworksType

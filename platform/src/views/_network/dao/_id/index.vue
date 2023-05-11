@@ -689,7 +689,7 @@ async function fetchFollowers() {
     followers.value.pending = true;
     followers.value.cancel();
 
-    const [data, error, cancel] = await FollowerService.fetchFollowers(
+    const [data, error, cancel] = await FollowerService.sampleItems.fetch(
         {
             network: route.params.network as NetworksType,
             address: route.params.address as string

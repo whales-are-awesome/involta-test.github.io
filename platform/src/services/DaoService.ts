@@ -22,91 +22,102 @@ import {
 import { store } from '@/store';
 import { NetworksType } from '@/types/networks';
 
-
-
 export default class DaoService {
-    static async createDao(params: ICreateDaoParams) {
-        return API.sendChain<ICreateDaoResponse>({
-            contractName: 'daoFactory',
-            methodName: 'deployDao',
-            network: params.network,
-            params: [
-                +params.proposalExpirationTime,
-                +params.quorumRequired,
-                params.parentRegistry,
-                params.name,
-                params.governanceTokenSupply,
-                params.governanceTicker
-            ]
-        });
-    }
+    static sample = {
+        fetch(path: IDaoPath) {
+            async function raw() {
+                const [votingPower] = await API.getFromChain<number>({
+                    contractAddress: path.address,
+                    params: [store.state.wallet.address],
+                    contractABI: daoControllerABI,
+                    methodName: 'votingPowerOf'
+                });
 
-    static fetchDao(path: IDaoPath) {
-        async function raw() {
-            const [votingPower] = await API.getFromChain<number>({
-                contractAddress: path.address,
-                params: [store.state.wallet.address],
-                contractABI: daoControllerABI,
-                methodName: 'votingPowerOf'
+                const [data, error] = await API.get<IDao>(`/${ path.network }/dao/${ path.address }`);
+
+                return [{ ...data, votingPower: +votingPower! } as IDao, error, () => {}] as const;
+            }
+
+            async function def() {
+                const [data, ...rest] = await raw();
+
+                return [data && normalizeDaoAsDefault(data), ...rest] as const;
+            }
+
+            return {
+                raw,
+                default: def
+            }
+        },
+
+        create(params: ICreateDaoParams) {
+            return API.sendChain<ICreateDaoResponse>({
+                contractName: 'daoFactory',
+                methodName: 'deployDao',
+                network: params.network,
+                params: [
+                    +params.proposalExpirationTime,
+                    +params.quorumRequired,
+                    params.parentRegistry,
+                    params.name,
+                    params.governanceTokenSupply,
+                    params.governanceTicker
+                ]
             });
+        },
 
-            const [data, error] = await API.get<IDao>(`/${ path.network }/dao/${ path.address }`);
+        change(path: IDaoPath, params: IChangeDaoParams, config: Config) {
+            return API.put<never>(`/${ path.network }/dao/${ path.address }`, params, config);
+        },
 
-            return [{ ...data, votingPower: +votingPower! } as IDao, error, () => {}] as const;
+        follow(path: IDaoPath, config: Config) {
+            return API.post<never>(`/${ path.network }/dao/${ path.address }/follow`, {}, config);
+        },
+
+        unfollow(path: IDaoPath, config: Config) {
+            return API.delete<never>(`/${ path.network }/dao/${ path.address }/follow`, config);
         }
+    };
 
-        async function def() {
-            const [data, ...rest] = await raw();
+    static sampleItems = {
+        fetch(params?: IDaoItemParams, network?: NetworksType) {
+            async function raw() {
+                return API.get<IResponsePagination<IDaoItem>>(`/${ network ? network + '/' : '' }dao`, params);
+            }
 
-            return [data && normalizeDaoAsDefault(data), ...rest] as const;
-        }
+            async function table() {
+                const [data, ...rest] = await raw();
 
-        return {
-            raw,
-            default: def
-        }
-    }
+                return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
+            }
 
-
-    static async changeDao(path: IDaoPath, params: IChangeDaoParams, config: Config) {
-        return API.put<never>(`/${ path.network }/dao/${ path.address }`, params, config);
-    }
-
-
-    static fetchDaoItems(params?: IDaoItemParams, network?: NetworksType) {
-        async function raw() {
-            return API.get<IResponsePagination<IDaoItem>>(`/${ network ? network + '/' : '' }dao`, params);
-        }
-
-        async function table() {
-            const [data, ...rest] = await raw();
-
-            return [data && normalizeDaoItemsAsTable(data), ...rest] as const;
-        }
-
-        return {
-            raw,
-            table
+            return {
+                raw,
+                table
+            }
         }
     }
 
-    static fetchSubDaoItems(path: IDaoPath, params: ISubDaoItemQuery) {
-        async function raw() {
-            return API.get<IResponsePagination<ISubDaoItem>>('/' + path.network + `/dao/${ path.address }` + `/subdao`, params);
-        }
+    static subDaoItems = {
+        fetch(path: IDaoPath, params: ISubDaoItemQuery) {
+            async function raw() {
+                return API.get<IResponsePagination<ISubDaoItem>>('/' + path.network + `/dao/${ path.address }` + `/subdao`, params);
+            }
 
-        async function def() {
-            const [data, ...rest] = await raw();
+            async function def() {
+                const [data, ...rest] = await raw();
 
-            return [data && normalizeSubDaoItemsAsDefault(data), ...rest] as const;
-        }
+                return [data && normalizeSubDaoItemsAsDefault(data), ...rest] as const;
+            }
 
-        return {
-            raw,
-            default: def
+            return {
+                raw,
+                default: def
+            }
         }
     }
 }
+
 
 
 function normalizeDaoAsDefault(data: IDao): INormalizedDaoAsDefault {

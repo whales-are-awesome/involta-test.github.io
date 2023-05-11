@@ -48,7 +48,7 @@ function useDao(_data: Data, _options?: IOptions) {
         info.value.cancel();
         options.saveInStorage && store.dispatch('dao/setData', { pending: true });
 
-        const [data, error, cancel] = await DaoService.fetchDao({
+        const [data, error, cancel] = await DaoService.sample.fetch({
             address: dataResult.value.address,
             network: route.params.network as NetworksType
         }).default();

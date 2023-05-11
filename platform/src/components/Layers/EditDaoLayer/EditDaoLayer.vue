@@ -162,7 +162,7 @@ async function editDao() {
         return;
     }
 
-    const [response, error] = await DaoService.changeDao(
+    const [response, error] = await DaoService.sample.change(
         {
             address: props.address,
             network: props.network
