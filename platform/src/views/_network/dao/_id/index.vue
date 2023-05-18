@@ -301,13 +301,13 @@
                                 {{ item.title }}
                             </div>
                             <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
-                                <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Price</div> {{ item.price }} $
-                            </div>
-                            <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
                                 <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Balance</div> {{ treasures.balance }} {{ item.currency }}
                             </div>
                             <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
-                                <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Value</div> {{ item.price * treasures.balance }} $
+                                <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Price</div> $ {{ item.price }}
+                            </div>
+                            <div class="w-[200px] pr-2 lg:w-full lg:flex lg:items-center">
+                                <div class="w-[200px] font-medium uppercase text-xxs text-gray-400 pr-2 hidden lg:block lg:w-[100px]">Value</div> $ {{ item.price * treasures.balance }}
                             </div>
                         </div>
                     </div>
@@ -620,13 +620,13 @@ const treasures = ref({
     balance: 0,
     items: {
         goerli: {
-            title: 'Goerli',
+            title: 'GoerliETH',
             icon: 'network-goerli',
             price: 0,
             currency: 'GoerliETH'
         },
         polygon: {
-            title: 'Polygon',
+            title: 'MATIC',
             icon: 'network-polygon',
             price: 0,
             currency: 'MATIC'

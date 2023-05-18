@@ -1,5 +1,5 @@
 import { watch, computed } from 'vue';
-import { isEqual } from 'lodash';
+import { isEqual, omit } from 'lodash';
 import { useRoute, useRouter } from 'vue-router';
 
 interface IFormData {
@@ -12,15 +12,16 @@ function useQueryUpdates(formData: IFormData, includes?: string[], excludes?: st
     const route = useRoute();
     const router = useRouter();
 
-    const formDataCached = computed(() => JSON.parse(JSON.stringify(formData.value)));
+    const formDataCached = computed(() => JSON.parse(JSON.stringify(
+        omit(formData.value, ['offset', 'limit'])
+    )));
 
     watch(() => formDataCached.value, (current, prev) => {
-        if (formData.value.offset && formData.value.offset !== 0) {
-            formData.value.offset = 0;
-
-            return;
-        }
         if (!isEqual(current, prev)) {
+            if (formData.value.offset && formData.value.offset !== 0) {
+                formData.value.offset = 0;
+            }
+
             updateQuery();
         }
     });

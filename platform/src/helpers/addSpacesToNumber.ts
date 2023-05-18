@@ -1,6 +1,6 @@
 function addSpacesToNumber(x: number) {
     if (!x) {
-        return '';
+        return '0';
     }
 
     const parts = x.toString().split('.');

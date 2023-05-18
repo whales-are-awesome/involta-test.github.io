@@ -7,7 +7,7 @@ interface IData<T> {
     pending: boolean
     data: T | null
     cancel: Canceler | (() => void)
-    error?: Error
+    error?: Error | null
 }
 
 function useFetchData<T>() {

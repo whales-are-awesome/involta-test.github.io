@@ -61,7 +61,7 @@ const isMobile = useIsMobile();
 
 const currentDao = computed(() => store.state.dao.data);
 
-// useCallDefaultAlerts();
+useCallDefaultAlerts();
 
 
 

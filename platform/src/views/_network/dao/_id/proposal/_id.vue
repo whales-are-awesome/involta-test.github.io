@@ -691,7 +691,7 @@ async function fetchProposal() {
         }
     ).default();
 
-    proposal.value = { data, cancel, pending: false };
+    proposal.value = { data, cancel, pending: false, error };
 }
 
 const proposalData = computed(() => proposal.value.data);
@@ -700,6 +700,18 @@ watchEffect(() => {
     if (proposalData.value?.name) {
         useTitle( 'OuterCircle | ' + proposalData.value?.name);
     }
+});
+
+emitter.on('accountChanged', fetchProposal);
+emitter.on('networkChanged', fetchProposal);
+
+watchEffect(() => {
+    proposal.value.error && useError(404);
+});
+
+onUnmounted(() => {
+    emitter.off('accountChanged', fetchProposal);
+    emitter.off('networkChanged', fetchProposal);
 });
 
 

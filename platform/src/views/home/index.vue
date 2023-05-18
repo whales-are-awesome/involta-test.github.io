@@ -306,9 +306,11 @@ const formDataDaos = ref({
     network: getQueryParam<string | null>(query.network, formDaosInfo.networkOptions),
     follower: getQueryParam<string | null>(query.follower, formDaosInfo.daosOptions),
     name: query.name || '',
-    limit: 20,
+    limit: 10,
     offset: 0
 });
+
+useQueryUpdates(formDataDaos, ['section']);
 
 const [daoItems, fetchDaoItems] = useAllDaoItems(formDataDaos);
 
@@ -323,9 +325,6 @@ onUnmounted(() => {
     emitter.off('daoCreated', fetchDaoItems);
     emitter.off('accountChanged', fetchDaoItems);
 });
-
-
-useQueryUpdates(formDataDaos, ['section']);
 
 async function addMoreDao() {
     if (daoItems.value.data?.items.length && daoItems.value.data?.total) {
