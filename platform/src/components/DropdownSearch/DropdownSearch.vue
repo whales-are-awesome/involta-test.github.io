@@ -46,7 +46,7 @@
                     />
                     <div :class="classes.dropdownItemLeft">
                         <BaseAvatar
-                            class="border border-surface-200 rounded-full"
+                            :class="classes.dropdownItemAvatar"
                             :src="require('@/assets/images/common/placeholder.jpg')"
                             alt="DAO"
                             rounded="full"
@@ -116,6 +116,7 @@ const useClasses = makeClasses<IThemeProps>(() => ({
     dropdownItemLeft: 'min-w-[24px] pr-2',
     dropdownItemSearch: 'text-200 font-medium',
     dropdownItemIcon: 'mr-4 flex-shrink-0 text-200',
+    dropdownItemAvatar: 'border border-surface-200 rounded-full',
     dropdownItemCoincidence: 'text-400'
 }));
 

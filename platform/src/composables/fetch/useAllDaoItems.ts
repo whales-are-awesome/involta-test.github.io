@@ -39,7 +39,7 @@ function useDaoItems(_data: any) {
             items.value.data = data;
         }
 
-        items.value = { ...items.value, cancel, pending: false };
+        items.value = { ...items.value, cancel, pending: false, error };
     }
 
     return [items, fetchItems] as const;

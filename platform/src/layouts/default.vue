@@ -33,7 +33,7 @@
                     @burger-click.stop="showMobileSidebar = !showMobileSidebar"
                 />
                 <TheMarquee />
-                <div class="flex px-8 pb-9 relative flex-grow sm:px-6">
+                <div class="flex px-8 pb-9 relative flex-grow w-full sm:px-6">
                     <slot></slot>
                 </div>
             </div>

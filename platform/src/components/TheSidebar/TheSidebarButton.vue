@@ -30,14 +30,14 @@
             v-if="network"
             #content
         >
-            <div class="flex items-center p-2">
+            <div :class="classes.network">
                 <NetworkIcon
                     :class="classes.networkIcon"
                     section="sidebar"
                     position="center"
                     :network="network"
                 />
-                <div class="pl-2 text-sm">
+                <div :class="classes.networkTitle">
                     {{ name }}
                 </div>
             </div>
@@ -121,7 +121,8 @@ const useClasses = makeClasses<IThemeProps>(() => ({
             'text-[#7A78F3] after:bg-gray-200 after:scale-0': !isActive,
         }
     ],
-    networkIconWrapper: 'absolute inset-0 left-[60px] flex justify-center items-center pointer-events-none z-10',
+    network: 'flex items-center p-2',
+    networkTitle: 'pl-2 text-sm',
     networkIcon: 'flex-shrink-0'
 }));
 

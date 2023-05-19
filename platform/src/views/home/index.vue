@@ -218,7 +218,7 @@ import { Statuses } from '@/types/statuses';
 import useIsMobile from '@/composables/useIsMobile';
 import useLayer from '@/composables/useLayer';
 import useAllDaoItems from '@/composables/fetch/useAllDaoItems';
-import useProposalItems from '@/composables/views/home/useProposalItems';
+import useProposalItems from '@/composables/fetch/useProposalItems';
 import useQueryUpdates from '@/composables/useQueryUpdates';
 import { MainSections } from '@/types/statuses'
 import emitter from '@/plugins/mitt';

@@ -119,7 +119,7 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
 
 // TOOLTIP
 
-const tooltip= ref(null);
+const tooltip = ref(null);
 
 const isTooltipShown = computed(() => tooltip.value?.isShown);
 

@@ -126,68 +126,66 @@ interface IThemeProps extends Pick<IProps, 'themeSettings' | 'disabled' | 'error
     hasContent: boolean
 }
 
-const useClasses = makeClasses<IThemeProps>(() => {
-    return {
-        root: ({ themeSettings }) => [themeSettings?.root],
-        top: ({ hasContent }) => [
-            {
-                'mb-2': hasContent
-            }
-        ],
-        topMain: 'flex items-center',
-        description: ({ themeSettings }) => [themeSettings?.description,
-            themeSettings?.descriptionColor || 'text-gray-400',
-            themeSettings?.descriptionSize || 'text-xxs'
-        ],
-        title: ({ disabled }) => [
-            'text-gray-500 text-sm font-bold',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        requiredIcon: ({ disabled }) => [
-            'text-status-error self-start ml-1 translate-y-1',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        tooltipIcon: ({ disabled }) => [
-            'text-300 ml-[5px]',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        tip: ({ disabled }) => [
-            'ml-auto text-gray-500 text-xs',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        content: ({ disabled }) => ({
+const useClasses = makeClasses<IThemeProps>(() => ({
+    root: ({ themeSettings }) => [themeSettings?.root],
+    top: ({ hasContent }) => [
+        {
+            'mb-2': hasContent
+        }
+    ],
+    topMain: 'flex items-center',
+    description: ({ themeSettings }) => [themeSettings?.description,
+        themeSettings?.descriptionColor || 'text-gray-400',
+        themeSettings?.descriptionSize || 'text-xxs'
+    ],
+    title: ({ disabled }) => [
+        'text-gray-500 text-sm font-bold',
+        {
             '!text-disabled-text': disabled,
-        }),
-        bottom: ({ error }) => [
-            'mt-2 flex items-center',
-            {
-                'w-full': error
-            }
-        ],
-        warningIcon: ({ disabled }) => [
-            'text-gray-500 mr-2',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        hint: ({ disabled }) => [
-            'text-gray-500 text-xs font-bold',
-            {
-                '!text-disabled-text': disabled,
-            }
-        ],
-        errorIcon: 'text-[#CB101D] mr-2',
-        error: 'text-[#CB101D] text-xs font-bold'
-    };
-});
+        }
+    ],
+    requiredIcon: ({ disabled }) => [
+        'text-status-error self-start ml-1 translate-y-1',
+        {
+            '!text-disabled-text': disabled,
+        }
+    ],
+    tooltipIcon: ({ disabled }) => [
+        'text-300 ml-[5px]',
+        {
+            '!text-disabled-text': disabled,
+        }
+    ],
+    tip: ({ disabled }) => [
+        'ml-auto text-gray-500 text-xs',
+        {
+            '!text-disabled-text': disabled,
+        }
+    ],
+    content: ({ disabled }) => ({
+        '!text-disabled-text': disabled,
+    }),
+    bottom: ({ error }) => [
+        'mt-2 flex items-center',
+        {
+            'w-full': error
+        }
+    ],
+    warningIcon: ({ disabled }) => [
+        'text-gray-500 mr-2',
+        {
+            '!text-disabled-text': disabled,
+        }
+    ],
+    hint: ({ disabled }) => [
+        'text-gray-500 text-xs font-bold',
+        {
+            '!text-disabled-text': disabled,
+        }
+    ],
+    errorIcon: 'text-[#CB101D] mr-2',
+    error: 'text-[#CB101D] text-xs font-bold'
+}));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {
     return useClasses({
@@ -198,7 +196,3 @@ const classes = computed<ReturnType<typeof useClasses>>(() => {
     });
 });
 </script>
-
-<style scoped>
-
-</style>

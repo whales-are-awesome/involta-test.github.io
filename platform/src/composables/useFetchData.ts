@@ -14,6 +14,7 @@ function useFetchData<T>() {
     return ref<IData<T>>({
         pending: true,
         data: null,
+        error: null,
         cancel: () => {}
     })
 }

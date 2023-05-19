@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-full flex items-center justify-center">
+    <div class="min-h-full flex items-center justify-center mx-auto">
         <div class="text-center flex flex-col items-center">
             <BaseIcon
                 class="mb-3 sm:mb-6"

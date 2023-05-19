@@ -1,48 +1,48 @@
 <template>
     <div :class="classes.root">
         <BaseAvatar
-            class="mb-4"
+            :class="classes.avatar"
             :hexheads="address"
             rounded="full"
             alt="img"
             :theme-settings="{
-                    size: 'h-[53px] w-[53px]'
-                }"
+                size: 'h-[53px] w-[53px]'
+            }"
         >
             <div>
                 <div
-                    class="font-medium text-sm flex items-center group text-gray-600 group-hover:text-gray-700 cursor-pointer"
+                    :class="classes.address"
                     @click="copyAddress(address)"
                 >
                     {{ cutAddress(address, 7, 4) }}
                     <BaseIcon
-                        class="ml-0.5 text-gray-400 group-hover:text-gray-500"
+                        :class="classes.addressIcon"
                         name="copy"
                         width="18"
                     />
                 </div>
                 <div
                     v-if="name"
-                    class="text-primary-500 font-semibold text-xxs mt-1"
+                    :class="classes.name"
                 >
                     {{ name }}
                 </div>
             </div>
         </BaseAvatar>
-        <div class="bg-white py-[19px] px-3 rounded-[8px] flex">
-            <div class="w-1/3">
-                <div class="text-gray-500 text-tiny font-medium mb-1">
+        <div :class="classes.bottom">
+            <div :class="classes.bottomItem">
+                <div :class="classes.bottomItemTitle">
                     Tokens
                 </div>
-                <div class="font-bold text-xxs text-gray-600">
+                <div :class="classes.bottomItemValue">
                     {{ tokens }}
                 </div>
             </div>
-            <div class="w-1/3">
-                <div class="text-gray-500 text-tiny font-medium mb-1">
+            <div :class="classes.bottomItem">
+                <div :class="classes.bottomItemTitle">
                     Voting power
                 </div>
-                <div class="font-bold text-xs text-gray-600">
+                <div :class="classes.bottomItemValue">
                     {{ votingPower }}%
                 </div>
             </div>
@@ -87,7 +87,15 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{}
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
         'bg-white p-3 rounded-[12px]'
-    ]
+    ],
+    avatar: 'mb-4',
+    address: 'font-medium text-sm flex items-center group text-gray-600 group-hover:text-gray-700 cursor-pointer',
+    addressIcon: 'ml-0.5 text-gray-400 group-hover:text-gray-500',
+    name: 'text-primary-500 font-semibold text-xxs mt-1',
+    bottom: 'bg-white py-[19px] px-3 rounded-[8px] flex',
+    bottomItem: 'w-1/3',
+    bottomItemTitle: 'text-gray-500 text-tiny font-medium mb-1',
+    bottomItemValue: 'font-bold text-xs text-gray-600'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

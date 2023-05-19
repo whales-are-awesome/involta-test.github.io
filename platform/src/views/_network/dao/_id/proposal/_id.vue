@@ -635,6 +635,7 @@ emitter.on('daoFollowed', fetchDao);
 emitter.on('accountChanged', fetchDao);
 
 watchEffect(() => {
+    console.log(page.value);
     page.value.error && useError(404);
 });
 
@@ -646,7 +647,10 @@ onUnmounted(() => {
 
 // META:IS REJECTED
 
-const isExpired = computed(() => currentDate.value > new Date(proposalData.value?.endTime || 0) && proposalData.value?.status === ProposalStatus.Exists);
+const isExpired = computed(() =>
+    currentDate.value > new Date(proposalData.value?.endTime || 0)
+    && proposalData.value?.status === ProposalStatus.Exists
+);
 
 
 const showMore = ref(false);
@@ -768,6 +772,7 @@ async function vote() {
 watch(() => proposal.value.data, () => {
     currentVote.value = proposal.value.data?.vote || ProposalVoteType.None;
 });
+
 
 // CURRENT DATE. USED: LABEL
 

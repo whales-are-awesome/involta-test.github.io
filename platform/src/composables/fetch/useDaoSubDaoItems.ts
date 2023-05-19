@@ -53,6 +53,7 @@ function useDaoSubDaoItems(_data: Data, _options?: IOptions) {
 
         if (error) {
             items.value.pending = false;
+            items.value.error = error;
 
             return;
         }

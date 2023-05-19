@@ -421,6 +421,9 @@ emitter.on('daoFollowed', fetchDao);
 emitter.on('daoEdited', fetchDao);
 
 watchEffect(() => {
+    console.log({ ...page.value });
+    console.log(page.value.error);
+
     page.value.error && useError(404);
     if (pageData.value?.name) {
         useTitle( 'OuterCircle | ' + pageData.value.name);

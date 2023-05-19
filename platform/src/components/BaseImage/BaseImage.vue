@@ -8,7 +8,7 @@
     />
     <div
         v-else
-        class="opacity-0"
+        :class="classes.placeholder"
         v-bind="attrs"
     >
     </div>
@@ -50,7 +50,8 @@ interface IThemeProps extends Pick<IProps, 'themeSettings'>{
 const useClasses = makeClasses<IThemeProps>(() => ({
     root: ({ themeSettings }) => [themeSettings?.root,
 
-    ]
+    ],
+    placeholder: 'opacity-0'
 }));
 
 const classes = computed<ReturnType<typeof useClasses>>(() => {

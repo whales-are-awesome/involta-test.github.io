@@ -42,7 +42,6 @@ watchForCreatedDaos.watch();
 watchForCreatedProposals.watch();
 
 
-
 // ROUTE NAME
 
 const routeName = computed(() => route.name);

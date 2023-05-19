@@ -41,7 +41,7 @@ function useDao(_data: Data, _options?: IOptions) {
     fetchDao();
     async function fetchDao() {
         if (!dataResult.value.address) {
-            info.value = { ...info.value, data: null, pending: false, }
+            info.value = { ...info.value, data: null, pending: false, error: new Error() }
             return;
         }
         info.value.pending = true;
@@ -59,12 +59,12 @@ function useDao(_data: Data, _options?: IOptions) {
 
             options.saveInStorage && store.dispatch('dao/removeData');
 
-            info.value = { data: null, cancel, pending: false };
+            info.value = { data: null, cancel, pending: false, error };
 
             return;
         }
 
-        options.saveInStorage && store.dispatch('dao/setData', { data, pending: false });
+        options.saveInStorage && store.dispatch('dao/setData', { data, pending: false, error: null });
         info.value = { data, cancel, pending: false };
 
     }
