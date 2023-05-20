@@ -1,19 +1,16 @@
-import { computed, watch } from 'vue';
+import { computed, watch, Ref } from 'vue';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import DaoService from '@/services/DaoService';
-import { INormalizedDaoItemAsTable } from '@/types/services/DaoService';
-import API from '@/helpers/api';
+import { INormalizedDaoItemAsTable, IDaoItemQuery } from '@/types/services/DaoService';
 import { store } from '@/store';
 
-function useDaoItems(_data: any) {
+function useDaoItems(_data: Ref<IDaoItemQuery> | IDaoItemQuery) {
     const items = useFetchDataWithTotal<INormalizedDaoItemAsTable>();
-    const dataResult = computed(() => {
-        const data = _data.value || _data;
+    const dataResult = computed<IDaoItemQuery>(() => {
+        const data = 'value' in _data ? _data.value : _data;
 
         return {
             ...data,
-            search: data.search,
-            categoryId: data.categoryId,
             limit: data.limit || 20,
             offset: data.offset || 0
         }
@@ -21,7 +18,7 @@ function useDaoItems(_data: any) {
 
     fetchItems();
     watch(dataResult, fetchItems);
-    async function fetchItems(val?: any, prevVal?: any) {
+    async function fetchItems(val?: IDaoItemQuery, prevVal?: IDaoItemQuery) {
         const isAddMore = val?.offset !== prevVal?.offset && val?.offset !== 0;
         const network = store.state.wallet.network;
 

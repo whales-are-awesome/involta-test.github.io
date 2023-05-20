@@ -359,8 +359,8 @@ import getNetworkPrice from '@/helpers/getNetworkPrice';
 import copy from '@/helpers/copy';
 import followDao from '@/helpers/followDao';
 
-import { IFollower } from '@/types/services/DaoService';
-import { NetworksType } from '@/types/networks';
+import { IFollower, ISubDaoItemQuery } from '@/types/services/DaoService';
+import { NetworksType, Networks } from '@/types/networks';
 
 import DaoService from '@/services/DaoService';
 import useDaoSubDaoItems from '@/composables/fetch/useDaoSubDaoItems';
@@ -421,9 +421,6 @@ emitter.on('daoFollowed', fetchDao);
 emitter.on('daoEdited', fetchDao);
 
 watchEffect(() => {
-    console.log({ ...page.value });
-    console.log(page.value.error);
-
     page.value.error && useError(404);
     if (pageData.value?.name) {
         useTitle( 'OuterCircle | ' + pageData.value.name);
@@ -490,11 +487,11 @@ const formDaosInfo = {
     ],
 };
 
-const formDataDaos = ref({
-    parentAddress: route.params.address,
-    network: route.params.network,
+const formDataDaos = ref<ISubDaoItemQuery>({
+    address: route.params.address as string,
+    network: route.params.network as NetworksType,
     follower: getQueryParam<string | null>(query.follower, formDaosInfo.daosOptions),
-    name: query.name || '',
+    name: query.name as string || '',
     limit: 20,
     offset: 0
 });
@@ -650,8 +647,8 @@ async function filterItems() {
 }
 
 async function setPrices() {
-    if (route.params.network === 'polygon') {
-        treasures.value.items.polygon.price = await getNetworkPrice('polygon');
+    if (route.params.network === Networks.Polygon) {
+        treasures.value.items.polygon.price = await getNetworkPrice(Networks.Polygon);
     }
 }
 

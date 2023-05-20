@@ -1,6 +1,7 @@
 import { IDaoAPI } from '@/types/entries/dao';
 import { IPaginationParams } from '@/types/api';
 import { NetworksType } from '@/types/networks';
+import { IFollowerAPI } from '@/types/entries/follower';
 
 interface IDao extends IDaoAPI {
     votingPower: number
@@ -27,24 +28,6 @@ interface ICreateDaoParams {
     network?: NetworksType
 }
 
-
-interface ISubDaoItem {
-    address: string
-    network: NetworksType
-    parent: string
-    name: string
-    image: string
-}
-
-interface ISubDaoItemQuery extends IPaginationParams {
-
-}
-
-interface INormalizedSubDaoItemAsDefault extends ISubDaoItem {
-    fullName: string
-    isHovered: boolean
-}
-
 interface ICreateDaoResponse {
     hash: string
 }
@@ -59,10 +42,10 @@ interface IChangeDaoParams {
 interface IDaoItem extends IDao {
 }
 
-interface IDaoItemParams extends IPaginationParams {
-    search: string
-    voteId: number | string
-    statusId: number | string
+interface IDaoItemQuery extends IPaginationParams {
+    network?: NetworksType | null
+    follower?: string | null
+    name?: string
 }
 
 interface INormalizedDaoItemAsTable extends IDao {
@@ -80,8 +63,23 @@ interface IDaoTransactionCookie {
     image?: string
 }
 
+interface ISubDaoItem {
+    address: string
+    network: NetworksType
+    parent: string
+    name: string
+    image: string
+}
 
-import { IFollowerAPI } from '@/types/entries/follower';
+interface ISubDaoItemQuery extends IDaoItemQuery {
+    address: string
+}
+
+interface INormalizedSubDaoItemAsDefault extends ISubDaoItem {
+    fullName: string
+    isHovered: boolean
+}
+
 
 interface IFollower extends IFollowerAPI {
     name: string
@@ -98,13 +96,13 @@ export {
     IChangeDaoParams,
 
     ISubDaoItem,
-    ISubDaoItemQuery,
     INormalizedSubDaoItemAsDefault,
 
     IFollower,
 
     IDaoItem,
-    IDaoItemParams,
+    IDaoItemQuery,
+    ISubDaoItemQuery,
     INormalizedDaoItemAsTable,
 
     IPaginationParams,

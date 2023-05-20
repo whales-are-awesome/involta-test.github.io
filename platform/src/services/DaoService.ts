@@ -19,7 +19,7 @@ import {
     IFollower,
 
     IDaoItem,
-    IDaoItemParams,
+    IDaoItemQuery,
     INormalizedDaoItemAsTable,
 } from '@/types/services/DaoService';
 import { store } from '@/store';
@@ -101,7 +101,7 @@ export default class DaoService {
     }
 
     static sampleItems = {
-        fetch(params?: IDaoItemParams, network?: NetworksType) {
+        fetch(params?: IDaoItemQuery, network?: NetworksType) {
             async function raw() {
                 return API.get<IResponsePagination<IDaoItem>>(`/${ network ? network + '/' : '' }dao`, params);
             }

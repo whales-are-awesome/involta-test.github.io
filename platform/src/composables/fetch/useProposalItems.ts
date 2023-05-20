@@ -1,21 +1,21 @@
-import { computed, watch } from 'vue';
+import { computed, watch, Ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 
 import ProposalService from '@/services/ProposalService';
-import { IProposalItem } from '@/types/services/ProposalService';
+import { IProposalItem, IProposalItemQuery } from '@/types/services/ProposalService';
 import { NetworksType } from '@/types/networks';
 
 
-function useProposalItems(_data: any) {
+function useProposalItems(_data: IProposalItemQuery | Ref<IProposalItemQuery>) {
     const route = useRoute();
     const items = useFetchDataWithTotal<IProposalItem>();
     const dataResult = computed(() => {
-        const data = _data.value || _data;
+        const data = 'value' in _data ? _data.value : _data;
 
         return {
-            ...(data),
+            ...data,
             limit: data.limit || 20,
             offset: data.offset || 0
         }

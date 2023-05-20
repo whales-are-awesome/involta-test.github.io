@@ -123,7 +123,7 @@ const useClasses = makeClasses(() => ({
     parentDaoTitle: 'sm:text-xxs',
     parentDaoItems: 'mb-[24px]',
     subDaoTitle: 'mb-[20px] sm:text-xxs',
-    subDaoItemsTitle: 'pl-2 text-sm font-semibold mb-2 text-gray-600',
+    subDaoItemsTitle: 'pl-2 text-sm font-semibold mb-2 text-gray-600 overflow-hidden overflow-ellipsis',
     subDaoItems: 'mb-[20px] pl-4',
     addSubDao: 'text-xs underline-offset-1 underline pl-2 font-bold text-gray-500 cursor-pointer',
 }));

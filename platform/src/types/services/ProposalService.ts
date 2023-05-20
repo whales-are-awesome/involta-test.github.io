@@ -70,10 +70,8 @@ interface ICreateProposalParams {
 
 
 
-interface IProposalItemQuery {
+interface IProposalItemQuery extends IPaginationParams{
     search: string
-    voteId: number | string
-    statusId: number | string
 }
 
 

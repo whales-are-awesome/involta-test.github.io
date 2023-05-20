@@ -1,17 +1,16 @@
-import { computed, watch } from 'vue';
+import { computed, watch, Ref } from 'vue';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import DaoService from '@/services/DaoService';
-import { INormalizedDaoItemAsTable } from '@/types/services/DaoService';
+import { INormalizedDaoItemAsTable, IDaoItemQuery } from '@/types/services/DaoService';
 
-function useDaoItems(_data: any) {
+
+function useDaoItems(_data: Ref<IDaoItemQuery> | IDaoItemQuery) {
     const items = useFetchDataWithTotal<INormalizedDaoItemAsTable>();
     const dataResult = computed(() => {
-        const data = _data.value || _data;
+        const data = 'value' in _data ? _data.value : _data;
 
         return {
             ...data,
-            search: data.search,
-            categoryId: data.categoryId,
             limit: data.limit || 20,
             offset: data.offset || 0
         }
@@ -25,7 +24,7 @@ function useDaoItems(_data: any) {
         items.value.pending = true;
         items.value.cancel();
 
-        const [data, error, cancel] = await DaoService.sampleItems.fetch(dataResult.value, dataResult.value.network).table();
+        const [data, error, cancel] = await DaoService.sampleItems.fetch(dataResult.value, dataResult.value.network || undefined).table();
 
         if (error) {
             items.value.pending = false;

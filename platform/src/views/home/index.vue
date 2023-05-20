@@ -203,6 +203,7 @@
 import { ref, computed, onUnmounted } from 'vue';
 import { useTitle } from '@vueuse/core'
 import { useRoute } from 'vue-router';
+
 import BaseAvatar from '@/components/BaseAvatar/BaseAvatar.vue';
 import TagsList from '@/components/TagsList/TagsList.vue';
 import TagsButtonList from '@/components/TagsButtonList/TagsButtonList.vue';
@@ -212,17 +213,24 @@ import BaseButton from '@/components/BaseButton/BaseButton.vue';
 import BaseSearch from '@/components/BaseSearch/BaseSearch.vue';
 import SelectField from '@/components/Form/SelectField/SelectField.vue';
 import NotFound from '@/components/NotFound/NotFound.vue';
+
 import { store } from '@/store';
+import emitter from '@/plugins/mitt';
 import wait from '@/helpers/wait';
+import getQueryParam from '@/helpers/getQueryParam';
+
 import { Statuses } from '@/types/statuses';
+import { MainSections } from '@/types/statuses'
+import { IDaoItemQuery } from '@/types/services/DaoService'
+
+
 import useIsMobile from '@/composables/useIsMobile';
 import useLayer from '@/composables/useLayer';
 import useAllDaoItems from '@/composables/fetch/useAllDaoItems';
 import useProposalItems from '@/composables/fetch/useProposalItems';
 import useQueryUpdates from '@/composables/useQueryUpdates';
-import { MainSections } from '@/types/statuses'
-import emitter from '@/plugins/mitt';
-import getQueryParam from '@/helpers/getQueryParam';
+import { NetworksType, Networks } from '@/types/networks';
+
 
 
 // META
@@ -297,15 +305,15 @@ const formDaosInfo = {
     ],
     networkOptions: [
         { id: null, title: 'All chains' },
-        { id: 'goerli', title: 'Goerli' },
-        { id: 'polygon', title: 'Polygon' }
+        { id: Networks.Goerli, title: 'Goerli' },
+        { id: Networks.Polygon, title: 'Polygon' }
     ]
 };
 
-const formDataDaos = ref({
-    network: getQueryParam<string | null>(query.network, formDaosInfo.networkOptions),
+const formDataDaos = ref<IDaoItemQuery>({
+    network: getQueryParam<NetworksType | null>(query.network, formDaosInfo.networkOptions),
     follower: getQueryParam<string | null>(query.follower, formDaosInfo.daosOptions),
-    name: query.name || '',
+    name: query.name as string || '',
     limit: 10,
     offset: 0
 });

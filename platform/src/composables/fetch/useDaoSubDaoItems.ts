@@ -1,32 +1,21 @@
 import { Ref } from 'vue';
+import { omit } from 'lodash';
 import { useFetchDataWithTotal } from '@/composables/useFetchData';
 import { computed, watch } from 'vue';
 import DaoService from '@/services/DaoService';
-import { NetworksType } from '@/types/networks';
 import { INormalizedSubDaoItemAsDefault, ISubDaoItemQuery } from '@/types/services/DaoService';
-import { pickBy } from 'lodash';
-
-interface IData extends ISubDaoItemQuery {
-    parentAddress?: string
-    network: NetworksType
-}
 
 interface IOptions {
     watch?: boolean
 }
 
-type Data = Ref<IData> | IData;
-
-function useDaoSubDaoItems(_data: Data, _options?: IOptions) {
+function useDaoSubDaoItems(_data: ISubDaoItemQuery | Ref<ISubDaoItemQuery>, _options?: IOptions) {
     const items = useFetchDataWithTotal<INormalizedSubDaoItemAsDefault>();
     const dataResult = computed(() => {
         const data = 'value' in _data ? _data.value : _data;
-        const params: ISubDaoItemQuery = pickBy(data, (_: any, key: string) => key !== 'parentAddress')
 
         return {
-            params,
-            parentAddress: data.parentAddress,
-            network: data.network
+            ...data
         };
     });
 
@@ -40,7 +29,7 @@ function useDaoSubDaoItems(_data: Data, _options?: IOptions) {
 
     fetchItems();
     async function fetchItems() {
-        if (!dataResult.value.parentAddress) {
+        if (!dataResult.value.address) {
             items.value = { ...items.value, data: null, pending: false, };
             return;
         }
@@ -48,7 +37,7 @@ function useDaoSubDaoItems(_data: Data, _options?: IOptions) {
         items.value.cancel();
 
         const [data, error, cancel] = await DaoService.subDaoItems
-            .fetch({ address: dataResult.value.parentAddress, network: dataResult.value.network }, dataResult.value.params)
+            .fetch({ address: dataResult.value.address, network: dataResult.value.network! }, omit(dataResult.value, ['address', 'network']))
             .default();
 
         if (error) {

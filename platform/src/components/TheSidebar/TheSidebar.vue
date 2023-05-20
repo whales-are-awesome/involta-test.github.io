@@ -46,12 +46,17 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+
 import TheSidebarButton from './TheSidebarButton.vue';
+
 import makeClasses from '@/helpers/makeClasses';
 import useLayer from '@/composables/useLayer';
 import { IProps } from '@/components/BlockInfo/BlockInfo.vue';
 import useAllDaoItems from '@/composables/fetch/useAllDaoItems';
-import useIsMobile from '@/composables/useIsMobile';
+import useIsMobile from '@/composables/useIsMobile'
+
+import { IDaoItemQuery } from '@/types/services/DaoService';
+
 import { store } from '@/store';
 import emitter from '@/plugins/mitt';
 import API from '@/helpers/api';
@@ -101,7 +106,7 @@ const walletAddress = computed(() => store.state.wallet.address);
 
 // DAO ITEMS
 
-const daoItemsForm = computed(() => ({
+const daoItemsForm = computed<IDaoItemQuery>(() => ({
     follower: walletAddress.value
 }));
 
