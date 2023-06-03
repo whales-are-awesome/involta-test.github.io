@@ -1,3 +1,0 @@
-Что можно задавать в класс компоненту: position, top, bottom, left, right, z-index, width, height
-
-Никогда не использовать !important на компонентах. important использовать только для переопределения параметров шрифтов / disable state / transition change.

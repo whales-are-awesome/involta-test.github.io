@@ -1,7 +1,0 @@
-interface IThemeProps {
-
-}
-
-export {
-    IThemeProps
-}
